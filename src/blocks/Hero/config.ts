@@ -34,7 +34,7 @@ export const Hero: Block = {
           name: 'title',
           label: 'Title',
           type: 'text',
-          defaultValue: 'Substance Use and Mental Health Counseling',
+          defaultValue: 'Charlevoix Junior Golf League',
           required: true,
         },
         {
@@ -42,7 +42,7 @@ export const Hero: Block = {
           label: 'Description',
           type: 'textarea',
           defaultValue:
-            'We bridge the gap to recovery, offering flexible and personalized services both in-person and via telehealth.',
+            'Join the Charlevoix Junior Golf League and develop your skills in a fun, competitive environment.',
           required: true,
         },
         {

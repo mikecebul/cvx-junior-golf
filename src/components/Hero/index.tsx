@@ -16,34 +16,12 @@ export async function Hero({ title, description, image, links, svg }: Props) {
 
   return (
     <section className="grid lg:gap-8 lg:grid-cols-12 2xl:px-0 2xl:container">
-      <div className="flex flex-col mr-auto lg:col-span-6">
+      <div className="flex flex-col mr-auto lg:col-span-6 justify-center">
         <h1 className="max-w-2xl pb-4 text-3xl font-extrabold tracking-tight sm:text-4xl lg:pb-8 xl:text-6xl 2xl:text-7xl">
           {title}
         </h1>
         <p className="max-w-xl pb-8 text-lg text-muted-foreground">{description}</p>
         <div className="flex flex-col space-y-4 md:mr-4 xl:flex-row xl:space-x-0 xl:items-start">
-          {/* Mobile Links */}
-          <Link
-            href={cleanedPhone ? `tel:${cleanedPhone}` : '#'}
-            className={cn(
-              buttonVariants({ variant: 'brand', size: 'xl' }),
-              'xl:hidden min-w-full lg:min-w-64',
-            )}
-          >
-            <Icons.phone className="mr-2" />
-            Call Now
-          </Link>
-          <Link
-            href={contact?.googleMapLink ?? '#'}
-            className={cn(
-              buttonVariants({ variant: 'brandOutline', size: 'xl' }),
-              'xl:hidden min-w-full lg:min-w-64',
-            )}
-          >
-            <Icons.navigation className="mr-2" />
-            Directions to our Building
-          </Link>
-          {/* Desktop Links */}
           {links != null &&
             links.map(({ link, id }, index) => (
               <CMSLink
@@ -51,7 +29,7 @@ export async function Hero({ title, description, image, links, svg }: Props) {
                 {...link}
                 size="xl"
                 appearance={index === 0 ? 'brand' : link.appearance}
-                className="hidden rounded-lg xl:flex lg:min-w-64"
+                className="min-w-full rounded-lg xl:flex lg:min-w-64"
               />
             ))}
         </div>

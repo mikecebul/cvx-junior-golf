@@ -7,6 +7,7 @@ import { buttonVariants } from '@/components/ui/button'
 import { Icons } from '@/components/Icons'
 import { MainNav } from './MainNav'
 import { MobileNav } from './MobileNav'
+import { LandPlot } from 'lucide-react'
 
 export const HeaderClient = ({
   header,
@@ -21,12 +22,10 @@ export const HeaderClient = ({
   return (
     <header className="sticky top-0 z-40 flex w-full py-2 bg-background/50 backdrop-blur-sm">
       <div className="flex items-center w-full px-4 md:px-8 2xl:px-0 2xl:container">
-        <Link
-          href="/"
-          className={cn(buttonVariants({ variant: 'nav', size: 'clear' }), 'py-0 px-0')}
-        >
-          <Icons.logo className="w-40 md:w-44 lg:w-64" />
-        </Link>
+      <Link href="/" className="flex items-center">
+        <LandPlot className="h-8 w-8 text-primary" />
+        <span className="ml-2 text-xl font-bold text-primary">Charlevoix Junior Golf</span>
+      </Link>
         <MainNav navItems={navItems} />
         <MobileNav navItems={navItems} />
         <div className="flex flex-col items-center text-lg xl:flex-row 2xl:space-x-2">

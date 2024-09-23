@@ -1,7 +1,7 @@
 {
-  "name": "basesmi",
-  "version": "2.0.0",
-  "description": "BASESmi.org website.",
+  "name": "cvx-junior-golf",
+  "version": "1.0.0",
+  "description": "Website for the Charlevoix Junior Golf League.",
   "license": "MIT",
   "type": "module",
   "scripts": {

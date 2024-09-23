@@ -16,7 +16,7 @@ export const generateMeta = async (args: { doc: Page | Team }): Promise<Metadata
         : `${process.env.NEXT_PUBLIC_SERVER_URL}${doc.meta.metadata.image.url}`
       : '/flowers-sign.webp'
 
-  const title = doc?.meta?.metadata?.title ? doc.meta.metadata.title + ' | BASES' : 'BASES'
+  const title = doc?.meta?.metadata?.title ? doc.meta.metadata.title + ' | CVX Junior Golf' : 'CVX Junior Golf'
 
   return {
     description: doc?.meta?.metadata?.description,
