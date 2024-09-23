@@ -3,7 +3,6 @@ import React, { FC, Fragment } from 'react'
 import type { Page } from '@/payload-types'
 
 import { HeroBlock } from '@/blocks/Hero/Component'
-import DonateBlock from './Donate/Component'
 import { AboutUsBlock } from './AboutUs/Component'
 import { LinksBlock } from './Links/Component'
 import ScheduleBlock from './Schedule/Component'
@@ -11,7 +10,6 @@ import HowItWorksBlock from './HowItWorks/Component'
 
 const blockComponents = {
   hero: HeroBlock,
-  donate: DonateBlock,
   aboutUs: AboutUsBlock,
   linksBlock: LinksBlock,
   schedule: ScheduleBlock,
