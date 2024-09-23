@@ -2,7 +2,7 @@ import { linkGroup } from "@/fields/link/linkGroup"
 import { Block } from "payload"
 
 export const howItWorks: Block = {
-  slug: 'how-it-works',
+  slug: 'howItWorks',
   interfaceName: 'HowItWorksBlock',
   fields: [
     {

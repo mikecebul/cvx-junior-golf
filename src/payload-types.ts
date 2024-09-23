@@ -239,7 +239,7 @@ export interface HowItWorksBlock {
     | null;
   id?: string | null;
   blockName?: string | null;
-  blockType: 'how-it-works';
+  blockType: 'howItWorks';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

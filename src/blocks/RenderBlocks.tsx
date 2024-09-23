@@ -19,7 +19,7 @@ const blockComponents = {
 }
 
 export const RenderBlocks: React.FC<{
-  blocks: Page['layout'][number][]
+  blocks: Page['layout'][0][]
 }> = (props) => {
   const { blocks } = props
 

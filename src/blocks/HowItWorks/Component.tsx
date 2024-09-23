@@ -1,8 +1,8 @@
 import Container from "@/components/Container"
+import { CMSLink } from "@/components/Link"
 import { HowItWorksBlock as HowItWorksBlockType } from "@/payload-types"
-import Link from "next/link"
 
-const HowItWorksBlock = ({ title, description }: HowItWorksBlockType) => {
+const HowItWorksBlock = ({ title, description, links }: HowItWorksBlockType) => {
   return (
     <Container>
       <div className="container grid items-center gap-6 px-4 md:px-6 lg:grid-cols-2 lg:gap-10">
@@ -13,20 +13,16 @@ const HowItWorksBlock = ({ title, description }: HowItWorksBlockType) => {
           </p>
         </div>
         <div className="flex flex-col gap-2 min-[400px]:flex-row lg:justify-end">
-          <Link
-            href="#"
-            className="inline-flex h-10 items-center justify-center rounded-md bg-primary px-8 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
-            prefetch={false}
-          >
-            Register Now
-          </Link>
-          <Link
-            href="#"
-            className="inline-flex h-10 items-center justify-center rounded-md border border-input bg-background px-8 text-sm font-medium shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
-            prefetch={false}
-          >
-            Learn More
-          </Link>
+          {links != null &&
+            links.map(({ link, id }, index) => (
+              <CMSLink
+                key={id}
+                {...link}
+                size="xl"
+                appearance={index === 0 ? 'brand' : link.appearance}
+                className="min-w-full rounded-lg xl:flex lg:min-w-64"
+              />
+            ))}
         </div>
       </div>
     </Container>

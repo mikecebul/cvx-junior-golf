@@ -15,7 +15,7 @@ const ScheduleBlock = ({ hero, scheduleItems }: ScheduleBlockType) => {
           description={mediumImpact.description}
         />
       )}
-      <div className="mx-auto grid max-w-5xl items-center gap-6 py-12 lg:grid-cols-2 lg:gap-12">
+      <div className="mx-auto grid max-w-5xl items-center gap-6 py-12 lg:py-0 lg:grid-cols-2 lg:gap-12">
         <Image
           src="/placeholder.svg"
           alt="Schedule"
