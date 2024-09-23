@@ -29,8 +29,7 @@ export interface Config {
   };
   collections: {
     pages: Page;
-    services: Service;
-    team: Team;
+    schedules: Schedule;
     avatars: Avatar;
     cards: Card;
     landscapes: Landscape;
@@ -81,7 +80,7 @@ export interface UserAuthOperations {
 export interface Page {
   id: number;
   title: string;
-  layout: (Hero | ServicesBlock | CarfBlock | DonateBlock | TeamBlock | AboutUsBlock | LinksBlock)[];
+  layout: (Hero | ScheduleBlock | HowItWorksBlock | AboutUsBlock | LinksBlock)[];
   meta?: {
     hideFromSearchEngines?: boolean | null;
     metadata?: {
@@ -189,16 +188,34 @@ export interface Landscape {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "ServicesBlock".
+ * via the `definition` "ScheduleBlock".
  */
-export interface ServicesBlock {
-  subtitle: string;
+export interface ScheduleBlock {
+  hero?: Hero[] | null;
+  scheduleItems?: (number | Schedule)[] | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'schedule';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "schedules".
+ */
+export interface Schedule {
+  id: number;
   title: string;
-  description: string;
-  gridSVG: boolean;
-  howMany: 'topThreeServices' | 'allServices';
-  topThreeServices?: (number | Service)[] | null;
-  allServices?: (number | Service)[] | null;
+  date: string;
+  location: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "HowItWorksBlock".
+ */
+export interface HowItWorksBlock {
+  title?: string | null;
+  description?: string | null;
   links?:
     | {
         link: {
@@ -222,32 +239,44 @@ export interface ServicesBlock {
     | null;
   id?: string | null;
   blockName?: string | null;
-  blockType: 'services';
+  blockType: 'how-it-works';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "services".
+ * via the `definition` "AboutUsBlock".
  */
-export interface Service {
-  id: number;
-  title: string;
-  desc: string;
-  icon: string;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "CarfBlock".
- */
-export interface CarfBlock {
+export interface AboutUsBlock {
   subtitle?: string | null;
-  title?: string | null;
-  description?: string | null;
-  image?: (number | null) | Card;
+  richContent?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  images?: (number | Landscape)[] | null;
   id?: string | null;
   blockName?: string | null;
-  blockType: 'carf';
+  blockType: 'aboutUs';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "LinksBlock".
+ */
+export interface LinksBlock {
+  hero?: Hero[] | null;
+  linkCards?: LinkCards;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'linksBlock';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -280,77 +309,32 @@ export interface Card {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "DonateBlock".
+ * via the `definition` "meta-images".
  */
-export interface DonateBlock {
-  subtitle?: string | null;
-  title?: string | null;
-  description?: string | null;
-  programs?:
-    | {
-        title?: string | null;
-        id?: string | null;
-      }[]
-    | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'donate';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "TeamBlock".
- */
-export interface TeamBlock {
-  memberType?: ('staff' | 'board') | null;
-  title?: string | null;
-  description?: string | null;
-  teamMembers?: (number | Team)[] | null;
-  reverse?: boolean | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'team';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "team".
- */
-export interface Team {
+export interface MetaImage {
   id: number;
-  memberType?: ('staff' | 'board') | null;
-  name: string;
-  avatar: number | Avatar;
-  image: number | Portrait;
-  role: string;
-  qualifications?: string | null;
-  bio: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  };
-  meta?: {
-    hideFromSearchEngines?: boolean | null;
-    metadata?: {
-      title?: string | null;
-      image?: (number | null) | MetaImage;
-      description?: string | null;
-    };
-  };
-  publishedAt?: string | null;
-  slug?: string | null;
-  slugLock?: boolean | null;
+  alt: string;
   updatedAt: string;
   createdAt: string;
-  _status?: ('draft' | 'published') | null;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
+  sizes?: {
+    thumbnail?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+  };
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -412,72 +396,6 @@ export interface Portrait {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "meta-images".
- */
-export interface MetaImage {
-  id: number;
-  alt: string;
-  updatedAt: string;
-  createdAt: string;
-  url?: string | null;
-  thumbnailURL?: string | null;
-  filename?: string | null;
-  mimeType?: string | null;
-  filesize?: number | null;
-  width?: number | null;
-  height?: number | null;
-  focalX?: number | null;
-  focalY?: number | null;
-  sizes?: {
-    thumbnail?: {
-      url?: string | null;
-      width?: number | null;
-      height?: number | null;
-      mimeType?: string | null;
-      filesize?: number | null;
-      filename?: string | null;
-    };
-  };
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "AboutUsBlock".
- */
-export interface AboutUsBlock {
-  subtitle?: string | null;
-  richContent?: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  images?: (number | Landscape)[] | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'aboutUs';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "LinksBlock".
- */
-export interface LinksBlock {
-  hero?: Hero[] | null;
-  linkCards?: LinkCards;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'linksBlock';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users".
  */
 export interface User {
@@ -504,15 +422,10 @@ export interface Redirect {
   from: string;
   to?: {
     type?: ('reference' | 'custom') | null;
-    reference?:
-      | ({
-          relationTo: 'pages';
-          value: number | Page;
-        } | null)
-      | ({
-          relationTo: 'team';
-          value: number | Team;
-        } | null);
+    reference?: {
+      relationTo: 'pages';
+      value: number | Page;
+    } | null;
     url?: string | null;
   };
   updatedAt: string;
@@ -530,12 +443,8 @@ export interface PayloadLockedDocument {
         value: number | Page;
       } | null)
     | ({
-        relationTo: 'services';
-        value: number | Service;
-      } | null)
-    | ({
-        relationTo: 'team';
-        value: number | Team;
+        relationTo: 'schedules';
+        value: number | Schedule;
       } | null)
     | ({
         relationTo: 'avatars';

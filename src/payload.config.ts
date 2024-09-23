@@ -27,37 +27,32 @@ import { Footer } from './globals/Footer/config'
 import { Header } from './globals/Header/config'
 import { revalidateRedirects } from './hooks/revalidateRedirects'
 import { GenerateTitle, GenerateURL, GenerateImage } from '@payloadcms/plugin-seo/types'
-import { Page, Team as TeamType } from 'src/payload-types'
+import { Page } from 'src/payload-types'
 import { CompanyInfo } from './globals/CompanyInfo/config'
 import { Avatars } from './collections/Avatars'
 import { Landcapes } from './collections/Landscapes'
 import { Cards } from './collections/Cards'
 import { Portraits } from './collections/Portraits'
-import { Services } from './collections/Services'
 import { Files } from './collections/Files'
-import { Team } from './collections/Team'
 import { superAdmin } from './access/superAdmin'
-import { seedServices } from './endpoints/seedServices'
-import { seedTeam } from './endpoints/seedTeam'
 import { MetaImages } from './collections/MetaImages'
-import { dbHeartBeat } from './endpoints/dbHeartBeat'
+import { Schedules } from './collections/Schedule'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
-const generateTitle: GenerateTitle<TeamType | Page> = ({ doc }) => {
+const generateTitle: GenerateTitle<Page> = ({ doc }) => {
   if ('name' in doc) {
     return doc.name ? `${doc.name} | BASES` : 'BASES'
   }
   return doc?.title ? `${doc.title} | BASES` : 'BASES'
 }
 
-const generateURL: GenerateURL<TeamType | Page> = ({ doc }) => {
+const generateURL: GenerateURL<Page> = ({ doc }) => {
   if (!doc.slug) return process.env.NEXT_PUBLIC_SERVER_URL!
-  if ('memberType' in doc) return `${process.env.NEXT_PUBLIC_SERVER_URL!}/team/${doc.slug}`
   return `${process.env.NEXT_PUBLIC_SERVER_URL!}/${doc.slug}`
 }
-const generateImage: GenerateImage<TeamType | Page> = ({ doc }) => {
+const generateImage: GenerateImage<Page> = ({ doc }) => {
   if (typeof doc.meta?.metadata?.image === 'object' && doc.meta?.metadata?.image) {
     return doc.meta.metadata.image.url || '/flowers-sign.webp'
   }
@@ -150,8 +145,7 @@ export default buildConfig({
   }),
   collections: [
     Pages,
-    Services,
-    Team,
+    Schedules,
     Avatars,
     Cards,
     Landcapes,
@@ -168,13 +162,11 @@ export default buildConfig({
     apiKey: process.env.RESEND_API_KEY || '',
   }),
   endpoints: [
-    { handler: seedServices, method: 'get', path: '/seed-services' },
-    { handler: seedTeam, method: 'get', path: '/seed-team' },
   ],
   globals: [Header, Footer, CompanyInfo],
   plugins: [
     redirectsPlugin({
-      collections: ['pages', 'team'],
+      collections: ['pages'],
       overrides: {
         access: {
           admin: superAdmin,

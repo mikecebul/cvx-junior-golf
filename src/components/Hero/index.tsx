@@ -1,8 +1,4 @@
 import Image from 'next/image'
-import { buttonVariants } from '@/components/ui/button'
-import { Icons } from '@/components/Icons'
-import Link from 'next/link'
-import { cn } from '@/utilities/cn'
 import type { CompanyInfo, Hero as HeroType } from '@/payload-types'
 import { CMSLink } from '../Link'
 import { getCachedGlobal } from '@/utilities/getGlobals'

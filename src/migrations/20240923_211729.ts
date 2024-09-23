@@ -19,88 +19,16 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   	\`_path\` text NOT NULL,
   	\`id\` text PRIMARY KEY NOT NULL,
   	\`type\` text DEFAULT 'mediumImpact',
-  	\`high_impact_title\` text,
-  	\`high_impact_description\` text,
+  	\`high_impact_title\` text DEFAULT 'Charlevoix Junior Golf League',
+  	\`high_impact_description\` text DEFAULT 'Join the Charlevoix Junior Golf League and develop your skills in a fun, competitive environment.',
   	\`high_impact_phone_number\` text DEFAULT '(231) 547-1144',
   	\`high_impact_image_id\` integer,
+  	\`high_impact_svg\` integer DEFAULT true,
   	\`medium_impact_subtitle\` text,
   	\`medium_impact_title\` text,
   	\`medium_impact_description\` text,
   	\`block_name\` text,
   	FOREIGN KEY (\`high_impact_image_id\`) REFERENCES \`landscapes\`(\`id\`) ON UPDATE no action ON DELETE set null,
-  	FOREIGN KEY (\`_parent_id\`) REFERENCES \`pages\`(\`id\`) ON UPDATE no action ON DELETE cascade
-  );
-  `)
-  await payload.db.drizzle.run(sql`CREATE TABLE \`pages_blocks_services_links\` (
-  	\`_order\` integer NOT NULL,
-  	\`_parent_id\` text NOT NULL,
-  	\`id\` text PRIMARY KEY NOT NULL,
-  	\`link_type\` text DEFAULT 'reference',
-  	\`link_new_tab\` integer,
-  	\`link_url\` text,
-  	\`link_label\` text,
-  	\`link_appearance\` text DEFAULT 'default',
-  	FOREIGN KEY (\`_parent_id\`) REFERENCES \`pages_blocks_services\`(\`id\`) ON UPDATE no action ON DELETE cascade
-  );
-  `)
-  await payload.db.drizzle.run(sql`CREATE TABLE \`pages_blocks_services\` (
-  	\`_order\` integer NOT NULL,
-  	\`_parent_id\` integer NOT NULL,
-  	\`_path\` text NOT NULL,
-  	\`id\` text PRIMARY KEY NOT NULL,
-  	\`subtitle\` text DEFAULT 'Redefine your recovery path',
-  	\`title\` text DEFAULT 'Everything you need for a successful recovery journey',
-  	\`description\` text DEFAULT 'With decades of experience, we''ve developed services that truly serve our community''s needs.',
-  	\`grid_s_v_g\` integer DEFAULT true,
-  	\`howMany\` text DEFAULT 'topThreeServices',
-  	\`block_name\` text,
-  	FOREIGN KEY (\`_parent_id\`) REFERENCES \`pages\`(\`id\`) ON UPDATE no action ON DELETE cascade
-  );
-  `)
-  await payload.db.drizzle.run(sql`CREATE TABLE \`pages_blocks_carf\` (
-  	\`_order\` integer NOT NULL,
-  	\`_parent_id\` integer NOT NULL,
-  	\`_path\` text NOT NULL,
-  	\`id\` text PRIMARY KEY NOT NULL,
-  	\`subtitle\` text,
-  	\`title\` text,
-  	\`description\` text,
-  	\`image_id\` integer,
-  	\`block_name\` text,
-  	FOREIGN KEY (\`image_id\`) REFERENCES \`cards\`(\`id\`) ON UPDATE no action ON DELETE set null,
-  	FOREIGN KEY (\`_parent_id\`) REFERENCES \`pages\`(\`id\`) ON UPDATE no action ON DELETE cascade
-  );
-  `)
-  await payload.db.drizzle.run(sql`CREATE TABLE \`pages_blocks_donate_programs\` (
-  	\`_order\` integer NOT NULL,
-  	\`_parent_id\` text NOT NULL,
-  	\`id\` text PRIMARY KEY NOT NULL,
-  	\`title\` text,
-  	FOREIGN KEY (\`_parent_id\`) REFERENCES \`pages_blocks_donate\`(\`id\`) ON UPDATE no action ON DELETE cascade
-  );
-  `)
-  await payload.db.drizzle.run(sql`CREATE TABLE \`pages_blocks_donate\` (
-  	\`_order\` integer NOT NULL,
-  	\`_parent_id\` integer NOT NULL,
-  	\`_path\` text NOT NULL,
-  	\`id\` text PRIMARY KEY NOT NULL,
-  	\`subtitle\` text,
-  	\`title\` text,
-  	\`description\` text,
-  	\`block_name\` text,
-  	FOREIGN KEY (\`_parent_id\`) REFERENCES \`pages\`(\`id\`) ON UPDATE no action ON DELETE cascade
-  );
-  `)
-  await payload.db.drizzle.run(sql`CREATE TABLE \`pages_blocks_team\` (
-  	\`_order\` integer NOT NULL,
-  	\`_parent_id\` integer NOT NULL,
-  	\`_path\` text NOT NULL,
-  	\`id\` text PRIMARY KEY NOT NULL,
-  	\`memberType\` text DEFAULT 'staff',
-  	\`title\` text,
-  	\`description\` text,
-  	\`reverse\` integer,
-  	\`block_name\` text,
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`pages\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
@@ -139,6 +67,15 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`pages\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
+  await payload.db.drizzle.run(sql`CREATE TABLE \`pages_blocks_schedule\` (
+  	\`_order\` integer NOT NULL,
+  	\`_parent_id\` integer NOT NULL,
+  	\`_path\` text NOT NULL,
+  	\`id\` text PRIMARY KEY NOT NULL,
+  	\`block_name\` text,
+  	FOREIGN KEY (\`_parent_id\`) REFERENCES \`pages\`(\`id\`) ON UPDATE no action ON DELETE cascade
+  );
+  `)
   await payload.db.drizzle.run(sql`CREATE TABLE \`pages\` (
   	\`id\` integer PRIMARY KEY NOT NULL,
   	\`title\` text,
@@ -162,15 +99,13 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   	\`path\` text NOT NULL,
   	\`pages_id\` integer,
   	\`files_id\` integer,
-  	\`services_id\` integer,
-  	\`team_id\` integer,
   	\`landscapes_id\` integer,
+  	\`schedules_id\` integer,
   	FOREIGN KEY (\`parent_id\`) REFERENCES \`pages\`(\`id\`) ON UPDATE no action ON DELETE cascade,
   	FOREIGN KEY (\`pages_id\`) REFERENCES \`pages\`(\`id\`) ON UPDATE no action ON DELETE cascade,
   	FOREIGN KEY (\`files_id\`) REFERENCES \`files\`(\`id\`) ON UPDATE no action ON DELETE cascade,
-  	FOREIGN KEY (\`services_id\`) REFERENCES \`services\`(\`id\`) ON UPDATE no action ON DELETE cascade,
-  	FOREIGN KEY (\`team_id\`) REFERENCES \`team\`(\`id\`) ON UPDATE no action ON DELETE cascade,
-  	FOREIGN KEY (\`landscapes_id\`) REFERENCES \`landscapes\`(\`id\`) ON UPDATE no action ON DELETE cascade
+  	FOREIGN KEY (\`landscapes_id\`) REFERENCES \`landscapes\`(\`id\`) ON UPDATE no action ON DELETE cascade,
+  	FOREIGN KEY (\`schedules_id\`) REFERENCES \`schedules\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
   await payload.db.drizzle.run(sql`CREATE TABLE \`_pages_v_blocks_hero_high_impact_links\` (
@@ -192,95 +127,17 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   	\`_path\` text NOT NULL,
   	\`id\` integer PRIMARY KEY NOT NULL,
   	\`type\` text DEFAULT 'mediumImpact',
-  	\`high_impact_title\` text,
-  	\`high_impact_description\` text,
+  	\`high_impact_title\` text DEFAULT 'Charlevoix Junior Golf League',
+  	\`high_impact_description\` text DEFAULT 'Join the Charlevoix Junior Golf League and develop your skills in a fun, competitive environment.',
   	\`high_impact_phone_number\` text DEFAULT '(231) 547-1144',
   	\`high_impact_image_id\` integer,
+  	\`high_impact_svg\` integer DEFAULT true,
   	\`medium_impact_subtitle\` text,
   	\`medium_impact_title\` text,
   	\`medium_impact_description\` text,
   	\`_uuid\` text,
   	\`block_name\` text,
   	FOREIGN KEY (\`high_impact_image_id\`) REFERENCES \`landscapes\`(\`id\`) ON UPDATE no action ON DELETE set null,
-  	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_pages_v\`(\`id\`) ON UPDATE no action ON DELETE cascade
-  );
-  `)
-  await payload.db.drizzle.run(sql`CREATE TABLE \`_pages_v_blocks_services_links\` (
-  	\`_order\` integer NOT NULL,
-  	\`_parent_id\` integer NOT NULL,
-  	\`id\` integer PRIMARY KEY NOT NULL,
-  	\`link_type\` text DEFAULT 'reference',
-  	\`link_new_tab\` integer,
-  	\`link_url\` text,
-  	\`link_label\` text,
-  	\`link_appearance\` text DEFAULT 'default',
-  	\`_uuid\` text,
-  	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_pages_v_blocks_services\`(\`id\`) ON UPDATE no action ON DELETE cascade
-  );
-  `)
-  await payload.db.drizzle.run(sql`CREATE TABLE \`_pages_v_blocks_services\` (
-  	\`_order\` integer NOT NULL,
-  	\`_parent_id\` integer NOT NULL,
-  	\`_path\` text NOT NULL,
-  	\`id\` integer PRIMARY KEY NOT NULL,
-  	\`subtitle\` text DEFAULT 'Redefine your recovery path',
-  	\`title\` text DEFAULT 'Everything you need for a successful recovery journey',
-  	\`description\` text DEFAULT 'With decades of experience, we''ve developed services that truly serve our community''s needs.',
-  	\`grid_s_v_g\` integer DEFAULT true,
-  	\`howMany\` text DEFAULT 'topThreeServices',
-  	\`_uuid\` text,
-  	\`block_name\` text,
-  	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_pages_v\`(\`id\`) ON UPDATE no action ON DELETE cascade
-  );
-  `)
-  await payload.db.drizzle.run(sql`CREATE TABLE \`_pages_v_blocks_carf\` (
-  	\`_order\` integer NOT NULL,
-  	\`_parent_id\` integer NOT NULL,
-  	\`_path\` text NOT NULL,
-  	\`id\` integer PRIMARY KEY NOT NULL,
-  	\`subtitle\` text,
-  	\`title\` text,
-  	\`description\` text,
-  	\`image_id\` integer,
-  	\`_uuid\` text,
-  	\`block_name\` text,
-  	FOREIGN KEY (\`image_id\`) REFERENCES \`cards\`(\`id\`) ON UPDATE no action ON DELETE set null,
-  	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_pages_v\`(\`id\`) ON UPDATE no action ON DELETE cascade
-  );
-  `)
-  await payload.db.drizzle.run(sql`CREATE TABLE \`_pages_v_blocks_donate_programs\` (
-  	\`_order\` integer NOT NULL,
-  	\`_parent_id\` integer NOT NULL,
-  	\`id\` integer PRIMARY KEY NOT NULL,
-  	\`title\` text,
-  	\`_uuid\` text,
-  	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_pages_v_blocks_donate\`(\`id\`) ON UPDATE no action ON DELETE cascade
-  );
-  `)
-  await payload.db.drizzle.run(sql`CREATE TABLE \`_pages_v_blocks_donate\` (
-  	\`_order\` integer NOT NULL,
-  	\`_parent_id\` integer NOT NULL,
-  	\`_path\` text NOT NULL,
-  	\`id\` integer PRIMARY KEY NOT NULL,
-  	\`subtitle\` text,
-  	\`title\` text,
-  	\`description\` text,
-  	\`_uuid\` text,
-  	\`block_name\` text,
-  	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_pages_v\`(\`id\`) ON UPDATE no action ON DELETE cascade
-  );
-  `)
-  await payload.db.drizzle.run(sql`CREATE TABLE \`_pages_v_blocks_team\` (
-  	\`_order\` integer NOT NULL,
-  	\`_parent_id\` integer NOT NULL,
-  	\`_path\` text NOT NULL,
-  	\`id\` integer PRIMARY KEY NOT NULL,
-  	\`memberType\` text DEFAULT 'staff',
-  	\`title\` text,
-  	\`description\` text,
-  	\`reverse\` integer,
-  	\`_uuid\` text,
-  	\`block_name\` text,
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_pages_v\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
@@ -322,6 +179,16 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_pages_v\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
+  await payload.db.drizzle.run(sql`CREATE TABLE \`_pages_v_blocks_schedule\` (
+  	\`_order\` integer NOT NULL,
+  	\`_parent_id\` integer NOT NULL,
+  	\`_path\` text NOT NULL,
+  	\`id\` integer PRIMARY KEY NOT NULL,
+  	\`_uuid\` text,
+  	\`block_name\` text,
+  	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_pages_v\`(\`id\`) ON UPDATE no action ON DELETE cascade
+  );
+  `)
   await payload.db.drizzle.run(sql`CREATE TABLE \`_pages_v\` (
   	\`id\` integer PRIMARY KEY NOT NULL,
   	\`parent_id\` integer,
@@ -351,78 +218,23 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   	\`path\` text NOT NULL,
   	\`pages_id\` integer,
   	\`files_id\` integer,
-  	\`services_id\` integer,
-  	\`team_id\` integer,
   	\`landscapes_id\` integer,
+  	\`schedules_id\` integer,
   	FOREIGN KEY (\`parent_id\`) REFERENCES \`_pages_v\`(\`id\`) ON UPDATE no action ON DELETE cascade,
   	FOREIGN KEY (\`pages_id\`) REFERENCES \`pages\`(\`id\`) ON UPDATE no action ON DELETE cascade,
   	FOREIGN KEY (\`files_id\`) REFERENCES \`files\`(\`id\`) ON UPDATE no action ON DELETE cascade,
-  	FOREIGN KEY (\`services_id\`) REFERENCES \`services\`(\`id\`) ON UPDATE no action ON DELETE cascade,
-  	FOREIGN KEY (\`team_id\`) REFERENCES \`team\`(\`id\`) ON UPDATE no action ON DELETE cascade,
-  	FOREIGN KEY (\`landscapes_id\`) REFERENCES \`landscapes\`(\`id\`) ON UPDATE no action ON DELETE cascade
+  	FOREIGN KEY (\`landscapes_id\`) REFERENCES \`landscapes\`(\`id\`) ON UPDATE no action ON DELETE cascade,
+  	FOREIGN KEY (\`schedules_id\`) REFERENCES \`schedules\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await payload.db.drizzle.run(sql`CREATE TABLE \`services\` (
+  await payload.db.drizzle.run(sql`CREATE TABLE \`schedules\` (
   	\`id\` integer PRIMARY KEY NOT NULL,
   	\`title\` text NOT NULL,
-  	\`desc\` text NOT NULL,
-  	\`icon\` text NOT NULL,
+  	\`date\` text NOT NULL,
+  	\`start_time\` text NOT NULL,
+  	\`location\` text NOT NULL,
   	\`updated_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
   	\`created_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL
-  );
-  `)
-  await payload.db.drizzle.run(sql`CREATE TABLE \`team\` (
-  	\`id\` integer PRIMARY KEY NOT NULL,
-  	\`memberType\` text DEFAULT 'staff',
-  	\`name\` text,
-  	\`avatar_id\` integer,
-  	\`image_id\` integer,
-  	\`role\` text,
-  	\`qualifications\` text,
-  	\`bio\` text,
-  	\`meta_hide_from_search_engines\` integer DEFAULT false,
-  	\`meta_metadata_title\` text,
-  	\`meta_metadata_image_id\` integer,
-  	\`meta_metadata_description\` text,
-  	\`published_at\` text,
-  	\`slug\` text,
-  	\`slug_lock\` integer DEFAULT true,
-  	\`updated_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
-  	\`created_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
-  	\`_status\` text DEFAULT 'draft',
-  	FOREIGN KEY (\`avatar_id\`) REFERENCES \`avatars\`(\`id\`) ON UPDATE no action ON DELETE set null,
-  	FOREIGN KEY (\`image_id\`) REFERENCES \`portraits\`(\`id\`) ON UPDATE no action ON DELETE set null,
-  	FOREIGN KEY (\`meta_metadata_image_id\`) REFERENCES \`cards\`(\`id\`) ON UPDATE no action ON DELETE set null
-  );
-  `)
-  await payload.db.drizzle.run(sql`CREATE TABLE \`_team_v\` (
-  	\`id\` integer PRIMARY KEY NOT NULL,
-  	\`parent_id\` integer,
-  	\`version_memberType\` text DEFAULT 'staff',
-  	\`version_name\` text,
-  	\`version_avatar_id\` integer,
-  	\`version_image_id\` integer,
-  	\`version_role\` text,
-  	\`version_qualifications\` text,
-  	\`version_bio\` text,
-  	\`version_meta_hide_from_search_engines\` integer DEFAULT false,
-  	\`version_meta_metadata_title\` text,
-  	\`version_meta_metadata_image_id\` integer,
-  	\`version_meta_metadata_description\` text,
-  	\`version_published_at\` text,
-  	\`version_slug\` text,
-  	\`version_slug_lock\` integer DEFAULT true,
-  	\`version_updated_at\` text,
-  	\`version_created_at\` text,
-  	\`version__status\` text DEFAULT 'draft',
-  	\`created_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
-  	\`updated_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
-  	\`latest\` integer,
-  	\`autosave\` integer,
-  	FOREIGN KEY (\`parent_id\`) REFERENCES \`team\`(\`id\`) ON UPDATE no action ON DELETE set null,
-  	FOREIGN KEY (\`version_avatar_id\`) REFERENCES \`avatars\`(\`id\`) ON UPDATE no action ON DELETE set null,
-  	FOREIGN KEY (\`version_image_id\`) REFERENCES \`portraits\`(\`id\`) ON UPDATE no action ON DELETE set null,
-  	FOREIGN KEY (\`version_meta_metadata_image_id\`) REFERENCES \`cards\`(\`id\`) ON UPDATE no action ON DELETE set null
   );
   `)
   await payload.db.drizzle.run(sql`CREATE TABLE \`avatars\` (
@@ -586,10 +398,43 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   	\`parent_id\` integer NOT NULL,
   	\`path\` text NOT NULL,
   	\`pages_id\` integer,
-  	\`team_id\` integer,
   	FOREIGN KEY (\`parent_id\`) REFERENCES \`redirects\`(\`id\`) ON UPDATE no action ON DELETE cascade,
+  	FOREIGN KEY (\`pages_id\`) REFERENCES \`pages\`(\`id\`) ON UPDATE no action ON DELETE cascade
+  );
+  `)
+  await payload.db.drizzle.run(sql`CREATE TABLE \`payload_locked_documents\` (
+  	\`id\` integer PRIMARY KEY NOT NULL,
+  	\`global_slug\` text,
+  	\`updated_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
+  	\`created_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL
+  );
+  `)
+  await payload.db.drizzle.run(sql`CREATE TABLE \`payload_locked_documents_rels\` (
+  	\`id\` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
+  	\`order\` integer,
+  	\`parent_id\` integer NOT NULL,
+  	\`path\` text NOT NULL,
+  	\`pages_id\` integer,
+  	\`schedules_id\` integer,
+  	\`avatars_id\` integer,
+  	\`cards_id\` integer,
+  	\`landscapes_id\` integer,
+  	\`portraits_id\` integer,
+  	\`meta_images_id\` integer,
+  	\`files_id\` integer,
+  	\`users_id\` integer,
+  	\`redirects_id\` integer,
+  	FOREIGN KEY (\`parent_id\`) REFERENCES \`payload_locked_documents\`(\`id\`) ON UPDATE no action ON DELETE cascade,
   	FOREIGN KEY (\`pages_id\`) REFERENCES \`pages\`(\`id\`) ON UPDATE no action ON DELETE cascade,
-  	FOREIGN KEY (\`team_id\`) REFERENCES \`team\`(\`id\`) ON UPDATE no action ON DELETE cascade
+  	FOREIGN KEY (\`schedules_id\`) REFERENCES \`schedules\`(\`id\`) ON UPDATE no action ON DELETE cascade,
+  	FOREIGN KEY (\`avatars_id\`) REFERENCES \`avatars\`(\`id\`) ON UPDATE no action ON DELETE cascade,
+  	FOREIGN KEY (\`cards_id\`) REFERENCES \`cards\`(\`id\`) ON UPDATE no action ON DELETE cascade,
+  	FOREIGN KEY (\`landscapes_id\`) REFERENCES \`landscapes\`(\`id\`) ON UPDATE no action ON DELETE cascade,
+  	FOREIGN KEY (\`portraits_id\`) REFERENCES \`portraits\`(\`id\`) ON UPDATE no action ON DELETE cascade,
+  	FOREIGN KEY (\`meta_images_id\`) REFERENCES \`meta_images\`(\`id\`) ON UPDATE no action ON DELETE cascade,
+  	FOREIGN KEY (\`files_id\`) REFERENCES \`files\`(\`id\`) ON UPDATE no action ON DELETE cascade,
+  	FOREIGN KEY (\`users_id\`) REFERENCES \`users\`(\`id\`) ON UPDATE no action ON DELETE cascade,
+  	FOREIGN KEY (\`redirects_id\`) REFERENCES \`redirects\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
   await payload.db.drizzle.run(sql`CREATE TABLE \`payload_preferences\` (
@@ -647,29 +492,21 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`files_id\`) REFERENCES \`files\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await payload.db.drizzle.run(sql`CREATE TABLE \`footer_columns_page_links\` (
+  await payload.db.drizzle.run(sql`CREATE TABLE \`footer_page_links\` (
   	\`_order\` integer NOT NULL,
-  	\`_parent_id\` text NOT NULL,
+  	\`_parent_id\` integer NOT NULL,
   	\`id\` text PRIMARY KEY NOT NULL,
   	\`link_type\` text DEFAULT 'reference',
   	\`link_new_tab\` integer,
   	\`link_url\` text,
-  	\`link_label\` text,
-  	FOREIGN KEY (\`_parent_id\`) REFERENCES \`footer_columns\`(\`id\`) ON UPDATE no action ON DELETE cascade
-  );
-  `)
-  await payload.db.drizzle.run(sql`CREATE TABLE \`footer_columns\` (
-  	\`_order\` integer NOT NULL,
-  	\`_parent_id\` integer NOT NULL,
-  	\`id\` text PRIMARY KEY NOT NULL,
-  	\`columnType\` text NOT NULL,
-  	\`contact_show_contact\` integer DEFAULT 'true',
-  	\`google_map_api_key\` text,
+  	\`link_label\` text NOT NULL,
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`footer\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
   await payload.db.drizzle.run(sql`CREATE TABLE \`footer\` (
   	\`id\` integer PRIMARY KEY NOT NULL,
+  	\`show_contact\` integer DEFAULT true,
+  	\`show_google_map\` integer DEFAULT true,
   	\`updated_at\` text,
   	\`created_at\` text
   );
@@ -737,22 +574,6 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   await payload.db.drizzle.run(sql`CREATE INDEX \`pages_blocks_hero_order_idx\` ON \`pages_blocks_hero\` (\`_order\`);`)
   await payload.db.drizzle.run(sql`CREATE INDEX \`pages_blocks_hero_parent_id_idx\` ON \`pages_blocks_hero\` (\`_parent_id\`);`)
   await payload.db.drizzle.run(sql`CREATE INDEX \`pages_blocks_hero_path_idx\` ON \`pages_blocks_hero\` (\`_path\`);`)
-  await payload.db.drizzle.run(sql`CREATE INDEX \`pages_blocks_services_links_order_idx\` ON \`pages_blocks_services_links\` (\`_order\`);`)
-  await payload.db.drizzle.run(sql`CREATE INDEX \`pages_blocks_services_links_parent_id_idx\` ON \`pages_blocks_services_links\` (\`_parent_id\`);`)
-  await payload.db.drizzle.run(sql`CREATE INDEX \`pages_blocks_services_order_idx\` ON \`pages_blocks_services\` (\`_order\`);`)
-  await payload.db.drizzle.run(sql`CREATE INDEX \`pages_blocks_services_parent_id_idx\` ON \`pages_blocks_services\` (\`_parent_id\`);`)
-  await payload.db.drizzle.run(sql`CREATE INDEX \`pages_blocks_services_path_idx\` ON \`pages_blocks_services\` (\`_path\`);`)
-  await payload.db.drizzle.run(sql`CREATE INDEX \`pages_blocks_carf_order_idx\` ON \`pages_blocks_carf\` (\`_order\`);`)
-  await payload.db.drizzle.run(sql`CREATE INDEX \`pages_blocks_carf_parent_id_idx\` ON \`pages_blocks_carf\` (\`_parent_id\`);`)
-  await payload.db.drizzle.run(sql`CREATE INDEX \`pages_blocks_carf_path_idx\` ON \`pages_blocks_carf\` (\`_path\`);`)
-  await payload.db.drizzle.run(sql`CREATE INDEX \`pages_blocks_donate_programs_order_idx\` ON \`pages_blocks_donate_programs\` (\`_order\`);`)
-  await payload.db.drizzle.run(sql`CREATE INDEX \`pages_blocks_donate_programs_parent_id_idx\` ON \`pages_blocks_donate_programs\` (\`_parent_id\`);`)
-  await payload.db.drizzle.run(sql`CREATE INDEX \`pages_blocks_donate_order_idx\` ON \`pages_blocks_donate\` (\`_order\`);`)
-  await payload.db.drizzle.run(sql`CREATE INDEX \`pages_blocks_donate_parent_id_idx\` ON \`pages_blocks_donate\` (\`_parent_id\`);`)
-  await payload.db.drizzle.run(sql`CREATE INDEX \`pages_blocks_donate_path_idx\` ON \`pages_blocks_donate\` (\`_path\`);`)
-  await payload.db.drizzle.run(sql`CREATE INDEX \`pages_blocks_team_order_idx\` ON \`pages_blocks_team\` (\`_order\`);`)
-  await payload.db.drizzle.run(sql`CREATE INDEX \`pages_blocks_team_parent_id_idx\` ON \`pages_blocks_team\` (\`_parent_id\`);`)
-  await payload.db.drizzle.run(sql`CREATE INDEX \`pages_blocks_team_path_idx\` ON \`pages_blocks_team\` (\`_path\`);`)
   await payload.db.drizzle.run(sql`CREATE INDEX \`pages_blocks_about_us_order_idx\` ON \`pages_blocks_about_us\` (\`_order\`);`)
   await payload.db.drizzle.run(sql`CREATE INDEX \`pages_blocks_about_us_parent_id_idx\` ON \`pages_blocks_about_us\` (\`_parent_id\`);`)
   await payload.db.drizzle.run(sql`CREATE INDEX \`pages_blocks_about_us_path_idx\` ON \`pages_blocks_about_us\` (\`_path\`);`)
@@ -761,6 +582,9 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   await payload.db.drizzle.run(sql`CREATE INDEX \`pages_blocks_links_block_order_idx\` ON \`pages_blocks_links_block\` (\`_order\`);`)
   await payload.db.drizzle.run(sql`CREATE INDEX \`pages_blocks_links_block_parent_id_idx\` ON \`pages_blocks_links_block\` (\`_parent_id\`);`)
   await payload.db.drizzle.run(sql`CREATE INDEX \`pages_blocks_links_block_path_idx\` ON \`pages_blocks_links_block\` (\`_path\`);`)
+  await payload.db.drizzle.run(sql`CREATE INDEX \`pages_blocks_schedule_order_idx\` ON \`pages_blocks_schedule\` (\`_order\`);`)
+  await payload.db.drizzle.run(sql`CREATE INDEX \`pages_blocks_schedule_parent_id_idx\` ON \`pages_blocks_schedule\` (\`_parent_id\`);`)
+  await payload.db.drizzle.run(sql`CREATE INDEX \`pages_blocks_schedule_path_idx\` ON \`pages_blocks_schedule\` (\`_path\`);`)
   await payload.db.drizzle.run(sql`CREATE INDEX \`pages_slug_idx\` ON \`pages\` (\`slug\`);`)
   await payload.db.drizzle.run(sql`CREATE INDEX \`pages_created_at_idx\` ON \`pages\` (\`created_at\`);`)
   await payload.db.drizzle.run(sql`CREATE INDEX \`pages__status_idx\` ON \`pages\` (\`_status\`);`)
@@ -772,22 +596,6 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   await payload.db.drizzle.run(sql`CREATE INDEX \`_pages_v_blocks_hero_order_idx\` ON \`_pages_v_blocks_hero\` (\`_order\`);`)
   await payload.db.drizzle.run(sql`CREATE INDEX \`_pages_v_blocks_hero_parent_id_idx\` ON \`_pages_v_blocks_hero\` (\`_parent_id\`);`)
   await payload.db.drizzle.run(sql`CREATE INDEX \`_pages_v_blocks_hero_path_idx\` ON \`_pages_v_blocks_hero\` (\`_path\`);`)
-  await payload.db.drizzle.run(sql`CREATE INDEX \`_pages_v_blocks_services_links_order_idx\` ON \`_pages_v_blocks_services_links\` (\`_order\`);`)
-  await payload.db.drizzle.run(sql`CREATE INDEX \`_pages_v_blocks_services_links_parent_id_idx\` ON \`_pages_v_blocks_services_links\` (\`_parent_id\`);`)
-  await payload.db.drizzle.run(sql`CREATE INDEX \`_pages_v_blocks_services_order_idx\` ON \`_pages_v_blocks_services\` (\`_order\`);`)
-  await payload.db.drizzle.run(sql`CREATE INDEX \`_pages_v_blocks_services_parent_id_idx\` ON \`_pages_v_blocks_services\` (\`_parent_id\`);`)
-  await payload.db.drizzle.run(sql`CREATE INDEX \`_pages_v_blocks_services_path_idx\` ON \`_pages_v_blocks_services\` (\`_path\`);`)
-  await payload.db.drizzle.run(sql`CREATE INDEX \`_pages_v_blocks_carf_order_idx\` ON \`_pages_v_blocks_carf\` (\`_order\`);`)
-  await payload.db.drizzle.run(sql`CREATE INDEX \`_pages_v_blocks_carf_parent_id_idx\` ON \`_pages_v_blocks_carf\` (\`_parent_id\`);`)
-  await payload.db.drizzle.run(sql`CREATE INDEX \`_pages_v_blocks_carf_path_idx\` ON \`_pages_v_blocks_carf\` (\`_path\`);`)
-  await payload.db.drizzle.run(sql`CREATE INDEX \`_pages_v_blocks_donate_programs_order_idx\` ON \`_pages_v_blocks_donate_programs\` (\`_order\`);`)
-  await payload.db.drizzle.run(sql`CREATE INDEX \`_pages_v_blocks_donate_programs_parent_id_idx\` ON \`_pages_v_blocks_donate_programs\` (\`_parent_id\`);`)
-  await payload.db.drizzle.run(sql`CREATE INDEX \`_pages_v_blocks_donate_order_idx\` ON \`_pages_v_blocks_donate\` (\`_order\`);`)
-  await payload.db.drizzle.run(sql`CREATE INDEX \`_pages_v_blocks_donate_parent_id_idx\` ON \`_pages_v_blocks_donate\` (\`_parent_id\`);`)
-  await payload.db.drizzle.run(sql`CREATE INDEX \`_pages_v_blocks_donate_path_idx\` ON \`_pages_v_blocks_donate\` (\`_path\`);`)
-  await payload.db.drizzle.run(sql`CREATE INDEX \`_pages_v_blocks_team_order_idx\` ON \`_pages_v_blocks_team\` (\`_order\`);`)
-  await payload.db.drizzle.run(sql`CREATE INDEX \`_pages_v_blocks_team_parent_id_idx\` ON \`_pages_v_blocks_team\` (\`_parent_id\`);`)
-  await payload.db.drizzle.run(sql`CREATE INDEX \`_pages_v_blocks_team_path_idx\` ON \`_pages_v_blocks_team\` (\`_path\`);`)
   await payload.db.drizzle.run(sql`CREATE INDEX \`_pages_v_blocks_about_us_order_idx\` ON \`_pages_v_blocks_about_us\` (\`_order\`);`)
   await payload.db.drizzle.run(sql`CREATE INDEX \`_pages_v_blocks_about_us_parent_id_idx\` ON \`_pages_v_blocks_about_us\` (\`_parent_id\`);`)
   await payload.db.drizzle.run(sql`CREATE INDEX \`_pages_v_blocks_about_us_path_idx\` ON \`_pages_v_blocks_about_us\` (\`_path\`);`)
@@ -796,6 +604,9 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   await payload.db.drizzle.run(sql`CREATE INDEX \`_pages_v_blocks_links_block_order_idx\` ON \`_pages_v_blocks_links_block\` (\`_order\`);`)
   await payload.db.drizzle.run(sql`CREATE INDEX \`_pages_v_blocks_links_block_parent_id_idx\` ON \`_pages_v_blocks_links_block\` (\`_parent_id\`);`)
   await payload.db.drizzle.run(sql`CREATE INDEX \`_pages_v_blocks_links_block_path_idx\` ON \`_pages_v_blocks_links_block\` (\`_path\`);`)
+  await payload.db.drizzle.run(sql`CREATE INDEX \`_pages_v_blocks_schedule_order_idx\` ON \`_pages_v_blocks_schedule\` (\`_order\`);`)
+  await payload.db.drizzle.run(sql`CREATE INDEX \`_pages_v_blocks_schedule_parent_id_idx\` ON \`_pages_v_blocks_schedule\` (\`_parent_id\`);`)
+  await payload.db.drizzle.run(sql`CREATE INDEX \`_pages_v_blocks_schedule_path_idx\` ON \`_pages_v_blocks_schedule\` (\`_path\`);`)
   await payload.db.drizzle.run(sql`CREATE INDEX \`_pages_v_version_version_slug_idx\` ON \`_pages_v\` (\`version_slug\`);`)
   await payload.db.drizzle.run(sql`CREATE INDEX \`_pages_v_version_version_created_at_idx\` ON \`_pages_v\` (\`version_created_at\`);`)
   await payload.db.drizzle.run(sql`CREATE INDEX \`_pages_v_version_version__status_idx\` ON \`_pages_v\` (\`version__status\`);`)
@@ -806,17 +617,7 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   await payload.db.drizzle.run(sql`CREATE INDEX \`_pages_v_rels_order_idx\` ON \`_pages_v_rels\` (\`order\`);`)
   await payload.db.drizzle.run(sql`CREATE INDEX \`_pages_v_rels_parent_idx\` ON \`_pages_v_rels\` (\`parent_id\`);`)
   await payload.db.drizzle.run(sql`CREATE INDEX \`_pages_v_rels_path_idx\` ON \`_pages_v_rels\` (\`path\`);`)
-  await payload.db.drizzle.run(sql`CREATE INDEX \`services_created_at_idx\` ON \`services\` (\`created_at\`);`)
-  await payload.db.drizzle.run(sql`CREATE INDEX \`team_slug_idx\` ON \`team\` (\`slug\`);`)
-  await payload.db.drizzle.run(sql`CREATE INDEX \`team_created_at_idx\` ON \`team\` (\`created_at\`);`)
-  await payload.db.drizzle.run(sql`CREATE INDEX \`team__status_idx\` ON \`team\` (\`_status\`);`)
-  await payload.db.drizzle.run(sql`CREATE INDEX \`_team_v_version_version_slug_idx\` ON \`_team_v\` (\`version_slug\`);`)
-  await payload.db.drizzle.run(sql`CREATE INDEX \`_team_v_version_version_created_at_idx\` ON \`_team_v\` (\`version_created_at\`);`)
-  await payload.db.drizzle.run(sql`CREATE INDEX \`_team_v_version_version__status_idx\` ON \`_team_v\` (\`version__status\`);`)
-  await payload.db.drizzle.run(sql`CREATE INDEX \`_team_v_created_at_idx\` ON \`_team_v\` (\`created_at\`);`)
-  await payload.db.drizzle.run(sql`CREATE INDEX \`_team_v_updated_at_idx\` ON \`_team_v\` (\`updated_at\`);`)
-  await payload.db.drizzle.run(sql`CREATE INDEX \`_team_v_latest_idx\` ON \`_team_v\` (\`latest\`);`)
-  await payload.db.drizzle.run(sql`CREATE INDEX \`_team_v_autosave_idx\` ON \`_team_v\` (\`autosave\`);`)
+  await payload.db.drizzle.run(sql`CREATE INDEX \`schedules_created_at_idx\` ON \`schedules\` (\`created_at\`);`)
   await payload.db.drizzle.run(sql`CREATE INDEX \`avatars_created_at_idx\` ON \`avatars\` (\`created_at\`);`)
   await payload.db.drizzle.run(sql`CREATE UNIQUE INDEX \`avatars_filename_idx\` ON \`avatars\` (\`filename\`);`)
   await payload.db.drizzle.run(sql`CREATE INDEX \`avatars_sizes_thumbnail_sizes_thumbnail_filename_idx\` ON \`avatars\` (\`sizes_thumbnail_filename\`);`)
@@ -841,6 +642,11 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   await payload.db.drizzle.run(sql`CREATE INDEX \`redirects_rels_order_idx\` ON \`redirects_rels\` (\`order\`);`)
   await payload.db.drizzle.run(sql`CREATE INDEX \`redirects_rels_parent_idx\` ON \`redirects_rels\` (\`parent_id\`);`)
   await payload.db.drizzle.run(sql`CREATE INDEX \`redirects_rels_path_idx\` ON \`redirects_rels\` (\`path\`);`)
+  await payload.db.drizzle.run(sql`CREATE INDEX \`payload_locked_documents_global_slug_idx\` ON \`payload_locked_documents\` (\`global_slug\`);`)
+  await payload.db.drizzle.run(sql`CREATE INDEX \`payload_locked_documents_created_at_idx\` ON \`payload_locked_documents\` (\`created_at\`);`)
+  await payload.db.drizzle.run(sql`CREATE INDEX \`payload_locked_documents_rels_order_idx\` ON \`payload_locked_documents_rels\` (\`order\`);`)
+  await payload.db.drizzle.run(sql`CREATE INDEX \`payload_locked_documents_rels_parent_idx\` ON \`payload_locked_documents_rels\` (\`parent_id\`);`)
+  await payload.db.drizzle.run(sql`CREATE INDEX \`payload_locked_documents_rels_path_idx\` ON \`payload_locked_documents_rels\` (\`path\`);`)
   await payload.db.drizzle.run(sql`CREATE INDEX \`payload_preferences_key_idx\` ON \`payload_preferences\` (\`key\`);`)
   await payload.db.drizzle.run(sql`CREATE INDEX \`payload_preferences_created_at_idx\` ON \`payload_preferences\` (\`created_at\`);`)
   await payload.db.drizzle.run(sql`CREATE INDEX \`payload_preferences_rels_order_idx\` ON \`payload_preferences_rels\` (\`order\`);`)
@@ -852,10 +658,8 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   await payload.db.drizzle.run(sql`CREATE INDEX \`header_rels_order_idx\` ON \`header_rels\` (\`order\`);`)
   await payload.db.drizzle.run(sql`CREATE INDEX \`header_rels_parent_idx\` ON \`header_rels\` (\`parent_id\`);`)
   await payload.db.drizzle.run(sql`CREATE INDEX \`header_rels_path_idx\` ON \`header_rels\` (\`path\`);`)
-  await payload.db.drizzle.run(sql`CREATE INDEX \`footer_columns_page_links_order_idx\` ON \`footer_columns_page_links\` (\`_order\`);`)
-  await payload.db.drizzle.run(sql`CREATE INDEX \`footer_columns_page_links_parent_id_idx\` ON \`footer_columns_page_links\` (\`_parent_id\`);`)
-  await payload.db.drizzle.run(sql`CREATE INDEX \`footer_columns_order_idx\` ON \`footer_columns\` (\`_order\`);`)
-  await payload.db.drizzle.run(sql`CREATE INDEX \`footer_columns_parent_id_idx\` ON \`footer_columns\` (\`_parent_id\`);`)
+  await payload.db.drizzle.run(sql`CREATE INDEX \`footer_page_links_order_idx\` ON \`footer_page_links\` (\`_order\`);`)
+  await payload.db.drizzle.run(sql`CREATE INDEX \`footer_page_links_parent_id_idx\` ON \`footer_page_links\` (\`_parent_id\`);`)
   await payload.db.drizzle.run(sql`CREATE INDEX \`footer_rels_order_idx\` ON \`footer_rels\` (\`order\`);`)
   await payload.db.drizzle.run(sql`CREATE INDEX \`footer_rels_parent_idx\` ON \`footer_rels\` (\`parent_id\`);`)
   await payload.db.drizzle.run(sql`CREATE INDEX \`footer_rels_path_idx\` ON \`footer_rels\` (\`path\`);`)
@@ -871,33 +675,21 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
 export async function down({ payload, req }: MigrateDownArgs): Promise<void> {
   await payload.db.drizzle.run(sql`DROP TABLE \`pages_blocks_hero_high_impact_links\`;`)
   await payload.db.drizzle.run(sql`DROP TABLE \`pages_blocks_hero\`;`)
-  await payload.db.drizzle.run(sql`DROP TABLE \`pages_blocks_services_links\`;`)
-  await payload.db.drizzle.run(sql`DROP TABLE \`pages_blocks_services\`;`)
-  await payload.db.drizzle.run(sql`DROP TABLE \`pages_blocks_carf\`;`)
-  await payload.db.drizzle.run(sql`DROP TABLE \`pages_blocks_donate_programs\`;`)
-  await payload.db.drizzle.run(sql`DROP TABLE \`pages_blocks_donate\`;`)
-  await payload.db.drizzle.run(sql`DROP TABLE \`pages_blocks_team\`;`)
   await payload.db.drizzle.run(sql`DROP TABLE \`pages_blocks_about_us\`;`)
   await payload.db.drizzle.run(sql`DROP TABLE \`pages_blocks_links_block_link_cards\`;`)
   await payload.db.drizzle.run(sql`DROP TABLE \`pages_blocks_links_block\`;`)
+  await payload.db.drizzle.run(sql`DROP TABLE \`pages_blocks_schedule\`;`)
   await payload.db.drizzle.run(sql`DROP TABLE \`pages\`;`)
   await payload.db.drizzle.run(sql`DROP TABLE \`pages_rels\`;`)
   await payload.db.drizzle.run(sql`DROP TABLE \`_pages_v_blocks_hero_high_impact_links\`;`)
   await payload.db.drizzle.run(sql`DROP TABLE \`_pages_v_blocks_hero\`;`)
-  await payload.db.drizzle.run(sql`DROP TABLE \`_pages_v_blocks_services_links\`;`)
-  await payload.db.drizzle.run(sql`DROP TABLE \`_pages_v_blocks_services\`;`)
-  await payload.db.drizzle.run(sql`DROP TABLE \`_pages_v_blocks_carf\`;`)
-  await payload.db.drizzle.run(sql`DROP TABLE \`_pages_v_blocks_donate_programs\`;`)
-  await payload.db.drizzle.run(sql`DROP TABLE \`_pages_v_blocks_donate\`;`)
-  await payload.db.drizzle.run(sql`DROP TABLE \`_pages_v_blocks_team\`;`)
   await payload.db.drizzle.run(sql`DROP TABLE \`_pages_v_blocks_about_us\`;`)
   await payload.db.drizzle.run(sql`DROP TABLE \`_pages_v_blocks_links_block_link_cards\`;`)
   await payload.db.drizzle.run(sql`DROP TABLE \`_pages_v_blocks_links_block\`;`)
+  await payload.db.drizzle.run(sql`DROP TABLE \`_pages_v_blocks_schedule\`;`)
   await payload.db.drizzle.run(sql`DROP TABLE \`_pages_v\`;`)
   await payload.db.drizzle.run(sql`DROP TABLE \`_pages_v_rels\`;`)
-  await payload.db.drizzle.run(sql`DROP TABLE \`services\`;`)
-  await payload.db.drizzle.run(sql`DROP TABLE \`team\`;`)
-  await payload.db.drizzle.run(sql`DROP TABLE \`_team_v\`;`)
+  await payload.db.drizzle.run(sql`DROP TABLE \`schedules\`;`)
   await payload.db.drizzle.run(sql`DROP TABLE \`avatars\`;`)
   await payload.db.drizzle.run(sql`DROP TABLE \`cards\`;`)
   await payload.db.drizzle.run(sql`DROP TABLE \`landscapes\`;`)
@@ -907,14 +699,15 @@ export async function down({ payload, req }: MigrateDownArgs): Promise<void> {
   await payload.db.drizzle.run(sql`DROP TABLE \`users\`;`)
   await payload.db.drizzle.run(sql`DROP TABLE \`redirects\`;`)
   await payload.db.drizzle.run(sql`DROP TABLE \`redirects_rels\`;`)
+  await payload.db.drizzle.run(sql`DROP TABLE \`payload_locked_documents\`;`)
+  await payload.db.drizzle.run(sql`DROP TABLE \`payload_locked_documents_rels\`;`)
   await payload.db.drizzle.run(sql`DROP TABLE \`payload_preferences\`;`)
   await payload.db.drizzle.run(sql`DROP TABLE \`payload_preferences_rels\`;`)
   await payload.db.drizzle.run(sql`DROP TABLE \`payload_migrations\`;`)
   await payload.db.drizzle.run(sql`DROP TABLE \`header_nav_items\`;`)
   await payload.db.drizzle.run(sql`DROP TABLE \`header\`;`)
   await payload.db.drizzle.run(sql`DROP TABLE \`header_rels\`;`)
-  await payload.db.drizzle.run(sql`DROP TABLE \`footer_columns_page_links\`;`)
-  await payload.db.drizzle.run(sql`DROP TABLE \`footer_columns\`;`)
+  await payload.db.drizzle.run(sql`DROP TABLE \`footer_page_links\`;`)
   await payload.db.drizzle.run(sql`DROP TABLE \`footer\`;`)
   await payload.db.drizzle.run(sql`DROP TABLE \`footer_rels\`;`)
   await payload.db.drizzle.run(sql`DROP TABLE \`company_info_social\`;`)
