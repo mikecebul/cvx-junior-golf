@@ -13,7 +13,7 @@ const nextConfig = {
         'https://images.unsplash.com',
         'https://maps.googleapis.com',
         'https://cvx-junior-golf.vercel.app',
-        'https://bases-dev.mikecebul.dev',
+        'https://cvx-junior-golf.mikecebul.dev',
       ].map((item) => {
         const url = new URL(item)
         return {
