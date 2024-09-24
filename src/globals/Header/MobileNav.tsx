@@ -10,6 +10,7 @@ import { cn } from '@/utilities/cn'
 import { isActiveRoute } from '@/utilities/isActiveRoute'
 import { Header } from '@/payload-types'
 import { CMSLink } from '@/components/Link'
+import { Logo } from '@/components/Logo'
 
 export type NavItem = NonNullable<Header['navItems']>[number]
 
@@ -34,7 +35,7 @@ export function MobileNav({ navItems }: { navItems: NavItem[] }) {
         </SheetTrigger>
         <SheetContent side="right" className="w-72 sm:w-1/2">
           <div className="flex justify-center mt-16">
-            <Icons.logo className="w-40" />
+            <Logo />
           </div>
           <ScrollArea className="my-4 h-[calc(100vh-9rem)] pb-10">
             <div className="flex flex-col items-center justify-center gap-10 py-2">
@@ -46,7 +47,7 @@ export function MobileNav({ navItems }: { navItems: NavItem[] }) {
                         typeof link.reference.value.slug === 'string'
                         ? link.reference.value.slug
                         : link.reference?.relationTo === 'files' &&
-                            typeof link.reference.value.url === 'string'
+                          typeof link.reference.value.url === 'string'
                           ? link.reference.value.url
                           : ''
                       : ''

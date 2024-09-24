@@ -19,7 +19,7 @@ export function MainNav({ navItems }: { navItems: NavItem[] }) {
                 typeof link.reference.value.slug === 'string'
                 ? link.reference.value.slug
                 : link.reference?.relationTo === 'files' &&
-                    typeof link.reference.value.url === 'string'
+                  typeof link.reference.value.url === 'string'
                   ? link.reference.value.url
                   : ''
               : ''
