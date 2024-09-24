@@ -3,6 +3,7 @@ import { anyone } from '../../access/anyone'
 import { fileURLToPath } from 'url'
 import path from 'path'
 import { superAdmin } from '@/access/superAdmin'
+import { authenticated } from '@/access/authenticated'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -14,7 +15,10 @@ export const MetaImages: CollectionConfig = {
     plural: 'Meta Images',
   },
   access: {
+    create: authenticated,
+    delete: authenticated,
     read: anyone,
+    update: authenticated,
   },
   admin: {
     description: 'SEO meta images are resized to 1200x630px.',

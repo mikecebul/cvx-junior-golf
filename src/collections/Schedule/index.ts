@@ -1,3 +1,5 @@
+import { authenticated } from "@/access/authenticated"
+import { authenticatedOrPublished } from "@/access/authenticatedOrPublished"
 import { CollectionConfig } from "payload"
 
 export const Schedules: CollectionConfig = {
@@ -5,6 +7,12 @@ export const Schedules: CollectionConfig = {
   labels: {
     singular: 'Schedule',
     plural: 'Schedules',
+  },
+  access: {
+    create: authenticated,
+    delete: authenticated,
+    read: authenticatedOrPublished,
+    update: authenticated,
   },
   admin: {
     useAsTitle: 'title',
