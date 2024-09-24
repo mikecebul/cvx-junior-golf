@@ -45,16 +45,6 @@ export const Hero: Block = {
             'Join the Charlevoix Junior Golf League and develop your skills in a fun, competitive environment.',
           required: true,
         },
-        {
-          name: 'phoneNumber',
-          label: 'Phone Number',
-          type: 'text',
-          required: true,
-          defaultValue: '(231) 547-1144',
-          admin: {
-            description: "Phone number for 'Call Now' cta on mobile.",
-          },
-        },
         linkGroup({
           overrides: {
             maxRows: 2,
@@ -71,12 +61,12 @@ export const Hero: Block = {
           relationTo: 'landscapes',
           required: true,
         },
-        {
-          name: 'svg',
-          type: 'checkbox',
-          defaultValue: true,
-          label: 'Show decorative SVG',
-        },
+        // {
+        //   name: 'svg',
+        //   type: 'checkbox',
+        //   defaultValue: false,
+        //   label: 'Show decorative SVG',
+        // },
       ],
     },
     {
