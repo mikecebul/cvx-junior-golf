@@ -12,7 +12,7 @@ const nextConfig = {
         NEXT_PUBLIC_SERVER_URL,
         'https://images.unsplash.com',
         'https://maps.googleapis.com',
-        'https://bases.mikecebul.dev',
+        'https://cvx-junior-golf.vercel.app',
         'https://bases-dev.mikecebul.dev',
       ].map((item) => {
         const url = new URL(item)

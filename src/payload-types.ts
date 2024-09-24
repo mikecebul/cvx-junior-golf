@@ -38,7 +38,6 @@ export interface Config {
     files: File;
     users: User;
     redirects: Redirect;
-    'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
@@ -427,61 +426,6 @@ export interface Redirect {
       value: number | Page;
     } | null;
     url?: string | null;
-  };
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "payload-locked-documents".
- */
-export interface PayloadLockedDocument {
-  id: number;
-  document?:
-    | ({
-        relationTo: 'pages';
-        value: number | Page;
-      } | null)
-    | ({
-        relationTo: 'schedules';
-        value: number | Schedule;
-      } | null)
-    | ({
-        relationTo: 'avatars';
-        value: number | Avatar;
-      } | null)
-    | ({
-        relationTo: 'cards';
-        value: number | Card;
-      } | null)
-    | ({
-        relationTo: 'landscapes';
-        value: number | Landscape;
-      } | null)
-    | ({
-        relationTo: 'portraits';
-        value: number | Portrait;
-      } | null)
-    | ({
-        relationTo: 'meta-images';
-        value: number | MetaImage;
-      } | null)
-    | ({
-        relationTo: 'files';
-        value: number | File;
-      } | null)
-    | ({
-        relationTo: 'users';
-        value: number | User;
-      } | null)
-    | ({
-        relationTo: 'redirects';
-        value: number | Redirect;
-      } | null);
-  globalSlug?: string | null;
-  user: {
-    relationTo: 'users';
-    value: number | User;
   };
   updatedAt: string;
   createdAt: string;
