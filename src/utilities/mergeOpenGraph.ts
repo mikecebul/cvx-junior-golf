@@ -2,16 +2,16 @@ import type { Metadata } from 'next'
 
 const defaultOpenGraph: Metadata['openGraph'] = {
   type: 'website',
-  description: 'Outpatient substance use and mental health counseling in Charlevoix, MI.',
+  description: 'CVX Junior Golf',
   images: [
     {
       url: process.env.NEXT_PUBLIC_SERVER_URL
-        ? `${process.env.NEXT_PUBLIC_SERVER_URL}/flowers-sign.webp`
-        : '/flowers-sign.webp',
+        ? `${process.env.NEXT_PUBLIC_SERVER_URL}/golf-hero.jpg`
+        : '/golf-hero.jpg',
     },
   ],
-  siteName: 'BASESmi',
-  title: 'Substance Use and Mental Health Counseling.',
+  siteName: 'CVX Junior Golf',
+  title: 'CVX Junior Golf',
 }
 
 export const mergeOpenGraph = (og?: Metadata['openGraph']): Metadata['openGraph'] => {

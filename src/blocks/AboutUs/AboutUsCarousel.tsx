@@ -25,7 +25,7 @@ export default function AboutUsCarousel({ images }: { images: Landscape[] }) {
             <Image
               className="object-cover w-full max-w-3xl rounded-lg shadow-lg ring-1 ring-gray-400/10 max-h-96"
               src={image.url ?? ''}
-              alt="BASES Sign"
+              alt="Image"
               width={960}
               height={640}
               priority

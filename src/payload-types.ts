@@ -29,7 +29,8 @@ export interface Config {
   };
   collections: {
     pages: Page;
-    schedules: Schedule;
+    events: Event;
+    resources: Resource;
     avatars: Avatar;
     cards: Card;
     landscapes: Landscape;
@@ -80,7 +81,7 @@ export interface UserAuthOperations {
 export interface Page {
   id: number;
   title: string;
-  layout: (Hero | ScheduleBlock | HowItWorksBlock | AboutUsBlock | LinksBlock)[];
+  layout: (Hero | EventsBlock | HowItWorksBlock | HistoryBlock | ResourcesBlock | AboutUsBlock | LinksBlock)[];
   meta?: {
     hideFromSearchEngines?: boolean | null;
     metadata?: {
@@ -143,6 +144,7 @@ export interface Hero {
  */
 export interface File {
   id: number;
+  prefix?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -162,6 +164,7 @@ export interface File {
 export interface Landscape {
   id: number;
   alt: string;
+  prefix?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -186,20 +189,22 @@ export interface Landscape {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "ScheduleBlock".
+ * via the `definition` "EventsBlock".
  */
-export interface ScheduleBlock {
-  hero?: Hero[] | null;
-  scheduleItems?: (number | Schedule)[] | null;
+export interface EventsBlock {
+  title: string;
+  description: string;
+  eventItems?: (number | Event)[] | null;
+  image: number | Landscape;
   id?: string | null;
   blockName?: string | null;
-  blockType: 'schedule';
+  blockType: 'events';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "schedules".
+ * via the `definition` "events".
  */
-export interface Schedule {
+export interface Event {
   id: number;
   title: string;
   date: string;
@@ -238,6 +243,102 @@ export interface HowItWorksBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'howItWorks';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "HistoryBlock".
+ */
+export interface HistoryBlock {
+  title?: string | null;
+  description?: string | null;
+  image?: (number | null) | Landscape;
+  items?:
+    | {
+        title?: string | null;
+        description?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  link: {
+    type?: ('reference' | 'custom') | null;
+    newTab?: boolean | null;
+    reference?:
+      | ({
+          relationTo: 'pages';
+          value: number | Page;
+        } | null)
+      | ({
+          relationTo: 'files';
+          value: number | File;
+        } | null);
+    url?: string | null;
+    label: string;
+    appearance?: ('default' | 'outline') | null;
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'history';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ResourcesBlock".
+ */
+export interface ResourcesBlock {
+  title: string;
+  description: string;
+  resources?: (number | Resource)[] | null;
+  image?: (number | null) | Landscape;
+  link: {
+    type?: ('reference' | 'custom') | null;
+    newTab?: boolean | null;
+    reference?:
+      | ({
+          relationTo: 'pages';
+          value: number | Page;
+        } | null)
+      | ({
+          relationTo: 'files';
+          value: number | File;
+        } | null);
+    url?: string | null;
+    label: string;
+    appearance?: ('default' | 'outline') | null;
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'resources';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "resources".
+ */
+export interface Resource {
+  id: number;
+  title: string;
+  description: string;
+  links?:
+    | {
+        link: {
+          type?: ('reference' | 'custom') | null;
+          newTab?: boolean | null;
+          reference?:
+            | ({
+                relationTo: 'pages';
+                value: number | Page;
+              } | null)
+            | ({
+                relationTo: 'files';
+                value: number | File;
+              } | null);
+          url?: string | null;
+          label: string;
+          appearance?: ('default' | 'outline') | null;
+        };
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -283,6 +384,7 @@ export interface LinksBlock {
 export interface Card {
   id: number;
   alt: string;
+  prefix?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -312,6 +414,7 @@ export interface Card {
 export interface MetaImage {
   id: number;
   alt: string;
+  prefix?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -341,6 +444,7 @@ export interface MetaImage {
 export interface Avatar {
   id: number;
   alt: string;
+  prefix?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -370,6 +474,7 @@ export interface Avatar {
 export interface Portrait {
   id: number;
   alt: string;
+  prefix?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -441,8 +546,12 @@ export interface PayloadLockedDocument {
         value: number | Page;
       } | null)
     | ({
-        relationTo: 'schedules';
-        value: number | Schedule;
+        relationTo: 'events';
+        value: number | Event;
+      } | null)
+    | ({
+        relationTo: 'resources';
+        value: number | Resource;
       } | null)
     | ({
         relationTo: 'avatars';

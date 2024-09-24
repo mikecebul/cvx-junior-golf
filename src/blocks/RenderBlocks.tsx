@@ -5,15 +5,18 @@ import type { Page } from '@/payload-types'
 import { HeroBlock } from '@/blocks/Hero/Component'
 import { AboutUsBlock } from './AboutUs/Component'
 import { LinksBlock } from './Links/Component'
-import ScheduleBlock from './Schedule/Component'
 import HowItWorksBlock from './HowItWorks/Component'
-
+import { HistoryBlock } from './History/Component'
+import { EventsBlock } from './Events/Component'
+import { ResourcesBlock } from './Resources/Component'
 const blockComponents = {
   hero: HeroBlock,
   aboutUs: AboutUsBlock,
   linksBlock: LinksBlock,
-  schedule: ScheduleBlock,
+  events: EventsBlock,
   howItWorks: HowItWorksBlock,
+  history: HistoryBlock,
+  resources: ResourcesBlock,
 }
 
 export const RenderBlocks: React.FC<{

@@ -2,11 +2,11 @@ import { authenticated } from "@/access/authenticated"
 import { authenticatedOrPublished } from "@/access/authenticatedOrPublished"
 import { CollectionConfig } from "payload"
 
-export const Schedules: CollectionConfig = {
-  slug: 'schedules',
+export const Events: CollectionConfig = {
+  slug: 'events',
   labels: {
-    singular: 'Schedule',
-    plural: 'Schedules',
+    singular: 'Event',
+    plural: 'Events',
   },
   access: {
     create: authenticated,

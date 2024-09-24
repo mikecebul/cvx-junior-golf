@@ -36,16 +36,17 @@ import { Portraits } from './collections/Portraits'
 import { Files } from './collections/Files'
 import { superAdmin } from './access/superAdmin'
 import { MetaImages } from './collections/MetaImages'
-import { Schedules } from './collections/Schedule'
+import { Events } from './collections/Events'
+import { Resources } from './collections/Resources'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
 const generateTitle: GenerateTitle<Page> = ({ doc }) => {
   if ('name' in doc) {
-    return doc.name ? `${doc.name} | BASES` : 'BASES'
+    return doc.name ? `${doc.name} | CVX Junior Golf` : 'CVX Junior Golf'
   }
-  return doc?.title ? `${doc.title} | BASES` : 'BASES'
+  return doc?.title ? `${doc.title} | CVX Junior Golf` : 'CVX Junior Golf'
 }
 
 const generateURL: GenerateURL<Page> = ({ doc }) => {
@@ -54,9 +55,9 @@ const generateURL: GenerateURL<Page> = ({ doc }) => {
 }
 const generateImage: GenerateImage<Page> = ({ doc }) => {
   if (typeof doc.meta?.metadata?.image === 'object' && doc.meta?.metadata?.image) {
-    return doc.meta.metadata.image.url || '/flowers-sign.webp'
+    return doc.meta.metadata.image.url || '/golf-hero.jpg'
   }
-  return '/flowers-sign.webp'
+  return '/golf-hero.jpg'
 }
 
 export default buildConfig({
@@ -73,7 +74,7 @@ export default buildConfig({
     },
     meta: {
       icons: [{ url: '/favicon.ico' }],
-      titleSuffix: ' - BASES',
+      titleSuffix: ' | CVX Junior Golf',
     },
     user: Users.slug,
     livePreview: {
@@ -140,12 +141,13 @@ export default buildConfig({
       url: process.env.LOCAL_DATABASE_URL || process.env.TURSO_DATABASE_URL!,
       authToken: process.env.LOCAL_DATABASE_URL ? undefined : process.env.TURSO_AUTH_TOKEN,
     },
-    push: false,
+    push: true,
     // logger: true,
   }),
   collections: [
     Pages,
-    Schedules,
+    Events,
+    Resources,
     Avatars,
     Cards,
     Landcapes,

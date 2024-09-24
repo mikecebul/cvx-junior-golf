@@ -18,8 +18,10 @@ import {
 import { AboutUs } from '@/blocks/AboutUs/config'
 import { Links } from '@/blocks/Links/config'
 import { superAdmin } from '@/access/superAdmin'
-import { schedule } from '@/blocks/Schedule/config'
+import { Events } from '@/blocks/Events/config'
 import { howItWorks } from '@/blocks/HowItWorks/config'
+import { History } from '@/blocks/History/config'
+import { Resources } from '@/blocks/Resources/config'
 
 export const Pages: CollectionConfig = {
   slug: 'pages',
@@ -58,7 +60,7 @@ export const Pages: CollectionConfig = {
             {
               name: 'layout',
               type: 'blocks',
-              blocks: [Hero, schedule, howItWorks, AboutUs, Links],
+              blocks: [Hero, Events, howItWorks, History, Resources, AboutUs, Links],
               required: true,
             },
           ],

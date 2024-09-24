@@ -169,7 +169,7 @@ export async function Footer() {
           <span className="block text-sm text-center text-gray-500">
             © {new Date().getFullYear()}{' '}
             <Link href="/" className={cn(buttonVariants({ variant: 'ghost' }), 'p-0')}>
-              BASES
+              CVX Junior Golf
             </Link>
             . All Rights Reserved.
           </span>

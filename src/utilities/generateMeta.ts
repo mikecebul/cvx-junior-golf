@@ -14,7 +14,7 @@ export const generateMeta = async (args: { doc: Page }): Promise<Metadata> => {
       ? process.env.S3_ENABLED === 'true'
         ? doc.meta.metadata.image.url
         : `${process.env.NEXT_PUBLIC_SERVER_URL}${doc.meta.metadata.image.url}`
-      : '/flowers-sign.webp'
+      : '/golf-hero.jpg'
 
   const title = doc?.meta?.metadata?.title ? doc.meta.metadata.title + ' | CVX Junior Golf' : 'CVX Junior Golf'
 
