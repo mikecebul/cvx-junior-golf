@@ -81,7 +81,16 @@ export interface UserAuthOperations {
 export interface Page {
   id: number;
   title: string;
-  layout: (Hero | EventsBlock | HowItWorksBlock | HistoryBlock | ResourcesBlock | AboutUsBlock | LinksBlock)[];
+  layout: (
+    | Hero
+    | EventsBlock
+    | HowItWorksBlock
+    | HistoryBlock
+    | ResourcesBlock
+    | RichTextBlock
+    | LinksBlock
+    | EventsPageBlock
+  )[];
   meta?: {
     hideFromSearchEngines?: boolean | null;
     metadata?: {
@@ -144,6 +153,7 @@ export interface Hero {
  */
 export interface File {
   id: number;
+  prefix?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -163,6 +173,7 @@ export interface File {
 export interface Landscape {
   id: number;
   alt: string;
+  prefix?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -340,9 +351,9 @@ export interface Resource {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "AboutUsBlock".
+ * via the `definition` "RichTextBlock".
  */
-export interface AboutUsBlock {
+export interface RichTextBlock {
   subtitle?: string | null;
   richContent?: {
     root: {
@@ -362,7 +373,7 @@ export interface AboutUsBlock {
   images?: (number | Landscape)[] | null;
   id?: string | null;
   blockName?: string | null;
-  blockType: 'aboutUs';
+  blockType: 'richText';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -382,6 +393,7 @@ export interface LinksBlock {
 export interface Card {
   id: number;
   alt: string;
+  prefix?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -406,11 +418,30 @@ export interface Card {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "EventsPageBlock".
+ */
+export interface EventsPageBlock {
+  title?: string | null;
+  events?: (number | Event)[] | null;
+  announcements?:
+    | {
+        title?: string | null;
+        description?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'eventsPage';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "meta-images".
  */
 export interface MetaImage {
   id: number;
   alt: string;
+  prefix?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -440,6 +471,7 @@ export interface MetaImage {
 export interface Avatar {
   id: number;
   alt: string;
+  prefix?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -469,6 +501,7 @@ export interface Avatar {
 export interface Portrait {
   id: number;
   alt: string;
+  prefix?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;

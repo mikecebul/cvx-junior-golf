@@ -6,7 +6,7 @@ import Fade from 'embla-carousel-fade'
 import Image from 'next/image'
 import { Landscape } from '@/payload-types'
 
-export default function AboutUsCarousel({ images }: { images: Landscape[] }) {
+export default function RichTextCarousel({ images }: { images: Landscape[] }) {
   if (!images) return null
 
   return (

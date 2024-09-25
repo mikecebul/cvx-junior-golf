@@ -23,7 +23,7 @@ export const LinksBlock = ({ hero, linkCards }: LinksBlockType) => {
       {!!linkCards && linkCards.length > 0 && (
         <MotionStaggerChildren>
           <CardGrid>
-            {linkCards.map((card, index) => (
+            {linkCards.map((card) => (
               <MotionStaggeredChild key={card.id}>
                 {card.linkType === 'video' && <VideoCard card={card} />}
                 {card.linkType === 'link' && <LinkCard card={card} />}

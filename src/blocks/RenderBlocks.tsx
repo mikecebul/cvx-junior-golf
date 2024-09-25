@@ -3,20 +3,23 @@ import React, { FC, Fragment } from 'react'
 import type { Page } from '@/payload-types'
 
 import { HeroBlock } from '@/blocks/Hero/Component'
-import { AboutUsBlock } from './AboutUs/Component'
 import { LinksBlock } from './Links/Component'
 import HowItWorksBlock from './HowItWorks/Component'
 import { HistoryBlock } from './History/Component'
-import { EventsBlock } from './Events/Component'
+import { EventsBlock } from './EventsBlock/Component'
 import { ResourcesBlock } from './Resources/Component'
+import { RichTextBlock } from './RichText/Component'
+import { EventsPageBlock } from './EventsPage/Component'
+
 const blockComponents = {
   hero: HeroBlock,
-  aboutUs: AboutUsBlock,
+  richText: RichTextBlock,
   linksBlock: LinksBlock,
   events: EventsBlock,
   howItWorks: HowItWorksBlock,
   history: HistoryBlock,
   resources: ResourcesBlock,
+  eventsPage: EventsPageBlock,
 }
 
 export const RenderBlocks: React.FC<{
