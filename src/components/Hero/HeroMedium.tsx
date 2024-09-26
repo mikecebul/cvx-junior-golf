@@ -1,4 +1,5 @@
 import { Hero } from '@/payload-types'
+import { cn } from '@/utilities/cn'
 
 export function HeroMedium(props: Hero['mediumImpact']) {
   const { subtitle, title, description } = props || {}
@@ -16,15 +17,25 @@ export const Subtitle = ({ text }: { text: string }) => {
     <h3 className="text-base font-semibold leading-7 capitalize text-brand max-w-prose">{text}</h3>
   )
 }
-export const Title = ({ text }: { text: string }) => {
-  return (
-    <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-gray-900 capitalize text-pretty max-w-prose">
-      {text}
-    </h2>
-  )
+export const Title = ({ text, className, heading = 'h2' }: { text: string, className?: string, heading?: 'h1' | 'h2' }) => {
+  const Heading = heading;
+  if (heading === 'h1') {
+    return (
+      <Heading className={cn("text-7xl font-extrabold tracking-tight capitalize text-pretty max-w-prose", className)}>
+        {text}
+      </Heading>
+    )
+  }
+  if (heading === 'h2') {
+    return (
+      <Heading className={cn("text-5xl font-extrabold tracking-tight capitalize text-pretty max-w-prose", className)}>
+        {text}
+      </Heading>
+    )
+  }
 }
-export const Description = ({ text }: { text: string }) => {
+export const Description = ({ text, className }: { text: string, className?: string }) => {
   return (
-    <p className="pt-4 text-lg leading-7 text-muted-foreground max-w-prose text-pretty">{text}</p>
+    <p className={cn("pt-4 text-lg leading-7 text-muted-foreground max-w-prose text-pretty", className)}>{text}</p>
   )
 }

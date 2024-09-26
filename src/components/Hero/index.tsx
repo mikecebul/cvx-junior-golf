@@ -2,6 +2,8 @@ import Image from 'next/image'
 import type { CompanyInfo, Hero as HeroType } from '@/payload-types'
 import { CMSLink } from '../Link'
 import { getCachedGlobal } from '@/utilities/getGlobals'
+import { Title } from './HeroMedium'
+import Container from '../Container'
 
 type Props = NonNullable<HeroType['highImpact']>
 
@@ -11,26 +13,25 @@ export async function Hero({ title, description, image, links }: Props) {
   const cleanedPhone = contact?.phone ? contact?.phone.replace(/\D/g, '') : null
 
   return (
-    <section className="grid lg:gap-8 lg:grid-cols-12 2xl:px-0 2xl:container">
-      <div className="flex flex-col mr-auto lg:col-span-6 justify-center">
-        <h1 className="max-w-2xl pb-4 text-3xl font-extrabold tracking-tight sm:text-4xl lg:pb-8 xl:text-6xl 2xl:text-7xl">
-          {title}
-        </h1>
-        <p className="max-w-xl pb-8 text-lg text-muted-foreground">{description}</p>
-        <div className="flex flex-col space-y-4 md:mr-4 xl:flex-row xl:space-x-0 xl:items-start">
+    <div className="grid lg:grid-cols-2 gap-8">
+      <div className="flex flex-col mr-auto col-span-1 justify-center gap-8">
+        <div className="flex flex-col gap-4">
+          {title && <Title heading="h1" text={title} className="font-extrabold tracking-tight text-7xl" />}
+          <p className="max-w-xl text-lg text-muted-foreground">{description}</p>
+        </div>
+        <div className="flex gap-4 flex-wrap">
           {links != null &&
             links.map(({ link, id }, index) => (
               <CMSLink
                 key={id}
                 {...link}
                 size="xl"
-                appearance={index === 0 ? 'brand' : link.appearance}
-                className="min-w-full rounded-lg xl:flex lg:min-w-64"
+                appearance={link.appearance === 'default' ? 'brand' : 'brandOutline'}
               />
             ))}
         </div>
       </div>
-      <div className="relative hidden lg:mt-0 lg:col-span-6 lg:flex">
+      <div className="relative hidden col-span-1 lg:flex lg:justify-center lg:items-center">
         {image != null && typeof image === 'object' && (
           <>
             <Image
@@ -45,7 +46,7 @@ export async function Hero({ title, description, image, links }: Props) {
           </>
         )}
       </div>
-    </section>
+    </div>
   )
 }
 

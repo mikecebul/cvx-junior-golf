@@ -10,6 +10,7 @@ import { EventsBlock } from './EventsBlock/Component'
 import { ResourcesBlock } from './Resources/Component'
 import { RichTextBlock } from './RichText/Component'
 import { EventsPageBlock } from './EventsPage/Component'
+import { DonateBlock } from './Donate/Component'
 
 const blockComponents = {
   hero: HeroBlock,
@@ -20,10 +21,11 @@ const blockComponents = {
   history: HistoryBlock,
   resources: ResourcesBlock,
   eventsPage: EventsPageBlock,
+  donate: DonateBlock,
 }
 
 export const RenderBlocks: React.FC<{
-  blocks: Page['layout'][0][]
+  blocks: Page['layout'][number][]
 }> = (props) => {
   const { blocks } = props
 
@@ -40,7 +42,7 @@ export const RenderBlocks: React.FC<{
 
             if (Block) {
               return (
-                <div className="" key={index}>
+                <div key={index}>
                   <Block {...(block as any)} />
                 </div>
               )

@@ -87,6 +87,7 @@ export interface Page {
     | HowItWorksBlock
     | HistoryBlock
     | ResourcesBlock
+    | DonateBlock
     | RichTextBlock
     | LinksBlock
     | EventsPageBlock
@@ -348,6 +349,34 @@ export interface Resource {
     | null;
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "DonateBlock".
+ */
+export interface DonateBlock {
+  title?: string | null;
+  description?: string | null;
+  link: {
+    type?: ('reference' | 'custom') | null;
+    newTab?: boolean | null;
+    reference?:
+      | ({
+          relationTo: 'pages';
+          value: number | Page;
+        } | null)
+      | ({
+          relationTo: 'files';
+          value: number | File;
+        } | null);
+    url?: string | null;
+    label: string;
+    appearance?: ('default' | 'outline') | null;
+  };
+  image?: (number | null) | Landscape;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'donate';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

@@ -36,11 +36,6 @@ export default async function Page({ params: { slug = 'home' } }) {
     slug,
   })
 
-  // Remove this code once your website is seeded
-  // if (!page) {
-  //   page = homeStatic
-  // }
-
   if (!page) {
     return <PayloadRedirects url={url} />
   }
@@ -48,7 +43,7 @@ export default async function Page({ params: { slug = 'home' } }) {
   const { layout } = page
 
   return (
-    <main className="">
+    <main>
       {/* Allows redirects for valid pages too */}
       <PayloadRedirects disableNotFound url={url} />
       <RenderBlocks blocks={layout} />

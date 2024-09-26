@@ -23,6 +23,7 @@ import { History } from '@/blocks/History/config'
 import { Resources } from '@/blocks/Resources/config'
 import { RichText } from '@/blocks/RichText/config'
 import { EventsPage } from '@/blocks/EventsPage/config'
+import { Donate } from '@/blocks/Donate/config'
 
 export const Pages: CollectionConfig = {
   slug: 'pages',
@@ -61,7 +62,7 @@ export const Pages: CollectionConfig = {
             {
               name: 'layout',
               type: 'blocks',
-              blocks: [Hero, Events, howItWorks, History, Resources, RichText, Links, EventsPage],
+              blocks: [Hero, Events, howItWorks, History, Resources, Donate, RichText, Links, EventsPage],
               required: true,
             },
           ],
