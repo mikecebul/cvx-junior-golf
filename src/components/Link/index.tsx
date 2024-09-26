@@ -67,7 +67,9 @@ export const CMSLink: React.FC<CMSLinkType> = (props) => {
   return (
     <Button
       asChild
-      className={cn("min-w-full sm:min-w-64", className)}
+      className={cn("min-w-full sm:min-w-64", {
+        "min-w-0 sm:min-w-0": appearance === "nav"
+      }, className)}
       size={size}
       variant={appearance}
       onClick={onClick as React.MouseEventHandler<HTMLButtonElement>}
