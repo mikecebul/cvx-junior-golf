@@ -4,9 +4,11 @@ import { cn } from '@/utilities/cn'
 export function HeroMedium(props: Hero['mediumImpact']) {
   const { subtitle, title, description } = props || {}
   return (
-    <div className="mx-auto flex flex-col justify-center max-w-prose text-left text-pretty lg:text-center pb-16">
-      {!!subtitle && <Subtitle text={subtitle} />}
-      {!!title && <Title text={title} />}
+    <div className="mx-auto flex flex-col justify-center max-w-prose text-left text-pretty lg:text-center gap-4">
+      <div>
+        {!!subtitle && <Subtitle text={subtitle} />}
+        {!!title && <Title text={title} />}
+      </div>
       {!!description && <Description text={description} />}
     </div>
   )
@@ -17,25 +19,44 @@ export const Subtitle = ({ text }: { text: string }) => {
     <h3 className="text-base font-semibold leading-7 capitalize text-brand max-w-prose">{text}</h3>
   )
 }
-export const Title = ({ text, className, heading = 'h2' }: { text: string, className?: string, heading?: 'h1' | 'h2' }) => {
-  const Heading = heading;
+export const Title = ({
+  text,
+  className,
+  heading = 'h2',
+}: {
+  text: string
+  className?: string
+  heading?: 'h1' | 'h2'
+}) => {
   if (heading === 'h1') {
     return (
-      <Heading className={cn("text-7xl font-extrabold tracking-tight capitalize text-pretty max-w-prose", className)}>
+      <h1
+        className={cn(
+          'text-6xl md:text-7xl font-extrabold tracking-tight capitalize text-pretty max-w-prose',
+          className,
+        )}
+      >
         {text}
-      </Heading>
+      </h1>
     )
   }
   if (heading === 'h2') {
     return (
-      <Heading className={cn("text-5xl font-extrabold tracking-tight capitalize text-pretty max-w-prose", className)}>
+      <h2
+        className={cn(
+          'text-5xl font-bold tracking-tight capitalize text-pretty max-w-prose',
+          className,
+        )}
+      >
         {text}
-      </Heading>
+      </h2>
     )
   }
 }
-export const Description = ({ text, className }: { text: string, className?: string }) => {
+export const Description = ({ text, className }: { text: string; className?: string }) => {
   return (
-    <p className={cn("pt-4 text-lg leading-7 text-muted-foreground max-w-prose text-pretty", className)}>{text}</p>
+    <p className={cn('text-lg leading-7 text-muted-foreground max-w-prose text-pretty', className)}>
+      {text}
+    </p>
   )
 }

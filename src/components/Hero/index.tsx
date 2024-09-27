@@ -8,15 +8,11 @@ import Container from '../Container'
 type Props = NonNullable<HeroType['highImpact']>
 
 export async function Hero({ title, description, image, links }: Props) {
-  const companyInfo: CompanyInfo = await getCachedGlobal('company-info')()
-  const { contact } = companyInfo
-  const cleanedPhone = contact?.phone ? contact?.phone.replace(/\D/g, '') : null
-
   return (
     <div className="grid lg:grid-cols-2 gap-8">
       <div className="flex flex-col mr-auto col-span-1 justify-center gap-8">
         <div className="flex flex-col gap-4">
-          {title && <Title heading="h1" text={title} className="font-extrabold tracking-tight text-7xl" />}
+          {title && <Title heading="h1" text={title} className="" />}
           <p className="max-w-xl text-lg text-muted-foreground">{description}</p>
         </div>
         <div className="flex gap-4 flex-wrap">
