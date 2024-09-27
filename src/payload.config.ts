@@ -1,6 +1,7 @@
 import { sqliteAdapter } from '@payloadcms/db-sqlite'
 import { resendAdapter } from '@payloadcms/email-resend'
 
+import { stripePlugin } from '@payloadcms/plugin-stripe'
 import { redirectsPlugin } from '@payloadcms/plugin-redirects'
 import { formBuilderPlugin } from '@payloadcms/plugin-form-builder'
 import { seoPlugin } from '@payloadcms/plugin-seo'
@@ -39,6 +40,8 @@ import { superAdmin } from './access/superAdmin'
 import { MetaImages } from './collections/MetaImages'
 import { Events } from './collections/Events'
 import { Resources } from './collections/Resources'
+import { createCheckoutSession } from './endpoints/create-checkout-session'
+import { checkoutSessionCompleted } from './plugins/Stripe/WebHooks/updateFormSubmission'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -164,9 +167,24 @@ export default buildConfig({
     defaultFromName: 'BASES Admin',
     apiKey: process.env.RESEND_API_KEY || '',
   }),
-  endpoints: [],
+  endpoints: [
+    {
+      handler: createCheckoutSession,
+      method: 'post',
+      path: '/create-checkout-session',
+    },],
   globals: [Header, Footer, CompanyInfo],
   plugins: [
+    stripePlugin({
+      isTestKey: Boolean(process.env.PAYLOAD_PUBLIC_STRIPE_IS_TEST_KEY),
+      logs: true,
+      rest: false,
+      stripeSecretKey: process.env.STRIPE_SECRET_KEY || '',
+      stripeWebhooksEndpointSecret: process.env.STRIPE_WEBHOOKS_SIGNING_SECRET,
+      webhooks: {
+        'checkout.session.completed': checkoutSessionCompleted,
+      },
+    }),
     redirectsPlugin({
       collections: ['pages'],
       overrides: {
@@ -198,7 +216,14 @@ export default buildConfig({
     }),
     formBuilderPlugin({
       fields: {
-        payment: false,
+        payment: {
+          paymentProcessor: {
+            options: [
+              { label: 'Stripe', value: 'stripe' },
+            ],
+            defaultValue: 'stripe',
+          },
+        },
       },
       formOverrides: {
         fields: ({ defaultFields }) => {

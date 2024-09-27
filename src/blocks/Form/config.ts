@@ -40,10 +40,25 @@ export const FormBlock: Block = {
       }),
       label: 'Intro Content',
     },
+    {
+      name: 'enableStripe',
+      type: 'checkbox',
+      label: 'Enable Stripe',
+      defaultValue: false,
+    },
+    {
+      name: 'paymentStatus',
+      type: 'select',
+      label: 'Payment Status',
+      options: ['pending', 'paid', 'failed'],
+      defaultValue: 'pending',
+      required: true,
+      admin: {
+        hidden: true,
+        condition: (_, { enableStripe }) => Boolean(enableStripe),
+      },
+    },
   ],
-  graphQL: {
-    singularName: 'FormBlock',
-  },
   labels: {
     plural: 'Form Blocks',
     singular: 'Form Block',

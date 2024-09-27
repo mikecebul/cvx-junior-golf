@@ -29,6 +29,8 @@ export type FormBlockType = {
   introContent?: {
     [k: string]: unknown
   }[]
+  enableStripe: boolean
+  paymentStatus?: 'pending' | 'paid' | 'failed'
 }
 
 export const FormBlock: React.FC<
@@ -40,6 +42,8 @@ export const FormBlock: React.FC<
     enableIntro,
     form: formFromProps,
     form: { id: formID, confirmationMessage, confirmationType, redirect, submitButtonLabel } = {},
+    enableStripe,
+    paymentStatus,
     introContent,
   } = props
 
@@ -78,6 +82,7 @@ export const FormBlock: React.FC<
           const req = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/form-submissions`, {
             body: JSON.stringify({
               form: formID,
+              paymentStatus: paymentStatus,
               submissionData: dataToSend,
             }),
             headers: {
@@ -101,8 +106,39 @@ export const FormBlock: React.FC<
             return
           }
 
+          const { doc: formSubmission } = res
+          // Store the submission ID
+          const submissionId = formSubmission.id // Adjust this based on your API response structure
+          if (!submissionId) {
+            console.error('No submission ID received from the server')
+            setError({
+              message: 'Failed to get submission ID',
+              status: 'error',
+            })
+            return
+          }
+
+          console.log('Form submission successful. Submission ID:', submissionId)
+
           setIsLoading(false)
           setHasSubmitted(true)
+
+          if (enableStripe && submissionId) {
+            const session = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/create-checkout-session`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                form: submissionId,
+                paymentStatus: paymentStatus,
+              }),
+            })
+
+            const sessionData = await session.json()
+            console.log('Session Data', sessionData)
+            router.push(sessionData.url)
+          }
 
           if (confirmationType === 'redirect' && redirect) {
             const { url } = redirect
@@ -122,7 +158,7 @@ export const FormBlock: React.FC<
 
       void submitForm()
     },
-    [router, formID, redirect, confirmationType],
+    [router, formID, redirect, confirmationType, paymentStatus, enableStripe],
   )
 
   return (

@@ -488,6 +488,8 @@ export interface FormBlock {
     };
     [k: string]: unknown;
   } | null;
+  enableStripe?: boolean | null;
+  paymentStatus?: ('pending' | 'paid' | 'failed') | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'formBlock';
@@ -558,6 +560,28 @@ export interface Form {
             id?: string | null;
             blockName?: string | null;
             blockType: 'number';
+          }
+        | {
+            name: string;
+            label?: string | null;
+            width?: number | null;
+            basePrice?: number | null;
+            paymentProcessor?: 'stripe' | null;
+            priceConditions?:
+              | {
+                  fieldToUse?: string | null;
+                  condition?: ('hasValue' | 'equals' | 'notEquals') | null;
+                  valueForCondition?: string | null;
+                  operator?: ('add' | 'subtract' | 'multiply' | 'divide') | null;
+                  valueType?: ('static' | 'valueOfField') | null;
+                  valueForOperator?: string | null;
+                  id?: string | null;
+                }[]
+              | null;
+            required?: boolean | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'payment';
           }
         | {
             name: string;
@@ -797,6 +821,17 @@ export interface FormSubmission {
         id?: string | null;
       }[]
     | null;
+  payment?: {
+    field?: string | null;
+    status?: string | null;
+    amount?: number | null;
+    paymentProcessor?: string | null;
+    creditCard?: {
+      token?: string | null;
+      brand?: string | null;
+      number?: string | null;
+    };
+  };
   updatedAt: string;
   createdAt: string;
 }

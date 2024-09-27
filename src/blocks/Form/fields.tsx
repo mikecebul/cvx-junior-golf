@@ -3,6 +3,7 @@ import { Country } from './Country'
 import { Email } from './Email'
 import { Message } from './Message'
 import { Number } from './Number'
+import { Payment } from './Payment'
 import { Select } from './Select'
 import { State } from './State'
 import { Text } from './Text'
@@ -18,4 +19,5 @@ export const fields = {
   state: State,
   text: Text,
   textarea: Textarea,
+  payment: Payment,
 }

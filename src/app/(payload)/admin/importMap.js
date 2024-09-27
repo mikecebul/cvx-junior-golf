@@ -19,10 +19,12 @@ import { PreviewComponent as PreviewComponent_17 } from '@payloadcms/plugin-seo/
 import { SlugComponent as SlugComponent_18 } from '@/fields/slug/SlugComponent'
 import { default as default_19 } from '@/collections/Users/RoleCell'
 import { default as default_20 } from '@/collections/Users/RoleSelect'
-import { default as default_21 } from '@/globals/CompanyInfo/SocialRowLabel'
-import { default as default_22 } from '@/globals/CompanyInfo/HoursRowLabel'
-import { default as default_23 } from '@/graphics/Icon'
-import { default as default_24 } from '@/graphics/Logo'
+import { DynamicFieldSelector as DynamicFieldSelector_21 } from '@payloadcms/plugin-form-builder/client'
+import { DynamicPriceSelector as DynamicPriceSelector_22 } from '@payloadcms/plugin-form-builder/client'
+import { default as default_23 } from '@/globals/CompanyInfo/SocialRowLabel'
+import { default as default_24 } from '@/globals/CompanyInfo/HoursRowLabel'
+import { default as default_25 } from '@/graphics/Icon'
+import { default as default_26 } from '@/graphics/Logo'
 
 export const importMap = {
   "@/fields/link/LinkRowLabel#default": default_0,
@@ -46,8 +48,10 @@ export const importMap = {
   "@/fields/slug/SlugComponent#SlugComponent": SlugComponent_18,
   "@/collections/Users/RoleCell#default": default_19,
   "@/collections/Users/RoleSelect#default": default_20,
-  "@/globals/CompanyInfo/SocialRowLabel#default": default_21,
-  "@/globals/CompanyInfo/HoursRowLabel#default": default_22,
-  "@/graphics/Icon#default": default_23,
-  "@/graphics/Logo#default": default_24
+  "@payloadcms/plugin-form-builder/client#DynamicFieldSelector": DynamicFieldSelector_21,
+  "@payloadcms/plugin-form-builder/client#DynamicPriceSelector": DynamicPriceSelector_22,
+  "@/globals/CompanyInfo/SocialRowLabel#default": default_23,
+  "@/globals/CompanyInfo/HoursRowLabel#default": default_24,
+  "@/graphics/Icon#default": default_25,
+  "@/graphics/Logo#default": default_26
 }
