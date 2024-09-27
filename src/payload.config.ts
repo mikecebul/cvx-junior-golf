@@ -2,6 +2,7 @@ import { sqliteAdapter } from '@payloadcms/db-sqlite'
 import { resendAdapter } from '@payloadcms/email-resend'
 
 import { redirectsPlugin } from '@payloadcms/plugin-redirects'
+import { formBuilderPlugin } from '@payloadcms/plugin-form-builder'
 import { seoPlugin } from '@payloadcms/plugin-seo'
 import { s3Storage as s3StoragePlugin } from '@payloadcms/storage-s3'
 import { S3_PLUGIN_CONFIG } from './plugins/s3'
@@ -163,8 +164,7 @@ export default buildConfig({
     defaultFromName: 'BASES Admin',
     apiKey: process.env.RESEND_API_KEY || '',
   }),
-  endpoints: [
-  ],
+  endpoints: [],
   globals: [Header, Footer, CompanyInfo],
   plugins: [
     redirectsPlugin({
@@ -193,6 +193,32 @@ export default buildConfig({
         },
         hooks: {
           afterChange: [revalidateRedirects],
+        },
+      },
+    }),
+    formBuilderPlugin({
+      fields: {
+        payment: false,
+      },
+      formOverrides: {
+        fields: ({ defaultFields }) => {
+          return defaultFields.map((field) => {
+            if ('name' in field && field.name === 'confirmationMessage') {
+              return {
+                ...field,
+                editor: lexicalEditor({
+                  features: ({ rootFeatures }) => {
+                    return [
+                      ...rootFeatures,
+                      FixedToolbarFeature(),
+                      HeadingFeature({ enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4'] }),
+                    ]
+                  },
+                }),
+              }
+            }
+            return field
+          })
         },
       },
     }),
