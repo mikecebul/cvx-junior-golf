@@ -1,10 +1,18 @@
 import { MigrateUpArgs, MigrateDownArgs, sql } from '@payloadcms/db-sqlite'
 
 export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
-  await payload.db.drizzle.run(sql`DROP TABLE \`forms_blocks_payment_price_conditions\`;`)
-  await payload.db.drizzle.run(sql`DROP TABLE \`forms_blocks_payment\`;`)
-  await payload.db.drizzle.run(sql`DROP TABLE \`events\`;`)
-  await payload.db.drizzle.run(sql`DROP TABLE \`forms\`;`)
+  // Check if tables exist before dropping
+  const tables = [
+    'forms_blocks_payment_price_conditions',
+    'forms_blocks_payment',
+    'events',
+    'forms',
+  ]
+  for (const table of tables) {
+    await payload.db.drizzle.run(sql`
+      DROP TABLE IF EXISTS \`${sql.raw(table)}\`;
+    `)
+  }
 
   await payload.db.drizzle.run(
     sql`ALTER TABLE \`pages_blocks_form_block\` DROP COLUMN \`enable_stripe\`;`,
@@ -34,14 +42,14 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
 
   // Recreate events table
   await payload.db.drizzle.run(sql`
-    CREATE TABLE \`events\` (
+    CREATE TABLE IF NOT EXISTS \`events\` (
       \`id\` integer PRIMARY KEY NOT NULL,
       \`title\` text NOT NULL,
       \`date\` text NOT NULL,
       \`location\` text NOT NULL,
       \`price\` numeric,
-      \`updated_at\` text NOT NULL DEFAULT (strftime(\'%Y-%m-%dT%H:%M:%fZ\', \'now\')),
-      \`created_at\` text NOT NULL DEFAULT (strftime(\'%Y-%m-%dT%H:%M:%fZ\', \'now\'))
+      \`updated_at\` text NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
+      \`created_at\` text NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
     );
   `)
 
@@ -64,8 +72,8 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
       \`email_confirmation_field\` text,
       \`email_confirmation_subject\` text,
       \`email_confirmation_message\` text,
-      \`updated_at\` text NOT NULL DEFAULT (strftime(\'%Y-%m-%dT%H:%M:%fZ\', \'now\')),
-      \`created_at\` text NOT NULL DEFAULT (strftime(\'%Y-%m-%dT%H:%M:%fZ\', \'now\')),
+      \`updated_at\` text NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
+      \`created_at\` text NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
       FOREIGN KEY (\`event_id\`) REFERENCES \`events\` (\`id\`) ON DELETE set null ON UPDATE no action
     );
   `)
