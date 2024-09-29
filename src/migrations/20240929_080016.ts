@@ -111,12 +111,30 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`pages\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await payload.db.drizzle.run(sql`CREATE TABLE \`pages_blocks_about_us\` (
+  await payload.db.drizzle.run(sql`CREATE TABLE \`pages_blocks_donate\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`_path\` text NOT NULL,
   	\`id\` text PRIMARY KEY NOT NULL,
-  	\`subtitle\` text DEFAULT 'Where it started & where we''re going',
+  	\`title\` text,
+  	\`description\` text,
+  	\`link_type\` text DEFAULT 'reference',
+  	\`link_new_tab\` integer,
+  	\`link_url\` text,
+  	\`link_label\` text,
+  	\`link_appearance\` text DEFAULT 'default',
+  	\`image_id\` integer,
+  	\`block_name\` text,
+  	FOREIGN KEY (\`image_id\`) REFERENCES \`landscapes\`(\`id\`) ON UPDATE no action ON DELETE set null,
+  	FOREIGN KEY (\`_parent_id\`) REFERENCES \`pages\`(\`id\`) ON UPDATE no action ON DELETE cascade
+  );
+  `)
+  await payload.db.drizzle.run(sql`CREATE TABLE \`pages_blocks_rich_text\` (
+  	\`_order\` integer NOT NULL,
+  	\`_parent_id\` integer NOT NULL,
+  	\`_path\` text NOT NULL,
+  	\`id\` text PRIMARY KEY NOT NULL,
+  	\`subtitle\` text,
   	\`rich_content\` text,
   	\`block_name\` text,
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`pages\`(\`id\`) ON UPDATE no action ON DELETE cascade
@@ -143,6 +161,38 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   	\`_path\` text NOT NULL,
   	\`id\` text PRIMARY KEY NOT NULL,
   	\`block_name\` text,
+  	FOREIGN KEY (\`_parent_id\`) REFERENCES \`pages\`(\`id\`) ON UPDATE no action ON DELETE cascade
+  );
+  `)
+  await payload.db.drizzle.run(sql`CREATE TABLE \`pages_blocks_events_page_announcements\` (
+  	\`_order\` integer NOT NULL,
+  	\`_parent_id\` text NOT NULL,
+  	\`id\` text PRIMARY KEY NOT NULL,
+  	\`title\` text,
+  	\`description\` text,
+  	FOREIGN KEY (\`_parent_id\`) REFERENCES \`pages_blocks_events_page\`(\`id\`) ON UPDATE no action ON DELETE cascade
+  );
+  `)
+  await payload.db.drizzle.run(sql`CREATE TABLE \`pages_blocks_events_page\` (
+  	\`_order\` integer NOT NULL,
+  	\`_parent_id\` integer NOT NULL,
+  	\`_path\` text NOT NULL,
+  	\`id\` text PRIMARY KEY NOT NULL,
+  	\`title\` text,
+  	\`block_name\` text,
+  	FOREIGN KEY (\`_parent_id\`) REFERENCES \`pages\`(\`id\`) ON UPDATE no action ON DELETE cascade
+  );
+  `)
+  await payload.db.drizzle.run(sql`CREATE TABLE \`pages_blocks_form_block\` (
+  	\`_order\` integer NOT NULL,
+  	\`_parent_id\` integer NOT NULL,
+  	\`_path\` text NOT NULL,
+  	\`id\` text PRIMARY KEY NOT NULL,
+  	\`form_id\` integer,
+  	\`enable_intro\` integer,
+  	\`intro_content\` text,
+  	\`block_name\` text,
+  	FOREIGN KEY (\`form_id\`) REFERENCES \`forms\`(\`id\`) ON UPDATE no action ON DELETE set null,
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`pages\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
@@ -298,12 +348,31 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_pages_v\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await payload.db.drizzle.run(sql`CREATE TABLE \`_pages_v_blocks_about_us\` (
+  await payload.db.drizzle.run(sql`CREATE TABLE \`_pages_v_blocks_donate\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
   	\`_path\` text NOT NULL,
   	\`id\` integer PRIMARY KEY NOT NULL,
-  	\`subtitle\` text DEFAULT 'Where it started & where we''re going',
+  	\`title\` text,
+  	\`description\` text,
+  	\`link_type\` text DEFAULT 'reference',
+  	\`link_new_tab\` integer,
+  	\`link_url\` text,
+  	\`link_label\` text,
+  	\`link_appearance\` text DEFAULT 'default',
+  	\`image_id\` integer,
+  	\`_uuid\` text,
+  	\`block_name\` text,
+  	FOREIGN KEY (\`image_id\`) REFERENCES \`landscapes\`(\`id\`) ON UPDATE no action ON DELETE set null,
+  	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_pages_v\`(\`id\`) ON UPDATE no action ON DELETE cascade
+  );
+  `)
+  await payload.db.drizzle.run(sql`CREATE TABLE \`_pages_v_blocks_rich_text\` (
+  	\`_order\` integer NOT NULL,
+  	\`_parent_id\` integer NOT NULL,
+  	\`_path\` text NOT NULL,
+  	\`id\` integer PRIMARY KEY NOT NULL,
+  	\`subtitle\` text,
   	\`rich_content\` text,
   	\`_uuid\` text,
   	\`block_name\` text,
@@ -333,6 +402,41 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   	\`id\` integer PRIMARY KEY NOT NULL,
   	\`_uuid\` text,
   	\`block_name\` text,
+  	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_pages_v\`(\`id\`) ON UPDATE no action ON DELETE cascade
+  );
+  `)
+  await payload.db.drizzle.run(sql`CREATE TABLE \`_pages_v_blocks_events_page_announcements\` (
+  	\`_order\` integer NOT NULL,
+  	\`_parent_id\` integer NOT NULL,
+  	\`id\` integer PRIMARY KEY NOT NULL,
+  	\`title\` text,
+  	\`description\` text,
+  	\`_uuid\` text,
+  	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_pages_v_blocks_events_page\`(\`id\`) ON UPDATE no action ON DELETE cascade
+  );
+  `)
+  await payload.db.drizzle.run(sql`CREATE TABLE \`_pages_v_blocks_events_page\` (
+  	\`_order\` integer NOT NULL,
+  	\`_parent_id\` integer NOT NULL,
+  	\`_path\` text NOT NULL,
+  	\`id\` integer PRIMARY KEY NOT NULL,
+  	\`title\` text,
+  	\`_uuid\` text,
+  	\`block_name\` text,
+  	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_pages_v\`(\`id\`) ON UPDATE no action ON DELETE cascade
+  );
+  `)
+  await payload.db.drizzle.run(sql`CREATE TABLE \`_pages_v_blocks_form_block\` (
+  	\`_order\` integer NOT NULL,
+  	\`_parent_id\` integer NOT NULL,
+  	\`_path\` text NOT NULL,
+  	\`id\` integer PRIMARY KEY NOT NULL,
+  	\`form_id\` integer,
+  	\`enable_intro\` integer,
+  	\`intro_content\` text,
+  	\`_uuid\` text,
+  	\`block_name\` text,
+  	FOREIGN KEY (\`form_id\`) REFERENCES \`forms\`(\`id\`) ON UPDATE no action ON DELETE set null,
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_pages_v\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
@@ -381,6 +485,7 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   	\`title\` text NOT NULL,
   	\`date\` text NOT NULL,
   	\`location\` text NOT NULL,
+  	\`price\` numeric,
   	\`updated_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
   	\`created_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL
   );
@@ -563,6 +668,181 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   	\`lock_until\` text
   );
   `)
+  await payload.db.drizzle.run(sql`CREATE TABLE \`forms_blocks_checkbox\` (
+  	\`_order\` integer NOT NULL,
+  	\`_parent_id\` integer NOT NULL,
+  	\`_path\` text NOT NULL,
+  	\`id\` text PRIMARY KEY NOT NULL,
+  	\`name\` text NOT NULL,
+  	\`label\` text,
+  	\`width\` numeric,
+  	\`required\` integer,
+  	\`default_value\` integer,
+  	\`block_name\` text,
+  	FOREIGN KEY (\`_parent_id\`) REFERENCES \`forms\`(\`id\`) ON UPDATE no action ON DELETE cascade
+  );
+  `)
+  await payload.db.drizzle.run(sql`CREATE TABLE \`forms_blocks_country\` (
+  	\`_order\` integer NOT NULL,
+  	\`_parent_id\` integer NOT NULL,
+  	\`_path\` text NOT NULL,
+  	\`id\` text PRIMARY KEY NOT NULL,
+  	\`name\` text NOT NULL,
+  	\`label\` text,
+  	\`width\` numeric,
+  	\`required\` integer,
+  	\`block_name\` text,
+  	FOREIGN KEY (\`_parent_id\`) REFERENCES \`forms\`(\`id\`) ON UPDATE no action ON DELETE cascade
+  );
+  `)
+  await payload.db.drizzle.run(sql`CREATE TABLE \`forms_blocks_email\` (
+  	\`_order\` integer NOT NULL,
+  	\`_parent_id\` integer NOT NULL,
+  	\`_path\` text NOT NULL,
+  	\`id\` text PRIMARY KEY NOT NULL,
+  	\`name\` text NOT NULL,
+  	\`label\` text,
+  	\`width\` numeric,
+  	\`required\` integer,
+  	\`block_name\` text,
+  	FOREIGN KEY (\`_parent_id\`) REFERENCES \`forms\`(\`id\`) ON UPDATE no action ON DELETE cascade
+  );
+  `)
+  await payload.db.drizzle.run(sql`CREATE TABLE \`forms_blocks_message\` (
+  	\`_order\` integer NOT NULL,
+  	\`_parent_id\` integer NOT NULL,
+  	\`_path\` text NOT NULL,
+  	\`id\` text PRIMARY KEY NOT NULL,
+  	\`message\` text,
+  	\`block_name\` text,
+  	FOREIGN KEY (\`_parent_id\`) REFERENCES \`forms\`(\`id\`) ON UPDATE no action ON DELETE cascade
+  );
+  `)
+  await payload.db.drizzle.run(sql`CREATE TABLE \`forms_blocks_number\` (
+  	\`_order\` integer NOT NULL,
+  	\`_parent_id\` integer NOT NULL,
+  	\`_path\` text NOT NULL,
+  	\`id\` text PRIMARY KEY NOT NULL,
+  	\`name\` text NOT NULL,
+  	\`label\` text,
+  	\`width\` numeric,
+  	\`default_value\` numeric,
+  	\`required\` integer,
+  	\`block_name\` text,
+  	FOREIGN KEY (\`_parent_id\`) REFERENCES \`forms\`(\`id\`) ON UPDATE no action ON DELETE cascade
+  );
+  `)
+  await payload.db.drizzle.run(sql`CREATE TABLE \`forms_blocks_select_options\` (
+  	\`_order\` integer NOT NULL,
+  	\`_parent_id\` text NOT NULL,
+  	\`id\` text PRIMARY KEY NOT NULL,
+  	\`label\` text NOT NULL,
+  	\`value\` text NOT NULL,
+  	FOREIGN KEY (\`_parent_id\`) REFERENCES \`forms_blocks_select\`(\`id\`) ON UPDATE no action ON DELETE cascade
+  );
+  `)
+  await payload.db.drizzle.run(sql`CREATE TABLE \`forms_blocks_select\` (
+  	\`_order\` integer NOT NULL,
+  	\`_parent_id\` integer NOT NULL,
+  	\`_path\` text NOT NULL,
+  	\`id\` text PRIMARY KEY NOT NULL,
+  	\`name\` text NOT NULL,
+  	\`label\` text,
+  	\`width\` numeric,
+  	\`default_value\` text,
+  	\`required\` integer,
+  	\`block_name\` text,
+  	FOREIGN KEY (\`_parent_id\`) REFERENCES \`forms\`(\`id\`) ON UPDATE no action ON DELETE cascade
+  );
+  `)
+  await payload.db.drizzle.run(sql`CREATE TABLE \`forms_blocks_state\` (
+  	\`_order\` integer NOT NULL,
+  	\`_parent_id\` integer NOT NULL,
+  	\`_path\` text NOT NULL,
+  	\`id\` text PRIMARY KEY NOT NULL,
+  	\`name\` text NOT NULL,
+  	\`label\` text,
+  	\`width\` numeric,
+  	\`required\` integer,
+  	\`block_name\` text,
+  	FOREIGN KEY (\`_parent_id\`) REFERENCES \`forms\`(\`id\`) ON UPDATE no action ON DELETE cascade
+  );
+  `)
+  await payload.db.drizzle.run(sql`CREATE TABLE \`forms_blocks_text\` (
+  	\`_order\` integer NOT NULL,
+  	\`_parent_id\` integer NOT NULL,
+  	\`_path\` text NOT NULL,
+  	\`id\` text PRIMARY KEY NOT NULL,
+  	\`name\` text NOT NULL,
+  	\`label\` text,
+  	\`width\` numeric,
+  	\`default_value\` text,
+  	\`required\` integer,
+  	\`block_name\` text,
+  	FOREIGN KEY (\`_parent_id\`) REFERENCES \`forms\`(\`id\`) ON UPDATE no action ON DELETE cascade
+  );
+  `)
+  await payload.db.drizzle.run(sql`CREATE TABLE \`forms_blocks_textarea\` (
+  	\`_order\` integer NOT NULL,
+  	\`_parent_id\` integer NOT NULL,
+  	\`_path\` text NOT NULL,
+  	\`id\` text PRIMARY KEY NOT NULL,
+  	\`name\` text NOT NULL,
+  	\`label\` text,
+  	\`width\` numeric,
+  	\`default_value\` text,
+  	\`required\` integer,
+  	\`block_name\` text,
+  	FOREIGN KEY (\`_parent_id\`) REFERENCES \`forms\`(\`id\`) ON UPDATE no action ON DELETE cascade
+  );
+  `)
+  await payload.db.drizzle.run(sql`CREATE TABLE \`forms_emails\` (
+  	\`_order\` integer NOT NULL,
+  	\`_parent_id\` integer NOT NULL,
+  	\`id\` text PRIMARY KEY NOT NULL,
+  	\`email_to\` text,
+  	\`cc\` text,
+  	\`bcc\` text,
+  	\`reply_to\` text,
+  	\`email_from\` text,
+  	\`subject\` text DEFAULT 'You''ve received a new message.' NOT NULL,
+  	\`message\` text,
+  	FOREIGN KEY (\`_parent_id\`) REFERENCES \`forms\`(\`id\`) ON UPDATE no action ON DELETE cascade
+  );
+  `)
+  await payload.db.drizzle.run(sql`CREATE TABLE \`forms\` (
+  	\`id\` integer PRIMARY KEY NOT NULL,
+  	\`require_payment\` integer DEFAULT false,
+  	\`event_id\` integer,
+  	\`title\` text NOT NULL,
+  	\`submit_button_label\` text,
+  	\`confirmationType\` text DEFAULT 'message',
+  	\`confirmation_message\` text,
+  	\`redirect_url\` text,
+  	\`updated_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
+  	\`created_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
+  	FOREIGN KEY (\`event_id\`) REFERENCES \`events\`(\`id\`) ON UPDATE no action ON DELETE set null
+  );
+  `)
+  await payload.db.drizzle.run(sql`CREATE TABLE \`form_submissions_submission_data\` (
+  	\`_order\` integer NOT NULL,
+  	\`_parent_id\` integer NOT NULL,
+  	\`id\` text PRIMARY KEY NOT NULL,
+  	\`field\` text NOT NULL,
+  	\`value\` text NOT NULL,
+  	FOREIGN KEY (\`_parent_id\`) REFERENCES \`form_submissions\`(\`id\`) ON UPDATE no action ON DELETE cascade
+  );
+  `)
+  await payload.db.drizzle.run(sql`CREATE TABLE \`form_submissions\` (
+  	\`id\` integer PRIMARY KEY NOT NULL,
+  	\`form_id\` integer NOT NULL,
+  	\`payment_status\` text DEFAULT 'pending',
+  	\`payment_amount\` text,
+  	\`updated_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
+  	\`created_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
+  	FOREIGN KEY (\`form_id\`) REFERENCES \`forms\`(\`id\`) ON UPDATE no action ON DELETE set null
+  );
+  `)
   await payload.db.drizzle.run(sql`CREATE TABLE \`redirects\` (
   	\`id\` integer PRIMARY KEY NOT NULL,
   	\`from\` text NOT NULL,
@@ -604,6 +884,8 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   	\`meta_images_id\` integer,
   	\`files_id\` integer,
   	\`users_id\` integer,
+  	\`forms_id\` integer,
+  	\`form_submissions_id\` integer,
   	\`redirects_id\` integer,
   	FOREIGN KEY (\`parent_id\`) REFERENCES \`payload_locked_documents\`(\`id\`) ON UPDATE no action ON DELETE cascade,
   	FOREIGN KEY (\`pages_id\`) REFERENCES \`pages\`(\`id\`) ON UPDATE no action ON DELETE cascade,
@@ -616,6 +898,8 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`meta_images_id\`) REFERENCES \`meta_images\`(\`id\`) ON UPDATE no action ON DELETE cascade,
   	FOREIGN KEY (\`files_id\`) REFERENCES \`files\`(\`id\`) ON UPDATE no action ON DELETE cascade,
   	FOREIGN KEY (\`users_id\`) REFERENCES \`users\`(\`id\`) ON UPDATE no action ON DELETE cascade,
+  	FOREIGN KEY (\`forms_id\`) REFERENCES \`forms\`(\`id\`) ON UPDATE no action ON DELETE cascade,
+  	FOREIGN KEY (\`form_submissions_id\`) REFERENCES \`form_submissions\`(\`id\`) ON UPDATE no action ON DELETE cascade,
   	FOREIGN KEY (\`redirects_id\`) REFERENCES \`redirects\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
@@ -772,14 +1056,25 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   await payload.db.drizzle.run(sql`CREATE INDEX \`pages_blocks_resources_order_idx\` ON \`pages_blocks_resources\` (\`_order\`);`)
   await payload.db.drizzle.run(sql`CREATE INDEX \`pages_blocks_resources_parent_id_idx\` ON \`pages_blocks_resources\` (\`_parent_id\`);`)
   await payload.db.drizzle.run(sql`CREATE INDEX \`pages_blocks_resources_path_idx\` ON \`pages_blocks_resources\` (\`_path\`);`)
-  await payload.db.drizzle.run(sql`CREATE INDEX \`pages_blocks_about_us_order_idx\` ON \`pages_blocks_about_us\` (\`_order\`);`)
-  await payload.db.drizzle.run(sql`CREATE INDEX \`pages_blocks_about_us_parent_id_idx\` ON \`pages_blocks_about_us\` (\`_parent_id\`);`)
-  await payload.db.drizzle.run(sql`CREATE INDEX \`pages_blocks_about_us_path_idx\` ON \`pages_blocks_about_us\` (\`_path\`);`)
+  await payload.db.drizzle.run(sql`CREATE INDEX \`pages_blocks_donate_order_idx\` ON \`pages_blocks_donate\` (\`_order\`);`)
+  await payload.db.drizzle.run(sql`CREATE INDEX \`pages_blocks_donate_parent_id_idx\` ON \`pages_blocks_donate\` (\`_parent_id\`);`)
+  await payload.db.drizzle.run(sql`CREATE INDEX \`pages_blocks_donate_path_idx\` ON \`pages_blocks_donate\` (\`_path\`);`)
+  await payload.db.drizzle.run(sql`CREATE INDEX \`pages_blocks_rich_text_order_idx\` ON \`pages_blocks_rich_text\` (\`_order\`);`)
+  await payload.db.drizzle.run(sql`CREATE INDEX \`pages_blocks_rich_text_parent_id_idx\` ON \`pages_blocks_rich_text\` (\`_parent_id\`);`)
+  await payload.db.drizzle.run(sql`CREATE INDEX \`pages_blocks_rich_text_path_idx\` ON \`pages_blocks_rich_text\` (\`_path\`);`)
   await payload.db.drizzle.run(sql`CREATE INDEX \`pages_blocks_links_block_link_cards_order_idx\` ON \`pages_blocks_links_block_link_cards\` (\`_order\`);`)
   await payload.db.drizzle.run(sql`CREATE INDEX \`pages_blocks_links_block_link_cards_parent_id_idx\` ON \`pages_blocks_links_block_link_cards\` (\`_parent_id\`);`)
   await payload.db.drizzle.run(sql`CREATE INDEX \`pages_blocks_links_block_order_idx\` ON \`pages_blocks_links_block\` (\`_order\`);`)
   await payload.db.drizzle.run(sql`CREATE INDEX \`pages_blocks_links_block_parent_id_idx\` ON \`pages_blocks_links_block\` (\`_parent_id\`);`)
   await payload.db.drizzle.run(sql`CREATE INDEX \`pages_blocks_links_block_path_idx\` ON \`pages_blocks_links_block\` (\`_path\`);`)
+  await payload.db.drizzle.run(sql`CREATE INDEX \`pages_blocks_events_page_announcements_order_idx\` ON \`pages_blocks_events_page_announcements\` (\`_order\`);`)
+  await payload.db.drizzle.run(sql`CREATE INDEX \`pages_blocks_events_page_announcements_parent_id_idx\` ON \`pages_blocks_events_page_announcements\` (\`_parent_id\`);`)
+  await payload.db.drizzle.run(sql`CREATE INDEX \`pages_blocks_events_page_order_idx\` ON \`pages_blocks_events_page\` (\`_order\`);`)
+  await payload.db.drizzle.run(sql`CREATE INDEX \`pages_blocks_events_page_parent_id_idx\` ON \`pages_blocks_events_page\` (\`_parent_id\`);`)
+  await payload.db.drizzle.run(sql`CREATE INDEX \`pages_blocks_events_page_path_idx\` ON \`pages_blocks_events_page\` (\`_path\`);`)
+  await payload.db.drizzle.run(sql`CREATE INDEX \`pages_blocks_form_block_order_idx\` ON \`pages_blocks_form_block\` (\`_order\`);`)
+  await payload.db.drizzle.run(sql`CREATE INDEX \`pages_blocks_form_block_parent_id_idx\` ON \`pages_blocks_form_block\` (\`_parent_id\`);`)
+  await payload.db.drizzle.run(sql`CREATE INDEX \`pages_blocks_form_block_path_idx\` ON \`pages_blocks_form_block\` (\`_path\`);`)
   await payload.db.drizzle.run(sql`CREATE INDEX \`pages_slug_idx\` ON \`pages\` (\`slug\`);`)
   await payload.db.drizzle.run(sql`CREATE INDEX \`pages_created_at_idx\` ON \`pages\` (\`created_at\`);`)
   await payload.db.drizzle.run(sql`CREATE INDEX \`pages__status_idx\` ON \`pages\` (\`_status\`);`)
@@ -807,14 +1102,25 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   await payload.db.drizzle.run(sql`CREATE INDEX \`_pages_v_blocks_resources_order_idx\` ON \`_pages_v_blocks_resources\` (\`_order\`);`)
   await payload.db.drizzle.run(sql`CREATE INDEX \`_pages_v_blocks_resources_parent_id_idx\` ON \`_pages_v_blocks_resources\` (\`_parent_id\`);`)
   await payload.db.drizzle.run(sql`CREATE INDEX \`_pages_v_blocks_resources_path_idx\` ON \`_pages_v_blocks_resources\` (\`_path\`);`)
-  await payload.db.drizzle.run(sql`CREATE INDEX \`_pages_v_blocks_about_us_order_idx\` ON \`_pages_v_blocks_about_us\` (\`_order\`);`)
-  await payload.db.drizzle.run(sql`CREATE INDEX \`_pages_v_blocks_about_us_parent_id_idx\` ON \`_pages_v_blocks_about_us\` (\`_parent_id\`);`)
-  await payload.db.drizzle.run(sql`CREATE INDEX \`_pages_v_blocks_about_us_path_idx\` ON \`_pages_v_blocks_about_us\` (\`_path\`);`)
+  await payload.db.drizzle.run(sql`CREATE INDEX \`_pages_v_blocks_donate_order_idx\` ON \`_pages_v_blocks_donate\` (\`_order\`);`)
+  await payload.db.drizzle.run(sql`CREATE INDEX \`_pages_v_blocks_donate_parent_id_idx\` ON \`_pages_v_blocks_donate\` (\`_parent_id\`);`)
+  await payload.db.drizzle.run(sql`CREATE INDEX \`_pages_v_blocks_donate_path_idx\` ON \`_pages_v_blocks_donate\` (\`_path\`);`)
+  await payload.db.drizzle.run(sql`CREATE INDEX \`_pages_v_blocks_rich_text_order_idx\` ON \`_pages_v_blocks_rich_text\` (\`_order\`);`)
+  await payload.db.drizzle.run(sql`CREATE INDEX \`_pages_v_blocks_rich_text_parent_id_idx\` ON \`_pages_v_blocks_rich_text\` (\`_parent_id\`);`)
+  await payload.db.drizzle.run(sql`CREATE INDEX \`_pages_v_blocks_rich_text_path_idx\` ON \`_pages_v_blocks_rich_text\` (\`_path\`);`)
   await payload.db.drizzle.run(sql`CREATE INDEX \`_pages_v_blocks_links_block_link_cards_order_idx\` ON \`_pages_v_blocks_links_block_link_cards\` (\`_order\`);`)
   await payload.db.drizzle.run(sql`CREATE INDEX \`_pages_v_blocks_links_block_link_cards_parent_id_idx\` ON \`_pages_v_blocks_links_block_link_cards\` (\`_parent_id\`);`)
   await payload.db.drizzle.run(sql`CREATE INDEX \`_pages_v_blocks_links_block_order_idx\` ON \`_pages_v_blocks_links_block\` (\`_order\`);`)
   await payload.db.drizzle.run(sql`CREATE INDEX \`_pages_v_blocks_links_block_parent_id_idx\` ON \`_pages_v_blocks_links_block\` (\`_parent_id\`);`)
   await payload.db.drizzle.run(sql`CREATE INDEX \`_pages_v_blocks_links_block_path_idx\` ON \`_pages_v_blocks_links_block\` (\`_path\`);`)
+  await payload.db.drizzle.run(sql`CREATE INDEX \`_pages_v_blocks_events_page_announcements_order_idx\` ON \`_pages_v_blocks_events_page_announcements\` (\`_order\`);`)
+  await payload.db.drizzle.run(sql`CREATE INDEX \`_pages_v_blocks_events_page_announcements_parent_id_idx\` ON \`_pages_v_blocks_events_page_announcements\` (\`_parent_id\`);`)
+  await payload.db.drizzle.run(sql`CREATE INDEX \`_pages_v_blocks_events_page_order_idx\` ON \`_pages_v_blocks_events_page\` (\`_order\`);`)
+  await payload.db.drizzle.run(sql`CREATE INDEX \`_pages_v_blocks_events_page_parent_id_idx\` ON \`_pages_v_blocks_events_page\` (\`_parent_id\`);`)
+  await payload.db.drizzle.run(sql`CREATE INDEX \`_pages_v_blocks_events_page_path_idx\` ON \`_pages_v_blocks_events_page\` (\`_path\`);`)
+  await payload.db.drizzle.run(sql`CREATE INDEX \`_pages_v_blocks_form_block_order_idx\` ON \`_pages_v_blocks_form_block\` (\`_order\`);`)
+  await payload.db.drizzle.run(sql`CREATE INDEX \`_pages_v_blocks_form_block_parent_id_idx\` ON \`_pages_v_blocks_form_block\` (\`_parent_id\`);`)
+  await payload.db.drizzle.run(sql`CREATE INDEX \`_pages_v_blocks_form_block_path_idx\` ON \`_pages_v_blocks_form_block\` (\`_path\`);`)
   await payload.db.drizzle.run(sql`CREATE INDEX \`_pages_v_version_version_slug_idx\` ON \`_pages_v\` (\`version_slug\`);`)
   await payload.db.drizzle.run(sql`CREATE INDEX \`_pages_v_version_version_created_at_idx\` ON \`_pages_v\` (\`version_created_at\`);`)
   await payload.db.drizzle.run(sql`CREATE INDEX \`_pages_v_version_version__status_idx\` ON \`_pages_v\` (\`version__status\`);`)
@@ -851,6 +1157,41 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   await payload.db.drizzle.run(sql`CREATE UNIQUE INDEX \`files_filename_idx\` ON \`files\` (\`filename\`);`)
   await payload.db.drizzle.run(sql`CREATE INDEX \`users_created_at_idx\` ON \`users\` (\`created_at\`);`)
   await payload.db.drizzle.run(sql`CREATE UNIQUE INDEX \`users_email_idx\` ON \`users\` (\`email\`);`)
+  await payload.db.drizzle.run(sql`CREATE INDEX \`forms_blocks_checkbox_order_idx\` ON \`forms_blocks_checkbox\` (\`_order\`);`)
+  await payload.db.drizzle.run(sql`CREATE INDEX \`forms_blocks_checkbox_parent_id_idx\` ON \`forms_blocks_checkbox\` (\`_parent_id\`);`)
+  await payload.db.drizzle.run(sql`CREATE INDEX \`forms_blocks_checkbox_path_idx\` ON \`forms_blocks_checkbox\` (\`_path\`);`)
+  await payload.db.drizzle.run(sql`CREATE INDEX \`forms_blocks_country_order_idx\` ON \`forms_blocks_country\` (\`_order\`);`)
+  await payload.db.drizzle.run(sql`CREATE INDEX \`forms_blocks_country_parent_id_idx\` ON \`forms_blocks_country\` (\`_parent_id\`);`)
+  await payload.db.drizzle.run(sql`CREATE INDEX \`forms_blocks_country_path_idx\` ON \`forms_blocks_country\` (\`_path\`);`)
+  await payload.db.drizzle.run(sql`CREATE INDEX \`forms_blocks_email_order_idx\` ON \`forms_blocks_email\` (\`_order\`);`)
+  await payload.db.drizzle.run(sql`CREATE INDEX \`forms_blocks_email_parent_id_idx\` ON \`forms_blocks_email\` (\`_parent_id\`);`)
+  await payload.db.drizzle.run(sql`CREATE INDEX \`forms_blocks_email_path_idx\` ON \`forms_blocks_email\` (\`_path\`);`)
+  await payload.db.drizzle.run(sql`CREATE INDEX \`forms_blocks_message_order_idx\` ON \`forms_blocks_message\` (\`_order\`);`)
+  await payload.db.drizzle.run(sql`CREATE INDEX \`forms_blocks_message_parent_id_idx\` ON \`forms_blocks_message\` (\`_parent_id\`);`)
+  await payload.db.drizzle.run(sql`CREATE INDEX \`forms_blocks_message_path_idx\` ON \`forms_blocks_message\` (\`_path\`);`)
+  await payload.db.drizzle.run(sql`CREATE INDEX \`forms_blocks_number_order_idx\` ON \`forms_blocks_number\` (\`_order\`);`)
+  await payload.db.drizzle.run(sql`CREATE INDEX \`forms_blocks_number_parent_id_idx\` ON \`forms_blocks_number\` (\`_parent_id\`);`)
+  await payload.db.drizzle.run(sql`CREATE INDEX \`forms_blocks_number_path_idx\` ON \`forms_blocks_number\` (\`_path\`);`)
+  await payload.db.drizzle.run(sql`CREATE INDEX \`forms_blocks_select_options_order_idx\` ON \`forms_blocks_select_options\` (\`_order\`);`)
+  await payload.db.drizzle.run(sql`CREATE INDEX \`forms_blocks_select_options_parent_id_idx\` ON \`forms_blocks_select_options\` (\`_parent_id\`);`)
+  await payload.db.drizzle.run(sql`CREATE INDEX \`forms_blocks_select_order_idx\` ON \`forms_blocks_select\` (\`_order\`);`)
+  await payload.db.drizzle.run(sql`CREATE INDEX \`forms_blocks_select_parent_id_idx\` ON \`forms_blocks_select\` (\`_parent_id\`);`)
+  await payload.db.drizzle.run(sql`CREATE INDEX \`forms_blocks_select_path_idx\` ON \`forms_blocks_select\` (\`_path\`);`)
+  await payload.db.drizzle.run(sql`CREATE INDEX \`forms_blocks_state_order_idx\` ON \`forms_blocks_state\` (\`_order\`);`)
+  await payload.db.drizzle.run(sql`CREATE INDEX \`forms_blocks_state_parent_id_idx\` ON \`forms_blocks_state\` (\`_parent_id\`);`)
+  await payload.db.drizzle.run(sql`CREATE INDEX \`forms_blocks_state_path_idx\` ON \`forms_blocks_state\` (\`_path\`);`)
+  await payload.db.drizzle.run(sql`CREATE INDEX \`forms_blocks_text_order_idx\` ON \`forms_blocks_text\` (\`_order\`);`)
+  await payload.db.drizzle.run(sql`CREATE INDEX \`forms_blocks_text_parent_id_idx\` ON \`forms_blocks_text\` (\`_parent_id\`);`)
+  await payload.db.drizzle.run(sql`CREATE INDEX \`forms_blocks_text_path_idx\` ON \`forms_blocks_text\` (\`_path\`);`)
+  await payload.db.drizzle.run(sql`CREATE INDEX \`forms_blocks_textarea_order_idx\` ON \`forms_blocks_textarea\` (\`_order\`);`)
+  await payload.db.drizzle.run(sql`CREATE INDEX \`forms_blocks_textarea_parent_id_idx\` ON \`forms_blocks_textarea\` (\`_parent_id\`);`)
+  await payload.db.drizzle.run(sql`CREATE INDEX \`forms_blocks_textarea_path_idx\` ON \`forms_blocks_textarea\` (\`_path\`);`)
+  await payload.db.drizzle.run(sql`CREATE INDEX \`forms_emails_order_idx\` ON \`forms_emails\` (\`_order\`);`)
+  await payload.db.drizzle.run(sql`CREATE INDEX \`forms_emails_parent_id_idx\` ON \`forms_emails\` (\`_parent_id\`);`)
+  await payload.db.drizzle.run(sql`CREATE INDEX \`forms_created_at_idx\` ON \`forms\` (\`created_at\`);`)
+  await payload.db.drizzle.run(sql`CREATE INDEX \`form_submissions_submission_data_order_idx\` ON \`form_submissions_submission_data\` (\`_order\`);`)
+  await payload.db.drizzle.run(sql`CREATE INDEX \`form_submissions_submission_data_parent_id_idx\` ON \`form_submissions_submission_data\` (\`_parent_id\`);`)
+  await payload.db.drizzle.run(sql`CREATE INDEX \`form_submissions_created_at_idx\` ON \`form_submissions\` (\`created_at\`);`)
   await payload.db.drizzle.run(sql`CREATE INDEX \`redirects_from_idx\` ON \`redirects\` (\`from\`);`)
   await payload.db.drizzle.run(sql`CREATE INDEX \`redirects_created_at_idx\` ON \`redirects\` (\`created_at\`);`)
   await payload.db.drizzle.run(sql`CREATE INDEX \`redirects_rels_order_idx\` ON \`redirects_rels\` (\`order\`);`)
@@ -895,9 +1236,13 @@ export async function down({ payload, req }: MigrateDownArgs): Promise<void> {
   await payload.db.drizzle.run(sql`DROP TABLE \`pages_blocks_history_items\`;`)
   await payload.db.drizzle.run(sql`DROP TABLE \`pages_blocks_history\`;`)
   await payload.db.drizzle.run(sql`DROP TABLE \`pages_blocks_resources\`;`)
-  await payload.db.drizzle.run(sql`DROP TABLE \`pages_blocks_about_us\`;`)
+  await payload.db.drizzle.run(sql`DROP TABLE \`pages_blocks_donate\`;`)
+  await payload.db.drizzle.run(sql`DROP TABLE \`pages_blocks_rich_text\`;`)
   await payload.db.drizzle.run(sql`DROP TABLE \`pages_blocks_links_block_link_cards\`;`)
   await payload.db.drizzle.run(sql`DROP TABLE \`pages_blocks_links_block\`;`)
+  await payload.db.drizzle.run(sql`DROP TABLE \`pages_blocks_events_page_announcements\`;`)
+  await payload.db.drizzle.run(sql`DROP TABLE \`pages_blocks_events_page\`;`)
+  await payload.db.drizzle.run(sql`DROP TABLE \`pages_blocks_form_block\`;`)
   await payload.db.drizzle.run(sql`DROP TABLE \`pages\`;`)
   await payload.db.drizzle.run(sql`DROP TABLE \`pages_rels\`;`)
   await payload.db.drizzle.run(sql`DROP TABLE \`_pages_v_blocks_hero_high_impact_links\`;`)
@@ -908,9 +1253,13 @@ export async function down({ payload, req }: MigrateDownArgs): Promise<void> {
   await payload.db.drizzle.run(sql`DROP TABLE \`_pages_v_blocks_history_items\`;`)
   await payload.db.drizzle.run(sql`DROP TABLE \`_pages_v_blocks_history\`;`)
   await payload.db.drizzle.run(sql`DROP TABLE \`_pages_v_blocks_resources\`;`)
-  await payload.db.drizzle.run(sql`DROP TABLE \`_pages_v_blocks_about_us\`;`)
+  await payload.db.drizzle.run(sql`DROP TABLE \`_pages_v_blocks_donate\`;`)
+  await payload.db.drizzle.run(sql`DROP TABLE \`_pages_v_blocks_rich_text\`;`)
   await payload.db.drizzle.run(sql`DROP TABLE \`_pages_v_blocks_links_block_link_cards\`;`)
   await payload.db.drizzle.run(sql`DROP TABLE \`_pages_v_blocks_links_block\`;`)
+  await payload.db.drizzle.run(sql`DROP TABLE \`_pages_v_blocks_events_page_announcements\`;`)
+  await payload.db.drizzle.run(sql`DROP TABLE \`_pages_v_blocks_events_page\`;`)
+  await payload.db.drizzle.run(sql`DROP TABLE \`_pages_v_blocks_form_block\`;`)
   await payload.db.drizzle.run(sql`DROP TABLE \`_pages_v\`;`)
   await payload.db.drizzle.run(sql`DROP TABLE \`_pages_v_rels\`;`)
   await payload.db.drizzle.run(sql`DROP TABLE \`events\`;`)
@@ -924,6 +1273,20 @@ export async function down({ payload, req }: MigrateDownArgs): Promise<void> {
   await payload.db.drizzle.run(sql`DROP TABLE \`meta_images\`;`)
   await payload.db.drizzle.run(sql`DROP TABLE \`files\`;`)
   await payload.db.drizzle.run(sql`DROP TABLE \`users\`;`)
+  await payload.db.drizzle.run(sql`DROP TABLE \`forms_blocks_checkbox\`;`)
+  await payload.db.drizzle.run(sql`DROP TABLE \`forms_blocks_country\`;`)
+  await payload.db.drizzle.run(sql`DROP TABLE \`forms_blocks_email\`;`)
+  await payload.db.drizzle.run(sql`DROP TABLE \`forms_blocks_message\`;`)
+  await payload.db.drizzle.run(sql`DROP TABLE \`forms_blocks_number\`;`)
+  await payload.db.drizzle.run(sql`DROP TABLE \`forms_blocks_select_options\`;`)
+  await payload.db.drizzle.run(sql`DROP TABLE \`forms_blocks_select\`;`)
+  await payload.db.drizzle.run(sql`DROP TABLE \`forms_blocks_state\`;`)
+  await payload.db.drizzle.run(sql`DROP TABLE \`forms_blocks_text\`;`)
+  await payload.db.drizzle.run(sql`DROP TABLE \`forms_blocks_textarea\`;`)
+  await payload.db.drizzle.run(sql`DROP TABLE \`forms_emails\`;`)
+  await payload.db.drizzle.run(sql`DROP TABLE \`forms\`;`)
+  await payload.db.drizzle.run(sql`DROP TABLE \`form_submissions_submission_data\`;`)
+  await payload.db.drizzle.run(sql`DROP TABLE \`form_submissions\`;`)
   await payload.db.drizzle.run(sql`DROP TABLE \`redirects\`;`)
   await payload.db.drizzle.run(sql`DROP TABLE \`redirects_rels\`;`)
   await payload.db.drizzle.run(sql`DROP TABLE \`payload_locked_documents\`;`)
