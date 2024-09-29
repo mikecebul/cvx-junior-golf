@@ -40,4 +40,4 @@ For questions or issues, please open a GitHub issue or contact the website admin
 
 ## License
 
-This project is licensed under the MIT License. See the LICENSE file for more details.
+This project is licensed under the MIT License. See the LICENSE file for more details..
