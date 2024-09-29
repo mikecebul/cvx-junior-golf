@@ -37,3 +37,7 @@ You can customize the design, add new features, or modify existing ones to fit y
 ## Support
 
 For questions or issues, please open a GitHub issue or contact the website administrator.
+
+## License
+
+This project is licensed under the MIT License. See the LICENSE file for more details.
