@@ -38,9 +38,9 @@ export interface Config {
     'meta-images': MetaImage;
     files: File;
     users: User;
-    redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
+    redirects: Redirect;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -157,7 +157,6 @@ export interface Hero {
  */
 export interface File {
   id: number;
-  prefix?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -177,7 +176,6 @@ export interface File {
 export interface Landscape {
   id: number;
   alt: string;
-  prefix?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -222,6 +220,7 @@ export interface Event {
   title: string;
   date: string;
   location: string;
+  price?: number | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -425,7 +424,6 @@ export interface LinksBlock {
 export interface Card {
   id: number;
   alt: string;
-  prefix?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -488,8 +486,6 @@ export interface FormBlock {
     };
     [k: string]: unknown;
   } | null;
-  enableStripe?: boolean | null;
-  paymentStatus?: ('pending' | 'paid' | 'failed') | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'formBlock';
@@ -500,6 +496,8 @@ export interface FormBlock {
  */
 export interface Form {
   id: number;
+  requirePayment?: boolean | null;
+  event?: (number | null) | Event;
   title: string;
   fields?:
     | (
@@ -560,28 +558,6 @@ export interface Form {
             id?: string | null;
             blockName?: string | null;
             blockType: 'number';
-          }
-        | {
-            name: string;
-            label?: string | null;
-            width?: number | null;
-            basePrice?: number | null;
-            paymentProcessor?: 'stripe' | null;
-            priceConditions?:
-              | {
-                  fieldToUse?: string | null;
-                  condition?: ('hasValue' | 'equals' | 'notEquals') | null;
-                  valueForCondition?: string | null;
-                  operator?: ('add' | 'subtract' | 'multiply' | 'divide') | null;
-                  valueType?: ('static' | 'valueOfField') | null;
-                  valueForOperator?: string | null;
-                  id?: string | null;
-                }[]
-              | null;
-            required?: boolean | null;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'payment';
           }
         | {
             name: string;
@@ -687,7 +663,6 @@ export interface Form {
 export interface MetaImage {
   id: number;
   alt: string;
-  prefix?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -717,7 +692,6 @@ export interface MetaImage {
 export interface Avatar {
   id: number;
   alt: string;
-  prefix?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -747,7 +721,6 @@ export interface Avatar {
 export interface Portrait {
   id: number;
   alt: string;
-  prefix?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -791,24 +764,6 @@ export interface User {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "redirects".
- */
-export interface Redirect {
-  id: number;
-  from: string;
-  to?: {
-    type?: ('reference' | 'custom') | null;
-    reference?: {
-      relationTo: 'pages';
-      value: number | Page;
-    } | null;
-    url?: string | null;
-  };
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "form-submissions".
  */
 export interface FormSubmission {
@@ -822,15 +777,26 @@ export interface FormSubmission {
       }[]
     | null;
   payment?: {
-    field?: string | null;
     status?: string | null;
-    amount?: number | null;
-    paymentProcessor?: string | null;
-    creditCard?: {
-      token?: string | null;
-      brand?: string | null;
-      number?: string | null;
-    };
+    amount?: string | null;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "redirects".
+ */
+export interface Redirect {
+  id: number;
+  from: string;
+  to?: {
+    type?: ('reference' | 'custom') | null;
+    reference?: {
+      relationTo: 'pages';
+      value: number | Page;
+    } | null;
+    url?: string | null;
   };
   updatedAt: string;
   createdAt: string;
@@ -883,16 +849,16 @@ export interface PayloadLockedDocument {
         value: number | User;
       } | null)
     | ({
-        relationTo: 'redirects';
-        value: number | Redirect;
-      } | null)
-    | ({
         relationTo: 'forms';
         value: number | Form;
       } | null)
     | ({
         relationTo: 'form-submissions';
         value: number | FormSubmission;
+      } | null)
+    | ({
+        relationTo: 'redirects';
+        value: number | Redirect;
       } | null);
   globalSlug?: string | null;
   user: {

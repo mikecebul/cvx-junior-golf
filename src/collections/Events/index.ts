@@ -1,6 +1,6 @@
-import { authenticated } from "@/access/authenticated"
-import { authenticatedOrPublished } from "@/access/authenticatedOrPublished"
-import { CollectionConfig } from "payload"
+import { authenticated } from '@/access/authenticated'
+import { authenticatedOrPublished } from '@/access/authenticatedOrPublished'
+import { CollectionConfig } from 'payload'
 
 export const Events: CollectionConfig = {
   slug: 'events',
@@ -37,6 +37,10 @@ export const Events: CollectionConfig = {
       name: 'location',
       type: 'text',
       required: true,
+    },
+    {
+      name: 'price',
+      type: 'number',
     },
   ],
 }

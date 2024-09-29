@@ -10,6 +10,9 @@ import { Button } from '@/components/ui/button'
 import { buildInitialFormState } from './buildInitialFormState'
 import { fields } from './fields'
 import Container from '@/components/Container'
+import Stripe from 'stripe'
+import { createCheckoutSession } from '@/action'
+import { Event } from '@/payload-types'
 
 export type Value = unknown
 
@@ -25,12 +28,10 @@ export type FormBlockType = {
   blockName?: string
   blockType?: 'formBlock'
   enableIntro: boolean
-  form: FormType
+  form: FormType & { requirePayment: boolean; event: Event }
   introContent?: {
     [k: string]: unknown
   }[]
-  enableStripe: boolean
-  paymentStatus?: 'pending' | 'paid' | 'failed'
 }
 
 export const FormBlock: React.FC<
@@ -41,9 +42,15 @@ export const FormBlock: React.FC<
   const {
     enableIntro,
     form: formFromProps,
-    form: { id: formID, confirmationMessage, confirmationType, redirect, submitButtonLabel } = {},
-    enableStripe,
-    paymentStatus,
+    form: {
+      id: formID,
+      requirePayment,
+      event,
+      confirmationMessage,
+      confirmationType,
+      redirect,
+      submitButtonLabel,
+    } = {},
     introContent,
   } = props
 
@@ -82,7 +89,6 @@ export const FormBlock: React.FC<
           const req = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/form-submissions`, {
             body: JSON.stringify({
               form: formID,
-              paymentStatus: paymentStatus,
               submissionData: dataToSend,
             }),
             headers: {
@@ -107,8 +113,7 @@ export const FormBlock: React.FC<
           }
 
           const { doc: formSubmission } = res
-          // Store the submission ID
-          const submissionId = formSubmission.id // Adjust this based on your API response structure
+          const submissionId = formSubmission.id
           if (!submissionId) {
             console.error('No submission ID received from the server')
             setError({
@@ -123,29 +128,22 @@ export const FormBlock: React.FC<
           setIsLoading(false)
           setHasSubmitted(true)
 
-          if (enableStripe && submissionId) {
-            const session = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/create-checkout-session`, {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({
-                form: submissionId,
-                paymentStatus: paymentStatus,
-              }),
-            })
-
-            const sessionData = await session.json()
-            console.log('Session Data', sessionData)
-            router.push(sessionData.url)
-          }
-
-          if (confirmationType === 'redirect' && redirect) {
-            const { url } = redirect
-
-            const redirectUrl = url
-
-            if (redirectUrl) router.push(redirectUrl)
+          if (!!requirePayment) {
+            const session = await createCheckoutSession(submissionId)
+            if (session?.url) {
+              router.push(session.url)
+            } else {
+              setError({
+                message: session?.error || 'Failed to create checkout session',
+                status: 'error',
+              })
+            }
+          } else {
+            if (confirmationType === 'redirect' && redirect) {
+              const { url } = redirect
+              const redirectUrl = url
+              if (redirectUrl) router.push(redirectUrl)
+            }
           }
         } catch (err) {
           console.warn(err)
@@ -158,7 +156,7 @@ export const FormBlock: React.FC<
 
       void submitForm()
     },
-    [router, formID, redirect, confirmationType, paymentStatus, enableStripe],
+    [router, formID, redirect, confirmationType, requirePayment],
   )
 
   return (

@@ -1,42 +1,24 @@
-import type { PayloadHandler } from 'payload'
+// import type { PayloadHandler, PayloadRe } from 'payload'
+// import { addDataAndFileToRequest } from '@payloadcms/next/utilities'
 
-import Stripe from 'stripe'
+// import Stripe from 'stripe'
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
-  apiVersion: '2022-08-01',
-})
-export const createCheckoutSession: PayloadHandler = async (req) => {
-  const { payload } = req
+// const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
+//   apiVersion: '2022-08-01',
+// })
+// export const createCheckoutSession: PayloadHandler = async (req) => {
+//   const { payload, user } = req
 
-  if (!req.json) {
-    throw new Error('Request body is empty')
-  }
+//   await addDataAndFileToRequest({ request: req })
+//   console.log({ data: (req as PayloadRequestWithData).data })
+//   const submissionId = (req as PayloadRequestWithData).data?.cart
 
-  const { form } = await req.json()
-  console.log('submissionID', form)
+//   try {
 
-  try {
-    const session = await stripe.checkout.sessions.create({
-      success_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/`,
-      cancel_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/`,
-
-
-      line_items: [
-        {
-          price: 'price_1Q3jgDIq6qksX8CT8pcjZuOd',
-          quantity: 1,
-        },
-      ],
-      mode: 'payment',
-      metadata: {
-        submissionID: form,
-      },
-    });
-
-    return Response.json({ url: session.url }, { status: 200 })
-  } catch (error: unknown) {
-    const message = error instanceof Error ? error.message : 'Unknown error'
-    payload.logger.error(message)
-    return Response.json({ error: message }, { status: 401 })
-  }
-}
+//     return Response.json({ url: session.url }, { status: 200 })
+//   } catch (error: unknown) {
+//     const message = error instanceof Error ? error.message : 'Unknown error'
+//     payload.logger.error(message)
+//     return Response.json({ error: message }, { status: 401 })
+//   }
+// }

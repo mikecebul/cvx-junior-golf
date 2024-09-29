@@ -19,12 +19,23 @@ import { PreviewComponent as PreviewComponent_17 } from '@payloadcms/plugin-seo/
 import { SlugComponent as SlugComponent_18 } from '@/fields/slug/SlugComponent'
 import { default as default_19 } from '@/collections/Users/RoleCell'
 import { default as default_20 } from '@/collections/Users/RoleSelect'
-import { DynamicFieldSelector as DynamicFieldSelector_21 } from '@payloadcms/plugin-form-builder/client'
-import { DynamicPriceSelector as DynamicPriceSelector_22 } from '@payloadcms/plugin-form-builder/client'
-import { default as default_23 } from '@/globals/CompanyInfo/SocialRowLabel'
-import { default as default_24 } from '@/globals/CompanyInfo/HoursRowLabel'
-import { default as default_25 } from '@/graphics/Icon'
-import { default as default_26 } from '@/graphics/Logo'
+import { HorizontalRuleFeatureClient as HorizontalRuleFeatureClient_21 } from '@payloadcms/richtext-lexical/client'
+import { UploadFeatureClient as UploadFeatureClient_22 } from '@payloadcms/richtext-lexical/client'
+import { BlockquoteFeatureClient as BlockquoteFeatureClient_23 } from '@payloadcms/richtext-lexical/client'
+import { RelationshipFeatureClient as RelationshipFeatureClient_24 } from '@payloadcms/richtext-lexical/client'
+import { ChecklistFeatureClient as ChecklistFeatureClient_25 } from '@payloadcms/richtext-lexical/client'
+import { OrderedListFeatureClient as OrderedListFeatureClient_26 } from '@payloadcms/richtext-lexical/client'
+import { IndentFeatureClient as IndentFeatureClient_27 } from '@payloadcms/richtext-lexical/client'
+import { AlignFeatureClient as AlignFeatureClient_28 } from '@payloadcms/richtext-lexical/client'
+import { ParagraphFeatureClient as ParagraphFeatureClient_29 } from '@payloadcms/richtext-lexical/client'
+import { InlineCodeFeatureClient as InlineCodeFeatureClient_30 } from '@payloadcms/richtext-lexical/client'
+import { SuperscriptFeatureClient as SuperscriptFeatureClient_31 } from '@payloadcms/richtext-lexical/client'
+import { SubscriptFeatureClient as SubscriptFeatureClient_32 } from '@payloadcms/richtext-lexical/client'
+import { StrikethroughFeatureClient as StrikethroughFeatureClient_33 } from '@payloadcms/richtext-lexical/client'
+import { default as default_34 } from '@/globals/CompanyInfo/SocialRowLabel'
+import { default as default_35 } from '@/globals/CompanyInfo/HoursRowLabel'
+import { default as default_36 } from '@/graphics/Icon'
+import { default as default_37 } from '@/graphics/Logo'
 
 export const importMap = {
   "@/fields/link/LinkRowLabel#default": default_0,
@@ -48,10 +59,21 @@ export const importMap = {
   "@/fields/slug/SlugComponent#SlugComponent": SlugComponent_18,
   "@/collections/Users/RoleCell#default": default_19,
   "@/collections/Users/RoleSelect#default": default_20,
-  "@payloadcms/plugin-form-builder/client#DynamicFieldSelector": DynamicFieldSelector_21,
-  "@payloadcms/plugin-form-builder/client#DynamicPriceSelector": DynamicPriceSelector_22,
-  "@/globals/CompanyInfo/SocialRowLabel#default": default_23,
-  "@/globals/CompanyInfo/HoursRowLabel#default": default_24,
-  "@/graphics/Icon#default": default_25,
-  "@/graphics/Logo#default": default_26
+  "@payloadcms/richtext-lexical/client#HorizontalRuleFeatureClient": HorizontalRuleFeatureClient_21,
+  "@payloadcms/richtext-lexical/client#UploadFeatureClient": UploadFeatureClient_22,
+  "@payloadcms/richtext-lexical/client#BlockquoteFeatureClient": BlockquoteFeatureClient_23,
+  "@payloadcms/richtext-lexical/client#RelationshipFeatureClient": RelationshipFeatureClient_24,
+  "@payloadcms/richtext-lexical/client#ChecklistFeatureClient": ChecklistFeatureClient_25,
+  "@payloadcms/richtext-lexical/client#OrderedListFeatureClient": OrderedListFeatureClient_26,
+  "@payloadcms/richtext-lexical/client#IndentFeatureClient": IndentFeatureClient_27,
+  "@payloadcms/richtext-lexical/client#AlignFeatureClient": AlignFeatureClient_28,
+  "@payloadcms/richtext-lexical/client#ParagraphFeatureClient": ParagraphFeatureClient_29,
+  "@payloadcms/richtext-lexical/client#InlineCodeFeatureClient": InlineCodeFeatureClient_30,
+  "@payloadcms/richtext-lexical/client#SuperscriptFeatureClient": SuperscriptFeatureClient_31,
+  "@payloadcms/richtext-lexical/client#SubscriptFeatureClient": SubscriptFeatureClient_32,
+  "@payloadcms/richtext-lexical/client#StrikethroughFeatureClient": StrikethroughFeatureClient_33,
+  "@/globals/CompanyInfo/SocialRowLabel#default": default_34,
+  "@/globals/CompanyInfo/HoursRowLabel#default": default_35,
+  "@/graphics/Icon#default": default_36,
+  "@/graphics/Logo#default": default_37
 }

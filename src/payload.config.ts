@@ -40,8 +40,7 @@ import { superAdmin } from './access/superAdmin'
 import { MetaImages } from './collections/MetaImages'
 import { Events } from './collections/Events'
 import { Resources } from './collections/Resources'
-import { createCheckoutSession } from './endpoints/create-checkout-session'
-import { checkoutSessionCompleted } from './plugins/Stripe/WebHooks/updateFormSubmission'
+import { checkoutSessionCompleted } from './plugins/Stripe/WebHooks/checkoutSessionCompleted'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -167,22 +166,89 @@ export default buildConfig({
     defaultFromName: 'BASES Admin',
     apiKey: process.env.RESEND_API_KEY || '',
   }),
-  endpoints: [
-    {
-      handler: createCheckoutSession,
-      method: 'post',
-      path: '/create-checkout-session',
-    },],
+  endpoints: [],
   globals: [Header, Footer, CompanyInfo],
   plugins: [
     stripePlugin({
       isTestKey: Boolean(process.env.PAYLOAD_PUBLIC_STRIPE_IS_TEST_KEY),
-      logs: true,
+      logs: false,
       rest: false,
       stripeSecretKey: process.env.STRIPE_SECRET_KEY || '',
-      stripeWebhooksEndpointSecret: process.env.STRIPE_WEBHOOKS_SIGNING_SECRET,
+      stripeWebhooksEndpointSecret: process.env.STRIPE_WEBHOOK_SECRET,
       webhooks: {
         'checkout.session.completed': checkoutSessionCompleted,
+      },
+    }),
+    formBuilderPlugin({
+      fields: {
+        payment: false,
+      },
+      formOverrides: {
+        fields: ({ defaultFields }) => [
+          {
+            name: 'requirePayment',
+            type: 'checkbox',
+            label: 'Require Payment',
+            defaultValue: false,
+          },
+          {
+            name: 'event',
+            type: 'relationship',
+            relationTo: 'events',
+            admin: {
+              condition: (data, siblingData) => {
+                // Check if siblingData exists and has the requirePayment property
+                if (siblingData && 'requirePayment' in siblingData) {
+                  return siblingData.requirePayment === true
+                }
+                // If siblingData is not available, don't show the field
+                return false
+              },
+            },
+          },
+          ...defaultFields.map((field) => {
+            if ('name' in field && field.name === 'confirmationMessage') {
+              return {
+                ...field,
+                editor: lexicalEditor({
+                  features: ({ defaultFeatures }) => [
+                    ...defaultFeatures,
+                    FixedToolbarFeature(),
+                    HeadingFeature({ enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4'] }),
+                  ],
+                }),
+              }
+            }
+            return field
+          }),
+        ],
+      },
+      formSubmissionOverrides: {
+        fields: ({ defaultFields }) => {
+          return [
+            ...defaultFields,
+            {
+              type: 'group',
+              name: 'payment',
+              label: 'Payment Information',
+              admin: {
+                position: 'sidebar',
+              },
+              fields: [
+                {
+                  name: 'status',
+                  type: 'text',
+                  defaultValue: 'pending',
+                },
+                {
+                  name: 'amount',
+                  type: 'text',
+                  label: 'Amount Paid',
+                },
+              ],
+            },
+          ]
+        },
       },
     }),
     redirectsPlugin({
@@ -211,39 +277,6 @@ export default buildConfig({
         },
         hooks: {
           afterChange: [revalidateRedirects],
-        },
-      },
-    }),
-    formBuilderPlugin({
-      fields: {
-        payment: {
-          paymentProcessor: {
-            options: [
-              { label: 'Stripe', value: 'stripe' },
-            ],
-            defaultValue: 'stripe',
-          },
-        },
-      },
-      formOverrides: {
-        fields: ({ defaultFields }) => {
-          return defaultFields.map((field) => {
-            if ('name' in field && field.name === 'confirmationMessage') {
-              return {
-                ...field,
-                editor: lexicalEditor({
-                  features: ({ rootFeatures }) => {
-                    return [
-                      ...rootFeatures,
-                      FixedToolbarFeature(),
-                      HeadingFeature({ enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4'] }),
-                    ]
-                  },
-                }),
-              }
-            }
-            return field
-          })
         },
       },
     }),

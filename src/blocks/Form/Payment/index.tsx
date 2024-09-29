@@ -23,15 +23,13 @@ export const Payment: React.FC<
       <Input
         {...register(name, {
           required: requiredFromProps,
-          value: basePrice
+          value: basePrice,
         })}
-        defaultValue={basePrice}
-        readOnly
         disabled
-        value={basePrice}
+        defaultValue={basePrice}
       />
 
       {requiredFromProps && errors[name] && <Error />}
     </Width>
-  );
+  )
 }
