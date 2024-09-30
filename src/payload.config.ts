@@ -34,7 +34,6 @@ import { Page } from 'src/payload-types'
 import { CompanyInfo } from './globals/CompanyInfo/config'
 import { superAdmin } from './access/superAdmin'
 import { Events } from './collections/Events'
-import { Resources } from './collections/Resources'
 import { checkoutSessionCompleted } from './plugins/Stripe/WebHooks/checkoutSessionCompleted'
 import { Media } from './collections/Media'
 import { MediaBlock } from './blocks/MediaBlock/config'
@@ -147,7 +146,7 @@ export default buildConfig({
     push: Boolean(process.env.LOCAL_DATABASE_URL),
     logger: false,
   }),
-  collections: [Pages, Events, Resources, Media, Users],
+  collections: [Pages, Events, Media, Users],
   cors: [process.env.NEXT_PUBLIC_SERVER_URL || ''].filter(Boolean),
   csrf: [process.env.NEXT_PUBLIC_SERVER_URL || ''].filter(Boolean),
   email: resendAdapter({

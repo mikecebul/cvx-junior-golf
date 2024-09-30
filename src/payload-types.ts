@@ -30,7 +30,6 @@ export interface Config {
   collections: {
     pages: Page;
     events: Event;
-    resources: Resource;
     media: Media;
     users: User;
     forms: Form;
@@ -83,7 +82,6 @@ export interface Page {
     | EventsBlock
     | HowItWorksBlock
     | HistoryBlock
-    | ResourcesBlock
     | DonateBlock
     | RichTextBlock
     | LinksBlock
@@ -487,67 +485,6 @@ export interface HistoryBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "ResourcesBlock".
- */
-export interface ResourcesBlock {
-  title: string;
-  description: string;
-  resources?: (number | Resource)[] | null;
-  image?: (number | null) | Media;
-  link: {
-    type?: ('reference' | 'custom') | null;
-    newTab?: boolean | null;
-    reference?:
-      | ({
-          relationTo: 'pages';
-          value: number | Page;
-        } | null)
-      | ({
-          relationTo: 'media';
-          value: number | Media;
-        } | null);
-    url?: string | null;
-    label: string;
-    appearance?: ('default' | 'outline') | null;
-  };
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'resources';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "resources".
- */
-export interface Resource {
-  id: number;
-  title: string;
-  description: string;
-  links?:
-    | {
-        link: {
-          type?: ('reference' | 'custom') | null;
-          newTab?: boolean | null;
-          reference?:
-            | ({
-                relationTo: 'pages';
-                value: number | Page;
-              } | null)
-            | ({
-                relationTo: 'media';
-                value: number | Media;
-              } | null);
-          url?: string | null;
-          label: string;
-          appearance?: ('default' | 'outline') | null;
-        };
-        id?: string | null;
-      }[]
-    | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "DonateBlock".
  */
 export interface DonateBlock {
@@ -706,10 +643,6 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'events';
         value: number | Event;
-      } | null)
-    | ({
-        relationTo: 'resources';
-        value: number | Resource;
       } | null)
     | ({
         relationTo: 'media';

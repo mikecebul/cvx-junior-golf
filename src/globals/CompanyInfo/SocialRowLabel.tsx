@@ -12,7 +12,7 @@ const SocialRowLabel: PayloadClientReactComponent<RowLabelComponent> = () => {
   const { data, rowNumber } = useRowLabel<LinkProps>()
 
   return (
-    <div className="text-orange-400 capitalize">{`${rowNumber} - ${data.platform || 'Untitled'}`}</div>
+    <div className="dark:text-orange-400 dark:font-medium font-bold capitalize">{`${rowNumber} - ${data.platform || 'Untitled'}`}</div>
   )
 }
 

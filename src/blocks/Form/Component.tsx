@@ -129,7 +129,8 @@ export const FormBlock: React.FC<
           setHasSubmitted(true)
 
           if (!!requirePayment) {
-            const session = await createCheckoutSession(submissionId)
+            const eventPrice = event?.price ?? 0
+            const session = await createCheckoutSession(submissionId, eventPrice)
             if (session?.url) {
               router.push(session.url)
             } else {

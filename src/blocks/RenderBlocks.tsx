@@ -7,7 +7,6 @@ import { LinksBlock } from './Links/Component'
 import HowItWorksBlock from './HowItWorks/Component'
 import { HistoryBlock } from './History/Component'
 import { EventsBlock } from './EventsBlock/Component'
-import { ResourcesBlock } from './Resources/Component'
 import { RichTextBlock } from './RichText/Component'
 import { EventsPageBlock } from './EventsPage/Component'
 import { DonateBlock } from './Donate/Component'
@@ -21,7 +20,6 @@ const blockComponents = {
   events: EventsBlock,
   howItWorks: HowItWorksBlock,
   history: HistoryBlock,
-  resources: ResourcesBlock,
   eventsPage: EventsPageBlock,
   donate: DonateBlock,
   formBlock: FormBlock,

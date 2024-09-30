@@ -7,15 +7,15 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
   apiVersion: '2022-08-01',
 })
 
-export const createCheckoutSession = async (submissionId: string) => {
+export const createCheckoutSession = async (submissionId: string, eventPrice: number) => {
   if (!submissionId) {
     throw new Error('No submission ID provided')
   }
 
   try {
     const session = await stripe.checkout.sessions.create({
-      success_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/`,
-      cancel_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/`,
+      success_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/success`,
+      cancel_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/cancel`,
 
       line_items: [
         {
@@ -24,7 +24,7 @@ export const createCheckoutSession = async (submissionId: string) => {
             product_data: {
               name: 'Test Product',
             },
-            unit_amount: 2000, // $20.00 in cents
+            unit_amount: eventPrice * 100,
           },
           quantity: 1,
         },

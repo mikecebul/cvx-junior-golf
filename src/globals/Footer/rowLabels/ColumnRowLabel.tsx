@@ -24,7 +24,7 @@ const ColumnRowLabel: PayloadClientReactComponent<RowLabelComponent> = () => {
 
   return (
     <div>
-      <p className="">{`${rowNumber} - ${columnLabel}`}</p>
+      <p className="dark:text-orange-400 dark:font-medium font-bold capitalize">{`${rowNumber} - ${columnLabel}`}</p>
     </div>
   )
 }

@@ -5,7 +5,10 @@ import { useRowLabel } from '@payloadcms/ui'
 export const FormSubmissionRowLabel = () => {
   const { data, rowNumber } = useRowLabel<{ field: string; value: string }>()
   return (
-    <div className="text-orange-400 capitalize">{`${rowNumber} - ${data.field || 'field'} : ${data.value || 'value  '}`}</div>
+    <div>
+      <span className="capitalize">{`${data.field || 'field'}: `}</span>
+      <span className="dark:text-orange-400 dark:font-medium font-bold">{data.value || 'value  '}</span>
+    </div>
   )
 }
 

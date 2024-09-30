@@ -8,7 +8,7 @@ const HoursRowLabel: PayloadClientReactComponent<RowLabelComponent> = () => {
 
   return (
     <div>
-      <p className="capitalize">
+      <p className="dark:text-orange-400 dark:font-medium font-bold capitalize">
         {`${rowNumber} - `}
         <span className="font-semibold">{data.day}:</span>
         <span className="font-normal">{` ${data.hours}`}</span>

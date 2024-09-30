@@ -8,8 +8,9 @@ export const checkoutSessionCompleted: StripeWebhookHandler<{
 }> = async ({ event, payload }) => {
   console.log('checkoutSessionCompleted handler called')
 
-  const { id: sessionId, metadata } = event.data.object
+  const { id: sessionId, metadata, amount_total } = event.data.object
   const submissionId = metadata?.submissionId
+  console.log('Amount total', amount_total)
 
   if (!submissionId) {
     payload.logger.error('No submissionId found in checkout session metadata')
@@ -22,9 +23,7 @@ export const checkoutSessionCompleted: StripeWebhookHandler<{
       overrideAccess: true,
       data: {
         status: 'paid',
-        amount: event.data.object.amount_total
-          ? (event.data.object.amount_total / 100)?.toString()
-          : '0',
+        amount: ((amount_total ?? 0) / 100).toString(),
       },
     })
 
