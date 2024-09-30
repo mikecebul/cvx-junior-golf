@@ -29,11 +29,5 @@ export const Events: Block = {
         description: 'Select up to 3 schedule items to display',
       },
     },
-    {
-      name: 'image',
-      type: 'upload',
-      relationTo: 'media',
-      required: true,
-    },
   ],
 }

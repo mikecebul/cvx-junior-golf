@@ -12,6 +12,7 @@ import { RichTextBlock } from './RichText/Component'
 import { EventsPageBlock } from './EventsPage/Component'
 import { DonateBlock } from './Donate/Component'
 import { FormBlock } from './Form/Component'
+import { MediaBlock } from './MediaBlock/Component'
 
 const blockComponents = {
   hero: HeroBlock,
@@ -24,6 +25,7 @@ const blockComponents = {
   eventsPage: EventsPageBlock,
   donate: DonateBlock,
   formBlock: FormBlock,
+  mediaBlock: MediaBlock,
 }
 
 export const RenderBlocks: React.FC<{

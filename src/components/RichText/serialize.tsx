@@ -11,8 +11,10 @@ import {
   IS_SUPERSCRIPT,
   IS_UNDERLINE,
 } from './nodeFormat'
+import { MediaBlock } from '@/blocks/MediaBlock/Component'
+import type { MediaBlock as MediaBlockType } from '@/payload-types'
 
-export type NodeTypes = DefaultNodeTypes | SerializedBlockNode
+export type NodeTypes = DefaultNodeTypes | SerializedBlockNode<MediaBlockType>
 
 type Props = {
   nodes: NodeTypes[]
@@ -92,28 +94,28 @@ export function serializeLexical({ nodes }: Props): JSX.Element {
             return null
           }
 
-          // switch (blockType) {
-          //   case 'cta':
-          //     return <CallToActionBlock key={index} {...block} />
-          //   case 'mediaBlock':
-          //     return (
-          //       <MediaBlock
-          //         className="col-start-1 col-span-3"
-          //         imgClassName="m-0"
-          //         key={index}
-          //         {...block}
-          //         captionClassName="mx-auto max-w-[48rem]"
-          //         enableGutter={false}
-          //         disableInnerContainer={true}
-          //       />
-          //     )
-          //   case 'banner':
-          //     return <BannerBlock className="col-start-2 mb-4" key={index} {...block} />
-          //   case 'code':
-          //     return <CodeBlock className="col-start-2" key={index} {...block} />
-          //   default:
-          //     return null
-          // }
+          switch (blockType) {
+            // case 'cta':
+            //   return <CallToActionBlock key={index} {...block} />
+            case 'mediaBlock':
+              return (
+                <MediaBlock
+                  className="col-start-1 col-span-3"
+                  imgClassName="m-0"
+                  key={index}
+                  {...block}
+                  captionClassName="mx-auto max-w-[48rem]"
+                  enableGutter={false}
+                  disableInnerContainer={true}
+                />
+              )
+            // case 'banner':
+            //   return <BannerBlock className="col-start-2 mb-4" key={index} {...block} />
+            // case 'code':
+            //   return <CodeBlock className="col-start-2" key={index} {...block} />
+            default:
+              return null
+          }
           return null
         } else {
           switch (node.type) {

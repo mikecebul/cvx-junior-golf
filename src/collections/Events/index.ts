@@ -24,6 +24,11 @@ export const Events: CollectionConfig = {
       required: true,
     },
     {
+      name: 'description',
+      type: 'richText',
+      required: true,
+    },
+    {
       name: 'date',
       type: 'date',
       admin: {
@@ -44,6 +49,7 @@ export const Events: CollectionConfig = {
     },
     {
       name: 'forms',
+      label: 'Registration Forms',
       type: 'join',
       collection: 'forms',
       on: 'event',

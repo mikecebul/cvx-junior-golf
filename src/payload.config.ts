@@ -16,6 +16,7 @@ import {
   LinkFeature,
   UnorderedListFeature,
   lexicalEditor,
+  BlocksFeature,
 } from '@payloadcms/richtext-lexical'
 import sharp from 'sharp' // editor-import
 import { UnderlineFeature } from '@payloadcms/richtext-lexical'
@@ -36,6 +37,7 @@ import { Events } from './collections/Events'
 import { Resources } from './collections/Resources'
 import { checkoutSessionCompleted } from './plugins/Stripe/WebHooks/checkoutSessionCompleted'
 import { Media } from './collections/Media'
+import { MediaBlock } from './blocks/MediaBlock/config'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -109,6 +111,9 @@ export default buildConfig({
         BoldFeature(),
         ItalicFeature(),
         UnorderedListFeature(),
+        BlocksFeature({
+          blocks: [MediaBlock],
+        }),
         LinkFeature({
           enabledCollections: ['pages', 'media'],
           fields: ({ defaultFields }) => {
@@ -181,11 +186,9 @@ export default buildConfig({
             relationTo: 'events',
             admin: {
               condition: (data, siblingData) => {
-                // Check if siblingData exists and has the requirePayment property
                 if (siblingData && 'requirePayment' in siblingData) {
                   return siblingData.requirePayment === true
                 }
-                // If siblingData is not available, don't show the field
                 return false
               },
             },
