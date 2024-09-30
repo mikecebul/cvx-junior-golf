@@ -11,7 +11,7 @@ export function MainNav({ navItems }: { navItems: NavItem[] }) {
 
   return (
     <div className="flex-1">
-      <div className="justify-center hidden gap-8 px-8 md:flex">
+      <div className="justify-center hidden gap-8 px-8 md:flex md:flex-wrap">
         {navItems.map(({ link }, i) => {
           const slug =
             typeof link.reference?.value === 'object'
@@ -19,7 +19,7 @@ export function MainNav({ navItems }: { navItems: NavItem[] }) {
                 typeof link.reference.value.slug === 'string'
                 ? link.reference.value.slug
                 : link.reference?.relationTo === 'media' &&
-                    typeof link.reference.value.url === 'string'
+                  typeof link.reference.value.url === 'string'
                   ? link.reference.value.url
                   : ''
               : ''
