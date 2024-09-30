@@ -52,7 +52,7 @@ export const fetchRandomImage: FieldHook = async ({ value, req, siblingData, dat
 
       // Upload the image to the media collection
       const image = await req.payload.create({
-        collection: 'cards',
+        collection: 'media',
         data: {
           alt: altDescription,
         },

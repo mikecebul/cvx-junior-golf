@@ -66,7 +66,7 @@ export const CompanyInfo: GlobalConfig = {
               name: 'email',
               label: 'Email',
               type: 'text',
-              defaultValue: 'info@basesmi.org',
+              defaultValue: 'info@cvxjrgolf.org',
               admin: { width: '45%' },
             },
           ],

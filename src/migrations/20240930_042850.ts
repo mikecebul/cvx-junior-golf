@@ -26,7 +26,7 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   	\`medium_impact_title\` text,
   	\`medium_impact_description\` text,
   	\`block_name\` text,
-  	FOREIGN KEY (\`high_impact_image_id\`) REFERENCES \`landscapes\`(\`id\`) ON UPDATE no action ON DELETE set null,
+  	FOREIGN KEY (\`high_impact_image_id\`) REFERENCES \`media\`(\`id\`) ON UPDATE no action ON DELETE set null,
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`pages\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
@@ -39,7 +39,7 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   	\`description\` text,
   	\`image_id\` integer,
   	\`block_name\` text,
-  	FOREIGN KEY (\`image_id\`) REFERENCES \`landscapes\`(\`id\`) ON UPDATE no action ON DELETE set null,
+  	FOREIGN KEY (\`image_id\`) REFERENCES \`media\`(\`id\`) ON UPDATE no action ON DELETE set null,
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`pages\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
@@ -89,7 +89,7 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   	\`link_label\` text,
   	\`link_appearance\` text DEFAULT 'default',
   	\`block_name\` text,
-  	FOREIGN KEY (\`image_id\`) REFERENCES \`landscapes\`(\`id\`) ON UPDATE no action ON DELETE set null,
+  	FOREIGN KEY (\`image_id\`) REFERENCES \`media\`(\`id\`) ON UPDATE no action ON DELETE set null,
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`pages\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
@@ -107,7 +107,7 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   	\`link_label\` text,
   	\`link_appearance\` text DEFAULT 'default',
   	\`block_name\` text,
-  	FOREIGN KEY (\`image_id\`) REFERENCES \`landscapes\`(\`id\`) ON UPDATE no action ON DELETE set null,
+  	FOREIGN KEY (\`image_id\`) REFERENCES \`media\`(\`id\`) ON UPDATE no action ON DELETE set null,
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`pages\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
@@ -125,7 +125,7 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   	\`link_appearance\` text DEFAULT 'default',
   	\`image_id\` integer,
   	\`block_name\` text,
-  	FOREIGN KEY (\`image_id\`) REFERENCES \`landscapes\`(\`id\`) ON UPDATE no action ON DELETE set null,
+  	FOREIGN KEY (\`image_id\`) REFERENCES \`media\`(\`id\`) ON UPDATE no action ON DELETE set null,
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`pages\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
@@ -151,7 +151,7 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   	\`keywords\` text,
   	\`image_id\` integer,
   	\`href\` text,
-  	FOREIGN KEY (\`image_id\`) REFERENCES \`cards\`(\`id\`) ON UPDATE no action ON DELETE set null,
+  	FOREIGN KEY (\`image_id\`) REFERENCES \`media\`(\`id\`) ON UPDATE no action ON DELETE set null,
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`pages_blocks_links_block\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
@@ -209,7 +209,7 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   	\`updated_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
   	\`created_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
   	\`_status\` text DEFAULT 'draft',
-  	FOREIGN KEY (\`meta_metadata_image_id\`) REFERENCES \`meta_images\`(\`id\`) ON UPDATE no action ON DELETE set null
+  	FOREIGN KEY (\`meta_metadata_image_id\`) REFERENCES \`media\`(\`id\`) ON UPDATE no action ON DELETE set null
   );
   `)
   await payload.db.drizzle.run(sql`CREATE TABLE \`pages_rels\` (
@@ -218,16 +218,14 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   	\`parent_id\` integer NOT NULL,
   	\`path\` text NOT NULL,
   	\`pages_id\` integer,
-  	\`files_id\` integer,
+  	\`media_id\` integer,
   	\`events_id\` integer,
   	\`resources_id\` integer,
-  	\`landscapes_id\` integer,
   	FOREIGN KEY (\`parent_id\`) REFERENCES \`pages\`(\`id\`) ON UPDATE no action ON DELETE cascade,
   	FOREIGN KEY (\`pages_id\`) REFERENCES \`pages\`(\`id\`) ON UPDATE no action ON DELETE cascade,
-  	FOREIGN KEY (\`files_id\`) REFERENCES \`files\`(\`id\`) ON UPDATE no action ON DELETE cascade,
+  	FOREIGN KEY (\`media_id\`) REFERENCES \`media\`(\`id\`) ON UPDATE no action ON DELETE cascade,
   	FOREIGN KEY (\`events_id\`) REFERENCES \`events\`(\`id\`) ON UPDATE no action ON DELETE cascade,
-  	FOREIGN KEY (\`resources_id\`) REFERENCES \`resources\`(\`id\`) ON UPDATE no action ON DELETE cascade,
-  	FOREIGN KEY (\`landscapes_id\`) REFERENCES \`landscapes\`(\`id\`) ON UPDATE no action ON DELETE cascade
+  	FOREIGN KEY (\`resources_id\`) REFERENCES \`resources\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
   await payload.db.drizzle.run(sql`CREATE TABLE \`_pages_v_blocks_hero_high_impact_links\` (
@@ -257,7 +255,7 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   	\`medium_impact_description\` text,
   	\`_uuid\` text,
   	\`block_name\` text,
-  	FOREIGN KEY (\`high_impact_image_id\`) REFERENCES \`landscapes\`(\`id\`) ON UPDATE no action ON DELETE set null,
+  	FOREIGN KEY (\`high_impact_image_id\`) REFERENCES \`media\`(\`id\`) ON UPDATE no action ON DELETE set null,
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_pages_v\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
@@ -271,7 +269,7 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   	\`image_id\` integer,
   	\`_uuid\` text,
   	\`block_name\` text,
-  	FOREIGN KEY (\`image_id\`) REFERENCES \`landscapes\`(\`id\`) ON UPDATE no action ON DELETE set null,
+  	FOREIGN KEY (\`image_id\`) REFERENCES \`media\`(\`id\`) ON UPDATE no action ON DELETE set null,
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_pages_v\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
@@ -325,7 +323,7 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   	\`link_appearance\` text DEFAULT 'default',
   	\`_uuid\` text,
   	\`block_name\` text,
-  	FOREIGN KEY (\`image_id\`) REFERENCES \`landscapes\`(\`id\`) ON UPDATE no action ON DELETE set null,
+  	FOREIGN KEY (\`image_id\`) REFERENCES \`media\`(\`id\`) ON UPDATE no action ON DELETE set null,
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_pages_v\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
@@ -344,7 +342,7 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   	\`link_appearance\` text DEFAULT 'default',
   	\`_uuid\` text,
   	\`block_name\` text,
-  	FOREIGN KEY (\`image_id\`) REFERENCES \`landscapes\`(\`id\`) ON UPDATE no action ON DELETE set null,
+  	FOREIGN KEY (\`image_id\`) REFERENCES \`media\`(\`id\`) ON UPDATE no action ON DELETE set null,
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_pages_v\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
@@ -363,7 +361,7 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   	\`image_id\` integer,
   	\`_uuid\` text,
   	\`block_name\` text,
-  	FOREIGN KEY (\`image_id\`) REFERENCES \`landscapes\`(\`id\`) ON UPDATE no action ON DELETE set null,
+  	FOREIGN KEY (\`image_id\`) REFERENCES \`media\`(\`id\`) ON UPDATE no action ON DELETE set null,
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_pages_v\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
@@ -391,7 +389,7 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   	\`image_id\` integer,
   	\`href\` text,
   	\`_uuid\` text,
-  	FOREIGN KEY (\`image_id\`) REFERENCES \`cards\`(\`id\`) ON UPDATE no action ON DELETE set null,
+  	FOREIGN KEY (\`image_id\`) REFERENCES \`media\`(\`id\`) ON UPDATE no action ON DELETE set null,
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_pages_v_blocks_links_block\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
@@ -459,7 +457,7 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   	\`latest\` integer,
   	\`autosave\` integer,
   	FOREIGN KEY (\`parent_id\`) REFERENCES \`pages\`(\`id\`) ON UPDATE no action ON DELETE set null,
-  	FOREIGN KEY (\`version_meta_metadata_image_id\`) REFERENCES \`meta_images\`(\`id\`) ON UPDATE no action ON DELETE set null
+  	FOREIGN KEY (\`version_meta_metadata_image_id\`) REFERENCES \`media\`(\`id\`) ON UPDATE no action ON DELETE set null
   );
   `)
   await payload.db.drizzle.run(sql`CREATE TABLE \`_pages_v_rels\` (
@@ -468,16 +466,14 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   	\`parent_id\` integer NOT NULL,
   	\`path\` text NOT NULL,
   	\`pages_id\` integer,
-  	\`files_id\` integer,
+  	\`media_id\` integer,
   	\`events_id\` integer,
   	\`resources_id\` integer,
-  	\`landscapes_id\` integer,
   	FOREIGN KEY (\`parent_id\`) REFERENCES \`_pages_v\`(\`id\`) ON UPDATE no action ON DELETE cascade,
   	FOREIGN KEY (\`pages_id\`) REFERENCES \`pages\`(\`id\`) ON UPDATE no action ON DELETE cascade,
-  	FOREIGN KEY (\`files_id\`) REFERENCES \`files\`(\`id\`) ON UPDATE no action ON DELETE cascade,
+  	FOREIGN KEY (\`media_id\`) REFERENCES \`media\`(\`id\`) ON UPDATE no action ON DELETE cascade,
   	FOREIGN KEY (\`events_id\`) REFERENCES \`events\`(\`id\`) ON UPDATE no action ON DELETE cascade,
-  	FOREIGN KEY (\`resources_id\`) REFERENCES \`resources\`(\`id\`) ON UPDATE no action ON DELETE cascade,
-  	FOREIGN KEY (\`landscapes_id\`) REFERENCES \`landscapes\`(\`id\`) ON UPDATE no action ON DELETE cascade
+  	FOREIGN KEY (\`resources_id\`) REFERENCES \`resources\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
   await payload.db.drizzle.run(sql`CREATE TABLE \`events\` (
@@ -516,16 +512,17 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   	\`parent_id\` integer NOT NULL,
   	\`path\` text NOT NULL,
   	\`pages_id\` integer,
-  	\`files_id\` integer,
+  	\`media_id\` integer,
   	FOREIGN KEY (\`parent_id\`) REFERENCES \`resources\`(\`id\`) ON UPDATE no action ON DELETE cascade,
   	FOREIGN KEY (\`pages_id\`) REFERENCES \`pages\`(\`id\`) ON UPDATE no action ON DELETE cascade,
-  	FOREIGN KEY (\`files_id\`) REFERENCES \`files\`(\`id\`) ON UPDATE no action ON DELETE cascade
+  	FOREIGN KEY (\`media_id\`) REFERENCES \`media\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await payload.db.drizzle.run(sql`CREATE TABLE \`avatars\` (
+  await payload.db.drizzle.run(sql`CREATE TABLE \`media\` (
   	\`id\` integer PRIMARY KEY NOT NULL,
   	\`alt\` text NOT NULL,
-  	\`prefix\` text DEFAULT 'avatars',
+  	\`caption\` text,
+  	\`prefix\` text DEFAULT 'v2',
   	\`updated_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
   	\`created_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
   	\`url\` text,
@@ -542,115 +539,13 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   	\`sizes_thumbnail_height\` numeric,
   	\`sizes_thumbnail_mime_type\` text,
   	\`sizes_thumbnail_filesize\` numeric,
-  	\`sizes_thumbnail_filename\` text
-  );
-  `)
-  await payload.db.drizzle.run(sql`CREATE TABLE \`cards\` (
-  	\`id\` integer PRIMARY KEY NOT NULL,
-  	\`alt\` text NOT NULL,
-  	\`prefix\` text DEFAULT 'cards',
-  	\`updated_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
-  	\`created_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
-  	\`url\` text,
-  	\`thumbnail_u_r_l\` text,
-  	\`filename\` text,
-  	\`mime_type\` text,
-  	\`filesize\` numeric,
-  	\`width\` numeric,
-  	\`height\` numeric,
-  	\`focal_x\` numeric,
-  	\`focal_y\` numeric,
-  	\`sizes_thumbnail_url\` text,
-  	\`sizes_thumbnail_width\` numeric,
-  	\`sizes_thumbnail_height\` numeric,
-  	\`sizes_thumbnail_mime_type\` text,
-  	\`sizes_thumbnail_filesize\` numeric,
-  	\`sizes_thumbnail_filename\` text
-  );
-  `)
-  await payload.db.drizzle.run(sql`CREATE TABLE \`landscapes\` (
-  	\`id\` integer PRIMARY KEY NOT NULL,
-  	\`alt\` text NOT NULL,
-  	\`prefix\` text DEFAULT 'landscapes',
-  	\`updated_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
-  	\`created_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
-  	\`url\` text,
-  	\`thumbnail_u_r_l\` text,
-  	\`filename\` text,
-  	\`mime_type\` text,
-  	\`filesize\` numeric,
-  	\`width\` numeric,
-  	\`height\` numeric,
-  	\`focal_x\` numeric,
-  	\`focal_y\` numeric,
-  	\`sizes_thumbnail_url\` text,
-  	\`sizes_thumbnail_width\` numeric,
-  	\`sizes_thumbnail_height\` numeric,
-  	\`sizes_thumbnail_mime_type\` text,
-  	\`sizes_thumbnail_filesize\` numeric,
-  	\`sizes_thumbnail_filename\` text
-  );
-  `)
-  await payload.db.drizzle.run(sql`CREATE TABLE \`portraits\` (
-  	\`id\` integer PRIMARY KEY NOT NULL,
-  	\`alt\` text NOT NULL,
-  	\`prefix\` text DEFAULT 'portraits',
-  	\`updated_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
-  	\`created_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
-  	\`url\` text,
-  	\`thumbnail_u_r_l\` text,
-  	\`filename\` text,
-  	\`mime_type\` text,
-  	\`filesize\` numeric,
-  	\`width\` numeric,
-  	\`height\` numeric,
-  	\`focal_x\` numeric,
-  	\`focal_y\` numeric,
-  	\`sizes_thumbnail_url\` text,
-  	\`sizes_thumbnail_width\` numeric,
-  	\`sizes_thumbnail_height\` numeric,
-  	\`sizes_thumbnail_mime_type\` text,
-  	\`sizes_thumbnail_filesize\` numeric,
-  	\`sizes_thumbnail_filename\` text
-  );
-  `)
-  await payload.db.drizzle.run(sql`CREATE TABLE \`meta_images\` (
-  	\`id\` integer PRIMARY KEY NOT NULL,
-  	\`alt\` text NOT NULL,
-  	\`prefix\` text DEFAULT 'meta',
-  	\`updated_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
-  	\`created_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
-  	\`url\` text,
-  	\`thumbnail_u_r_l\` text,
-  	\`filename\` text,
-  	\`mime_type\` text,
-  	\`filesize\` numeric,
-  	\`width\` numeric,
-  	\`height\` numeric,
-  	\`focal_x\` numeric,
-  	\`focal_y\` numeric,
-  	\`sizes_thumbnail_url\` text,
-  	\`sizes_thumbnail_width\` numeric,
-  	\`sizes_thumbnail_height\` numeric,
-  	\`sizes_thumbnail_mime_type\` text,
-  	\`sizes_thumbnail_filesize\` numeric,
-  	\`sizes_thumbnail_filename\` text
-  );
-  `)
-  await payload.db.drizzle.run(sql`CREATE TABLE \`files\` (
-  	\`id\` integer PRIMARY KEY NOT NULL,
-  	\`prefix\` text DEFAULT 'files',
-  	\`updated_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
-  	\`created_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
-  	\`url\` text,
-  	\`thumbnail_u_r_l\` text,
-  	\`filename\` text,
-  	\`mime_type\` text,
-  	\`filesize\` numeric,
-  	\`width\` numeric,
-  	\`height\` numeric,
-  	\`focal_x\` numeric,
-  	\`focal_y\` numeric
+  	\`sizes_thumbnail_filename\` text,
+  	\`sizes_meta_url\` text,
+  	\`sizes_meta_width\` numeric,
+  	\`sizes_meta_height\` numeric,
+  	\`sizes_meta_mime_type\` text,
+  	\`sizes_meta_filesize\` numeric,
+  	\`sizes_meta_filename\` text
   );
   `)
   await payload.db.drizzle.run(sql`CREATE TABLE \`users\` (
@@ -836,8 +731,8 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   await payload.db.drizzle.run(sql`CREATE TABLE \`form_submissions\` (
   	\`id\` integer PRIMARY KEY NOT NULL,
   	\`form_id\` integer NOT NULL,
-  	\`payment_status\` text DEFAULT 'pending',
-  	\`payment_amount\` text,
+  	\`status\` text DEFAULT 'pending',
+  	\`amount\` text,
   	\`updated_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
   	\`created_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
   	FOREIGN KEY (\`form_id\`) REFERENCES \`forms\`(\`id\`) ON UPDATE no action ON DELETE set null
@@ -877,12 +772,7 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   	\`pages_id\` integer,
   	\`events_id\` integer,
   	\`resources_id\` integer,
-  	\`avatars_id\` integer,
-  	\`cards_id\` integer,
-  	\`landscapes_id\` integer,
-  	\`portraits_id\` integer,
-  	\`meta_images_id\` integer,
-  	\`files_id\` integer,
+  	\`media_id\` integer,
   	\`users_id\` integer,
   	\`forms_id\` integer,
   	\`form_submissions_id\` integer,
@@ -891,12 +781,7 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`pages_id\`) REFERENCES \`pages\`(\`id\`) ON UPDATE no action ON DELETE cascade,
   	FOREIGN KEY (\`events_id\`) REFERENCES \`events\`(\`id\`) ON UPDATE no action ON DELETE cascade,
   	FOREIGN KEY (\`resources_id\`) REFERENCES \`resources\`(\`id\`) ON UPDATE no action ON DELETE cascade,
-  	FOREIGN KEY (\`avatars_id\`) REFERENCES \`avatars\`(\`id\`) ON UPDATE no action ON DELETE cascade,
-  	FOREIGN KEY (\`cards_id\`) REFERENCES \`cards\`(\`id\`) ON UPDATE no action ON DELETE cascade,
-  	FOREIGN KEY (\`landscapes_id\`) REFERENCES \`landscapes\`(\`id\`) ON UPDATE no action ON DELETE cascade,
-  	FOREIGN KEY (\`portraits_id\`) REFERENCES \`portraits\`(\`id\`) ON UPDATE no action ON DELETE cascade,
-  	FOREIGN KEY (\`meta_images_id\`) REFERENCES \`meta_images\`(\`id\`) ON UPDATE no action ON DELETE cascade,
-  	FOREIGN KEY (\`files_id\`) REFERENCES \`files\`(\`id\`) ON UPDATE no action ON DELETE cascade,
+  	FOREIGN KEY (\`media_id\`) REFERENCES \`media\`(\`id\`) ON UPDATE no action ON DELETE cascade,
   	FOREIGN KEY (\`users_id\`) REFERENCES \`users\`(\`id\`) ON UPDATE no action ON DELETE cascade,
   	FOREIGN KEY (\`forms_id\`) REFERENCES \`forms\`(\`id\`) ON UPDATE no action ON DELETE cascade,
   	FOREIGN KEY (\`form_submissions_id\`) REFERENCES \`form_submissions\`(\`id\`) ON UPDATE no action ON DELETE cascade,
@@ -952,10 +837,10 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   	\`parent_id\` integer NOT NULL,
   	\`path\` text NOT NULL,
   	\`pages_id\` integer,
-  	\`files_id\` integer,
+  	\`media_id\` integer,
   	FOREIGN KEY (\`parent_id\`) REFERENCES \`header\`(\`id\`) ON UPDATE no action ON DELETE cascade,
   	FOREIGN KEY (\`pages_id\`) REFERENCES \`pages\`(\`id\`) ON UPDATE no action ON DELETE cascade,
-  	FOREIGN KEY (\`files_id\`) REFERENCES \`files\`(\`id\`) ON UPDATE no action ON DELETE cascade
+  	FOREIGN KEY (\`media_id\`) REFERENCES \`media\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
   await payload.db.drizzle.run(sql`CREATE TABLE \`footer_page_links\` (
@@ -983,10 +868,10 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   	\`parent_id\` integer NOT NULL,
   	\`path\` text NOT NULL,
   	\`pages_id\` integer,
-  	\`files_id\` integer,
+  	\`media_id\` integer,
   	FOREIGN KEY (\`parent_id\`) REFERENCES \`footer\`(\`id\`) ON UPDATE no action ON DELETE cascade,
   	FOREIGN KEY (\`pages_id\`) REFERENCES \`pages\`(\`id\`) ON UPDATE no action ON DELETE cascade,
-  	FOREIGN KEY (\`files_id\`) REFERENCES \`files\`(\`id\`) ON UPDATE no action ON DELETE cascade
+  	FOREIGN KEY (\`media_id\`) REFERENCES \`media\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
   await payload.db.drizzle.run(sql`CREATE TABLE \`company_info_social\` (
@@ -1018,7 +903,7 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   	\`contact_fax\` text DEFAULT '(231) 547-4970',
   	\`contact_address\` text DEFAULT '101 M-66 | Charlevoix, MI',
   	\`contact_google_map_link\` text DEFAULT 'https://goo.gl/maps/X956fmf511Fef9Pr7',
-  	\`contact_email\` text DEFAULT 'info@basesmi.org',
+  	\`contact_email\` text DEFAULT 'info@cvxjrgolf.org',
   	\`updated_at\` text,
   	\`created_at\` text
   );
@@ -1029,10 +914,10 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   	\`parent_id\` integer NOT NULL,
   	\`path\` text NOT NULL,
   	\`pages_id\` integer,
-  	\`files_id\` integer,
+  	\`media_id\` integer,
   	FOREIGN KEY (\`parent_id\`) REFERENCES \`company_info\`(\`id\`) ON UPDATE no action ON DELETE cascade,
   	FOREIGN KEY (\`pages_id\`) REFERENCES \`pages\`(\`id\`) ON UPDATE no action ON DELETE cascade,
-  	FOREIGN KEY (\`files_id\`) REFERENCES \`files\`(\`id\`) ON UPDATE no action ON DELETE cascade
+  	FOREIGN KEY (\`media_id\`) REFERENCES \`media\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
   await payload.db.drizzle.run(sql`CREATE INDEX \`pages_blocks_hero_high_impact_links_order_idx\` ON \`pages_blocks_hero_high_impact_links\` (\`_order\`);`)
@@ -1138,23 +1023,10 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   await payload.db.drizzle.run(sql`CREATE INDEX \`resources_rels_order_idx\` ON \`resources_rels\` (\`order\`);`)
   await payload.db.drizzle.run(sql`CREATE INDEX \`resources_rels_parent_idx\` ON \`resources_rels\` (\`parent_id\`);`)
   await payload.db.drizzle.run(sql`CREATE INDEX \`resources_rels_path_idx\` ON \`resources_rels\` (\`path\`);`)
-  await payload.db.drizzle.run(sql`CREATE INDEX \`avatars_created_at_idx\` ON \`avatars\` (\`created_at\`);`)
-  await payload.db.drizzle.run(sql`CREATE UNIQUE INDEX \`avatars_filename_idx\` ON \`avatars\` (\`filename\`);`)
-  await payload.db.drizzle.run(sql`CREATE INDEX \`avatars_sizes_thumbnail_sizes_thumbnail_filename_idx\` ON \`avatars\` (\`sizes_thumbnail_filename\`);`)
-  await payload.db.drizzle.run(sql`CREATE INDEX \`cards_created_at_idx\` ON \`cards\` (\`created_at\`);`)
-  await payload.db.drizzle.run(sql`CREATE UNIQUE INDEX \`cards_filename_idx\` ON \`cards\` (\`filename\`);`)
-  await payload.db.drizzle.run(sql`CREATE INDEX \`cards_sizes_thumbnail_sizes_thumbnail_filename_idx\` ON \`cards\` (\`sizes_thumbnail_filename\`);`)
-  await payload.db.drizzle.run(sql`CREATE INDEX \`landscapes_created_at_idx\` ON \`landscapes\` (\`created_at\`);`)
-  await payload.db.drizzle.run(sql`CREATE UNIQUE INDEX \`landscapes_filename_idx\` ON \`landscapes\` (\`filename\`);`)
-  await payload.db.drizzle.run(sql`CREATE INDEX \`landscapes_sizes_thumbnail_sizes_thumbnail_filename_idx\` ON \`landscapes\` (\`sizes_thumbnail_filename\`);`)
-  await payload.db.drizzle.run(sql`CREATE INDEX \`portraits_created_at_idx\` ON \`portraits\` (\`created_at\`);`)
-  await payload.db.drizzle.run(sql`CREATE UNIQUE INDEX \`portraits_filename_idx\` ON \`portraits\` (\`filename\`);`)
-  await payload.db.drizzle.run(sql`CREATE INDEX \`portraits_sizes_thumbnail_sizes_thumbnail_filename_idx\` ON \`portraits\` (\`sizes_thumbnail_filename\`);`)
-  await payload.db.drizzle.run(sql`CREATE INDEX \`meta_images_created_at_idx\` ON \`meta_images\` (\`created_at\`);`)
-  await payload.db.drizzle.run(sql`CREATE UNIQUE INDEX \`meta_images_filename_idx\` ON \`meta_images\` (\`filename\`);`)
-  await payload.db.drizzle.run(sql`CREATE INDEX \`meta_images_sizes_thumbnail_sizes_thumbnail_filename_idx\` ON \`meta_images\` (\`sizes_thumbnail_filename\`);`)
-  await payload.db.drizzle.run(sql`CREATE INDEX \`files_created_at_idx\` ON \`files\` (\`created_at\`);`)
-  await payload.db.drizzle.run(sql`CREATE UNIQUE INDEX \`files_filename_idx\` ON \`files\` (\`filename\`);`)
+  await payload.db.drizzle.run(sql`CREATE INDEX \`media_created_at_idx\` ON \`media\` (\`created_at\`);`)
+  await payload.db.drizzle.run(sql`CREATE UNIQUE INDEX \`media_filename_idx\` ON \`media\` (\`filename\`);`)
+  await payload.db.drizzle.run(sql`CREATE INDEX \`media_sizes_thumbnail_sizes_thumbnail_filename_idx\` ON \`media\` (\`sizes_thumbnail_filename\`);`)
+  await payload.db.drizzle.run(sql`CREATE INDEX \`media_sizes_meta_sizes_meta_filename_idx\` ON \`media\` (\`sizes_meta_filename\`);`)
   await payload.db.drizzle.run(sql`CREATE INDEX \`users_created_at_idx\` ON \`users\` (\`created_at\`);`)
   await payload.db.drizzle.run(sql`CREATE UNIQUE INDEX \`users_email_idx\` ON \`users\` (\`email\`);`)
   await payload.db.drizzle.run(sql`CREATE INDEX \`forms_blocks_checkbox_order_idx\` ON \`forms_blocks_checkbox\` (\`_order\`);`)
@@ -1266,12 +1138,7 @@ export async function down({ payload, req }: MigrateDownArgs): Promise<void> {
   await payload.db.drizzle.run(sql`DROP TABLE \`resources_links\`;`)
   await payload.db.drizzle.run(sql`DROP TABLE \`resources\`;`)
   await payload.db.drizzle.run(sql`DROP TABLE \`resources_rels\`;`)
-  await payload.db.drizzle.run(sql`DROP TABLE \`avatars\`;`)
-  await payload.db.drizzle.run(sql`DROP TABLE \`cards\`;`)
-  await payload.db.drizzle.run(sql`DROP TABLE \`landscapes\`;`)
-  await payload.db.drizzle.run(sql`DROP TABLE \`portraits\`;`)
-  await payload.db.drizzle.run(sql`DROP TABLE \`meta_images\`;`)
-  await payload.db.drizzle.run(sql`DROP TABLE \`files\`;`)
+  await payload.db.drizzle.run(sql`DROP TABLE \`media\`;`)
   await payload.db.drizzle.run(sql`DROP TABLE \`users\`;`)
   await payload.db.drizzle.run(sql`DROP TABLE \`forms_blocks_checkbox\`;`)
   await payload.db.drizzle.run(sql`DROP TABLE \`forms_blocks_country\`;`)

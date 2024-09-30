@@ -42,5 +42,11 @@ export const Events: CollectionConfig = {
       name: 'price',
       type: 'number',
     },
+    {
+      name: 'forms',
+      type: 'join',
+      collection: 'forms',
+      on: 'event',
+    },
   ],
 }

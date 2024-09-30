@@ -31,16 +31,11 @@ import { revalidateRedirects } from './hooks/revalidateRedirects'
 import { GenerateTitle, GenerateURL, GenerateImage } from '@payloadcms/plugin-seo/types'
 import { Page } from 'src/payload-types'
 import { CompanyInfo } from './globals/CompanyInfo/config'
-import { Avatars } from './collections/Avatars'
-import { Landcapes } from './collections/Landscapes'
-import { Cards } from './collections/Cards'
-import { Portraits } from './collections/Portraits'
-import { Files } from './collections/Files'
 import { superAdmin } from './access/superAdmin'
-import { MetaImages } from './collections/MetaImages'
 import { Events } from './collections/Events'
 import { Resources } from './collections/Resources'
 import { checkoutSessionCompleted } from './plugins/Stripe/WebHooks/checkoutSessionCompleted'
+import { Media } from './collections/Media'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -115,7 +110,7 @@ export default buildConfig({
         ItalicFeature(),
         UnorderedListFeature(),
         LinkFeature({
-          enabledCollections: ['pages', 'files'],
+          enabledCollections: ['pages', 'media'],
           fields: ({ defaultFields }) => {
             const defaultFieldsWithoutUrl = defaultFields.filter((field) => {
               if ('name' in field && field.name === 'url') return false
@@ -141,24 +136,13 @@ export default buildConfig({
   }),
   db: sqliteAdapter({
     client: {
-      url: process.env.LOCAL_DATABASE_URL || process.env.TURSO_DATABASE_URL!,
+      url: process.env.LOCAL_DATABASE_URL ?? process.env.TURSO_DATABASE_URL!,
       authToken: process.env.LOCAL_DATABASE_URL ? undefined : process.env.TURSO_AUTH_TOKEN,
     },
-    push: true,
-    // logger: true,
+    push: Boolean(process.env.LOCAL_DATABASE_URL),
+    logger: false,
   }),
-  collections: [
-    Pages,
-    Events,
-    Resources,
-    Avatars,
-    Cards,
-    Landcapes,
-    Portraits,
-    MetaImages,
-    Files,
-    Users,
-  ],
+  collections: [Pages, Events, Resources, Media, Users],
   cors: [process.env.NEXT_PUBLIC_SERVER_URL || ''].filter(Boolean),
   csrf: [process.env.NEXT_PUBLIC_SERVER_URL || ''].filter(Boolean),
   email: resendAdapter({
@@ -221,33 +205,50 @@ export default buildConfig({
             }
             return field
           }),
+          {
+            name: 'submissions',
+            type: 'join',
+            collection: 'form-submissions',
+            on: 'form',
+          },
         ],
       },
       formSubmissionOverrides: {
         fields: ({ defaultFields }) => {
-          return [
-            ...defaultFields,
-            {
-              type: 'group',
-              name: 'payment',
-              label: 'Payment Information',
-              admin: {
-                position: 'sidebar',
+          return defaultFields
+            .map((field) => {
+              if (field.type === 'array') {
+                return {
+                  ...field,
+                  admin: {
+                    ...field.admin,
+                    components: {
+                      RowLabel: '@/fields/form-submissions/FormSubmissionRowLabel',
+                    },
+                  },
+                }
+              }
+              return field
+            })
+            .concat([
+              {
+                name: 'status',
+                label: 'Payment Status',
+                type: 'text',
+                defaultValue: 'pending',
+                admin: {
+                  position: 'sidebar',
+                },
               },
-              fields: [
-                {
-                  name: 'status',
-                  type: 'text',
-                  defaultValue: 'pending',
+              {
+                name: 'amount',
+                label: 'Amount Paid',
+                type: 'text',
+                admin: {
+                  position: 'sidebar',
                 },
-                {
-                  name: 'amount',
-                  type: 'text',
-                  label: 'Amount Paid',
-                },
-              ],
-            },
-          ]
+              },
+            ])
         },
       },
     }),
@@ -288,47 +289,12 @@ export default buildConfig({
     s3StoragePlugin({
       ...S3_PLUGIN_CONFIG,
       collections: {
-        avatars: {
+        media: {
           disableLocalStorage: true,
           generateFileURL: (args: any) => {
             return `https://${process.env.NEXT_PUBLIC_S3_HOSTNAME}/${args.prefix}/${args.filename}`
           },
-          prefix: 'avatars',
-        },
-        cards: {
-          disableLocalStorage: true,
-          generateFileURL: (args: any) => {
-            return `https://${process.env.NEXT_PUBLIC_S3_HOSTNAME}/${args.prefix}/${args.filename}`
-          },
-          prefix: 'cards',
-        },
-        landscapes: {
-          disableLocalStorage: true,
-          generateFileURL: (args: any) => {
-            return `https://${process.env.NEXT_PUBLIC_S3_HOSTNAME}/${args.prefix}/${args.filename}`
-          },
-          prefix: 'landscapes',
-        },
-        portraits: {
-          disableLocalStorage: true,
-          generateFileURL: (args: any) => {
-            return `https://${process.env.NEXT_PUBLIC_S3_HOSTNAME}/${args.prefix}/${args.filename}`
-          },
-          prefix: 'portraits',
-        },
-        'meta-images': {
-          disableLocalStorage: true,
-          generateFileURL: (args: any) => {
-            return `https://${process.env.NEXT_PUBLIC_S3_HOSTNAME}/${args.prefix}/${args.filename}`
-          },
-          prefix: 'meta',
-        },
-        files: {
-          disableLocalStorage: true,
-          generateFileURL: (args: any) => {
-            return `https://${process.env.NEXT_PUBLIC_S3_HOSTNAME}/${args.prefix}/${args.filename}`
-          },
-          prefix: 'files',
+          prefix: 'v2',
         },
       },
     }),

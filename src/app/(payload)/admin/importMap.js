@@ -32,10 +32,11 @@ import { InlineCodeFeatureClient as InlineCodeFeatureClient_30 } from '@payloadc
 import { SuperscriptFeatureClient as SuperscriptFeatureClient_31 } from '@payloadcms/richtext-lexical/client'
 import { SubscriptFeatureClient as SubscriptFeatureClient_32 } from '@payloadcms/richtext-lexical/client'
 import { StrikethroughFeatureClient as StrikethroughFeatureClient_33 } from '@payloadcms/richtext-lexical/client'
-import { default as default_34 } from '@/globals/CompanyInfo/SocialRowLabel'
-import { default as default_35 } from '@/globals/CompanyInfo/HoursRowLabel'
-import { default as default_36 } from '@/graphics/Icon'
-import { default as default_37 } from '@/graphics/Logo'
+import { default as default_34 } from '@/fields/form-submissions/FormSubmissionRowLabel'
+import { default as default_35 } from '@/globals/CompanyInfo/SocialRowLabel'
+import { default as default_36 } from '@/globals/CompanyInfo/HoursRowLabel'
+import { default as default_37 } from '@/graphics/Icon'
+import { default as default_38 } from '@/graphics/Logo'
 
 export const importMap = {
   "@/fields/link/LinkRowLabel#default": default_0,
@@ -72,8 +73,9 @@ export const importMap = {
   "@payloadcms/richtext-lexical/client#SuperscriptFeatureClient": SuperscriptFeatureClient_31,
   "@payloadcms/richtext-lexical/client#SubscriptFeatureClient": SubscriptFeatureClient_32,
   "@payloadcms/richtext-lexical/client#StrikethroughFeatureClient": StrikethroughFeatureClient_33,
-  "@/globals/CompanyInfo/SocialRowLabel#default": default_34,
-  "@/globals/CompanyInfo/HoursRowLabel#default": default_35,
-  "@/graphics/Icon#default": default_36,
-  "@/graphics/Logo#default": default_37
+  "@/fields/form-submissions/FormSubmissionRowLabel#default": default_34,
+  "@/globals/CompanyInfo/SocialRowLabel#default": default_35,
+  "@/globals/CompanyInfo/HoursRowLabel#default": default_36,
+  "@/graphics/Icon#default": default_37,
+  "@/graphics/Logo#default": default_38
 }

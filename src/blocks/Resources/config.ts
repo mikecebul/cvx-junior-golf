@@ -29,8 +29,8 @@ export const Resources: Block = {
     {
       name: 'image',
       type: 'upload',
-      relationTo: 'landscapes',
+      relationTo: 'media',
     },
-    link()
+    link(),
   ],
 }

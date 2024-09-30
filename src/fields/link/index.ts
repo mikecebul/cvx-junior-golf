@@ -1,4 +1,4 @@
-import type { Field } from 'payload'
+import type { Field, Where } from 'payload'
 
 import deepMerge from '@/utilities/deepMerge'
 import { addHTTPS } from '@/hooks/addHTTPS'
@@ -77,8 +77,19 @@ export const link: LinkType = ({ appearances, disableLabel = false, overrides = 
       },
       label: 'Document to link to',
       maxDepth: 1,
-      relationTo: ['pages', 'files'],
+      relationTo: ['pages', 'media'],
       required: true,
+      filterOptions: ({ relationTo }) => {
+        if (relationTo === 'media') {
+          return {
+            mimeType: { contains: 'pdf' },
+          }
+        }
+        if (relationTo === 'pages') {
+          return true
+        }
+        return false
+      },
     },
     {
       name: 'url',

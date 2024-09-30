@@ -21,12 +21,10 @@ export const checkoutSessionCompleted: StripeWebhookHandler<{
       id: submissionId,
       overrideAccess: true,
       data: {
-        payment: {
-          status: 'paid',
-          amount: event.data.object.amount_total
-            ? (event.data.object.amount_total / 100)?.toString()
-            : '0',
-        },
+        status: 'paid',
+        amount: event.data.object.amount_total
+          ? (event.data.object.amount_total / 100)?.toString()
+          : '0',
       },
     })
 

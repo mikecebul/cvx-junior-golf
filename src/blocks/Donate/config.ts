@@ -1,5 +1,5 @@
-import { link } from "@/fields/link";
-import { Block } from "payload";
+import { link } from '@/fields/link'
+import { Block } from 'payload'
 
 export const Donate: Block = {
   slug: 'donate',
@@ -19,7 +19,7 @@ export const Donate: Block = {
     {
       name: 'image',
       type: 'upload',
-      relationTo: 'landscapes',
+      relationTo: 'media',
     },
   ],
 }

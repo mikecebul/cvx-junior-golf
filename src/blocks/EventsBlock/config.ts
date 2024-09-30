@@ -32,7 +32,7 @@ export const Events: Block = {
     {
       name: 'image',
       type: 'upload',
-      relationTo: 'landscapes',
+      relationTo: 'media',
       required: true,
     },
   ],

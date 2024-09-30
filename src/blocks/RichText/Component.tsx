@@ -1,12 +1,12 @@
 import Container from '@/components/Container'
 import { Subtitle } from '@/components/Hero/HeroMedium'
 import { RichTextBlock as RichTextBlockType } from '@/payload-types'
-import { imagesAsLandscapes } from '@/utilities/imagesAsLandscapes'
+import { imagesAsMedia } from '@/utilities/imagesAsLandscapes'
 import RichTextCarousel from './RichTextCarousel'
 import RichText from '@/components/RichText'
 
 export const RichTextBlock = ({ subtitle, images, richContent }: RichTextBlockType) => {
-  const validImages = imagesAsLandscapes(images)
+  const validImages = imagesAsMedia(images)
 
   return (
     <Container className="xl:overflow-visible">

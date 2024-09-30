@@ -1,18 +1,18 @@
 import { CollectionConfig } from 'payload'
 import { anyone } from '../../access/anyone'
-import path from 'path'
 import { fileURLToPath } from 'url'
-import { authenticated } from '@/access/authenticated'
+import path from 'path'
 import { superAdmin } from '@/access/superAdmin'
+import { authenticated } from '@/access/authenticated'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
-export const Avatars: CollectionConfig = {
-  slug: 'avatars',
+export const Media: CollectionConfig = {
+  slug: 'media',
   labels: {
-    singular: 'Avatar',
-    plural: 'Avatars',
+    singular: 'Media',
+    plural: 'Media',
   },
   access: {
     create: authenticated,
@@ -21,19 +21,16 @@ export const Avatars: CollectionConfig = {
     update: authenticated,
   },
   admin: {
-    hideAPIURL: !superAdmin,
     defaultColumns: ['filename', 'alt', 'updatedAt'],
-    group: 'Media',
-    description: 'Images with a 1:1 ratio. Crop only their face with some padding.',
+    hideAPIURL: !superAdmin,
   },
   upload: {
-    crop: true,
     formatOptions: {
       format: 'webp',
     },
     resizeOptions: {
-      width: 400,
-      height: 400,
+      width: 1200,
+      height: undefined,
     },
     imageSizes: [
       {
@@ -44,15 +41,32 @@ export const Avatars: CollectionConfig = {
           format: 'webp',
         },
       },
+      {
+        name: 'meta',
+        width: 1200,
+        height: 630,
+        position: 'top',
+        fit: 'inside',
+      },
     ],
     adminThumbnail: 'thumbnail',
-    staticDir: path.resolve(dirname, '../../../public/avatars'),
+    staticDir: path.resolve(dirname, '../../../public/media'),
   },
   fields: [
     {
       name: 'alt',
       type: 'text',
       required: true,
+      admin: {
+        description: 'Alternative text for SEO and accessibility',
+      },
+    },
+    {
+      name: 'caption',
+      type: 'text',
+      admin: {
+        hidden: true,
+      },
     },
   ],
 }

@@ -98,7 +98,7 @@ export const Pages: CollectionConfig = {
               },
               fields: [
                 OverviewField({
-                  titlePath: 'meta.metadata.t itle',
+                  titlePath: 'meta.metadata.title',
                   descriptionPath: 'meta.metadata.description',
                   imagePath: 'meta.metadata.image',
                 }),
@@ -106,7 +106,7 @@ export const Pages: CollectionConfig = {
                   hasGenerateFn: true,
                 }),
                 MetaImageField({
-                  relationTo: 'meta-images',
+                  relationTo: 'media',
                 }),
 
                 MetaDescriptionField({}),

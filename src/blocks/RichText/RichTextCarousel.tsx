@@ -1,12 +1,12 @@
 'use client'
 
 import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel'
+import { Media } from '@/payload-types'
 import Autoplay from 'embla-carousel-autoplay'
 import Fade from 'embla-carousel-fade'
 import Image from 'next/image'
-import { Landscape } from '@/payload-types'
 
-export default function RichTextCarousel({ images }: { images: Landscape[] }) {
+export default function RichTextCarousel({ images }: { images: Media[] }) {
   if (!images) return null
 
   return (

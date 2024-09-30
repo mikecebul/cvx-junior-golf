@@ -58,7 +58,7 @@ export const Hero: Block = {
         {
           name: 'image',
           type: 'upload',
-          relationTo: 'landscapes',
+          relationTo: 'media',
           required: true,
         },
         // {

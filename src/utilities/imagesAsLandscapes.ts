@@ -1,12 +1,12 @@
-import type { Landscape, RichTextBlock } from '@/payload-types'
+import type { Media, RichTextBlock } from '@/payload-types'
 
 export type SanitizedImage = {
-  image: Landscape
+  image: Media
   id: string
 }
 
-export const imagesAsLandscapes = (images: RichTextBlock['images']): Landscape[] => {
-  const isLandscape = (item: any): item is Landscape => {
+export const imagesAsMedia = (images: RichTextBlock['images']): Media[] => {
+  const isLandscape = (item: any): item is Media => {
     return typeof item === 'object' && item !== null && 'url' in item
   }
 

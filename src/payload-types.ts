@@ -17,7 +17,7 @@ export type LinkCards =
       description: string;
       imageUploadOption?: ('generate' | 'manual') | null;
       keywords?: string | null;
-      image?: (number | null) | Card;
+      image?: (number | null) | Media;
       href: string;
       id?: string | null;
     }[]
@@ -31,12 +31,7 @@ export interface Config {
     pages: Page;
     events: Event;
     resources: Resource;
-    avatars: Avatar;
-    cards: Card;
-    landscapes: Landscape;
-    portraits: Portrait;
-    'meta-images': MetaImage;
-    files: File;
+    media: Media;
     users: User;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -99,7 +94,7 @@ export interface Page {
     hideFromSearchEngines?: boolean | null;
     metadata?: {
       title?: string | null;
-      image?: (number | null) | MetaImage;
+      image?: (number | null) | Media;
       description?: string | null;
     };
   };
@@ -130,8 +125,8 @@ export interface Hero {
                   value: number | Page;
                 } | null)
               | ({
-                  relationTo: 'files';
-                  value: number | File;
+                  relationTo: 'media';
+                  value: number | Media;
                 } | null);
             url?: string | null;
             label: string;
@@ -140,7 +135,7 @@ export interface Hero {
           id?: string | null;
         }[]
       | null;
-    image: number | Landscape;
+    image: number | Media;
   };
   mediumImpact?: {
     subtitle?: string | null;
@@ -153,30 +148,12 @@ export interface Hero {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "files".
+ * via the `definition` "media".
  */
-export interface File {
-  id: number;
-  prefix?: string | null;
-  updatedAt: string;
-  createdAt: string;
-  url?: string | null;
-  thumbnailURL?: string | null;
-  filename?: string | null;
-  mimeType?: string | null;
-  filesize?: number | null;
-  width?: number | null;
-  height?: number | null;
-  focalX?: number | null;
-  focalY?: number | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "landscapes".
- */
-export interface Landscape {
+export interface Media {
   id: number;
   alt: string;
+  caption?: string | null;
   prefix?: string | null;
   updatedAt: string;
   createdAt: string;
@@ -191,6 +168,14 @@ export interface Landscape {
   focalY?: number | null;
   sizes?: {
     thumbnail?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    meta?: {
       url?: string | null;
       width?: number | null;
       height?: number | null;
@@ -208,7 +193,7 @@ export interface EventsBlock {
   title: string;
   description: string;
   eventItems?: (number | Event)[] | null;
-  image: number | Landscape;
+  image: number | Media;
   id?: string | null;
   blockName?: string | null;
   blockType: 'events';
@@ -223,275 +208,12 @@ export interface Event {
   date: string;
   location: string;
   price?: number | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "HowItWorksBlock".
- */
-export interface HowItWorksBlock {
-  title?: string | null;
-  description?: string | null;
-  links?:
-    | {
-        link: {
-          type?: ('reference' | 'custom') | null;
-          newTab?: boolean | null;
-          reference?:
-            | ({
-                relationTo: 'pages';
-                value: number | Page;
-              } | null)
-            | ({
-                relationTo: 'files';
-                value: number | File;
-              } | null);
-          url?: string | null;
-          label: string;
-          appearance?: ('default' | 'outline') | null;
-        };
-        id?: string | null;
-      }[]
-    | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'howItWorks';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "HistoryBlock".
- */
-export interface HistoryBlock {
-  title?: string | null;
-  description?: string | null;
-  image?: (number | null) | Landscape;
-  items?:
-    | {
-        title?: string | null;
-        description?: string | null;
-        id?: string | null;
-      }[]
-    | null;
-  link: {
-    type?: ('reference' | 'custom') | null;
-    newTab?: boolean | null;
-    reference?:
-      | ({
-          relationTo: 'pages';
-          value: number | Page;
-        } | null)
-      | ({
-          relationTo: 'files';
-          value: number | File;
-        } | null);
-    url?: string | null;
-    label: string;
-    appearance?: ('default' | 'outline') | null;
-  };
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'history';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "ResourcesBlock".
- */
-export interface ResourcesBlock {
-  title: string;
-  description: string;
-  resources?: (number | Resource)[] | null;
-  image?: (number | null) | Landscape;
-  link: {
-    type?: ('reference' | 'custom') | null;
-    newTab?: boolean | null;
-    reference?:
-      | ({
-          relationTo: 'pages';
-          value: number | Page;
-        } | null)
-      | ({
-          relationTo: 'files';
-          value: number | File;
-        } | null);
-    url?: string | null;
-    label: string;
-    appearance?: ('default' | 'outline') | null;
-  };
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'resources';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "resources".
- */
-export interface Resource {
-  id: number;
-  title: string;
-  description: string;
-  links?:
-    | {
-        link: {
-          type?: ('reference' | 'custom') | null;
-          newTab?: boolean | null;
-          reference?:
-            | ({
-                relationTo: 'pages';
-                value: number | Page;
-              } | null)
-            | ({
-                relationTo: 'files';
-                value: number | File;
-              } | null);
-          url?: string | null;
-          label: string;
-          appearance?: ('default' | 'outline') | null;
-        };
-        id?: string | null;
-      }[]
-    | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "DonateBlock".
- */
-export interface DonateBlock {
-  title?: string | null;
-  description?: string | null;
-  link: {
-    type?: ('reference' | 'custom') | null;
-    newTab?: boolean | null;
-    reference?:
-      | ({
-          relationTo: 'pages';
-          value: number | Page;
-        } | null)
-      | ({
-          relationTo: 'files';
-          value: number | File;
-        } | null);
-    url?: string | null;
-    label: string;
-    appearance?: ('default' | 'outline') | null;
-  };
-  image?: (number | null) | Landscape;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'donate';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "RichTextBlock".
- */
-export interface RichTextBlock {
-  subtitle?: string | null;
-  richContent?: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
+  forms?: {
+    docs?: (number | Form)[] | null;
+    hasNextPage?: boolean | null;
   } | null;
-  images?: (number | Landscape)[] | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'richText';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "LinksBlock".
- */
-export interface LinksBlock {
-  hero?: Hero[] | null;
-  linkCards?: LinkCards;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'linksBlock';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "cards".
- */
-export interface Card {
-  id: number;
-  alt: string;
-  prefix?: string | null;
   updatedAt: string;
   createdAt: string;
-  url?: string | null;
-  thumbnailURL?: string | null;
-  filename?: string | null;
-  mimeType?: string | null;
-  filesize?: number | null;
-  width?: number | null;
-  height?: number | null;
-  focalX?: number | null;
-  focalY?: number | null;
-  sizes?: {
-    thumbnail?: {
-      url?: string | null;
-      width?: number | null;
-      height?: number | null;
-      mimeType?: string | null;
-      filesize?: number | null;
-      filename?: string | null;
-    };
-  };
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "EventsPageBlock".
- */
-export interface EventsPageBlock {
-  title?: string | null;
-  events?: (number | Event)[] | null;
-  announcements?:
-    | {
-        title?: string | null;
-        description?: string | null;
-        id?: string | null;
-      }[]
-    | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'eventsPage';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "FormBlock".
- */
-export interface FormBlock {
-  form: number | Form;
-  enableIntro?: boolean | null;
-  introContent?: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'formBlock';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -656,98 +378,268 @@ export interface Form {
         id?: string | null;
       }[]
     | null;
+  submissions?: {
+    docs?: (number | FormSubmission)[] | null;
+    hasNextPage?: boolean | null;
+  } | null;
   updatedAt: string;
   createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "meta-images".
+ * via the `definition` "form-submissions".
  */
-export interface MetaImage {
+export interface FormSubmission {
   id: number;
-  alt: string;
-  prefix?: string | null;
+  form: number | Form;
+  submissionData?:
+    | {
+        field: string;
+        value: string;
+        id?: string | null;
+      }[]
+    | null;
+  status?: string | null;
+  amount?: string | null;
   updatedAt: string;
   createdAt: string;
-  url?: string | null;
-  thumbnailURL?: string | null;
-  filename?: string | null;
-  mimeType?: string | null;
-  filesize?: number | null;
-  width?: number | null;
-  height?: number | null;
-  focalX?: number | null;
-  focalY?: number | null;
-  sizes?: {
-    thumbnail?: {
-      url?: string | null;
-      width?: number | null;
-      height?: number | null;
-      mimeType?: string | null;
-      filesize?: number | null;
-      filename?: string | null;
-    };
-  };
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "avatars".
+ * via the `definition` "HowItWorksBlock".
  */
-export interface Avatar {
-  id: number;
-  alt: string;
-  prefix?: string | null;
-  updatedAt: string;
-  createdAt: string;
-  url?: string | null;
-  thumbnailURL?: string | null;
-  filename?: string | null;
-  mimeType?: string | null;
-  filesize?: number | null;
-  width?: number | null;
-  height?: number | null;
-  focalX?: number | null;
-  focalY?: number | null;
-  sizes?: {
-    thumbnail?: {
-      url?: string | null;
-      width?: number | null;
-      height?: number | null;
-      mimeType?: string | null;
-      filesize?: number | null;
-      filename?: string | null;
-    };
-  };
+export interface HowItWorksBlock {
+  title?: string | null;
+  description?: string | null;
+  links?:
+    | {
+        link: {
+          type?: ('reference' | 'custom') | null;
+          newTab?: boolean | null;
+          reference?:
+            | ({
+                relationTo: 'pages';
+                value: number | Page;
+              } | null)
+            | ({
+                relationTo: 'media';
+                value: number | Media;
+              } | null);
+          url?: string | null;
+          label: string;
+          appearance?: ('default' | 'outline') | null;
+        };
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'howItWorks';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "portraits".
+ * via the `definition` "HistoryBlock".
  */
-export interface Portrait {
+export interface HistoryBlock {
+  title?: string | null;
+  description?: string | null;
+  image?: (number | null) | Media;
+  items?:
+    | {
+        title?: string | null;
+        description?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  link: {
+    type?: ('reference' | 'custom') | null;
+    newTab?: boolean | null;
+    reference?:
+      | ({
+          relationTo: 'pages';
+          value: number | Page;
+        } | null)
+      | ({
+          relationTo: 'media';
+          value: number | Media;
+        } | null);
+    url?: string | null;
+    label: string;
+    appearance?: ('default' | 'outline') | null;
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'history';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ResourcesBlock".
+ */
+export interface ResourcesBlock {
+  title: string;
+  description: string;
+  resources?: (number | Resource)[] | null;
+  image?: (number | null) | Media;
+  link: {
+    type?: ('reference' | 'custom') | null;
+    newTab?: boolean | null;
+    reference?:
+      | ({
+          relationTo: 'pages';
+          value: number | Page;
+        } | null)
+      | ({
+          relationTo: 'media';
+          value: number | Media;
+        } | null);
+    url?: string | null;
+    label: string;
+    appearance?: ('default' | 'outline') | null;
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'resources';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "resources".
+ */
+export interface Resource {
   id: number;
-  alt: string;
-  prefix?: string | null;
+  title: string;
+  description: string;
+  links?:
+    | {
+        link: {
+          type?: ('reference' | 'custom') | null;
+          newTab?: boolean | null;
+          reference?:
+            | ({
+                relationTo: 'pages';
+                value: number | Page;
+              } | null)
+            | ({
+                relationTo: 'media';
+                value: number | Media;
+              } | null);
+          url?: string | null;
+          label: string;
+          appearance?: ('default' | 'outline') | null;
+        };
+        id?: string | null;
+      }[]
+    | null;
   updatedAt: string;
   createdAt: string;
-  url?: string | null;
-  thumbnailURL?: string | null;
-  filename?: string | null;
-  mimeType?: string | null;
-  filesize?: number | null;
-  width?: number | null;
-  height?: number | null;
-  focalX?: number | null;
-  focalY?: number | null;
-  sizes?: {
-    thumbnail?: {
-      url?: string | null;
-      width?: number | null;
-      height?: number | null;
-      mimeType?: string | null;
-      filesize?: number | null;
-      filename?: string | null;
-    };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "DonateBlock".
+ */
+export interface DonateBlock {
+  title?: string | null;
+  description?: string | null;
+  link: {
+    type?: ('reference' | 'custom') | null;
+    newTab?: boolean | null;
+    reference?:
+      | ({
+          relationTo: 'pages';
+          value: number | Page;
+        } | null)
+      | ({
+          relationTo: 'media';
+          value: number | Media;
+        } | null);
+    url?: string | null;
+    label: string;
+    appearance?: ('default' | 'outline') | null;
   };
+  image?: (number | null) | Media;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'donate';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "RichTextBlock".
+ */
+export interface RichTextBlock {
+  subtitle?: string | null;
+  richContent?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  images?: (number | Media)[] | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'richText';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "LinksBlock".
+ */
+export interface LinksBlock {
+  hero?: Hero[] | null;
+  linkCards?: LinkCards;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'linksBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "EventsPageBlock".
+ */
+export interface EventsPageBlock {
+  title?: string | null;
+  events?: (number | Event)[] | null;
+  announcements?:
+    | {
+        title?: string | null;
+        description?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'eventsPage';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FormBlock".
+ */
+export interface FormBlock {
+  form: number | Form;
+  enableIntro?: boolean | null;
+  introContent?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'formBlock';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -767,27 +659,6 @@ export interface User {
   loginAttempts?: number | null;
   lockUntil?: string | null;
   password?: string | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "form-submissions".
- */
-export interface FormSubmission {
-  id: number;
-  form: number | Form;
-  submissionData?:
-    | {
-        field: string;
-        value: string;
-        id?: string | null;
-      }[]
-    | null;
-  payment?: {
-    status?: string | null;
-    amount?: string | null;
-  };
-  updatedAt: string;
-  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -827,28 +698,8 @@ export interface PayloadLockedDocument {
         value: number | Resource;
       } | null)
     | ({
-        relationTo: 'avatars';
-        value: number | Avatar;
-      } | null)
-    | ({
-        relationTo: 'cards';
-        value: number | Card;
-      } | null)
-    | ({
-        relationTo: 'landscapes';
-        value: number | Landscape;
-      } | null)
-    | ({
-        relationTo: 'portraits';
-        value: number | Portrait;
-      } | null)
-    | ({
-        relationTo: 'meta-images';
-        value: number | MetaImage;
-      } | null)
-    | ({
-        relationTo: 'files';
-        value: number | File;
+        relationTo: 'media';
+        value: number | Media;
       } | null)
     | ({
         relationTo: 'users';
@@ -925,8 +776,8 @@ export interface Header {
                 value: number | Page;
               } | null)
             | ({
-                relationTo: 'files';
-                value: number | File;
+                relationTo: 'media';
+                value: number | Media;
               } | null);
           url?: string | null;
           label: string;
@@ -954,8 +805,8 @@ export interface Footer {
                 value: number | Page;
               } | null)
             | ({
-                relationTo: 'files';
-                value: number | File;
+                relationTo: 'media';
+                value: number | Media;
               } | null);
           url?: string | null;
           label: string;
@@ -993,8 +844,8 @@ export interface CompanyInfo {
                 value: number | Page;
               } | null)
             | ({
-                relationTo: 'files';
-                value: number | File;
+                relationTo: 'media';
+                value: number | Media;
               } | null);
           url?: string | null;
           label: string;

@@ -28,19 +28,21 @@ export async function Hero({ title, description, image, links }: Props) {
         </div>
       </div>
       <div className="relative hidden col-span-1 lg:flex lg:justify-center lg:items-center">
-        {image != null && typeof image === 'object' && (
-          <>
-            <Image
-              src={image.url ?? '/woman-laptop.webp'}
-              alt={image.alt ?? 'Woman using telehealth services from home.'}
-              className="object-cover w-full rounded-lg"
-              width={960}
-              height={640}
-              priority
-            />
-            {/* {svg && <SVG />} */}
-          </>
-        )}
+        <div className="relative w-full aspect-[3/2]">
+          {image != null && typeof image === 'object' && (
+            <>
+              <Image
+                src={image.url ?? '/woman-laptop.webp'}
+                alt={image.alt ?? 'Woman using telehealth services from home.'}
+                className="object-cover object-top rounded-lg"
+                fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                priority
+              />
+              {/* {svg && <SVG />} */}
+            </>
+          )}
+        </div>
       </div>
     </div>
   )
