@@ -13,6 +13,8 @@ import { draftMode } from 'next/headers'
 import { Header } from '@/globals/Header/Component'
 import { ThemeProvider } from 'next-themes'
 
+export const dynamic = 'force-static'
+
 const inter = Inter({ subsets: ['latin'] })
 
 export default async function RootLayout({ children }: { children: ReactNode }) {
