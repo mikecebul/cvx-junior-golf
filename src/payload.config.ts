@@ -158,9 +158,6 @@ export default buildConfig({
   globals: [Header, Footer, CompanyInfo],
   plugins: [
     stripePlugin({
-      isTestKey: Boolean(process.env.PAYLOAD_PUBLIC_STRIPE_IS_TEST_KEY),
-      logs: false,
-      rest: false,
       stripeSecretKey: process.env.STRIPE_SECRET_KEY || '',
       stripeWebhooksEndpointSecret: process.env.STRIPE_WEBHOOK_SECRET,
       webhooks: {

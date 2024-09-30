@@ -10,7 +10,6 @@ export const checkoutSessionCompleted: StripeWebhookHandler<{
 
   const { id: sessionId, metadata, amount_total } = event.data.object
   const submissionId = metadata?.submissionId
-  console.log('Amount total', amount_total)
 
   if (!submissionId) {
     payload.logger.error('No submissionId found in checkout session metadata')

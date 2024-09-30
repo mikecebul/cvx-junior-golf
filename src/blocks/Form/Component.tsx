@@ -157,7 +157,7 @@ export const FormBlock: React.FC<
 
       void submitForm()
     },
-    [router, formID, redirect, confirmationType, requirePayment],
+    [router, formID, redirect, confirmationType, requirePayment, event?.price],
   )
 
   return (
