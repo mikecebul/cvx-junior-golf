@@ -30,7 +30,7 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
   let width: number | undefined
   let height: number | undefined
   let alt = altFromProps
-  let src: StaticImageData | string = srcFromProps || ''
+  let src: StaticImageData | string = srcFromProps || '/placeholder.png'
 
   if (!src && resource && typeof resource === 'object') {
     const {
@@ -45,15 +45,16 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
     height = fullHeight!
     alt = altFromResource
 
-    src = process.env.S3_ENABLED && url ? url : `${process.env.NEXT_PUBLIC_SERVER_URL}${url}`
+    // src = process.env.S3_ENABLED && url ? url : `${process.env.NEXT_PUBLIC_SERVER_URL}${url}`
+    src = url ?? '/placeholder.png'
   }
 
   // NOTE: this is used by the browser to determine which image to download at different screen sizes
   const sizes = sizeFromProps
     ? sizeFromProps
     : Object.entries(breakpoints)
-        .map(([, value]) => `(max-width: ${value}px) ${value}px`)
-        .join(', ')
+      .map(([, value]) => `(max-width: ${value}px) ${value}px`)
+      .join(', ')
 
   return (
     <NextImage
