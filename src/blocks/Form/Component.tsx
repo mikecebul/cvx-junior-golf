@@ -54,6 +54,7 @@ export const FormBlock: React.FC<
     introContent,
   } = props
 
+  const eventPrice = event?.price ?? 0
   const formMethods = useForm({
     defaultValues: buildInitialFormState(formFromProps.fields),
   })
@@ -129,7 +130,6 @@ export const FormBlock: React.FC<
           setHasSubmitted(true)
 
           if (!!requirePayment) {
-            const eventPrice = event?.price ?? 0
             const session = await createCheckoutSession(submissionId, eventPrice)
             if (session?.url) {
               router.push(session.url)
@@ -157,7 +157,7 @@ export const FormBlock: React.FC<
 
       void submitForm()
     },
-    [router, formID, redirect, confirmationType, requirePayment, event?.price],
+    [router, formID, redirect, confirmationType, requirePayment, eventPrice],
   )
 
   return (
