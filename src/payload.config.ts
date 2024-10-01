@@ -151,7 +151,7 @@ export default buildConfig({
   csrf: [process.env.NEXT_PUBLIC_SERVER_URL || ''].filter(Boolean),
   email: resendAdapter({
     defaultFromAddress: process.env.RESEND_DEFAULT_EMAIL || '',
-    defaultFromName: 'BASES Admin',
+    defaultFromName: 'CVX Junior Golf',
     apiKey: process.env.RESEND_API_KEY || '',
   }),
   endpoints: [],
@@ -165,6 +165,7 @@ export default buildConfig({
       },
     }),
     formBuilderPlugin({
+      defaultToEmail: 'mike@mikecebul.dev',
       fields: {
         payment: false,
       },

@@ -29,7 +29,7 @@ export const Media: CollectionConfig = {
       format: 'webp',
     },
     resizeOptions: {
-      width: 1200,
+      width: 1600,
       height: undefined,
     },
     imageSizes: [
@@ -40,6 +40,9 @@ export const Media: CollectionConfig = {
         formatOptions: {
           format: 'webp',
         },
+        generateImageName: ({ originalName }) => {
+          return `${originalName}-thumbnail`
+        },
       },
       {
         name: 'meta',
@@ -47,6 +50,12 @@ export const Media: CollectionConfig = {
         height: 630,
         position: 'top',
         fit: 'inside',
+        formatOptions: {
+          format: 'webp',
+        },
+        generateImageName: ({ originalName }) => {
+          return `${originalName}-meta`
+        },
       },
     ],
     adminThumbnail: 'thumbnail',
@@ -63,6 +72,13 @@ export const Media: CollectionConfig = {
     },
     {
       name: 'caption',
+      type: 'text',
+      admin: {
+        hidden: true,
+      },
+    },
+    {
+      name: 'prefix',
       type: 'text',
       admin: {
         hidden: true,
