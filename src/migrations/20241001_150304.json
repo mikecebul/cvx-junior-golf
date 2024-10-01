@@ -3757,7 +3757,7 @@
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false,
-          "default": "'v2'"
+          "default": "'v3'"
         },
         "updated_at": {
           "name": "updated_at",
@@ -6981,6 +6981,6 @@
   "internal": {
     "indexes": {}
   },
-  "id": "07e439dd-53c8-4018-822b-e2a5d3e5d986",
+  "id": "80d30584-97a7-40d5-aac5-40334d786648",
   "prevId": "00000000-0000-0000-0000-000000000000"
 }

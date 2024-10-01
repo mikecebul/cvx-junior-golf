@@ -446,7 +446,7 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   	\`id\` integer PRIMARY KEY NOT NULL,
   	\`alt\` text NOT NULL,
   	\`caption\` text,
-  	\`prefix\` text DEFAULT 'v2',
+  	\`prefix\` text DEFAULT 'v3',
   	\`updated_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
   	\`created_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
   	\`url\` text,
