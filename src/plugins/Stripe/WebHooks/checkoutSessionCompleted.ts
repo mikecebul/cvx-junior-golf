@@ -15,10 +15,17 @@ export const checkoutSessionCompleted: StripeWebhookHandler<{
     payload.logger.error('No submissionId found in checkout session metadata')
     return
   }
+
   try {
+    const numericSubmissionId = parseInt(submissionId, 10)
+
+    if (isNaN(numericSubmissionId)) {
+      throw new Error('Invalid submissionId: not a number')
+    }
+
     await payload.update({
       collection: 'form-submissions',
-      id: submissionId,
+      id: numericSubmissionId, // Use the converted numeric ID
       overrideAccess: true,
       data: {
         status: 'paid',
@@ -27,7 +34,7 @@ export const checkoutSessionCompleted: StripeWebhookHandler<{
     })
 
     payload.logger.info(
-      `Successfully updated form submission ${submissionId} for checkout session ${sessionId}`,
+      `Successfully updated form submission ${numericSubmissionId} for checkout session ${sessionId}`,
     )
   } catch (error) {
     payload.logger.error(`Error updating form submission: ${error}`)
