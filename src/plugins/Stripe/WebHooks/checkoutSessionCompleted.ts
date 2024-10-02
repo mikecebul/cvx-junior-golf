@@ -17,6 +17,8 @@ export const checkoutSessionCompleted: StripeWebhookHandler<{
   }
 
   try {
+    payload.logger.info('Try catch initiated')
+
     const numericSubmissionId = parseInt(submissionId, 10)
 
     if (isNaN(numericSubmissionId)) {
@@ -33,9 +35,7 @@ export const checkoutSessionCompleted: StripeWebhookHandler<{
       },
     })
 
-    if (!updateResult) {
-      payload.logger.error(`Failed to update form submission ${numericSubmissionId}`)
-    }
+    payload.logger.info('Payload form update result:', updateResult)
 
     payload.logger.info(
       `Successfully updated form submission ${numericSubmissionId} for checkout session ${sessionId}`,

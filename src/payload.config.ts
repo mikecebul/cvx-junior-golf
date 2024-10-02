@@ -37,6 +37,7 @@ import { Events } from './collections/Events'
 import { checkoutSessionCompleted } from './plugins/Stripe/WebHooks/checkoutSessionCompleted'
 import { Media } from './collections/Media'
 import { MediaBlock } from './blocks/MediaBlock/config'
+import { anyone } from './access/anyone'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -213,6 +214,9 @@ export default buildConfig({
         ],
       },
       formSubmissionOverrides: {
+        access: {
+          update: anyone,
+        },
         fields: ({ defaultFields }) => {
           return defaultFields
             .map((field) => {
