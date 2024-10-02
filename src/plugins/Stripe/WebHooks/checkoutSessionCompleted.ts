@@ -23,7 +23,7 @@ export const checkoutSessionCompleted: StripeWebhookHandler<{
       throw new Error('Invalid submissionId: not a number')
     }
 
-    await payload.update({
+    const updateResult = await payload.update({
       collection: 'form-submissions',
       id: numericSubmissionId, // Use the converted numeric ID
       overrideAccess: true,
@@ -32,6 +32,10 @@ export const checkoutSessionCompleted: StripeWebhookHandler<{
         amount: ((amount_total ?? 0) / 100).toString(),
       },
     })
+
+    if (!updateResult) {
+      payload.logger.error(`Failed to update form submission ${numericSubmissionId}`)
+    }
 
     payload.logger.info(
       `Successfully updated form submission ${numericSubmissionId} for checkout session ${sessionId}`,
