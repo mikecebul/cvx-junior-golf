@@ -6,17 +6,23 @@ export const checkoutSessionCompleted: StripeWebhookHandler<{
     object: Stripe.Checkout.Session
   }
 }> = async ({ event, payload }) => {
-  console.log('checkoutSessionCompleted handler called')
-
-  const { id: sessionId, metadata, amount_total } = event.data.object
-  const submissionId = metadata?.submissionId
-
-  if (!submissionId) {
-    payload.logger.error('No submissionId found in checkout session metadata')
-    return
-  }
+  payload.logger.info('checkoutSessionCompleted handler called')
 
   try {
+    payload.logger.info('About to destructure event.data.object')
+    const { id: sessionId, metadata, amount_total } = event.data.object
+    payload.logger.info('Destructuring successful')
+
+    payload.logger.info('Checking submissionId')
+    const submissionId = metadata?.submissionId
+
+    if (!submissionId) {
+      payload.logger.info('No submissionId found')
+      payload.logger.error('No submissionId found in checkout session metadata')
+      return
+    }
+
+    payload.logger.info(`submissionId found: ${submissionId}`)
     payload.logger.info('Try catch initiated')
 
     const numericSubmissionId = parseInt(submissionId, 10)
@@ -41,6 +47,8 @@ export const checkoutSessionCompleted: StripeWebhookHandler<{
       `Successfully updated form submission ${numericSubmissionId} for checkout session ${sessionId}`,
     )
   } catch (error) {
+    payload.logger.error('Error in checkoutSessionCompleted:', error)
     payload.logger.error(`Error updating form submission: ${error}`)
+    payload.logger.error('Error stack:', error.stack)
   }
 }
