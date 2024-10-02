@@ -67,6 +67,7 @@ export const FormBlock: React.FC<
   const [hasSubmitted, setHasSubmitted] = useState<boolean>()
   const [error, setError] = useState<{ message: string; status?: string } | undefined>()
   const router = useRouter()
+  const eventId = event?.id
 
   const onSubmit = useCallback(
     (data: Data) => {
@@ -112,7 +113,8 @@ export const FormBlock: React.FC<
           }
 
           const { doc: formSubmission } = res
-          const submissionId = formSubmission.id
+          const submissionId: number = formSubmission.id
+          console.log('formSubmission', formSubmission)
           if (!submissionId) {
             console.error('No submission ID received from the server')
             setError({
@@ -127,9 +129,8 @@ export const FormBlock: React.FC<
           setIsLoading(false)
           setHasSubmitted(true)
 
-          if (!!requirePayment) {
-            const eventPrice = event?.price ?? 0
-            const session = await createCheckoutSession(submissionId, eventPrice)
+          if (!!requirePayment && eventId) {
+            const session = await createCheckoutSession(submissionId, eventId)
             if (session?.url) {
               router.push(session.url)
             } else {
@@ -156,7 +157,7 @@ export const FormBlock: React.FC<
 
       void submitForm()
     },
-    [router, formID, redirect, confirmationType, requirePayment, event?.price],
+    [router, formID, redirect, confirmationType, requirePayment, eventId],
   )
 
   return (
