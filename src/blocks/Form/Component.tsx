@@ -10,7 +10,6 @@ import { Button } from '@/components/ui/button'
 import { buildInitialFormState } from './buildInitialFormState'
 import { fields } from './fields'
 import Container from '@/components/Container'
-import Stripe from 'stripe'
 import { createCheckoutSession } from '@/action'
 import { Event } from '@/payload-types'
 
