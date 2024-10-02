@@ -1,11 +1,14 @@
+import payloadConfig from '@payload-config'
 import type { StripeWebhookHandler } from '@payloadcms/plugin-stripe/types'
+import { getPayload } from 'payload'
 import type Stripe from 'stripe'
 
 export const checkoutSessionCompleted: StripeWebhookHandler<{
   data: {
     object: Stripe.Checkout.Session
   }
-}> = async ({ event, payload }) => {
+}> = async ({ event }) => {
+  const payload = await getPayload({ config: payloadConfig })
 
   try {
     const { id: sessionId, metadata, amount_total } = event.data.object
@@ -16,14 +19,14 @@ export const checkoutSessionCompleted: StripeWebhookHandler<{
       return
     }
 
-    // await payload.update({
-    //   collection: 'form-submissions',
-    //   id: submissionId ?? 1,
-    //   data: {
-    //     status: 'paid',
-    //     // amount: `$${(amount_total ?? 0) / 100}`,
-    //   },
-    // })
+    await payload.update({
+      collection: 'form-submissions',
+      id: submissionId,
+      data: {
+        status: 'paid',
+        amount: `$${(amount_total ?? 0) / 100}`,
+      },
+    })
 
     payload.logger.info(
       `Successfully updated form submission ${submissionId} for checkout session ${sessionId}`,
