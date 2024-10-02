@@ -1,14 +1,11 @@
-import payloadConfig from '@payload-config'
 import type { StripeWebhookHandler } from '@payloadcms/plugin-stripe/types'
-import { getPayload } from 'payload'
 import type Stripe from 'stripe'
 
 export const checkoutSessionCompleted: StripeWebhookHandler<{
   data: {
     object: Stripe.Checkout.Session
   }
-}> = async ({ event }) => {
-  const payload = await getPayload({ config: payloadConfig })
+}> = async ({ event, payload }) => {
 
   try {
     const { id: sessionId, metadata, amount_total } = event.data.object
@@ -19,7 +16,16 @@ export const checkoutSessionCompleted: StripeWebhookHandler<{
       return
     }
 
-    await payload.update({
+    const submission = await payload.findByID({
+      collection: 'form-submissions',
+      id: submissionId,
+    })
+    if (!submission) {
+      payload.logger.error(`No submission found for id ${submissionId}`)
+      return
+    }
+
+    const updatedSubmission = await payload.update({
       collection: 'form-submissions',
       id: submissionId,
       data: {
@@ -27,10 +33,12 @@ export const checkoutSessionCompleted: StripeWebhookHandler<{
         amount: `$${(amount_total ?? 0) / 100}`,
       },
     })
+    if (!updatedSubmission) {
+      payload.logger.error(`Error updating form submission ${submissionId} for checkout session ${sessionId}`)
+      return
+    }
 
-    payload.logger.info(
-      `Successfully updated form submission ${submissionId} for checkout session ${sessionId}`,
-    )
+    payload.logger.info(`Updated form submission:, ${updatedSubmission}`)
   } catch (error) {
     payload.logger.error(`Error updating form submission: ${error}`)
   }
