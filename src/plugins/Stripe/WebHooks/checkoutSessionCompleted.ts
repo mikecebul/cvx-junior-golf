@@ -14,33 +14,28 @@ export const checkoutSessionCompleted: StripeWebhookHandler<{
       payload.logger.error('No submissionId found')
       return
     }
+    const numericSubmissionId = parseInt(submissionId, 10)
 
-    const submission = await payload.findByID({
+    if (isNaN(numericSubmissionId)) {
+      throw new Error('Invalid submissionId: not a number')
+    }
+
+    const updatedSubmission = await payload.update({
       collection: 'form-submissions',
-      id: submissionId,
-      depth: 1,
+      id: numericSubmissionId,
+      data: {
+        status: 'paid',
+        amount: `$${(amount_total ?? 0) / 100}`,
+      },
     })
-    if (!submission) {
-      payload.logger.error(`No submission found for id ${submissionId}`)
+    if (!updatedSubmission) {
+      payload.logger.error(
+        `Error updating form submission ${submissionId} for checkout session ${sessionId}`,
+      )
       return
     }
 
-    // const updatedSubmission = await payload.update({
-    //   collection: 'form-submissions',
-    //   id: submissionId,
-    //   data: {
-    //     status: 'paid',
-    //     amount: `$${(amount_total ?? 0) / 100}`,
-    //   },
-    // })
-    // if (!updatedSubmission) {
-    //   payload.logger.error(
-    //     `Error updating form submission ${submissionId} for checkout session ${sessionId}`,
-    //   )
-    //   return
-    // }
-
-    payload.logger.info(`Form submission found: Status ${submission.status}`)
+    payload.logger.info(`Updated form submission:, ${updatedSubmission}`)
   } catch (error) {
     payload.logger.error(`Error updating form submission: ${error}`)
   }

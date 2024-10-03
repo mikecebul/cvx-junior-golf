@@ -66,7 +66,7 @@
     "react-dom": "19.0.0-rc-5dcb0097-20240918",
     "react-hook-form": "7.45.4",
     "sharp": "0.32.6",
-    "stripe": "^16.12.0",
+    "stripe": "^10.2.0",
     "swr": "^2.2.5",
     "tailwind-merge": "^2.5.2",
     "tailwindcss-animate": "^1.0.7",
