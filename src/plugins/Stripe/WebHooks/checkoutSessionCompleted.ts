@@ -32,6 +32,7 @@ export const checkoutSessionCompleted: StripeWebhookHandler<{
       limit: 1,
       page: 1,
       sort: 'createdAt',
+      overrideAccess: true,
     })
 
     // payload.logger.info(`Updated form submission: ${JSON.stringify(updatedSubmission)}`)
