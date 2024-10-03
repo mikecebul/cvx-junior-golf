@@ -141,8 +141,7 @@ export const FormBlock: React.FC<
             }
           } else {
             if (confirmationType === 'redirect' && redirect) {
-              const { url } = redirect
-              const redirectUrl = url
+              const { url: redirectUrl } = redirect
               if (redirectUrl) router.push(redirectUrl)
             }
           }

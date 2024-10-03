@@ -1,5 +1,3 @@
-'use server'
-
 import type { StripeWebhookHandler } from '@payloadcms/plugin-stripe/types'
 import type Stripe from 'stripe'
 
@@ -8,16 +6,31 @@ export const checkoutSessionCompleted: StripeWebhookHandler<{
     object: Stripe.Checkout.Session
   }
 }> = async ({ event, payload }) => {
-  payload.logger.info(`Webhook ran: ${JSON.stringify(event)}`)
-  try {
-    const testFind = await payload.find({
-      collection: 'events',
-      depth: 1,
-      overrideAccess: true,
-    })
 
-    payload.logger.info(`Payload find ran: ${JSON.stringify(testFind)}`)
+  try {
+    const { id: sessionId, metadata, amount_total } = event.data.object
+    const submissionId = metadata?.submissionId
+
+    if (!submissionId) {
+      payload.logger.error('No submissionId found')
+      return
+    }
+
+    const updatedSubmission = await payload.update({
+      collection: 'form-submissions',
+      id: submissionId,
+      data: {
+        status: 'paid',
+        amount: `$${(amount_total ?? 0) / 100}`,
+      },
+    })
+    if (!updatedSubmission) {
+      payload.logger.error(`Error updating form submission ${submissionId} for checkout session ${sessionId}`)
+      return
+    }
+
+    payload.logger.info(`Updated form submission: ${JSON.stringify(updatedSubmission)}`)
   } catch (error) {
-    payload.logger.error(`Webhook Error using localAPI: ${error}`)
+    payload.logger.error(`Error updating form submission: ${error}`)
   }
 }
