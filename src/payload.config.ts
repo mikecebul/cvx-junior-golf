@@ -34,7 +34,7 @@ import { Page } from 'src/payload-types'
 import { CompanyInfo } from './globals/CompanyInfo/config'
 import { superAdmin } from './access/superAdmin'
 import { Events } from './collections/Events'
-import { checkoutSessionCompleted } from './plugins/Stripe/WebHooks/checkoutSessionCompleted'
+import { checkoutSessionCompleted } from './plugins/stripe/webhooks/checkoutSessionCompleted'
 import { Media } from './collections/Media'
 import { MediaBlock } from './blocks/MediaBlock/config'
 
@@ -158,6 +158,7 @@ export default buildConfig({
   globals: [Header, Footer, CompanyInfo],
   plugins: [
     stripePlugin({
+      isTestKey: true,
       stripeSecretKey: process.env.STRIPE_SECRET_KEY || '',
       stripeWebhooksEndpointSecret: process.env.STRIPE_WEBHOOK_SECRET,
       webhooks: {
@@ -165,7 +166,7 @@ export default buildConfig({
       },
     }),
     formBuilderPlugin({
-      defaultToEmail: 'mike@mikecebul.dev',
+      defaultToEmail: 'info@cvxjrgolf.org',
       fields: {
         payment: false,
       },
