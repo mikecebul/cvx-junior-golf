@@ -44,7 +44,9 @@ const Users: CollectionConfig = {
       },
       hooks: {
         beforeChange: [ensureFirstUserIsSuperAdmin],
-        afterChange: [() => revalidatePath('/(payload)', 'layout')],
+        afterChange: [
+          ({ req }) => req.headers['X-Payload-Migration'] !== 'true' && revalidatePath('/(payload)', 'layout'),
+        ],
       },
     },
   ],

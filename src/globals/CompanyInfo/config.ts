@@ -11,7 +11,7 @@ export const CompanyInfo: GlobalConfig = {
     hideAPIURL: !superAdmin,
   },
   hooks: {
-    afterChange: [() => revalidatePath('/', 'layout')],
+    afterChange: [({ req }) => req.headers['X-Payload-Migration'] !== 'true' && revalidatePath('/', 'layout')],
   },
   fields: [
     {

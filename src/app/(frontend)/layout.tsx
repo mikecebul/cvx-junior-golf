@@ -24,7 +24,6 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
     <html className={cn(inter.className)} lang="en" suppressHydrationWarning>
       <head>
         <link href="/favicon.ico" rel="icon" sizes="32x32" />
-        <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
       </head>
       <body className="flex flex-col min-h-dvh">
         <ThemeProvider forcedTheme="light">
