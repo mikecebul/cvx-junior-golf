@@ -265,7 +265,7 @@ export default buildConfig({
       collections: ['pages'],
       overrides: {
         access: {
-          admin: superAdmin,
+          admin: (args) => !superAdmin(args),
           read: superAdmin,
           delete: superAdmin,
           update: superAdmin,
