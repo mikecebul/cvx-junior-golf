@@ -1,5 +1,6 @@
 import { anyone } from '@/access/anyone'
 import { authenticated } from '@/access/authenticated'
+import { superAdmin } from '@/access/superAdmin'
 import { CollectionConfig } from 'payload'
 
 export const Events: CollectionConfig = {
@@ -19,6 +20,7 @@ export const Events: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'title',
+    hideAPIURL: !superAdmin,
   },
   fields: [
     {
