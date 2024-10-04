@@ -1,87 +1,55 @@
 import type { BasePayload, CollectionSlug, GlobalSlug } from "payload"
 
+const sourceApiUrl = process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000';
+const apiKey = process.env.SOURCE_API_KEY || 'your-api-key';
+
+const fetchWithAuth = (url: string) =>
+  fetch(`${sourceApiUrl}${url}`, {
+    headers: {
+      'Authorization': `Bearer ${apiKey}`,
+    },
+  });
+
 export const seedUp = async ({ payload }: { payload: BasePayload }) => {
-  // transfer users
-  const users = await payload.find({
-    collection: 'users',
-    depth: 10,
-  })
-  for (const user of users.docs) {
-    await payload.update({
-      collection: 'users',
-      id: user.id,
-      data: user,
-    })
-  }
-  // transfer events
-  const events = await payload.find({
-    collection: 'events',
-    depth: 10,
-  })
-  for (const event of events.docs) {
-    await payload.update({
-      collection: 'events',
-      id: event.id,
-      data: event,
-    })
-  }
-  // tranfer media
-  const media = await payload.find({
-    collection: 'media',
-    depth: 10,
-  })
-  for (const item of media.docs) {
-    await payload.update({
-      collection: 'media',
-      id: item.id,
-      data: item,
-    })
-  }
-  // transfer pages
-  const pages = await payload.find({
-    collection: 'pages',
-    depth: 10,
-  })
-  for (const page of pages.docs) {
-    await payload.update({
-      collection: 'pages',
-      id: page.id,
-      data: page,
-    })
+  // Function to transfer data for a collection
+  const transferCollection = async (collectionName: string) => {
+    const response = await fetchWithAuth(`/api/${collectionName}`);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const data = await response.json();
+    const items = data.docs;
+    for (const item of items) {
+      await payload.create({
+        collection: collectionName as CollectionSlug,
+        data: item,
+      });
+    }
   }
 
-  // transfer globals CompanyInfo, Header, Footer
-  const CompanyInfo = await payload.findGlobal({
-    slug: 'company-info',
-    depth: 10,
-  })
-  if (CompanyInfo.updatedAt === null) {
-    await payload.updateGlobal({
-      slug: 'company-info',
-      data: CompanyInfo,
-    })
+  // Transfer collections
+  const collections = ['users', 'events', 'media', 'pages'];
+  for (const collection of collections) {
+    await transferCollection(collection);
   }
 
-  const Header = await payload.findGlobal({
-    slug: 'header',
-    depth: 10,
-  })
-  if (Header.updatedAt === null) {
+  // Function to transfer global data
+  const transferGlobal = async (slug: string) => {
+    const response = await fetchWithAuth(`/api/globals/${slug}`);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const globalData = await response.json();
     await payload.updateGlobal({
-      slug: 'header',
-      data: Header,
-    })
+      slug: slug as GlobalSlug,
+      data: globalData,
+    });
   }
 
-  const Footer = await payload.findGlobal({
-    slug: 'footer',
-    depth: 10,
-  })
-  if (Footer.updatedAt === null) {
-    await payload.updateGlobal({
-      slug: 'footer',
-      data: Footer,
-    })
+  // Transfer globals
+  const globals = ['company-info', 'header', 'footer'];
+  for (const global of globals) {
+    await transferGlobal(global);
   }
 }
 
