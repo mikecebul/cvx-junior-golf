@@ -15,9 +15,6 @@ export const Events: CollectionConfig = {
     read: anyone,
     update: authenticated,
   },
-  auth: {
-    useAPIKey: true,
-  },
   admin: {
     useAsTitle: 'title',
     hideAPIURL: !superAdmin,

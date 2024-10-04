@@ -38,10 +38,10 @@ export async function GET(
 
   // You can add additional checks here to see if the user is allowed to preview this page
   if (!user) {
-    draftMode().disable()
+    (await draftMode()).disable()
     return new Response('You are not allowed to preview this page', { status: 403 })
   }
 
-  draftMode().enable()
+  (await draftMode()).enable()
   redirect(path)
 }

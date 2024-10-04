@@ -18,7 +18,7 @@ export const dynamic = 'force-static'
 const inter = Inter({ subsets: ['latin'] })
 
 export default async function RootLayout({ children }: { children: ReactNode }) {
-  const { isEnabled } = draftMode()
+  const { isEnabled } = await draftMode()
 
   return (
     <html className={cn(inter.className)} lang="en" suppressHydrationWarning>

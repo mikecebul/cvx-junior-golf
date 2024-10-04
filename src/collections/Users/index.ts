@@ -17,7 +17,7 @@ const Users: CollectionConfig = {
   },
   admin: {
     hideAPIURL: !superAdmin,
-    defaultColumns: ['name', 'email'],
+    defaultColumns: ['name', 'email', 'role'],
     useAsTitle: 'name',
   },
   auth: {
@@ -49,6 +49,13 @@ const Users: CollectionConfig = {
         afterChange: [
           ({ req }) => req.headers['X-Payload-Migration'] !== 'true' && revalidatePath('/(payload)', 'layout'),
         ],
+      },
+    },
+    {
+      name: 'apiKey',
+      type: 'text',
+      access: {
+        read: () => !!superAdmin,
       },
     },
   ],

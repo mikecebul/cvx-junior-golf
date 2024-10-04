@@ -1,12 +1,12 @@
 import type { BasePayload, CollectionSlug, GlobalSlug } from "payload"
 
-const sourceApiUrl = process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000';
+const sourceApiUrl = process.env.SOURCE_API_URL || 'http://localhost:3000';
 const apiKey = process.env.SOURCE_API_KEY || 'your-api-key';
 
 const fetchWithAuth = (url: string) =>
   fetch(`${sourceApiUrl}${url}`, {
     headers: {
-      'Authorization': `Bearer ${apiKey}`,
+      Authorization: `users API-Key ${apiKey}`,
     },
   });
 
