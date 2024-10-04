@@ -21,7 +21,7 @@ export const checkoutSessionCompleted: StripeWebhookHandler<{
       id: submissionId,
       overrideAccess: true,
       data: {
-        status: 'paid',
+        paymentStatus: 'paid',
         amount: amount_total ? `$${(amount_total / 100).toFixed(2)}` : '$0.00',
       },
     })

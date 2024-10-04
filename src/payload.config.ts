@@ -158,7 +158,7 @@ export default buildConfig({
   globals: [Header, Footer, CompanyInfo],
   plugins: [
     stripePlugin({
-      isTestKey: true,
+      isTestKey: process.env.STRIPE_SECRET_KEY?.includes('sk_test'),
       stripeSecretKey: process.env.STRIPE_SECRET_KEY || '',
       stripeWebhooksEndpointSecret: process.env.STRIPE_WEBHOOK_SECRET,
       webhooks: {
@@ -171,6 +171,10 @@ export default buildConfig({
         payment: false,
       },
       formOverrides: {
+        labels: {
+          singular: 'Registration Form',
+          plural: 'Registration Forms',
+        },
         fields: ({ defaultFields }) => [
           {
             name: 'requirePayment',
@@ -215,6 +219,10 @@ export default buildConfig({
         ],
       },
       formSubmissionOverrides: {
+        labels: {
+          singular: 'Submitted Registration Form',
+          plural: 'Submitted Registration Forms',
+        },
         fields: ({ defaultFields }) => {
           return defaultFields
             .map((field) => {
@@ -233,7 +241,7 @@ export default buildConfig({
             })
             .concat([
               {
-                name: 'status',
+                name: 'paymentStatus',
                 label: 'Payment Status',
                 type: 'text',
                 defaultValue: 'pending',

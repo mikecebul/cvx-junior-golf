@@ -411,7 +411,7 @@ export interface FormSubmission {
         id?: string | null;
       }[]
     | null;
-  status?: string | null;
+  paymentStatus?: string | null;
   amount?: string | null;
   updatedAt: string;
   createdAt: string;
