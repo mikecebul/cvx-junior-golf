@@ -439,7 +439,17 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   	\`location\` text NOT NULL,
   	\`price\` numeric,
   	\`updated_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
-  	\`created_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL
+  	\`created_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
+  	\`enable_a_p_i_key\` integer,
+  	\`api_key\` text,
+  	\`api_key_index\` text,
+  	\`email\` text NOT NULL,
+  	\`reset_password_token\` text,
+  	\`reset_password_expiration\` text,
+  	\`salt\` text,
+  	\`hash\` text,
+  	\`login_attempts\` numeric DEFAULT 0,
+  	\`lock_until\` text
   );
   `)
   await payload.db.drizzle.run(sql`CREATE TABLE \`media\` (
@@ -478,6 +488,9 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   	\`role\` text DEFAULT 'editor' NOT NULL,
   	\`updated_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
   	\`created_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
+  	\`enable_a_p_i_key\` integer,
+  	\`api_key\` text,
+  	\`api_key_index\` text,
   	\`email\` text NOT NULL,
   	\`reset_password_token\` text,
   	\`reset_password_expiration\` text,
@@ -655,7 +668,7 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   await payload.db.drizzle.run(sql`CREATE TABLE \`form_submissions\` (
   	\`id\` integer PRIMARY KEY NOT NULL,
   	\`form_id\` integer NOT NULL,
-  	\`status\` text DEFAULT 'pending',
+  	\`payment_status\` text DEFAULT 'pending',
   	\`amount\` text,
   	\`updated_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
   	\`created_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
@@ -723,8 +736,10 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   	\`order\` integer,
   	\`parent_id\` integer NOT NULL,
   	\`path\` text NOT NULL,
+  	\`events_id\` integer,
   	\`users_id\` integer,
   	FOREIGN KEY (\`parent_id\`) REFERENCES \`payload_preferences\`(\`id\`) ON UPDATE no action ON DELETE cascade,
+  	FOREIGN KEY (\`events_id\`) REFERENCES \`events\`(\`id\`) ON UPDATE no action ON DELETE cascade,
   	FOREIGN KEY (\`users_id\`) REFERENCES \`users\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
@@ -933,6 +948,7 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   await payload.db.drizzle.run(sql`CREATE INDEX \`_pages_v_rels_parent_idx\` ON \`_pages_v_rels\` (\`parent_id\`);`)
   await payload.db.drizzle.run(sql`CREATE INDEX \`_pages_v_rels_path_idx\` ON \`_pages_v_rels\` (\`path\`);`)
   await payload.db.drizzle.run(sql`CREATE INDEX \`events_created_at_idx\` ON \`events\` (\`created_at\`);`)
+  await payload.db.drizzle.run(sql`CREATE UNIQUE INDEX \`events_email_idx\` ON \`events\` (\`email\`);`)
   await payload.db.drizzle.run(sql`CREATE INDEX \`media_created_at_idx\` ON \`media\` (\`created_at\`);`)
   await payload.db.drizzle.run(sql`CREATE UNIQUE INDEX \`media_filename_idx\` ON \`media\` (\`filename\`);`)
   await payload.db.drizzle.run(sql`CREATE INDEX \`media_sizes_thumbnail_sizes_thumbnail_filename_idx\` ON \`media\` (\`sizes_thumbnail_filename\`);`)

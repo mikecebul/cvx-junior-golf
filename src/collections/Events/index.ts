@@ -1,6 +1,5 @@
 import { anyone } from '@/access/anyone'
 import { authenticated } from '@/access/authenticated'
-import { authenticatedOrPublished } from '@/access/authenticatedOrPublished'
 import { CollectionConfig } from 'payload'
 
 export const Events: CollectionConfig = {
@@ -14,6 +13,9 @@ export const Events: CollectionConfig = {
     delete: authenticated,
     read: anyone,
     update: authenticated,
+  },
+  auth: {
+    useAPIKey: true,
   },
   admin: {
     useAsTitle: 'title',
