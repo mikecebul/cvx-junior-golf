@@ -10,11 +10,6 @@ const baseUrl =
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  env: {
-    NEXT_PUBLIC_VERCEL_ENV: process.env.VERCEL_ENV,
-    NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL: process.env.VERCEL_PROJECT_PRODUCTION_URL,
-    NEXT_PUBLIC_VERCEL_BRANCH_URL: process.env.VERCEL_BRANCH_URL,
-  },
   images: {
     remotePatterns: [
       ...[
