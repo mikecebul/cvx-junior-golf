@@ -38,11 +38,6 @@ export default async function Page({ params: paramsPromise }: Args) {
   const { slug = 'home' } = await paramsPromise
   const url = '/' + slug
 
-  console.log('Vercel Production Url:', process.env.VERCEL_PROJECT_PRODUCTION_URL)
-  console.log('Base Url:', baseUrl)
-  console.log('Vercel Branch Url:', process.env.VERCEL_BRANCH_URL)
-  console.log('Vercel Url:', process.env.VERCEL_URL)
-
   let page: PageType | null
 
   page = await queryPageBySlug({
