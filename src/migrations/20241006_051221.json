@@ -3756,8 +3756,7 @@
           "type": "text",
           "primaryKey": false,
           "notNull": false,
-          "autoincrement": false,
-          "default": "'media'"
+          "autoincrement": false
         },
         "updated_at": {
           "name": "updated_at",
@@ -7002,6 +7001,6 @@
   "internal": {
     "indexes": {}
   },
-  "id": "02932eb3-3ffc-4782-93a5-4461f29605f2",
+  "id": "c1f753fc-c309-4b27-a8c4-773492761871",
   "prevId": "00000000-0000-0000-0000-000000000000"
 }
