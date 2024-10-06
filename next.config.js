@@ -14,10 +14,8 @@ const nextConfig = {
     remotePatterns: [
       ...[
         baseUrl,
-        'https://images.unsplash.com',
         'https://maps.googleapis.com',
-        'https://cvx-junior-golf.vercel.app',
-        'https://cvx-junior-golf.mikecebul.dev',
+        `https://${process.env.NEXT_PUBLIC_S3_HOSTNAME}`,
       ].map((item) => {
         const url = new URL(item)
         return {
