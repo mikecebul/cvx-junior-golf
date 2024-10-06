@@ -13,7 +13,7 @@ export const generateMeta = async (args: { doc: Page }): Promise<Metadata> => {
     !!doc.meta.metadata.image &&
     typeof doc.meta.metadata.image.sizes?.meta === 'object' &&
     'url' in doc.meta.metadata.image.sizes.meta
-      ? process.env.S3_ENABLED === 'true'
+      ? process.env.VERCEL_ENV !== 'development'
         ? doc.meta.metadata.image.sizes.meta.url
         : `${baseUrl}${doc.meta.metadata.image.url}`
       : '/golf-hero.jpg'

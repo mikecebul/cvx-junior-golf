@@ -3757,7 +3757,7 @@
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false,
-          "default": "'v3'"
+          "default": "'media'"
         },
         "updated_at": {
           "name": "updated_at",
@@ -7002,6 +7002,6 @@
   "internal": {
     "indexes": {}
   },
-  "id": "5ae48295-740e-43be-a78d-998eefec044f",
+  "id": "02932eb3-3ffc-4782-93a5-4461f29605f2",
   "prevId": "00000000-0000-0000-0000-000000000000"
 }
