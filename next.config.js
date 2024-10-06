@@ -1,7 +1,9 @@
 import { withPayload } from '@payloadcms/next/withPayload'
-import { baseUrl } from './src/payload.config'
-
 import redirects from './redirects.js'
+
+const baseUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL
+  ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+  : 'http://localhost:3000'
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
