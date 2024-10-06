@@ -1,5 +1,5 @@
-import { baseUrl } from '@payload-config'
 import type { Metadata } from 'next'
+import { baseUrl } from './baseUrl'
 
 const defaultOpenGraph: Metadata['openGraph'] = {
   type: 'website',

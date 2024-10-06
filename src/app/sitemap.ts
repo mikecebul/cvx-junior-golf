@@ -1,6 +1,7 @@
 import { MetadataRoute } from 'next'
 import { getPayload } from 'payload'
-import configPromise, { baseUrl } from '@payload-config'
+import configPromise from '@payload-config'
+import { baseUrl } from '@/utilities/baseUrl'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   if (process.env.NEXT_PUBLIC_IS_LIVE === 'false') {

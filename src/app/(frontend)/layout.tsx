@@ -12,7 +12,7 @@ import './globals.css'
 import { draftMode } from 'next/headers'
 import { Header } from '@/globals/Header/Component'
 import { ThemeProvider } from 'next-themes'
-import { baseUrl } from '@payload-config'
+import { baseUrl } from '@/utilities/baseUrl'
 
 export const dynamic = 'force-static'
 

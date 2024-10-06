@@ -4,7 +4,7 @@ import { cn } from 'src/utilities/cn'
 import React, { useEffect, useRef } from 'react'
 
 import type { Props as MediaProps } from '../types'
-import { baseUrl } from '@payload-config'
+import { baseUrl } from '@/utilities/baseUrl'
 
 export const VideoMedia: React.FC<MediaProps> = (props) => {
   const { onClick, resource, videoClassName } = props

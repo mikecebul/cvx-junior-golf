@@ -7,7 +7,7 @@ import { useSelectedLayoutSegments } from 'next/navigation'
 import { PayloadAdminBar } from 'payload-admin-bar'
 import React, { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { baseUrl } from '@payload-config'
+import { baseUrl } from '@/utilities/baseUrl'
 
 const collectionLabels = {
   pages: {

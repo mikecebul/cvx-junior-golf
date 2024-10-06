@@ -37,10 +37,7 @@ import { Events } from './collections/Events'
 import { checkoutSessionCompleted } from './plugins/stripe/webhooks/checkoutSessionCompleted'
 import { Media } from './collections/Media'
 import { MediaBlock } from './blocks/MediaBlock/config'
-
-export const baseUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL
-  ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-  : 'http://localhost:3000'
+import { baseUrl } from './utilities/baseUrl'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)

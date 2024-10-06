@@ -24,7 +24,7 @@ import { RichText } from '@/blocks/RichText/config'
 import { EventsPage } from '@/blocks/EventsPage/config'
 import { Donate } from '@/blocks/Donate/config'
 import { FormBlock } from '@/blocks/Form/config'
-import { baseUrl } from '@payload-config'
+import { baseUrl } from '@/utilities/baseUrl'
 
 export const Pages: CollectionConfig = {
   slug: 'pages',

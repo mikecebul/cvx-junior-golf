@@ -12,7 +12,7 @@ import { fields } from './fields'
 import Container from '@/components/Container'
 import { createCheckoutSession } from '@/action'
 import { Event } from '@/payload-types'
-import { baseUrl } from '@payload-config'
+import { baseUrl } from '@/utilities/baseUrl'
 
 export type Value = unknown
 

@@ -1,5 +1,6 @@
 'use client'
-import { baseUrl } from '@payload-config'
+
+import { baseUrl } from '@/utilities/baseUrl'
 import { RefreshRouteOnSave as PayloadLivePreview } from '@payloadcms/live-preview-react'
 import { useRouter } from 'next/navigation'
 import React from 'react'
