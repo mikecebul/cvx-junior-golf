@@ -1,3 +1,4 @@
+import { baseUrl } from '@payload-config'
 import type { Metadata } from 'next'
 
 const defaultOpenGraph: Metadata['openGraph'] = {
@@ -5,9 +6,7 @@ const defaultOpenGraph: Metadata['openGraph'] = {
   description: 'CVX Junior Golf',
   images: [
     {
-      url: process.env.NEXT_PUBLIC_SERVER_URL
-        ? `${process.env.NEXT_PUBLIC_SERVER_URL}/golf-hero.jpg`
-        : '/golf-hero.jpg',
+      url: `${baseUrl}/golf-hero.jpg`,
     },
   ],
   siteName: 'CVX Junior Golf',

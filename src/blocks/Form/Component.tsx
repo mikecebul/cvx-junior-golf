@@ -12,6 +12,7 @@ import { fields } from './fields'
 import Container from '@/components/Container'
 import { createCheckoutSession } from '@/action'
 import { Event } from '@/payload-types'
+import { baseUrl } from '@payload-config'
 
 export type Value = unknown
 
@@ -86,7 +87,7 @@ export const FormBlock: React.FC<
         }, 1000)
 
         try {
-          const req = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/form-submissions`, {
+          const req = await fetch(`${baseUrl}/api/form-submissions`, {
             body: JSON.stringify({
               form: formID,
               submissionData: dataToSend,

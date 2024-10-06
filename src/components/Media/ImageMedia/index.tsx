@@ -45,7 +45,6 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
     height = fullHeight!
     alt = altFromResource
 
-    // src = process.env.S3_ENABLED && url ? url : `${process.env.NEXT_PUBLIC_SERVER_URL}${url}`
     src = url ?? '/placeholder.png'
   }
 
@@ -53,8 +52,8 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
   const sizes = sizeFromProps
     ? sizeFromProps
     : Object.entries(breakpoints)
-      .map(([, value]) => `(max-width: ${value}px) ${value}px`)
-      .join(', ')
+        .map(([, value]) => `(max-width: ${value}px) ${value}px`)
+        .join(', ')
 
   return (
     <NextImage

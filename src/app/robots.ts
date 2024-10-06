@@ -1,6 +1,6 @@
 import { MetadataRoute } from 'next'
 import { getPayload } from 'payload'
-import configPromise from '@payload-config'
+import configPromise, { baseUrl } from '@payload-config'
 
 export default async function robots(): Promise<MetadataRoute.Robots> {
   if (process.env.NEXT_PUBLIC_IS_LIVE === 'false') {
@@ -32,6 +32,6 @@ export default async function robots(): Promise<MetadataRoute.Robots> {
       allow: '/',
       disallow: ['/admin', ...disallowedPages],
     },
-    sitemap: `${process.env.NEXT_PUBLIC_SERVER_URL}/sitemap.xml`,
+    sitemap: `${baseUrl}/sitemap.xml`,
   }
 }

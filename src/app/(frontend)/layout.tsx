@@ -12,6 +12,7 @@ import './globals.css'
 import { draftMode } from 'next/headers'
 import { Header } from '@/globals/Header/Component'
 import { ThemeProvider } from 'next-themes'
+import { baseUrl } from '@payload-config'
 
 export const dynamic = 'force-static'
 
@@ -43,7 +44,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
 }
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SERVER_URL || 'https://www.basesmi.org'),
+  metadataBase: new URL(baseUrl),
   openGraph: mergeOpenGraph(),
   twitter: {
     card: 'summary_large_image',

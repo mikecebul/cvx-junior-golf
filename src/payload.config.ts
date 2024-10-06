@@ -38,6 +38,10 @@ import { checkoutSessionCompleted } from './plugins/stripe/webhooks/checkoutSess
 import { Media } from './collections/Media'
 import { MediaBlock } from './blocks/MediaBlock/config'
 
+export const baseUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL
+  ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+  : 'http://localhost:3000'
+
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
@@ -49,8 +53,8 @@ const generateTitle: GenerateTitle<Page> = ({ doc }) => {
 }
 
 const generateURL: GenerateURL<Page> = ({ doc }) => {
-  if (!doc.slug) return process.env.NEXT_PUBLIC_SERVER_URL!
-  return `${process.env.NEXT_PUBLIC_SERVER_URL!}/${doc.slug}`
+  if (!doc.slug) return baseUrl
+  return `${baseUrl}/${doc.slug}`
 }
 const generateImage: GenerateImage<Page> = ({ doc }) => {
   if (typeof doc.meta?.metadata?.image === 'object' && doc.meta?.metadata?.image) {
@@ -147,8 +151,8 @@ export default buildConfig({
     logger: false,
   }),
   collections: [Pages, Events, Media, Users],
-  cors: [process.env.NEXT_PUBLIC_SERVER_URL || ''].filter(Boolean),
-  csrf: [process.env.NEXT_PUBLIC_SERVER_URL || ''].filter(Boolean),
+  cors: [baseUrl].filter(Boolean),
+  csrf: [baseUrl].filter(Boolean),
   email: resendAdapter({
     defaultFromAddress: process.env.RESEND_DEFAULT_EMAIL || '',
     defaultFromName: 'CVX Junior Golf',

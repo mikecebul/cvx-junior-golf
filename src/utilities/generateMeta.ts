@@ -3,6 +3,7 @@ import type { Metadata } from 'next'
 import type { Page } from '../payload-types'
 
 import { mergeOpenGraph } from './mergeOpenGraph'
+import { baseUrl } from '@payload-config'
 
 export const generateMeta = async (args: { doc: Page }): Promise<Metadata> => {
   const { doc } = args || {}
@@ -14,7 +15,7 @@ export const generateMeta = async (args: { doc: Page }): Promise<Metadata> => {
     'url' in doc.meta.metadata.image.sizes.meta
       ? process.env.S3_ENABLED === 'true'
         ? doc.meta.metadata.image.sizes.meta.url
-        : `${process.env.NEXT_PUBLIC_SERVER_URL}${doc.meta.metadata.image.url}`
+        : `${baseUrl}${doc.meta.metadata.image.url}`
       : '/golf-hero.jpg'
 
   const title = doc?.meta?.metadata?.title
