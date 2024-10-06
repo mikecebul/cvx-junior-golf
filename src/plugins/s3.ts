@@ -3,7 +3,9 @@ export type S3StoragePlugin = Parameters<typeof s3Storage>[0]
 export const S3_PLUGIN_CONFIG: S3StoragePlugin = {
   acl: 'public-read',
   bucket: process.env.S3_BUCKET!,
-  enabled: process.env.NEXT_PUBLIC_VERCEL_ENV !== 'development',
+  enabled:
+    process.env.NEXT_PUBLIC_VERCEL_ENV === 'preview' ||
+    process.env.NEXT_PUBLIC_VERCEL_ENV === 'production',
   collections: {},
   config: {
     credentials: {
