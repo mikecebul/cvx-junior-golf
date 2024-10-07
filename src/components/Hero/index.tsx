@@ -1,9 +1,8 @@
 import Image from 'next/image'
-import type { CompanyInfo, Hero as HeroType } from '@/payload-types'
+import type { Hero as HeroType } from '@/payload-types'
 import { CMSLink } from '../Link'
-import { getCachedGlobal } from '@/utilities/getGlobals'
 import { Title } from './HeroMedium'
-import Container from '../Container'
+import { track } from '@vercel/analytics/react'
 
 type Props = NonNullable<HeroType['highImpact']>
 
@@ -23,6 +22,11 @@ export async function Hero({ title, description, image, links }: Props) {
                 {...link}
                 size="xl"
                 appearance={link.appearance === 'default' ? 'brand' : 'brandOutline'}
+                onClick={() => {
+                  track('Hero CTA Clicked', {
+                    label: link.label,
+                  })
+                }}
               />
             ))}
         </div>

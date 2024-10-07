@@ -13,6 +13,7 @@ import { draftMode } from 'next/headers'
 import { Header } from '@/globals/Header/Component'
 import { ThemeProvider } from 'next-themes'
 import { baseUrl } from '@/utilities/baseUrl'
+import { Analytics } from '@vercel/analytics/react'
 
 export const dynamic = 'force-static'
 
@@ -38,6 +39,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
           <div className="grow">{children}</div>
           <Footer />
         </ThemeProvider>
+        <Analytics />
       </body>
     </html>
   )
