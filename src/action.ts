@@ -1,5 +1,7 @@
 'use server'
 
+import payloadConfig from '@payload-config'
+import { getPayload } from 'payload'
 import Stripe from 'stripe'
 import { baseUrl } from './utilities/baseUrl'
 
@@ -8,10 +10,13 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
   apiVersion: '2022-08-01',
 })
 
-export const createCheckoutSession = async (submissionId: string, eventPrice: number) => {
-  if (!submissionId) {
-    throw new Error('No submission ID provided')
-  }
+export const createCheckoutSession = async (submissionId: number, eventId: number) => {
+  const payload = await getPayload({ config: payloadConfig })
+
+  const { title, price } = await payload.findByID({
+    collection: 'events',
+    id: eventId,
+  })
 
   try {
     const session = await stripe.checkout.sessions.create({
@@ -23,9 +28,9 @@ export const createCheckoutSession = async (submissionId: string, eventPrice: nu
           price_data: {
             currency: 'usd',
             product_data: {
-              name: 'Test Product',
+              name: title,
             },
-            unit_amount: eventPrice * 100,
+            unit_amount: (price ?? 0) * 100,
           },
           quantity: 1,
         },

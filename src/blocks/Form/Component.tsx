@@ -69,6 +69,7 @@ export const FormBlock: React.FC<
   const [hasSubmitted, setHasSubmitted] = useState<boolean>()
   const [error, setError] = useState<{ message: string; status?: string } | undefined>()
   const router = useRouter()
+  const eventId = event?.id
 
   const onSubmit = useCallback(
     (data: Data) => {
@@ -114,7 +115,8 @@ export const FormBlock: React.FC<
           }
 
           const { doc: formSubmission } = res
-          const submissionId = formSubmission.id
+          const submissionId: number = formSubmission.id
+          console.log('formSubmission', formSubmission)
           if (!submissionId) {
             console.error('No submission ID received from the server')
             setError({
@@ -141,8 +143,7 @@ export const FormBlock: React.FC<
             }
           } else {
             if (confirmationType === 'redirect' && redirect) {
-              const { url } = redirect
-              const redirectUrl = url
+              const { url: redirectUrl } = redirect
               if (redirectUrl) router.push(redirectUrl)
             }
           }

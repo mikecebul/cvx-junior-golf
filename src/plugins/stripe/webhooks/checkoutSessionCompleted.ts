@@ -6,29 +6,30 @@ export const checkoutSessionCompleted: StripeWebhookHandler<{
     object: Stripe.Checkout.Session
   }
 }> = async ({ event, payload }) => {
-  console.log('checkoutSessionCompleted handler called')
 
-  const { id: sessionId, metadata, amount_total } = event.data.object
-  const submissionId = metadata?.submissionId
-
-  if (!submissionId) {
-    payload.logger.error('No submissionId found in checkout session metadata')
-    return
-  }
   try {
-    await payload.update({
+    const { id: sessionId, metadata, amount_total } = event.data.object
+    const submissionId = metadata?.submissionId
+
+    if (!submissionId) {
+      payload.logger.error('No submissionId found')
+      return
+    }
+
+    const updatedSubmission = await payload.update({
       collection: 'form-submissions',
       id: submissionId,
-      overrideAccess: true,
       data: {
         paymentStatus: 'paid',
         amount: amount_total ? `$${(amount_total / 100).toFixed(2)}` : '$0.00',
       },
     })
+    if (!updatedSubmission) {
+      payload.logger.error(`Error updating form submission ${submissionId} for checkout session ${sessionId}`)
+      return
+    }
 
-    payload.logger.info(
-      `Successfully updated form submission ${submissionId} for checkout session ${sessionId}`,
-    )
+    payload.logger.info(`Updated form submission: ${JSON.stringify(updatedSubmission)}`)
   } catch (error) {
     payload.logger.error(`Error updating form submission: ${error}`)
   }
