@@ -1020,8 +1020,8 @@
           "notNull": true,
           "autoincrement": false
         },
-        "linkType": {
-          "name": "linkType",
+        "link_type": {
+          "name": "link_type",
           "type": "text",
           "primaryKey": false,
           "notNull": false,
@@ -1042,8 +1042,8 @@
           "notNull": false,
           "autoincrement": false
         },
-        "imageUploadOption": {
-          "name": "imageUploadOption",
+        "image_upload_option": {
+          "name": "image_upload_option",
           "type": "text",
           "primaryKey": false,
           "notNull": false,
@@ -2821,8 +2821,8 @@
           "notNull": true,
           "autoincrement": false
         },
-        "linkType": {
-          "name": "linkType",
+        "link_type": {
+          "name": "link_type",
           "type": "text",
           "primaryKey": false,
           "notNull": false,
@@ -2843,8 +2843,8 @@
           "notNull": false,
           "autoincrement": false
         },
-        "imageUploadOption": {
-          "name": "imageUploadOption",
+        "image_upload_option": {
+          "name": "image_upload_option",
           "type": "text",
           "primaryKey": false,
           "notNull": false,
@@ -3757,7 +3757,7 @@
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false,
-          "default": "'v2'"
+          "default": "'media'"
         },
         "updated_at": {
           "name": "updated_at",
@@ -3997,6 +3997,27 @@
           "notNull": true,
           "autoincrement": false,
           "default": "(strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))"
+        },
+        "enable_a_p_i_key": {
+          "name": "enable_a_p_i_key",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "api_key": {
+          "name": "api_key",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "api_key_index": {
+          "name": "api_key_index",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
         },
         "email": {
           "name": "email",
@@ -5276,8 +5297,8 @@
           "notNull": false,
           "autoincrement": false
         },
-        "confirmationType": {
-          "name": "confirmationType",
+        "confirmation_type": {
+          "name": "confirmation_type",
           "type": "text",
           "primaryKey": false,
           "notNull": false,
@@ -5432,8 +5453,8 @@
           "notNull": true,
           "autoincrement": false
         },
-        "status": {
-          "name": "status",
+        "payment_status": {
+          "name": "payment_status",
           "type": "text",
           "primaryKey": false,
           "notNull": false,
@@ -6981,6 +7002,6 @@
   "internal": {
     "indexes": {}
   },
-  "id": "07e439dd-53c8-4018-822b-e2a5d3e5d986",
+  "id": "5a3ec4ed-b304-4222-9cba-d9471714b9b9",
   "prevId": "00000000-0000-0000-0000-000000000000"
 }

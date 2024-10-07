@@ -20,8 +20,8 @@ export const checkoutSessionCompleted: StripeWebhookHandler<{
       collection: 'form-submissions',
       id: submissionId,
       data: {
-        status: 'paid',
-        amount: `$${(amount_total ?? 0) / 100}`,
+        paymentStatus: 'paid',
+        amount: amount_total ? `$${(amount_total / 100).toFixed(2)}` : '$0.00',
       },
     })
     if (!updatedSubmission) {

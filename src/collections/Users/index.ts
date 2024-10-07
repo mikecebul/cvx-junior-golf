@@ -17,10 +17,12 @@ const Users: CollectionConfig = {
   },
   admin: {
     hideAPIURL: !superAdmin,
-    defaultColumns: ['name', 'email'],
+    defaultColumns: ['name', 'email', 'role'],
     useAsTitle: 'name',
   },
-  auth: true,
+  auth: {
+    useAPIKey: true,
+  },
   fields: [
     {
       name: 'name',
@@ -44,7 +46,16 @@ const Users: CollectionConfig = {
       },
       hooks: {
         beforeChange: [ensureFirstUserIsSuperAdmin],
-        afterChange: [() => revalidatePath('/(payload)', 'layout')],
+        afterChange: [
+          ({ req }) => req.headers['X-Payload-Migration'] !== 'true' && revalidatePath('/(payload)', 'layout'),
+        ],
+      },
+    },
+    {
+      name: 'apiKey',
+      type: 'text',
+      access: {
+        read: () => !!superAdmin,
       },
     },
   ],

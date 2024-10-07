@@ -34,10 +34,10 @@ import { Page } from 'src/payload-types'
 import { CompanyInfo } from './globals/CompanyInfo/config'
 import { superAdmin } from './access/superAdmin'
 import { Events } from './collections/Events'
-import { checkoutSessionCompleted } from './plugins/Stripe/WebHooks/checkoutSessionCompleted'
+import { checkoutSessionCompleted } from './plugins/stripe/webhooks/checkoutSessionCompleted'
 import { Media } from './collections/Media'
 import { MediaBlock } from './blocks/MediaBlock/config'
-import { anyone } from './access/anyone'
+import { baseUrl } from './utilities/baseUrl'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -50,8 +50,8 @@ const generateTitle: GenerateTitle<Page> = ({ doc }) => {
 }
 
 const generateURL: GenerateURL<Page> = ({ doc }) => {
-  if (!doc.slug) return process.env.NEXT_PUBLIC_SERVER_URL!
-  return `${process.env.NEXT_PUBLIC_SERVER_URL!}/${doc.slug}`
+  if (!doc.slug) return baseUrl
+  return `${baseUrl}/${doc.slug}`
 }
 const generateImage: GenerateImage<Page> = ({ doc }) => {
   if (typeof doc.meta?.metadata?.image === 'object' && doc.meta?.metadata?.image) {
@@ -66,7 +66,7 @@ export default buildConfig({
     components: {
       graphics: {
         Icon: '@/graphics/Icon',
-        Logo: '@/graphics/Logo',
+        Logo: '@/components/Logo/Graphic',
       },
     },
     importMap: {
@@ -148,18 +148,18 @@ export default buildConfig({
     logger: false,
   }),
   collections: [Pages, Events, Media, Users],
-  cors: [process.env.NEXT_PUBLIC_SERVER_URL || ''].filter(Boolean),
-  csrf: [process.env.NEXT_PUBLIC_SERVER_URL || ''].filter(Boolean),
+  cors: [baseUrl].filter(Boolean),
+  csrf: [baseUrl].filter(Boolean),
   email: resendAdapter({
     defaultFromAddress: process.env.RESEND_DEFAULT_EMAIL || '',
-    defaultFromName: 'BASES Admin',
+    defaultFromName: 'CVX Junior Golf',
     apiKey: process.env.RESEND_API_KEY || '',
   }),
   endpoints: [],
   globals: [Header, Footer, CompanyInfo],
   plugins: [
     stripePlugin({
-      isTestKey: true,
+      isTestKey: process.env.STRIPE_SECRET_KEY?.includes('sk_test'),
       stripeSecretKey: process.env.STRIPE_SECRET_KEY || '',
       stripeWebhooksEndpointSecret: process.env.STRIPE_WEBHOOK_SECRET,
       webhooks: {
@@ -167,10 +167,15 @@ export default buildConfig({
       },
     }),
     formBuilderPlugin({
+      defaultToEmail: 'info@cvxjrgolf.org',
       fields: {
         payment: false,
       },
       formOverrides: {
+        labels: {
+          singular: 'Registration Form',
+          plural: 'Registration Forms',
+        },
         fields: ({ defaultFields }) => [
           {
             name: 'requirePayment',
@@ -215,8 +220,9 @@ export default buildConfig({
         ],
       },
       formSubmissionOverrides: {
-        access: {
-          update: anyone,
+        labels: {
+          singular: 'Form Submission',
+          plural: 'Form Submissions',
         },
         fields: ({ defaultFields }) => {
           return defaultFields
@@ -236,7 +242,7 @@ export default buildConfig({
             })
             .concat([
               {
-                name: 'status',
+                name: 'paymentStatus',
                 label: 'Payment Status',
                 type: 'text',
                 defaultValue: 'pending',
@@ -260,7 +266,7 @@ export default buildConfig({
       collections: ['pages'],
       overrides: {
         access: {
-          admin: superAdmin,
+          admin: (args) => !superAdmin(args),
           read: superAdmin,
           delete: superAdmin,
           update: superAdmin,
@@ -298,7 +304,7 @@ export default buildConfig({
           generateFileURL: (args: any) => {
             return `https://${process.env.NEXT_PUBLIC_S3_HOSTNAME}/${args.prefix}/${args.filename}`
           },
-          prefix: 'v2',
+          prefix: process.env.NEXT_PUBLIC_VERCEL_ENV === 'preview' ? 'dev' : 'media',
         },
       },
     }),

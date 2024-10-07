@@ -1,9 +1,8 @@
 import Image from 'next/image'
-import type { CompanyInfo, Hero as HeroType } from '@/payload-types'
+import type { Hero as HeroType } from '@/payload-types'
 import { CMSLink } from '../Link'
-import { getCachedGlobal } from '@/utilities/getGlobals'
 import { Title } from './HeroMedium'
-import Container from '../Container'
+import { track } from '@vercel/analytics/react'
 
 type Props = NonNullable<HeroType['highImpact']>
 
@@ -23,6 +22,11 @@ export async function Hero({ title, description, image, links }: Props) {
                 {...link}
                 size="xl"
                 appearance={link.appearance === 'default' ? 'brand' : 'brandOutline'}
+                onClick={() => {
+                  track('Hero CTA Clicked', {
+                    label: link.label,
+                  })
+                }}
               />
             ))}
         </div>
@@ -32,8 +36,8 @@ export async function Hero({ title, description, image, links }: Props) {
           {image != null && typeof image === 'object' && (
             <>
               <Image
-                src={image.url ?? '/woman-laptop.webp'}
-                alt={image.alt ?? 'Woman using telehealth services from home.'}
+                src={image.url ?? '/golf-hero.jpg'}
+                alt={image.alt ?? 'Golfer swinging a golf club'}
                 className="object-cover object-top rounded-lg"
                 fill
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"

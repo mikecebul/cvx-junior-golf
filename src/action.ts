@@ -3,6 +3,7 @@
 import payloadConfig from '@payload-config'
 import { getPayload } from 'payload'
 import Stripe from 'stripe'
+import { baseUrl } from './utilities/baseUrl'
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
   //@ts-ignore
@@ -19,8 +20,8 @@ export const createCheckoutSession = async (submissionId: number, eventId: numbe
 
   try {
     const session = await stripe.checkout.sessions.create({
-      success_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/success`,
-      cancel_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/cancel`,
+      success_url: `${baseUrl}/success`,
+      cancel_url: `${baseUrl}/cancel`,
 
       line_items: [
         {

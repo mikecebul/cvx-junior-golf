@@ -410,7 +410,7 @@ export interface FormSubmission {
         id?: string | null;
       }[]
     | null;
-  status?: string | null;
+  paymentStatus?: string | null;
   amount?: string | null;
   updatedAt: string;
   createdAt: string;
@@ -601,6 +601,9 @@ export interface User {
   role: string;
   updatedAt: string;
   createdAt: string;
+  enableAPIKey?: boolean | null;
+  apiKey?: string | null;
+  apiKeyIndex?: string | null;
   email: string;
   resetPasswordToken?: string | null;
   resetPasswordExpiration?: string | null;

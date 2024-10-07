@@ -12,6 +12,7 @@ import { fields } from './fields'
 import Container from '@/components/Container'
 import { createCheckoutSession } from '@/action'
 import { Event } from '@/payload-types'
+import { baseUrl } from '@/utilities/baseUrl'
 
 export type Value = unknown
 
@@ -53,6 +54,7 @@ export const FormBlock: React.FC<
     introContent,
   } = props
 
+  const eventPrice = event?.price ?? 0
   const formMethods = useForm({
     defaultValues: buildInitialFormState(formFromProps.fields),
   })
@@ -86,7 +88,7 @@ export const FormBlock: React.FC<
         }, 1000)
 
         try {
-          const req = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/form-submissions`, {
+          const req = await fetch(`${baseUrl}/api/form-submissions`, {
             body: JSON.stringify({
               form: formID,
               submissionData: dataToSend,
@@ -129,8 +131,8 @@ export const FormBlock: React.FC<
           setIsLoading(false)
           setHasSubmitted(true)
 
-          if (!!requirePayment && eventId) {
-            const session = await createCheckoutSession(submissionId, eventId)
+          if (!!requirePayment) {
+            const session = await createCheckoutSession(submissionId, eventPrice)
             if (session?.url) {
               router.push(session.url)
             } else {
@@ -156,7 +158,7 @@ export const FormBlock: React.FC<
 
       void submitForm()
     },
-    [router, formID, redirect, confirmationType, requirePayment, eventId],
+    [router, formID, redirect, confirmationType, requirePayment, eventPrice],
   )
 
   return (
