@@ -10,7 +10,7 @@ import { Button } from '@/components/ui/button'
 import { buildInitialFormState } from './buildInitialFormState'
 import { fields } from './fields'
 import Container from '@/components/Container'
-import { createCheckoutSession } from '@/action'
+import { createCheckoutSession } from '@/plugins/stripe/action'
 import { Event } from '@/payload-types'
 import { baseUrl } from '@/utilities/baseUrl'
 
@@ -54,7 +54,6 @@ export const FormBlock: React.FC<
     introContent,
   } = props
 
-  const eventPrice = event?.price ?? 0
   const formMethods = useForm({
     defaultValues: buildInitialFormState(formFromProps.fields),
   })
@@ -116,7 +115,7 @@ export const FormBlock: React.FC<
 
           const { doc: formSubmission } = res
           const submissionId: number = formSubmission.id
-          console.log('formSubmission', formSubmission)
+
           if (!submissionId) {
             console.error('No submission ID received from the server')
             setError({
@@ -126,13 +125,11 @@ export const FormBlock: React.FC<
             return
           }
 
-          console.log('Form submission successful. Submission ID:', submissionId)
-
           setIsLoading(false)
           setHasSubmitted(true)
 
-          if (!!requirePayment) {
-            const session = await createCheckoutSession(submissionId, eventPrice)
+          if (!!requirePayment && !!eventId) {
+            const session = await createCheckoutSession(submissionId, eventId)
             if (session?.url) {
               router.push(session.url)
             } else {
@@ -158,7 +155,7 @@ export const FormBlock: React.FC<
 
       void submitForm()
     },
-    [router, formID, redirect, confirmationType, requirePayment, eventPrice],
+    [router, formID, redirect, confirmationType, requirePayment, eventId],
   )
 
   return (
