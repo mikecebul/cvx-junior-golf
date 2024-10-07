@@ -66,7 +66,7 @@ export default buildConfig({
     components: {
       graphics: {
         Icon: '@/graphics/Icon',
-        Logo: '@/graphics/Logo',
+        Logo: '@/components/Logo/Graphic',
       },
     },
     importMap: {
@@ -221,8 +221,8 @@ export default buildConfig({
       },
       formSubmissionOverrides: {
         labels: {
-          singular: 'Submitted Registration Form',
-          plural: 'Submitted Registration Forms',
+          singular: 'Form Submission',
+          plural: 'Form Submissions',
         },
         fields: ({ defaultFields }) => {
           return defaultFields

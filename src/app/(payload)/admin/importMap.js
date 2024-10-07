@@ -37,7 +37,7 @@ import { default as default_35 } from '@/fields/form-submissions/FormSubmissionR
 import { default as default_36 } from '@/globals/CompanyInfo/SocialRowLabel'
 import { default as default_37 } from '@/globals/CompanyInfo/HoursRowLabel'
 import { default as default_38 } from '@/graphics/Icon'
-import { default as default_39 } from '@/graphics/Logo'
+import { default as default_39 } from '@/components/Logo/Graphic'
 
 export const importMap = {
   "@/fields/link/LinkRowLabel#default": default_0,
@@ -79,5 +79,5 @@ export const importMap = {
   "@/globals/CompanyInfo/SocialRowLabel#default": default_36,
   "@/globals/CompanyInfo/HoursRowLabel#default": default_37,
   "@/graphics/Icon#default": default_38,
-  "@/graphics/Logo#default": default_39
+  "@/components/Logo/Graphic#default": default_39
 }
