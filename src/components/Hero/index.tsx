@@ -1,3 +1,5 @@
+'use client'
+
 import Image from 'next/image'
 import type { Hero as HeroType } from '@/payload-types'
 import { CMSLink } from '../Link'
