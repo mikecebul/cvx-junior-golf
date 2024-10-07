@@ -3,7 +3,7 @@
 import payloadConfig from '@payload-config'
 import { getPayload } from 'payload'
 import Stripe from 'stripe'
-import { baseUrl } from './utilities/baseUrl'
+import { baseUrl } from '@/utilities/baseUrl'
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
   //@ts-ignore
