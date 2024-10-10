@@ -1,14 +1,13 @@
-'use client'
-
 import Image from 'next/image'
 import type { Hero as HeroType } from '@/payload-types'
-import { CMSLink } from '../Link'
-import { Title } from './HeroMedium'
+import { CMSLink } from '@/components/Link'
+import { Title } from '@/components/Hero/HeroMedium'
 import { track } from '@vercel/analytics/react'
+import { CTA } from './CTA'
 
-type Props = NonNullable<HeroType['highImpact']>
+export type HeroHighProps = NonNullable<HeroType['highImpact']>
 
-export async function Hero({ title, description, image, links }: Props) {
+export async function HeroHigh({ title, description, image, links }: HeroHighProps) {
   return (
     <div className="grid lg:grid-cols-2 gap-8">
       <div className="flex flex-col mr-auto col-span-1 justify-center gap-8">
@@ -16,22 +15,7 @@ export async function Hero({ title, description, image, links }: Props) {
           {title && <Title heading="h1" text={title} className="" />}
           <p className="max-w-xl text-lg text-muted-foreground">{description}</p>
         </div>
-        <div className="flex gap-4 flex-wrap">
-          {links != null &&
-            links.map(({ link, id }, index) => (
-              <CMSLink
-                key={id}
-                {...link}
-                size="xl"
-                appearance={link.appearance === 'default' ? 'brand' : 'brandOutline'}
-                onClick={() => {
-                  track('Hero CTA Clicked', {
-                    label: link.label,
-                  })
-                }}
-              />
-            ))}
-        </div>
+        <CTA links={links} />
       </div>
       <div className="relative hidden col-span-1 lg:flex lg:justify-center lg:items-center">
         <div className="relative w-full aspect-[3/2]">
