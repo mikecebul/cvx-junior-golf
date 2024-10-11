@@ -211,12 +211,12 @@ export default buildConfig({
             }
             return field
           }),
-          {
-            name: 'submissions',
-            type: 'join',
-            collection: 'form-submissions',
-            on: 'form',
-          },
+          // {
+          //   name: 'submissions',
+          //   type: 'join',
+          //   collection: 'form-submissions',
+          //   on: 'form',
+          // },
         ],
       },
       formSubmissionOverrides: {

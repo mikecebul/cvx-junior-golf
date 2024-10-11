@@ -390,29 +390,6 @@ export interface Form {
         id?: string | null;
       }[]
     | null;
-  submissions?: {
-    docs?: (number | FormSubmission)[] | null;
-    hasNextPage?: boolean | null;
-  } | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "form-submissions".
- */
-export interface FormSubmission {
-  id: number;
-  form: number | Form;
-  submissionData?:
-    | {
-        field: string;
-        value: string;
-        id?: string | null;
-      }[]
-    | null;
-  paymentStatus?: string | null;
-  amount?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -613,6 +590,25 @@ export interface User {
   loginAttempts?: number | null;
   lockUntil?: string | null;
   password?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "form-submissions".
+ */
+export interface FormSubmission {
+  id: number;
+  form: number | Form;
+  submissionData?:
+    | {
+        field: string;
+        value: string;
+        id?: string | null;
+      }[]
+    | null;
+  paymentStatus?: string | null;
+  amount?: string | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

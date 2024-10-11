@@ -10,7 +10,6 @@ import { RenderBlocks } from '@/blocks/RenderBlocks'
 import { generateMeta } from '@/utilities/generateMeta'
 
 import type { Page as PageType } from '@/payload-types'
-import { baseUrl } from '@/utilities/baseUrl'
 
 export async function generateStaticParams() {
   const payload = await getPayloadHMR({ config: configPromise })
