@@ -10,6 +10,7 @@ import Container from '@/components/Container'
 import { CMSLink } from '@/components/Link'
 import { getPayloadHMR } from '@payloadcms/next/utilities'
 import payloadConfig from '@payload-config'
+import { GoogleMap } from './GoogleMap'
 
 export async function Footer() {
   const payload = await getPayloadHMR({ config: payloadConfig })
@@ -50,7 +51,7 @@ export async function Footer() {
               <p className="text-lg font-bold">Contact</p>
               <Separator className="my-4" />
               <ul className="flex flex-col mb-8 space-y-4 text-gray-500 ">
-                {typeof contact?.phone === 'string' && (
+                {typeof contact.phone === 'string' && contact.phone.length > 0 && (
                   <li key={contact.phone} className="group">
                     <a
                       href={`tel:${contact.phone.replace(/\D/g, '')}`}
@@ -64,7 +65,7 @@ export async function Footer() {
                     </a>
                   </li>
                 )}
-                {typeof contact?.address === 'string' && (
+                {typeof contact.address === 'string' && contact.address.length > 0 && (
                   <li key={contact.address} className="group">
                     <a
                       href={contact.googleMapLink ?? '#'}
@@ -78,7 +79,7 @@ export async function Footer() {
                     </a>
                   </li>
                 )}
-                {typeof contact?.email === 'string' && (
+                {typeof contact.email === 'string' && contact.email.length > 0 && (
                   <li key={contact.email} className="group">
                     <a
                       href={`mailto:${contact.email}`}
@@ -92,7 +93,7 @@ export async function Footer() {
                     </a>
                   </li>
                 )}
-                {typeof contact?.fax === 'string' && (
+                {typeof contact.fax === 'string' && contact.fax.length > 0 && (
                   <li key={contact.fax} className="group">
                     <div className={cn(buttonVariants({ variant: 'text' }), 'text-gray-500')}>
                       <Printer className="mr-2" size={20} />
@@ -151,15 +152,7 @@ export async function Footer() {
             <div className="col-span-1 sm:col-span-2 lg:col-span-1">
               <p className="text-lg font-bold">Location</p>
               <Separator className="my-4" />
-              <Link href="https://goo.gl/maps/X956fmf511Fef9Pr7">
-                <Image
-                  src={`https://maps.googleapis.com/maps/api/staticmap?center=45.3035201,-85.2598514&zoom=16&size=400x400&markers=color:blue%7Clabel:B%7C45.3035201,-85.2598514&key=${process.env.GOOGLE_MAPS_API_KEY}`}
-                  alt="Google maps of our address"
-                  width={1000}
-                  height={1000}
-                  className="h-[350px] object-cover"
-                ></Image>
-              </Link>
+              <GoogleMap />
             </div>
           )}
         </div>
