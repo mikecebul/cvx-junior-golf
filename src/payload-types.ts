@@ -219,7 +219,6 @@ export interface Event {
   };
   date: string;
   location: string;
-  price?: number | null;
   forms?: {
     docs?: (number | Form)[] | null;
     hasNextPage?: boolean | null;
@@ -390,6 +389,29 @@ export interface Form {
         id?: string | null;
       }[]
     | null;
+  submissions?: {
+    docs?: (number | FormSubmission)[] | null;
+    hasNextPage?: boolean | null;
+  } | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "form-submissions".
+ */
+export interface FormSubmission {
+  id: number;
+  form: number | Form;
+  submissionData?:
+    | {
+        field: string;
+        value: string;
+        id?: string | null;
+      }[]
+    | null;
+  paymentStatus?: string | null;
+  amount?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -534,8 +556,22 @@ export interface EventsPageBlock {
   events?: (number | Event)[] | null;
   announcements?:
     | {
-        title?: string | null;
-        description?: string | null;
+        title: string;
+        description: {
+          root: {
+            type: string;
+            children: {
+              type: string;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        };
         id?: string | null;
       }[]
     | null;
@@ -590,25 +626,6 @@ export interface User {
   loginAttempts?: number | null;
   lockUntil?: string | null;
   password?: string | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "form-submissions".
- */
-export interface FormSubmission {
-  id: number;
-  form: number | Form;
-  submissionData?:
-    | {
-        field: string;
-        value: string;
-        id?: string | null;
-      }[]
-    | null;
-  paymentStatus?: string | null;
-  amount?: string | null;
-  updatedAt: string;
-  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

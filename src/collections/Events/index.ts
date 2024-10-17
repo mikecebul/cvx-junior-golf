@@ -46,10 +46,6 @@ export const Events: CollectionConfig = {
       required: true,
     },
     {
-      name: 'price',
-      type: 'number',
-    },
-    {
       name: 'forms',
       label: 'Registration Forms',
       type: 'join',

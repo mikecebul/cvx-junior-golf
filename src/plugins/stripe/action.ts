@@ -13,7 +13,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
 export const createCheckoutSession = async (submissionId: number, eventId: number) => {
   const payload = await getPayload({ config: payloadConfig })
 
-  const { title, price } = await payload.findByID({
+  const { title } = await payload.findByID({
     collection: 'events',
     id: eventId,
   })
@@ -30,7 +30,7 @@ export const createCheckoutSession = async (submissionId: number, eventId: numbe
             product_data: {
               name: title,
             },
-            unit_amount: (price ?? 0) * 100,
+            unit_amount: 0 * 100,
           },
           quantity: 1,
         },

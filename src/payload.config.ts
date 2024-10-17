@@ -15,6 +15,7 @@ import {
   ItalicFeature,
   LinkFeature,
   UnorderedListFeature,
+  OrderedListFeature,
   lexicalEditor,
   BlocksFeature,
 } from '@payloadcms/richtext-lexical'
@@ -111,6 +112,7 @@ export default buildConfig({
         BoldFeature(),
         ItalicFeature(),
         UnorderedListFeature(),
+        OrderedListFeature(),
         BlocksFeature({
           blocks: [MediaBlock],
         }),
@@ -211,12 +213,12 @@ export default buildConfig({
             }
             return field
           }),
-          // {
-          //   name: 'submissions',
-          //   type: 'join',
-          //   collection: 'form-submissions',
-          //   on: 'form',
-          // },
+          {
+            name: 'submissions',
+            type: 'join',
+            collection: 'form-submissions',
+            on: 'form',
+          },
         ],
       },
       formSubmissionOverrides: {
