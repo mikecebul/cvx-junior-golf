@@ -6,16 +6,16 @@ import { ensureFirstUserIsSuperAdmin } from './hooks/ensureFirstUserIsSuperAdmin
 import { revalidatePath } from 'next/cache'
 import { superAdmin } from '@/access/superAdmin'
 import { adminOrSuperAdmin } from '@/access/adminOrSuperAdmin'
-import { adminOrSuperAdminOrSelf } from '@/access/adminOrSuperAdminOrSelf'
+import { self } from '@/access/self'
 
 const Users: CollectionConfig = {
   slug: 'users',
   access: {
     admin: authenticated,
-    create: adminOrSuperAdmin,
-    delete: adminOrSuperAdmin,
+    create: ({ req }) => adminOrSuperAdmin({ req }),
+    delete: ({ req, id }) => self({ req, id }) || adminOrSuperAdmin({ req, id }),
     read: authenticated,
-    update: ({ req, id }) => adminOrSuperAdminOrSelf({ req, id }),
+    update: ({ req, id }) => self({ req, id }) || adminOrSuperAdmin({ req, id }),
   },
   admin: {
     hideAPIURL: !superAdmin,
@@ -58,14 +58,14 @@ const Users: CollectionConfig = {
       name: 'enableAPIKey',
       type: 'checkbox',
       access: {
-        update: ({ req }) => req.user?.role === 'superAdmin',
+        update: ({ req }) => !!superAdmin({ req }),
       },
     },
     {
       name: 'apiKey',
       type: 'text',
       access: {
-        update: ({ req }) => req.user?.role === 'superAdmin',
+        update: ({ req }) => !!superAdmin({ req }),
       },
     },
   ],
