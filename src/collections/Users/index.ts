@@ -5,15 +5,17 @@ import { roleSelectMutate } from './access/roleSelectMutate'
 import { ensureFirstUserIsSuperAdmin } from './hooks/ensureFirstUserIsSuperAdmin'
 import { revalidatePath } from 'next/cache'
 import { superAdmin } from '@/access/superAdmin'
+import { adminOrSuperAdmin } from '@/access/adminOrSuperAdmin'
+import { adminOrSuperAdminOrSelf } from '@/access/adminOrSuperAdminOrSelf'
 
 const Users: CollectionConfig = {
   slug: 'users',
   access: {
     admin: authenticated,
-    create: authenticated,
-    delete: authenticated,
+    create: adminOrSuperAdmin,
+    delete: adminOrSuperAdmin,
     read: authenticated,
-    update: authenticated,
+    update: ({ req, id }) => adminOrSuperAdminOrSelf({ req, id }),
   },
   admin: {
     hideAPIURL: !superAdmin,
@@ -47,15 +49,23 @@ const Users: CollectionConfig = {
       hooks: {
         beforeChange: [ensureFirstUserIsSuperAdmin],
         afterChange: [
-          ({ req }) => req.headers['X-Payload-Migration'] !== 'true' && revalidatePath('/(payload)', 'layout'),
+          ({ req }) =>
+            req.headers['X-Payload-Migration'] !== 'true' && revalidatePath('/(payload)', 'layout'),
         ],
+      },
+    },
+    {
+      name: 'enableAPIKey',
+      type: 'checkbox',
+      access: {
+        update: ({ req }) => req.user?.role === 'superAdmin',
       },
     },
     {
       name: 'apiKey',
       type: 'text',
       access: {
-        read: () => !!superAdmin,
+        update: ({ req }) => req.user?.role === 'superAdmin',
       },
     },
   ],
