@@ -5,8 +5,7 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "build": "pnpm payload migrate && cross-env NODE_OPTIONS=--no-deprecation next build",
-    "build:dev": "cross-env NODE_OPTIONS=--no-deprecation next build",
+    "build": "cross-env NODE_OPTIONS=--no-deprecation next build",
     "dev": "cross-env NODE_OPTIONS=--no-deprecation next dev",
     "dev:prod": "payload migrate && cross-env NODE_OPTIONS=--no-deprecation rm -rf .next && pnpm build && pnpm start",
     "generate:importmap": "cross-env NODE_OPTIONS=--no-deprecation payload generate:importmap",
@@ -14,7 +13,7 @@
     "ii": "cross-env NODE_OPTIONS=--no-deprecation pnpm install",
     "lint": "cross-env NODE_OPTIONS=--no-deprecation next lint",
     "lint:fix": "cross-env NODE_OPTIONS=--no-deprecation next lint --fix",
-    "migrate:create": "cross-env process.env.VERCEL='1' payload migrate:create",
+    "migrate:create": "cross-env payload migrate:create",
     "payload": "cross-env NODE_OPTIONS=--no-deprecation payload",
     "reinstall": "cross-env NODE_OPTIONS=--no-deprecation rm -rf node_modules && rm pnpm-lock.yaml && pnpm install",
     "start": "cross-env NODE_OPTIONS=--no-deprecation next start"
@@ -23,8 +22,7 @@
     "@hookform/resolvers": "^3.9.0",
     "@lexical/headless": "0.18.0",
     "@lexical/markdown": "0.18.0",
-    "@libsql/client": "0.14.0",
-    "@payloadcms/db-sqlite": "3.0.0-beta.116",
+    "@payloadcms/db-mongodb": "3.0.0-beta.116",
     "@payloadcms/email-resend": "3.0.0-beta.116",
     "@payloadcms/live-preview-react": "3.0.0-beta.116",
     "@payloadcms/next": "3.0.0-beta.116",
@@ -105,5 +103,6 @@
   "overrides": {
     "@types/react": "npm:types-react@19.0.0-rc.1",
     "@types/react-dom": "npm:types-react-dom@19.0.0-rc.1"
-  }
+  },
+  "packageManager": "pnpm@9.12.2+sha512.22721b3a11f81661ae1ec68ce1a7b879425a1ca5b991c975b074ac220b187ce56c708fe5db69f4c962c989452eee76c82877f4ee80f474cebd61ee13461b6228"
 }

@@ -17,7 +17,7 @@ export type LinkCards =
       description: string;
       imageUploadOption?: ('generate' | 'manual') | null;
       keywords?: string | null;
-      image?: (number | null) | Media;
+      image?: (string | null) | Media;
       href: string;
       id?: string | null;
     }[]
@@ -40,7 +40,7 @@ export interface Config {
     'payload-migrations': PayloadMigration;
   };
   db: {
-    defaultIDType: number;
+    defaultIDType: string;
   };
   globals: {
     header: Header;
@@ -75,7 +75,7 @@ export interface UserAuthOperations {
  * via the `definition` "pages".
  */
 export interface Page {
-  id: number;
+  id: string;
   title: string;
   layout: (
     | Hero
@@ -92,7 +92,7 @@ export interface Page {
     hideFromSearchEngines?: boolean | null;
     metadata?: {
       title?: string | null;
-      image?: (number | null) | Media;
+      image?: (string | null) | Media;
       description?: string | null;
     };
   };
@@ -120,11 +120,11 @@ export interface Hero {
             reference?:
               | ({
                   relationTo: 'pages';
-                  value: number | Page;
+                  value: string | Page;
                 } | null)
               | ({
                   relationTo: 'media';
-                  value: number | Media;
+                  value: string | Media;
                 } | null);
             url?: string | null;
             label: string;
@@ -133,7 +133,7 @@ export interface Hero {
           id?: string | null;
         }[]
       | null;
-    image: number | Media;
+    image: string | Media;
   };
   mediumImpact?: {
     subtitle?: string | null;
@@ -149,7 +149,7 @@ export interface Hero {
  * via the `definition` "media".
  */
 export interface Media {
-  id: number;
+  id: string;
   alt: string;
   caption?: string | null;
   prefix?: string | null;
@@ -190,7 +190,7 @@ export interface Media {
 export interface EventsBlock {
   title: string;
   description: string;
-  eventItems?: (number | Event)[] | null;
+  eventItems?: (string | Event)[] | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'events';
@@ -200,7 +200,7 @@ export interface EventsBlock {
  * via the `definition` "events".
  */
 export interface Event {
-  id: number;
+  id: string;
   title: string;
   description: {
     root: {
@@ -220,7 +220,7 @@ export interface Event {
   date: string;
   location: string;
   forms?: {
-    docs?: (number | Form)[] | null;
+    docs?: (string | Form)[] | null;
     hasNextPage?: boolean | null;
   } | null;
   updatedAt: string;
@@ -231,9 +231,9 @@ export interface Event {
  * via the `definition` "forms".
  */
 export interface Form {
-  id: number;
+  id: string;
   requirePayment?: boolean | null;
-  event?: (number | null) | Event;
+  event?: (string | null) | Event;
   title: string;
   fields?:
     | (
@@ -390,7 +390,7 @@ export interface Form {
       }[]
     | null;
   submissions?: {
-    docs?: (number | FormSubmission)[] | null;
+    docs?: (string | FormSubmission)[] | null;
     hasNextPage?: boolean | null;
   } | null;
   updatedAt: string;
@@ -401,8 +401,8 @@ export interface Form {
  * via the `definition` "form-submissions".
  */
 export interface FormSubmission {
-  id: number;
-  form: number | Form;
+  id: string;
+  form: string | Form;
   submissionData?:
     | {
         field: string;
@@ -430,11 +430,11 @@ export interface HowItWorksBlock {
           reference?:
             | ({
                 relationTo: 'pages';
-                value: number | Page;
+                value: string | Page;
               } | null)
             | ({
                 relationTo: 'media';
-                value: number | Media;
+                value: string | Media;
               } | null);
           url?: string | null;
           label: string;
@@ -454,7 +454,7 @@ export interface HowItWorksBlock {
 export interface HistoryBlock {
   title?: string | null;
   description?: string | null;
-  image?: (number | null) | Media;
+  image?: (string | null) | Media;
   items?:
     | {
         title?: string | null;
@@ -468,11 +468,11 @@ export interface HistoryBlock {
     reference?:
       | ({
           relationTo: 'pages';
-          value: number | Page;
+          value: string | Page;
         } | null)
       | ({
           relationTo: 'media';
-          value: number | Media;
+          value: string | Media;
         } | null);
     url?: string | null;
     label: string;
@@ -495,17 +495,17 @@ export interface DonateBlock {
     reference?:
       | ({
           relationTo: 'pages';
-          value: number | Page;
+          value: string | Page;
         } | null)
       | ({
           relationTo: 'media';
-          value: number | Media;
+          value: string | Media;
         } | null);
     url?: string | null;
     label: string;
     appearance?: ('default' | 'outline') | null;
   };
-  image?: (number | null) | Media;
+  image?: (string | null) | Media;
   id?: string | null;
   blockName?: string | null;
   blockType: 'donate';
@@ -531,7 +531,7 @@ export interface RichTextBlock {
     };
     [k: string]: unknown;
   } | null;
-  images?: (number | Media)[] | null;
+  images?: (string | Media)[] | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'richText';
@@ -553,7 +553,7 @@ export interface LinksBlock {
  */
 export interface EventsPageBlock {
   title?: string | null;
-  events?: (number | Event)[] | null;
+  events?: (string | Event)[] | null;
   announcements?:
     | {
         title: string;
@@ -584,7 +584,7 @@ export interface EventsPageBlock {
  * via the `definition` "FormBlock".
  */
 export interface FormBlock {
-  form: number | Form;
+  form: string | Form;
   enableIntro?: boolean | null;
   introContent?: {
     root: {
@@ -610,7 +610,7 @@ export interface FormBlock {
  * via the `definition` "users".
  */
 export interface User {
-  id: number;
+  id: string;
   name?: string | null;
   role: string;
   updatedAt: string;
@@ -632,13 +632,13 @@ export interface User {
  * via the `definition` "redirects".
  */
 export interface Redirect {
-  id: number;
+  id: string;
   from: string;
   to?: {
     type?: ('reference' | 'custom') | null;
     reference?: {
       relationTo: 'pages';
-      value: number | Page;
+      value: string | Page;
     } | null;
     url?: string | null;
   };
@@ -650,40 +650,40 @@ export interface Redirect {
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
-  id: number;
+  id: string;
   document?:
     | ({
         relationTo: 'pages';
-        value: number | Page;
+        value: string | Page;
       } | null)
     | ({
         relationTo: 'events';
-        value: number | Event;
+        value: string | Event;
       } | null)
     | ({
         relationTo: 'media';
-        value: number | Media;
+        value: string | Media;
       } | null)
     | ({
         relationTo: 'users';
-        value: number | User;
+        value: string | User;
       } | null)
     | ({
         relationTo: 'forms';
-        value: number | Form;
+        value: string | Form;
       } | null)
     | ({
         relationTo: 'form-submissions';
-        value: number | FormSubmission;
+        value: string | FormSubmission;
       } | null)
     | ({
         relationTo: 'redirects';
-        value: number | Redirect;
+        value: string | Redirect;
       } | null);
   globalSlug?: string | null;
   user: {
     relationTo: 'users';
-    value: number | User;
+    value: string | User;
   };
   updatedAt: string;
   createdAt: string;
@@ -693,10 +693,10 @@ export interface PayloadLockedDocument {
  * via the `definition` "payload-preferences".
  */
 export interface PayloadPreference {
-  id: number;
+  id: string;
   user: {
     relationTo: 'users';
-    value: number | User;
+    value: string | User;
   };
   key?: string | null;
   value?:
@@ -716,7 +716,7 @@ export interface PayloadPreference {
  * via the `definition` "payload-migrations".
  */
 export interface PayloadMigration {
-  id: number;
+  id: string;
   name?: string | null;
   batch?: number | null;
   updatedAt: string;
@@ -727,7 +727,7 @@ export interface PayloadMigration {
  * via the `definition` "header".
  */
 export interface Header {
-  id: number;
+  id: string;
   navItems?:
     | {
         link: {
@@ -736,11 +736,11 @@ export interface Header {
           reference?:
             | ({
                 relationTo: 'pages';
-                value: number | Page;
+                value: string | Page;
               } | null)
             | ({
                 relationTo: 'media';
-                value: number | Media;
+                value: string | Media;
               } | null);
           url?: string | null;
           label: string;
@@ -756,7 +756,7 @@ export interface Header {
  * via the `definition` "footer".
  */
 export interface Footer {
-  id: number;
+  id: string;
   pageLinks?:
     | {
         link: {
@@ -765,11 +765,11 @@ export interface Footer {
           reference?:
             | ({
                 relationTo: 'pages';
-                value: number | Page;
+                value: string | Page;
               } | null)
             | ({
                 relationTo: 'media';
-                value: number | Media;
+                value: string | Media;
               } | null);
           url?: string | null;
           label: string;
@@ -787,7 +787,7 @@ export interface Footer {
  * via the `definition` "company-info".
  */
 export interface CompanyInfo {
-  id: number;
+  id: string;
   contact?: {
     phone?: string | null;
     fax?: string | null;
@@ -804,11 +804,11 @@ export interface CompanyInfo {
           reference?:
             | ({
                 relationTo: 'pages';
-                value: number | Page;
+                value: string | Page;
               } | null)
             | ({
                 relationTo: 'media';
-                value: number | Media;
+                value: string | Media;
               } | null);
           url?: string | null;
           label: string;
@@ -834,7 +834,7 @@ export interface CompanyInfo {
  */
 export interface MediaBlock {
   position?: ('default' | 'fullscreen') | null;
-  media: number | Media;
+  media: string | Media;
   id?: string | null;
   blockName?: string | null;
   blockType: 'mediaBlock';

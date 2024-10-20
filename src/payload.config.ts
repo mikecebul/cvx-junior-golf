@@ -1,4 +1,4 @@
-import { sqliteAdapter } from '@payloadcms/db-sqlite'
+import { mongooseAdapter } from '@payloadcms/db-mongodb'
 import { resendAdapter } from '@payloadcms/email-resend'
 
 import { stripePlugin } from '@payloadcms/plugin-stripe'
@@ -141,13 +141,8 @@ export default buildConfig({
       ]
     },
   }),
-  db: sqliteAdapter({
-    client: {
-      url: process.env.LOCAL_DATABASE_URL ?? process.env.TURSO_DATABASE_URL!,
-      authToken: process.env.LOCAL_DATABASE_URL ? undefined : process.env.TURSO_AUTH_TOKEN,
-    },
-    push: Boolean(process.env.LOCAL_DATABASE_URL),
-    logger: false,
+  db: mongooseAdapter({
+    url: process.env.DATABASE_URI!,
   }),
   collections: [Pages, Events, Media, Users],
   cors: [baseUrl].filter(Boolean),
@@ -306,7 +301,7 @@ export default buildConfig({
           generateFileURL: (args: any) => {
             return `https://${process.env.NEXT_PUBLIC_S3_HOSTNAME}/${args.prefix}/${args.filename}`
           },
-          prefix: process.env.NEXT_PUBLIC_VERCEL_ENV === 'preview' ? 'dev' : 'media',
+          prefix: 'dokploy',
         },
       },
     }),

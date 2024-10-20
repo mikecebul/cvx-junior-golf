@@ -114,7 +114,7 @@ export const FormBlock: React.FC<
           }
 
           const { doc: formSubmission } = res
-          const submissionId: number = formSubmission.id
+          const submissionId: string = formSubmission.id
 
           if (!submissionId) {
             console.error('No submission ID received from the server')

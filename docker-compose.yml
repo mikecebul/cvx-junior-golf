@@ -1,20 +1,22 @@
-version: '3'
-
 services:
   payload:
-    image: node:18-alpine
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
     ports:
       - '3000:3000'
     volumes:
-      - .:/home/node/app
-      - node_modules:/home/node/app/node_modules
-    working_dir: /home/node/app/
-    command: sh -c "yarn install && yarn dev"
-    depends_on:
-      - mongo
+      - payload-public:/app/public
     env_file:
       - .env
+    networks:
+      - app-network
+    depends_on:
+      mongo:
+        condition: service_healthy
 
+  # Ensure your DATABASE_URI uses 'mongo' as the hostname ie. mongodb://mongo/my-db-name
   mongo:
     image: mongo:latest
     ports:
@@ -22,10 +24,19 @@ services:
     command:
       - --storageEngine=wiredTiger
     volumes:
-      - data:/data/db
-    logging:
-      driver: none
+      - mongo-data:/data/db
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD", "mongo", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
 volumes:
-  data:
-  node_modules:
+  mongo-data:
+  payload-public:
+
+networks:
+  app-network:
+    driver: bridge
