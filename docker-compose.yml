@@ -3,18 +3,21 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        - ENV_FILE=.env.docker
     restart: always
     ports:
       - '3000:3000'
     volumes:
       - payload-public:/app/public
-    env_file:
-      - .env
     networks:
       - app-network
     depends_on:
       mongo:
         condition: service_healthy
+    environment:
+      - NODE_ENV=production
+    env_file: .env.docker
 
   # Ensure your DATABASE_URI uses 'mongo' as the hostname ie. mongodb://mongo/my-db-name
   mongo:
