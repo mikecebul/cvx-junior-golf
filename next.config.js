@@ -1,7 +1,7 @@
 import { withPayload } from '@payloadcms/next/withPayload'
 import redirects from './redirects.js'
 
-const baseUrl = `https://${process.env.NEXT_PUBLIC_SERVER_URL}`
+const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
