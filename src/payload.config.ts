@@ -301,7 +301,7 @@ export default buildConfig({
           generateFileURL: (args: any) => {
             return `https://${process.env.NEXT_PUBLIC_S3_HOSTNAME}/${args.prefix}/${args.filename}`
           },
-          prefix: 'dokploy',
+          prefix: 'media',
         },
       },
     }),
