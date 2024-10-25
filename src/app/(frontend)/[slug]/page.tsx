@@ -17,14 +17,18 @@ export async function generateStaticParams() {
     collection: 'pages',
     draft: false,
     limit: 1000,
-    overrideAccess: true,
+    overrideAccess: false,
   })
 
-  return pages.docs
+  const params = pages.docs
     ?.filter((doc) => {
       return doc.slug !== 'home'
     })
-    .map(({ slug }) => slug)
+    .map(({ slug }) => {
+      return { slug }
+    })
+
+  return params
 }
 
 type Args = {
@@ -76,7 +80,7 @@ const queryPageBySlug = cache(async ({ slug }: { slug: string }) => {
     collection: 'pages',
     draft,
     limit: 1,
-    overrideAccess: true,
+    overrideAccess: draft,
     where: {
       slug: {
         equals: slug,
