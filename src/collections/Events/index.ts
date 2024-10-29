@@ -45,12 +45,5 @@ export const Events: CollectionConfig = {
       type: 'text',
       required: true,
     },
-    {
-      name: 'forms',
-      label: 'Registration Forms',
-      type: 'join',
-      collection: 'forms',
-      on: 'event',
-    },
   ],
 }

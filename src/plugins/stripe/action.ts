@@ -10,14 +10,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
   apiVersion: '2022-08-01',
 })
 
-export const createCheckoutSession = async (submissionId: string, eventId: string) => {
-  const payload = await getPayload({ config: payloadConfig })
-
-  const { title } = await payload.findByID({
-    collection: 'events',
-    id: eventId,
-  })
-
+export const createCheckoutSession = async (submissionId: string) => {
   try {
     const session = await stripe.checkout.sessions.create({
       success_url: `${baseUrl}/success`,
@@ -28,7 +21,7 @@ export const createCheckoutSession = async (submissionId: string, eventId: strin
           price_data: {
             currency: 'usd',
             product_data: {
-              name: title,
+              name: 'CVX Jr Golf Registration - 2025',
             },
             unit_amount: 0 * 100,
           },

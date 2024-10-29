@@ -2,7 +2,7 @@
 import type { Form as FormType } from '@payloadcms/plugin-form-builder/types'
 
 import { useRouter } from 'next/navigation'
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useState, useEffect } from 'react'
 import { useForm, FormProvider } from 'react-hook-form'
 import RichText from '@/components/RichText'
 import { Button } from '@/components/ui/button'
@@ -11,7 +11,6 @@ import { buildInitialFormState } from './buildInitialFormState'
 import { fields } from './fields'
 import Container from '@/components/Container'
 import { createCheckoutSession } from '@/plugins/stripe/action'
-import { Event } from '@/payload-types'
 import { baseUrl } from '@/utilities/baseUrl'
 
 export type Value = unknown
@@ -28,10 +27,16 @@ export type FormBlockType = {
   blockName?: string
   blockType?: 'formBlock'
   enableIntro: boolean
-  form: FormType & { requirePayment: boolean; event: Event }
+  form: FormType
   introContent?: {
     [k: string]: unknown
   }[]
+}
+
+// Add this interface above the FormBlock component
+interface FormValues {
+  numberOfChildren: string;
+  [key: string]: any;
 }
 
 export const FormBlock: React.FC<
@@ -44,8 +49,6 @@ export const FormBlock: React.FC<
     form: formFromProps,
     form: {
       id: formID,
-      requirePayment,
-      event,
       confirmationMessage,
       confirmationType,
       redirect,
@@ -54,7 +57,7 @@ export const FormBlock: React.FC<
     introContent,
   } = props
 
-  const formMethods = useForm({
+  const formMethods = useForm<FormValues>({
     defaultValues: buildInitialFormState(formFromProps.fields),
   })
   const {
@@ -68,7 +71,6 @@ export const FormBlock: React.FC<
   const [hasSubmitted, setHasSubmitted] = useState<boolean>()
   const [error, setError] = useState<{ message: string; status?: string } | undefined>()
   const router = useRouter()
-  const eventId = event?.id
 
   const onSubmit = useCallback(
     (data: Data) => {
@@ -128,8 +130,8 @@ export const FormBlock: React.FC<
           setIsLoading(false)
           setHasSubmitted(true)
 
-          if (!!requirePayment && !!eventId) {
-            const session = await createCheckoutSession(submissionId, eventId)
+          if (!!data.price) {
+            const session = await createCheckoutSession(submissionId)
             if (session?.url) {
               router.push(session.url)
             } else {
@@ -155,8 +157,52 @@ export const FormBlock: React.FC<
 
       void submitForm()
     },
-    [router, formID, redirect, confirmationType, requirePayment, eventId],
+    [router, formID, redirect, confirmationType],
   )
+
+  const generateChildFields = useCallback((numberOfChildren: number, originalFields: any[]) => {
+    const childFields = originalFields.filter(field =>
+      field.blockType === 'text' &&
+      (field.name?.startsWith('child') || field.label?.startsWith('Child'))
+    );
+
+    const newFields = [...originalFields];
+    const childFieldsIndex = newFields.findIndex(field => field.name?.startsWith('child'));
+
+    // Remove original child fields
+    newFields.splice(childFieldsIndex, childFields.length);
+
+    // Add numbered child fields
+    for (let i = 1; i <= numberOfChildren; i++) {
+      childFields.forEach(field => {
+        const newField = {
+          ...field,
+          name: `${field.name}_${i}`,
+          label: `${field.label} (Child ${i})`,
+        };
+        newFields.splice(childFieldsIndex, 0, newField);
+      });
+    }
+
+    return newFields;
+  }, []);
+
+  // Get numberOfChildren field value from form data
+  const numberOfChildrenField = formFromProps?.fields?.find(
+    field => field.blockName === 'numberOfChildren'
+  );
+
+  const numberOfChildren = formMethods.watch('numberOfChildren');
+
+  // Add useEffect to react to numberOfChildren changes
+  const [currentFields, setCurrentFields] = useState(formFromProps.fields);
+
+  useEffect(() => {
+    if (numberOfChildrenField) {
+      const newFields = generateChildFields(Number(numberOfChildren) || 0, formFromProps.fields);
+      setCurrentFields(newFields);
+    }
+  }, [numberOfChildren, formFromProps.fields, generateChildFields, numberOfChildrenField]);
 
   return (
     <Container>
@@ -174,8 +220,7 @@ export const FormBlock: React.FC<
             <form id={formID} onSubmit={handleSubmit(onSubmit)}>
               <div className="mb-4 last:mb-0">
                 {formFromProps &&
-                  formFromProps.fields &&
-                  formFromProps.fields?.map((field, index) => {
+                  currentFields?.map((field, index) => {
                     const Field: React.FC<any> = fields?.[field.blockType]
                     if (Field) {
                       return (

@@ -166,7 +166,7 @@ export default buildConfig({
     formBuilderPlugin({
       defaultToEmail: 'info@cvxjrgolf.org',
       fields: {
-        payment: false,
+        payment: true,
       },
       formOverrides: {
         labels: {
@@ -174,25 +174,6 @@ export default buildConfig({
           plural: 'Registration Forms',
         },
         fields: ({ defaultFields }) => [
-          {
-            name: 'requirePayment',
-            type: 'checkbox',
-            label: 'Require Payment',
-            defaultValue: false,
-          },
-          {
-            name: 'event',
-            type: 'relationship',
-            relationTo: 'events',
-            admin: {
-              condition: (data, siblingData) => {
-                if (siblingData && 'requirePayment' in siblingData) {
-                  return siblingData.requirePayment === true
-                }
-                return false
-              },
-            },
-          },
           ...defaultFields.map((field) => {
             if ('name' in field && field.name === 'confirmationMessage') {
               return {
@@ -208,12 +189,6 @@ export default buildConfig({
             }
             return field
           }),
-          {
-            name: 'submissions',
-            type: 'join',
-            collection: 'form-submissions',
-            on: 'form',
-          },
         ],
       },
       formSubmissionOverrides: {
