@@ -1,3 +1,4 @@
+import { Field } from 'payload'
 import { Checkbox } from './Checkbox'
 import { Country } from './Country'
 import { Email } from './Email'
@@ -8,6 +9,7 @@ import { Select } from './Select'
 import { State } from './State'
 import { Text } from './Text'
 import { Textarea } from './Textarea'
+import PlayersArray from './PlayersArray'
 
 export const fields = {
   checkbox: Checkbox,
@@ -20,4 +22,6 @@ export const fields = {
   text: Text,
   textarea: Textarea,
   payment: Payment,
+  playersArray: PlayersArray,
+  array: PlayersArray,
 }

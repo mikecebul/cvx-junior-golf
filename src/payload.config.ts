@@ -39,6 +39,7 @@ import { checkoutSessionCompleted } from './plugins/stripe/webhooks/checkoutSess
 import { Media } from './collections/Media'
 import { MediaBlock } from './blocks/MediaBlock/config'
 import { baseUrl } from './utilities/baseUrl'
+import { Array } from './blocks/Form/blocks'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -167,6 +168,7 @@ export default buildConfig({
       defaultToEmail: 'info@cvxjrgolf.org',
       fields: {
         payment: true,
+        array: Array,
       },
       formOverrides: {
         labels: {
@@ -274,6 +276,7 @@ export default buildConfig({
         media: {
           disableLocalStorage: true,
           generateFileURL: (args: any) => {
+            if (typeof args.filename !== 'string') return null as unknown as string
             return `https://${process.env.NEXT_PUBLIC_S3_HOSTNAME}/${args.prefix}/${args.filename}`
           },
           prefix: 'media',

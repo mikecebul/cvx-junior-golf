@@ -35,8 +35,8 @@ export type FormBlockType = {
 
 // Add this interface above the FormBlock component
 interface FormValues {
-  numberOfChildren: string;
-  [key: string]: any;
+  numberOfChildren: string
+  [key: string]: any
 }
 
 export const FormBlock: React.FC<
@@ -47,13 +47,7 @@ export const FormBlock: React.FC<
   const {
     enableIntro,
     form: formFromProps,
-    form: {
-      id: formID,
-      confirmationMessage,
-      confirmationType,
-      redirect,
-      submitButtonLabel,
-    } = {},
+    form: { id: formID, confirmationMessage, confirmationType, redirect, submitButtonLabel } = {},
     introContent,
   } = props
 
@@ -161,48 +155,49 @@ export const FormBlock: React.FC<
   )
 
   const generateChildFields = useCallback((numberOfChildren: number, originalFields: any[]) => {
-    const childFields = originalFields.filter(field =>
-      field.blockType === 'text' &&
-      (field.name?.startsWith('child') || field.label?.startsWith('Child'))
-    );
+    const childFields = originalFields.filter(
+      (field) =>
+        field.blockType === 'text' &&
+        (field.name?.startsWith('child') || field.label?.startsWith('Child')),
+    )
 
-    const newFields = [...originalFields];
-    const childFieldsIndex = newFields.findIndex(field => field.name?.startsWith('child'));
+    const newFields = [...originalFields]
+    const childFieldsIndex = newFields.findIndex((field) => field.name?.startsWith('child'))
 
     // Remove original child fields
-    newFields.splice(childFieldsIndex, childFields.length);
+    newFields.splice(childFieldsIndex, childFields.length)
 
     // Add numbered child fields
     for (let i = 1; i <= numberOfChildren; i++) {
-      childFields.forEach(field => {
+      childFields.forEach((field) => {
         const newField = {
           ...field,
           name: `${field.name}_${i}`,
           label: `${field.label} (Child ${i})`,
-        };
-        newFields.splice(childFieldsIndex, 0, newField);
-      });
+        }
+        newFields.splice(childFieldsIndex, 0, newField)
+      })
     }
 
-    return newFields;
-  }, []);
+    return newFields
+  }, [])
 
   // Get numberOfChildren field value from form data
   const numberOfChildrenField = formFromProps?.fields?.find(
-    field => field.blockName === 'numberOfChildren'
-  );
+    (field) => field.blockName === 'numberOfChildren',
+  )
 
-  const numberOfChildren = formMethods.watch('numberOfChildren');
+  const numberOfChildren = formMethods.watch('numberOfChildren')
 
   // Add useEffect to react to numberOfChildren changes
-  const [currentFields, setCurrentFields] = useState(formFromProps.fields);
+  const [currentFields, setCurrentFields] = useState(formFromProps.fields)
 
   useEffect(() => {
     if (numberOfChildrenField) {
-      const newFields = generateChildFields(Number(numberOfChildren) || 0, formFromProps.fields);
-      setCurrentFields(newFields);
+      const newFields = generateChildFields(Number(numberOfChildren) || 0, formFromProps.fields)
+      setCurrentFields(newFields)
     }
-  }, [numberOfChildren, formFromProps.fields, generateChildFields, numberOfChildrenField]);
+  }, [numberOfChildren, formFromProps.fields, generateChildFields, numberOfChildrenField])
 
   return (
     <Container>
