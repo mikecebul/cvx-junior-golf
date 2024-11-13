@@ -1,11 +1,10 @@
 'use client'
 
 import { User } from '@/payload-types'
-import { SelectField, SelectInput, useAuth, useField, useFieldProps } from '@payloadcms/ui'
+import { SelectField, useAuth, useField } from '@payloadcms/ui'
 import { Option, TextFieldClientComponent } from 'payload'
 
-const RoleSelect: TextFieldClientComponent = () => {
-  const { path } = useFieldProps()
+const RoleSelect: TextFieldClientComponent = ({ path = '' }) => {
   const { value, setValue } = useField<string>({ path })
   const { user } = useAuth<User>()
 

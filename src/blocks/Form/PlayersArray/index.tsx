@@ -11,17 +11,9 @@ export const PlayersArray: React.FC<any> = (props) => {
   const { fields, append, remove } = useFieldArray({ control, name: 'players' })
 
   return (
-    <Card>
+    <Card className="bg-background">
       <CardHeader className="flex flex-row items-center justify-between">
         <CardTitle>{props.label || 'Players'}</CardTitle>
-        <Button
-          type="button"
-          size="icon"
-          className="rounded-full size-8 hover:bg-green-100 bg-transparent"
-          onClick={() => append({})}
-        >
-          <Plus className="h-4 w-4 text-green-700 hover:text-green-900" />
-        </Button>
       </CardHeader>
       <CardContent className="space-y-6">
         {fields.map((field, index) => (
@@ -30,14 +22,22 @@ export const PlayersArray: React.FC<any> = (props) => {
               type="button"
               variant="ghost"
               size="icon"
-              className="absolute top-2 right-2 rounded-full size-8 hover:bg-red-100"
+              className="absolute top-2 right-2 rounded-full size-7 hover:bg-red-100"
               onClick={() => remove(index)}
             >
-              <Trash2 className="h-4 w-4 text-red-700 hover:text-red-900" />
+              <Trash2 className="size-4 text-red-700 hover:text-red-900" />
             </Button>
             <Player index={index} field={playerFields} {...props} />
           </div>
         ))}
+        <Button
+          type="button"
+          size="icon"
+          className="rounded-full size-7 hover:bg-green-500 bg-green-400"
+          onClick={() => append({})}
+        >
+          <Plus className="h-4 w-4 text-black" />
+        </Button>
       </CardContent>
     </Card>
   )

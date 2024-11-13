@@ -1,10 +1,8 @@
 'use client'
 
-import { useTableCell } from '@payloadcms/ui'
+import type { DefaultCellComponentProps } from 'payload'
 
-function RoleCell() {
-  const { cellData } = useTableCell()
-
+function RoleCell({ cellData }: DefaultCellComponentProps) {
   switch (cellData) {
     case 'superAdmin':
       return 'Super Admin'
