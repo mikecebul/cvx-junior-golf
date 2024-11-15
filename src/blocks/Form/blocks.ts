@@ -72,14 +72,103 @@ const Text: Block = {
     singular: 'Text',
   },
 }
+const Email: Block = {
+  slug: 'email',
+  fields: [
+    {
+      type: 'row',
+      fields: [
+        {
+          ...name,
+          admin: {
+            width: '50%',
+          },
+        },
+        {
+          ...label,
+          admin: {
+            width: '50%',
+          },
+        },
+      ],
+    },
+    width,
+    required,
+  ],
+  labels: {
+    plural: 'Email Fields',
+    singular: 'Email',
+  },
+}
+
 export const Array: Block = {
   slug: 'array',
   fields: [
     {
+      type: 'row',
+      fields: [
+        {
+          name: 'labelSingular',
+          type: 'text',
+          label: 'Singular Label',
+          required: true,
+          admin: {
+            width: '50%',
+          },
+        },
+        {
+          name: 'labelPlural',
+          type: 'text',
+          label: 'Plural Label',
+          required: true,
+          admin: {
+            width: '50%',
+          },
+        },
+      ],
+    },
+    {
+      type: 'row',
+      fields: [
+        {
+          name: 'minRows',
+          type: 'number',
+          label: 'Minimum Rows',
+          required: true,
+          defaultValue: 1,
+          admin: {
+            width: '50%',
+          },
+        },
+        {
+          name: 'maxRows',
+          type: 'number',
+          label: 'Maximum Rows',
+          required: true,
+          defaultValue: 4,
+          admin: {
+            width: '50%',
+          },
+        },
+      ],
+    },
+    {
+      type: 'row',
+      fields: [
+        {
+          ...width,
+          defaultValue: 100,
+          admin: {
+            width: '50%',
+          },
+        },
+      ],
+    },
+    {
       type: 'blocks',
       name: 'fields',
       label: 'Fields',
-      blocks: [Text],
+      blocks: [Text, Email],
     },
   ],
 }

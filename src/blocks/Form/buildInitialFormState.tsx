@@ -1,7 +1,7 @@
 import type { FormFieldBlock } from '@payloadcms/plugin-form-builder/types'
-import type { PlayersArrayField } from './PlayersArray/types'
+import type { ArrayField } from './Array/types'
 
-export const buildInitialFormState = (fields: (FormFieldBlock | PlayersArrayField)[]) => {
+export const buildInitialFormState = (fields: (FormFieldBlock | ArrayField)[]) => {
   return fields?.reduce((initialSchema, field) => {
     if (field.blockType === 'array' && 'fields' in field) {
       const emptyPlayer = field.fields.reduce(
@@ -14,7 +14,7 @@ export const buildInitialFormState = (fields: (FormFieldBlock | PlayersArrayFiel
 
       return {
         ...initialSchema,
-        players: [emptyPlayer],
+        [field.labelPlural]: [emptyPlayer],
       }
     }
     if (field.blockType === 'checkbox') {

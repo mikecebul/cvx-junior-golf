@@ -9,7 +9,7 @@ import { Select } from './Select'
 import { State } from './State'
 import { Text } from './Text'
 import { Textarea } from './Textarea'
-import PlayersArray from './PlayersArray'
+import { Array } from './Array'
 
 export const fields = {
   checkbox: Checkbox,
@@ -22,6 +22,5 @@ export const fields = {
   text: Text,
   textarea: Textarea,
   payment: Payment,
-  playersArray: PlayersArray,
-  array: PlayersArray,
+  array: Array,
 }

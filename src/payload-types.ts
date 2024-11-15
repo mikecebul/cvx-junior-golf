@@ -569,17 +569,33 @@ export interface Form {
             blockType: 'textarea';
           }
         | {
+            labelSingular: string;
+            labelPlural: string;
+            minRows: number;
+            maxRows: number;
+            width?: number | null;
             fields?:
-              | {
-                  name: string;
-                  label?: string | null;
-                  width?: number | null;
-                  defaultValue?: string | null;
-                  required?: boolean | null;
-                  id?: string | null;
-                  blockName?: string | null;
-                  blockType: 'text';
-                }[]
+              | (
+                  | {
+                      name: string;
+                      label?: string | null;
+                      width?: number | null;
+                      defaultValue?: string | null;
+                      required?: boolean | null;
+                      id?: string | null;
+                      blockName?: string | null;
+                      blockType: 'text';
+                    }
+                  | {
+                      name: string;
+                      label?: string | null;
+                      width?: number | null;
+                      required?: boolean | null;
+                      id?: string | null;
+                      blockName?: string | null;
+                      blockType: 'email';
+                    }
+                )[]
               | null;
             id?: string | null;
             blockName?: string | null;
@@ -1227,6 +1243,11 @@ export interface FormsSelect<T extends boolean = true> {
         array?:
           | T
           | {
+              labelSingular?: T;
+              labelPlural?: T;
+              minRows?: T;
+              maxRows?: T;
+              width?: T;
               fields?:
                 | T
                 | {
@@ -1237,6 +1258,16 @@ export interface FormsSelect<T extends boolean = true> {
                           label?: T;
                           width?: T;
                           defaultValue?: T;
+                          required?: T;
+                          id?: T;
+                          blockName?: T;
+                        };
+                    email?:
+                      | T
+                      | {
+                          name?: T;
+                          label?: T;
+                          width?: T;
                           required?: T;
                           id?: T;
                           blockName?: T;

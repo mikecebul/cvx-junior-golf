@@ -1,5 +1,5 @@
 'use client'
-import type { Form as FormType } from '@payloadcms/plugin-form-builder/types'
+import type { FormFieldBlock, Form as FormType } from '@payloadcms/plugin-form-builder/types'
 
 import { useRouter } from 'next/navigation'
 import React, { useCallback, useState, useEffect } from 'react'
@@ -12,6 +12,7 @@ import { fields } from './fields'
 import Container from '@/components/Container'
 import { createCheckoutSession } from '@/plugins/stripe/action'
 import { baseUrl } from '@/utilities/baseUrl'
+import { Card } from '@/components/ui/card'
 
 export type Value = unknown
 
@@ -201,7 +202,7 @@ export const FormBlock: React.FC<
 
   return (
     <Container>
-      <div className="max-w-lg mx-auto">
+      <div className="max-w-2xl mx-auto">
         <FormProvider {...formMethods}>
           {enableIntro && introContent && !hasSubmitted && (
             <RichText className="mb-8" content={introContent} enableGutter={false} />
@@ -213,13 +214,16 @@ export const FormBlock: React.FC<
           {error && <div>{`${error.status || '500'}: ${error.message || ''}`}</div>}
           {!hasSubmitted && (
             <form id={formID} onSubmit={handleSubmit(onSubmit)}>
-              <div className="mb-4 last:mb-0">
+              <Card className="p-4 flex flex-wrap gap-4">
                 {formFromProps &&
-                  currentFields?.map((field, index) => {
+                  currentFields?.map((field: FormFieldBlock, index) => {
                     const Field: React.FC<any> = fields?.[field.blockType]
                     if (Field) {
                       return (
-                        <div className="mb-6 last:mb-0" key={index}>
+                        <div
+                          className={`last:mb-0 ${'width' in field && field.width === 100 ? 'w-full' : 'basis-[calc(50%-0.5rem)]'}`}
+                          key={index}
+                        >
                           <Field
                             form={formFromProps}
                             {...field}
@@ -233,11 +237,10 @@ export const FormBlock: React.FC<
                     }
                     return null
                   })}
-              </div>
-
-              <Button form={formID} type="submit" variant="default">
-                {submitButtonLabel}
-              </Button>
+                <Button form={formID} type="submit" variant="default" className="w-full">
+                  {submitButtonLabel}
+                </Button>
+              </Card>
             </form>
           )}
         </FormProvider>

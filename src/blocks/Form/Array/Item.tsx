@@ -3,25 +3,31 @@ import type { FieldErrorsImpl, FieldValues, UseFormRegister } from 'react-hook-f
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Error } from '../Error'
-import { Width } from '../Width'
 import { CardDescription } from '@/components/ui/card'
+import { ArrayItemField } from './types'
 
-interface PlayerProps {
+interface ItemProps {
   index: number
-  field: Array<{
-    name: string
-    label: string
-    required?: boolean
-    width?: string
-  }>
+  field: ArrayItemField[]
+  labelSingular: string
+  labelPlural: string
   errors: Partial<FieldErrorsImpl<{ [x: string]: any }>>
   register: UseFormRegister<FieldValues>
 }
 
-const Player: React.FC<PlayerProps> = ({ index, field, register, errors }) => {
+export const Item: React.FC<ItemProps> = ({
+  index,
+  field,
+  register,
+  errors,
+  labelSingular,
+  labelPlural,
+}) => {
   return (
     <div className="space-y-4">
-      <CardDescription>Player {index + 1}</CardDescription>
+      <CardDescription>
+        {labelSingular} {index + 1}
+      </CardDescription>
       <div className="grid grid-cols-2 gap-4">
         {field.map((textField, fieldIndex) => (
           <div key={fieldIndex} className="space-y-2">
@@ -40,5 +46,3 @@ const Player: React.FC<PlayerProps> = ({ index, field, register, errors }) => {
     </div>
   )
 }
-
-export default Player
