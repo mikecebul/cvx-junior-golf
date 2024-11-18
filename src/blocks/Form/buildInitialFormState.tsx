@@ -4,17 +4,17 @@ import type { ArrayField } from './Array/types'
 export const buildInitialFormState = (fields: (FormFieldBlock | ArrayField)[]) => {
   return fields?.reduce((initialSchema, field) => {
     if (field.blockType === 'array' && 'fields' in field) {
-      const emptyPlayer = field.fields.reduce(
-        (acc, playerField) => ({
+      const emptyItem = field.fields.reduce(
+        (acc, itemField) => ({
           ...acc,
-          [playerField.name]: '',
+          [itemField.name]: '',
         }),
         {},
       )
 
       return {
         ...initialSchema,
-        [field.labelPlural]: [emptyPlayer],
+        [field.labelPlural]: field.minRows > 0 ? [emptyItem] : [],
       }
     }
     if (field.blockType === 'checkbox') {

@@ -13,7 +13,11 @@ export const Array: React.FC<ArrayField> = (props) => {
     control,
     formState: { errors },
   } = useFormContext()
-  const { fields, append, remove } = useFieldArray({ control, name: labelPlural })
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: labelPlural,
+    shouldUnregister: true,
+  })
 
   return (
     <div>

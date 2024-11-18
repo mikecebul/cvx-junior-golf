@@ -73,21 +73,48 @@ export const FormBlock: React.FC<
       const submitForm = async () => {
         setError(undefined)
 
-        const dataToSend = Object.entries(data).map(([name, value]) => ({
-          field: name,
-          value,
-        }))
-
-        // delay loading indicator by 1s
-        loadingTimerID = setTimeout(() => {
-          setIsLoading(true)
-        }, 1000)
+        // Flatten nested arrays and objects into key-value pairs
+        const flattenedData = Object.entries(data).reduce((acc: any[], [key, value]) => {
+          if (Array.isArray(value)) {
+            // For arrays, create separate entries for each item
+            value.forEach((item, index) => {
+              if (typeof item === 'object') {
+                Object.entries(item).forEach(([itemKey, itemValue]) => {
+                  acc.push({
+                    field: `${key}_${index + 1}_${itemKey}`,
+                    value: String(itemValue),
+                  })
+                })
+              } else {
+                acc.push({
+                  field: `${key}_${index + 1}`,
+                  value: String(item),
+                })
+              }
+            })
+          } else if (typeof value === 'object' && value !== null) {
+            // For objects, create separate entries for each property
+            Object.entries(value).forEach(([objKey, objValue]) => {
+              acc.push({
+                field: `${key}_${objKey}`,
+                value: String(objValue),
+              })
+            })
+          } else {
+            // For simple values
+            acc.push({
+              field: key,
+              value: String(value),
+            })
+          }
+          return acc
+        }, [])
 
         try {
           const req = await fetch(`${baseUrl}/api/form-submissions`, {
             body: JSON.stringify({
               form: formID,
-              submissionData: dataToSend,
+              submissionData: flattenedData,
             }),
             headers: {
               'Content-Type': 'application/json',
@@ -125,11 +152,17 @@ export const FormBlock: React.FC<
           setIsLoading(false)
           setHasSubmitted(true)
 
-          if (!!data.price) {
+          if (data.price && Number(data.price) > 0) {
+            console.log('Creating checkout session with:', {
+              submissionId,
+              price: data.price,
+            })
             const session = await createCheckoutSession(submissionId)
+            console.log('Checkout session response:', session)
             if (session?.url) {
               router.push(session.url)
             } else {
+              console.error('Checkout session error:', session?.error)
               setError({
                 message: session?.error || 'Failed to create checkout session',
                 status: 'error',

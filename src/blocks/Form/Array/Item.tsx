@@ -35,11 +35,11 @@ export const Item: React.FC<ItemProps> = ({
             <Input
               id={`${index}-${textField.name}`}
               type="text"
-              {...register(`players[${index}].${textField.name}`, {
+              {...register(`${labelPlural}[${index}].${textField.name}`, {
                 required: textField.required,
               })}
             />
-            {textField.required && errors?.players?.[index]?.[textField.name] && <Error />}
+            {textField.required && errors?.[labelPlural]?.[index]?.[textField.name] && <Error />}
           </div>
         ))}
       </div>

@@ -3,7 +3,7 @@ import { resendAdapter } from '@payloadcms/email-resend'
 
 import { stripePlugin } from '@payloadcms/plugin-stripe'
 import { redirectsPlugin } from '@payloadcms/plugin-redirects'
-import { formBuilderPlugin } from '@payloadcms/plugin-form-builder'
+import { fields, formBuilderPlugin } from '@payloadcms/plugin-form-builder'
 import { seoPlugin } from '@payloadcms/plugin-seo'
 import { s3Storage as s3StoragePlugin } from '@payloadcms/storage-s3'
 import { S3_PLUGIN_CONFIG } from './plugins/s3'
@@ -199,40 +199,41 @@ export default buildConfig({
           plural: 'Form Submissions',
         },
         fields: ({ defaultFields }) => {
-          return defaultFields
-            .map((field) => {
-              if (field.type === 'array') {
-                return {
-                  ...field,
-                  admin: {
-                    ...field.admin,
-                    components: {
-                      RowLabel: '@/fields/form-submissions/FormSubmissionRowLabel',
-                    },
+          const fields = defaultFields.map((field) => {
+            if (field.type === 'array') {
+              return {
+                ...field,
+                admin: {
+                  ...field.admin,
+                  initCollapsed: true,
+                  components: {
+                    RowLabel: '@/fields/form-submissions/FormSubmissionRowLabel',
                   },
-                }
+                },
               }
-              return field
-            })
-            .concat([
-              {
-                name: 'paymentStatus',
-                label: 'Payment Status',
-                type: 'text',
-                defaultValue: 'pending',
-                admin: {
-                  position: 'sidebar',
-                },
+            }
+            return field
+          })
+          return [
+            ...fields,
+            {
+              name: 'amount',
+              label: 'Amount',
+              type: 'text',
+              admin: {
+                position: 'sidebar',
               },
-              {
-                name: 'amount',
-                label: 'Amount Paid',
-                type: 'text',
-                admin: {
-                  position: 'sidebar',
-                },
+            },
+            {
+              name: 'paymentStatus',
+              label: 'Payment Status',
+              type: 'text',
+              defaultValue: 'unpaid',
+              admin: {
+                position: 'sidebar',
               },
-            ])
+            },
+          ]
         },
       },
     }),

@@ -23,7 +23,7 @@ export const createCheckoutSession = async (submissionId: string) => {
             product_data: {
               name: 'CVX Jr Golf Registration - 2025',
             },
-            unit_amount: 0 * 100,
+            unit_amount: 175 * 100,
           },
           quantity: 1,
         },
@@ -33,7 +33,7 @@ export const createCheckoutSession = async (submissionId: string) => {
         submissionId: submissionId,
       },
     })
-
+    console.log('Checkout session created:', session)
     if (session.url) {
       return { url: session.url }
     }

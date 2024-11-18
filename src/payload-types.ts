@@ -688,8 +688,8 @@ export interface FormSubmission {
         id?: string | null;
       }[]
     | null;
-  paymentStatus?: string | null;
   amount?: string | null;
+  paymentStatus?: string | null;
   payment?: {
     field?: string | null;
     status?: string | null;
@@ -1313,8 +1313,8 @@ export interface FormSubmissionsSelect<T extends boolean = true> {
         value?: T;
         id?: T;
       };
-  paymentStatus?: T;
   amount?: T;
+  paymentStatus?: T;
   payment?:
     | T
     | {
