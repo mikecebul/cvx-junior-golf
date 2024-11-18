@@ -1,7 +1,8 @@
 import type { FormFieldBlock } from '@payloadcms/plugin-form-builder/types'
 import type { ArrayField } from './Array/types'
+import { PriceField } from './Price/types'
 
-export const buildInitialFormState = (fields: (FormFieldBlock | ArrayField)[]) => {
+export const buildInitialFormState = (fields: (FormFieldBlock | ArrayField | PriceField)[]) => {
   return fields?.reduce((initialSchema, field) => {
     if (field.blockType === 'array' && 'fields' in field) {
       const emptyItem = field.fields.reduce(
@@ -51,6 +52,12 @@ export const buildInitialFormState = (fields: (FormFieldBlock | ArrayField)[]) =
       return {
         ...initialSchema,
         [field.name]: '',
+      }
+    }
+    if (field.blockType === 'price') {
+      return {
+        ...initialSchema,
+        [field.name]: field.basePrice || 0,
       }
     }
     if (field.blockType === 'payment') {

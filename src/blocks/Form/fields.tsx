@@ -1,4 +1,3 @@
-import { Field } from 'payload'
 import { Checkbox } from './Checkbox'
 import { Country } from './Country'
 import { Email } from './Email'
@@ -10,6 +9,7 @@ import { State } from './State'
 import { Text } from './Text'
 import { Textarea } from './Textarea'
 import { Array } from './Array'
+import { Price } from './Price'
 
 export const fields = {
   checkbox: Checkbox,
@@ -23,4 +23,5 @@ export const fields = {
   textarea: Textarea,
   payment: Payment,
   array: Array,
+  price: Price,
 }

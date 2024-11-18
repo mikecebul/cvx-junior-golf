@@ -10,7 +10,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
   apiVersion: '2022-08-01',
 })
 
-export const createCheckoutSession = async (submissionId: string) => {
+export const createCheckoutSession = async (submissionId: string, price: number) => {
   try {
     const session = await stripe.checkout.sessions.create({
       success_url: `${baseUrl}/success`,
@@ -23,7 +23,7 @@ export const createCheckoutSession = async (submissionId: string) => {
             product_data: {
               name: 'CVX Jr Golf Registration - 2025',
             },
-            unit_amount: 175 * 100,
+            unit_amount: price * 100,
           },
           quantity: 1,
         },

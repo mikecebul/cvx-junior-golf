@@ -21,8 +21,6 @@ import { PreviewComponent as PreviewComponent_a8a977ebc872c5d5ea7ee689724c0860 }
 import { SlugComponent as SlugComponent_92cc057d0a2abb4f6cf0307edf59f986 } from '@/fields/slug/SlugComponent'
 import { default as default_f4047b1a8a90d344d3f09d570ca929c0 } from '@/collections/Users/RoleCell'
 import { default as default_a0ed575495a5f102e2308e339b13de0a } from '@/collections/Users/RoleSelect'
-import { DynamicFieldSelector as DynamicFieldSelector_fcc98597230ed7571a28f97c55b16e63 } from '@payloadcms/plugin-form-builder/client'
-import { DynamicPriceSelector as DynamicPriceSelector_fcc98597230ed7571a28f97c55b16e63 } from '@payloadcms/plugin-form-builder/client'
 import { HorizontalRuleFeatureClient as HorizontalRuleFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { UploadFeatureClient as UploadFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { BlockquoteFeatureClient as BlockquoteFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
@@ -65,8 +63,6 @@ export const importMap = {
   "@/fields/slug/SlugComponent#SlugComponent": SlugComponent_92cc057d0a2abb4f6cf0307edf59f986,
   "@/collections/Users/RoleCell#default": default_f4047b1a8a90d344d3f09d570ca929c0,
   "@/collections/Users/RoleSelect#default": default_a0ed575495a5f102e2308e339b13de0a,
-  "@payloadcms/plugin-form-builder/client#DynamicFieldSelector": DynamicFieldSelector_fcc98597230ed7571a28f97c55b16e63,
-  "@payloadcms/plugin-form-builder/client#DynamicPriceSelector": DynamicPriceSelector_fcc98597230ed7571a28f97c55b16e63,
   "@payloadcms/richtext-lexical/client#HorizontalRuleFeatureClient": HorizontalRuleFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@payloadcms/richtext-lexical/client#UploadFeatureClient": UploadFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@payloadcms/richtext-lexical/client#BlockquoteFeatureClient": BlockquoteFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,

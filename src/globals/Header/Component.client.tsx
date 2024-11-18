@@ -1,5 +1,4 @@
 'use client'
-import Link from 'next/link'
 
 import type { CompanyInfo, Header } from '@/payload-types'
 import { cn } from '@/utilities/cn'
@@ -7,7 +6,6 @@ import { buttonVariants } from '@/components/ui/button'
 import { Icons } from '@/components/Icons'
 import { MainNav } from './MainNav'
 import { MobileNav } from './MobileNav'
-import { LandPlot } from 'lucide-react'
 import { Logo } from '@/components/Logo'
 
 export const HeaderClient = ({

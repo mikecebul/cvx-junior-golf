@@ -2,7 +2,7 @@
 import type { FormFieldBlock, Form as FormType } from '@payloadcms/plugin-form-builder/types'
 
 import { useRouter } from 'next/navigation'
-import React, { useCallback, useState, useEffect } from 'react'
+import React, { useCallback, useState } from 'react'
 import { useForm, FormProvider } from 'react-hook-form'
 import RichText from '@/components/RichText'
 import { Button } from '@/components/ui/button'
@@ -76,18 +76,21 @@ export const FormBlock: React.FC<
         // Flatten nested arrays and objects into key-value pairs
         const flattenedData = Object.entries(data).reduce((acc: any[], [key, value]) => {
           if (Array.isArray(value)) {
+            // Get the singular form by removing 's' from plural
+            const singularKey = key.endsWith('s') ? key.slice(0, -1) : key
+
             // For arrays, create separate entries for each item
             value.forEach((item, index) => {
               if (typeof item === 'object') {
                 Object.entries(item).forEach(([itemKey, itemValue]) => {
                   acc.push({
-                    field: `${key}_${index + 1}_${itemKey}`,
+                    field: `${singularKey}_${index + 1}_${itemKey}`,
                     value: String(itemValue),
                   })
                 })
               } else {
                 acc.push({
-                  field: `${key}_${index + 1}`,
+                  field: `${singularKey}_${index + 1}`,
                   value: String(item),
                 })
               }
@@ -152,12 +155,12 @@ export const FormBlock: React.FC<
           setIsLoading(false)
           setHasSubmitted(true)
 
-          if (data.price && Number(data.price) > 0) {
+          if (data.Price && Number(data.Price) > 0) {
             console.log('Creating checkout session with:', {
               submissionId,
-              price: data.price,
+              price: data.Price,
             })
-            const session = await createCheckoutSession(submissionId)
+            const session = await createCheckoutSession(submissionId, Number(data.Price))
             console.log('Checkout session response:', session)
             if (session?.url) {
               router.push(session.url)
@@ -188,51 +191,6 @@ export const FormBlock: React.FC<
     [router, formID, redirect, confirmationType],
   )
 
-  const generateChildFields = useCallback((numberOfChildren: number, originalFields: any[]) => {
-    const childFields = originalFields.filter(
-      (field) =>
-        field.blockType === 'text' &&
-        (field.name?.startsWith('child') || field.label?.startsWith('Child')),
-    )
-
-    const newFields = [...originalFields]
-    const childFieldsIndex = newFields.findIndex((field) => field.name?.startsWith('child'))
-
-    // Remove original child fields
-    newFields.splice(childFieldsIndex, childFields.length)
-
-    // Add numbered child fields
-    for (let i = 1; i <= numberOfChildren; i++) {
-      childFields.forEach((field) => {
-        const newField = {
-          ...field,
-          name: `${field.name}_${i}`,
-          label: `${field.label} (Child ${i})`,
-        }
-        newFields.splice(childFieldsIndex, 0, newField)
-      })
-    }
-
-    return newFields
-  }, [])
-
-  // Get numberOfChildren field value from form data
-  const numberOfChildrenField = formFromProps?.fields?.find(
-    (field) => field.blockName === 'numberOfChildren',
-  )
-
-  const numberOfChildren = formMethods.watch('numberOfChildren')
-
-  // Add useEffect to react to numberOfChildren changes
-  const [currentFields, setCurrentFields] = useState(formFromProps.fields)
-
-  useEffect(() => {
-    if (numberOfChildrenField) {
-      const newFields = generateChildFields(Number(numberOfChildren) || 0, formFromProps.fields)
-      setCurrentFields(newFields)
-    }
-  }, [numberOfChildren, formFromProps.fields, generateChildFields, numberOfChildrenField])
-
   return (
     <Container>
       <div className="max-w-2xl mx-auto">
@@ -249,7 +207,7 @@ export const FormBlock: React.FC<
             <form id={formID} onSubmit={handleSubmit(onSubmit)}>
               <Card className="p-4 flex flex-wrap gap-4">
                 {formFromProps &&
-                  currentFields?.map((field: FormFieldBlock, index) => {
+                  formFromProps.fields?.map((field: FormFieldBlock, index) => {
                     const Field: React.FC<any> = fields?.[field.blockType]
                     if (Field) {
                       return (

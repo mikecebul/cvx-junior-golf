@@ -101,6 +101,76 @@ const Email: Block = {
   },
 }
 
+export const Price: Block = {
+  slug: 'price',
+  fields: [
+    {
+      type: 'row',
+      fields: [
+        {
+          ...name,
+          admin: {
+            width: '50%',
+          },
+        },
+        {
+          ...label,
+          admin: {
+            width: '50%',
+          },
+        },
+      ],
+    },
+    {
+      type: 'row',
+      fields: [
+        {
+          name: 'arrayField',
+          type: 'text',
+          label: 'Array Field Name to Watch',
+          required: true,
+          admin: {
+            width: '50%',
+          },
+        },
+        {
+          name: 'basePrice',
+          type: 'number',
+          label: 'Base Price',
+          required: true,
+          admin: {
+            width: '50%',
+          },
+        },
+      ],
+    },
+    {
+      name: 'priceConditions',
+      type: 'array',
+      label: 'Price Conditions',
+      fields: [
+        {
+          name: 'itemCount',
+          type: 'number',
+          label: 'Number of Items',
+          required: true,
+        },
+        {
+          name: 'price',
+          type: 'number',
+          label: 'Additional Price',
+          required: true,
+        },
+      ],
+    },
+    width,
+  ],
+  labels: {
+    singular: 'Price',
+    plural: 'Price Fields',
+  },
+}
+
 export const Array: Block = {
   slug: 'array',
   fields: [
