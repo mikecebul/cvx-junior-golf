@@ -33,7 +33,7 @@ export const createCheckoutSession = async (submissionId: string, price: number)
         submissionId: submissionId,
       },
     })
-    console.log('Checkout session created:', session)
+    // console.log('Checkout session created:', session)
     if (session.url) {
       return { url: session.url }
     }

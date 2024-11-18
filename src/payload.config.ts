@@ -35,11 +35,11 @@ import { Page } from 'src/payload-types'
 import { CompanyInfo } from './globals/CompanyInfo/config'
 import { superAdmin } from './access/superAdmin'
 import { Events } from './collections/Events'
-import { checkoutSessionCompleted } from './plugins/stripe/webhooks/checkoutSessionCompleted'
 import { Media } from './collections/Media'
 import { MediaBlock } from './blocks/MediaBlock/config'
 import { baseUrl } from './utilities/baseUrl'
 import { Array, Price } from './blocks/Form/blocks'
+import { checkoutSessionCompleted } from './plugins/stripe/webhooks/checkoutSessionCompleted'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -157,12 +157,13 @@ export default buildConfig({
   globals: [Header, Footer, CompanyInfo],
   plugins: [
     stripePlugin({
-      isTestKey: process.env.STRIPE_SECRET_KEY?.includes('sk_test'),
+      isTestKey: true || process.env.STRIPE_SECRET_KEY?.includes('sk_test'),
       stripeSecretKey: process.env.STRIPE_SECRET_KEY || '',
-      stripeWebhooksEndpointSecret: process.env.STRIPE_WEBHOOK_SECRET,
+      stripeWebhooksEndpointSecret: process.env.STRIPE_WEBHOOKS_ENDPOINT_SECRET,
       webhooks: {
         'checkout.session.completed': checkoutSessionCompleted,
       },
+      logs: true,
     }),
     formBuilderPlugin({
       defaultToEmail: 'info@cvxjrgolf.org',

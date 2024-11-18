@@ -156,16 +156,10 @@ export const FormBlock: React.FC<
           setHasSubmitted(true)
 
           if (data.Price && Number(data.Price) > 0) {
-            console.log('Creating checkout session with:', {
-              submissionId,
-              price: data.Price,
-            })
             const session = await createCheckoutSession(submissionId, Number(data.Price))
-            console.log('Checkout session response:', session)
             if (session?.url) {
               router.push(session.url)
             } else {
-              console.error('Checkout session error:', session?.error)
               setError({
                 message: session?.error || 'Failed to create checkout session',
                 status: 'error',
