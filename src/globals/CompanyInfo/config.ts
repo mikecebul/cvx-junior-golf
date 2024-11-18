@@ -22,6 +22,56 @@ export const CompanyInfo: GlobalConfig = {
       },
       fields: [
         {
+          name: 'physicalAddress',
+          type: 'group',
+          label: 'Physical Address',
+          admin: {
+            description: 'The physical location of the business.',
+          },
+          fields: [
+            {
+              name: 'address',
+              type: 'text',
+              required: true,
+              admin: { width: '70%' },
+            },
+            {
+              name: 'googleMapLink',
+              type: 'text',
+              label: 'Google Map Link',
+              admin: {
+                description: 'Optional: Add a Google Maps link for this address',
+                width: '100%'
+              },
+            },
+          ],
+        },
+        {
+          name: 'mailingAddress',
+          type: 'group',
+          label: 'Mailing Address',
+          admin: {
+            description: 'The mailing address for the business.',
+          },
+          fields: [
+            {
+              name: 'address',
+              type: 'text',
+              required: true,
+              admin: { width: '70%' },
+            },
+            {
+              name: 'googleMapLink',
+              type: 'text',
+              label: 'Google Map Link',
+              admin: {
+                description: 'Optional: Add a Google Maps link for this address',
+                width: '100%'
+              },
+            },
+          ],
+        },
+        {
           type: 'row',
           fields: [
             {
@@ -36,25 +86,6 @@ export const CompanyInfo: GlobalConfig = {
               label: 'Fax',
               type: 'text',
               defaultValue: '(231) 547-4970',
-              admin: { width: '45%' },
-            },
-          ],
-        },
-        {
-          type: 'row',
-          fields: [
-            {
-              name: 'address',
-              label: 'Address',
-              type: 'text',
-              defaultValue: '101 M-66 | Charlevoix, MI',
-              admin: { width: '45%' },
-            },
-            {
-              name: 'googleMapLink',
-              type: 'text',
-              label: 'Google Map Link',
-              defaultValue: 'https://goo.gl/maps/X956fmf511Fef9Pr7',
               admin: { width: '45%' },
             },
           ],

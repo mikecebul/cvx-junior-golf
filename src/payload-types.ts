@@ -1447,11 +1447,17 @@ export interface Footer {
  */
 export interface CompanyInfo {
   id: string;
-  contact?: {
+  contact: {
+    physicalAddress: {
+      address: string;
+      googleMapLink?: string | null;
+    };
+    mailingAddress: {
+      address: string;
+      googleMapLink?: string | null;
+    };
     phone?: string | null;
     fax?: string | null;
-    address?: string | null;
-    googleMapLink?: string | null;
     email?: string | null;
   };
   social?:
@@ -1543,10 +1549,20 @@ export interface CompanyInfoSelect<T extends boolean = true> {
   contact?:
     | T
     | {
+        physicalAddress?:
+          | T
+          | {
+              address?: T;
+              googleMapLink?: T;
+            };
+        mailingAddress?:
+          | T
+          | {
+              address?: T;
+              googleMapLink?: T;
+            };
         phone?: T;
         fax?: T;
-        address?: T;
-        googleMapLink?: T;
         email?: T;
       };
   social?:

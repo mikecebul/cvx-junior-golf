@@ -65,20 +65,6 @@ export async function Footer() {
                     </a>
                   </li>
                 )}
-                {typeof contact.address === 'string' && contact.address.length > 0 && (
-                  <li key={contact.address} className="group">
-                    <a
-                      href={contact.googleMapLink ?? '#'}
-                      className={cn(
-                        buttonVariants({ variant: 'ghost' }),
-                        'flex justify-start group-hover:text-primary',
-                      )}
-                    >
-                      <Navigation className="flex-shrink-0 mr-2" size={20} />
-                      {contact.address}
-                    </a>
-                  </li>
-                )}
                 {typeof contact.email === 'string' && contact.email.length > 0 && (
                   <li key={contact.email} className="group">
                     <a
@@ -99,6 +85,32 @@ export async function Footer() {
                       <Printer className="mr-2" size={20} />
                       {contact.fax}
                     </div>
+                  </li>
+                )}
+                {(contact.physicalAddress?.address || contact.mailingAddress?.address) && (
+                  <li className={cn(
+                    buttonVariants({ variant: 'text' }),
+                    'text-gray-500 flex items-start justify-start h-full',
+                  )}>
+                    <Navigation className="flex-shrink-0 mr-2" size={20} />
+                    <ul>
+                      {contact.physicalAddress?.address && (
+                        <li>
+                          <span>
+                            <strong>Physical: </strong>
+                            {contact.physicalAddress.address}
+                          </span>
+                        </li>
+                      )}
+                      {contact.mailingAddress?.address && (
+                        <li>
+                          <span>
+                            <strong>Mailing: </strong>
+                            {contact.mailingAddress.address}
+                          </span>
+                        </li>
+                      )}
+                    </ul>
                   </li>
                 )}
                 {/* Social Links */}
