@@ -18,7 +18,7 @@ export const HeaderClient = ({
   contact: CompanyInfo['contact']
 }) => {
   const navItems = header?.navItems || []
-  const { address, phone, googleMapLink } = contact || {}
+  const { phone } = contact || {}
 
   return (
     <header className="sticky top-0 z-40 flex w-full py-2 bg-background/50 backdrop-blur-sm">
