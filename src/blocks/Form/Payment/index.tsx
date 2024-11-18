@@ -28,19 +28,32 @@ export const Payment: React.FC<
   watch,
   setValue,
 }) => {
-  const players = watch('Players') || []
-  const totalPrice = basePrice + players.length * 25
+    const players = watch('Players') || []
+    const totalPrice = React.useMemo(() => {
+      switch (players.length) {
+        case 1:
+          return basePrice
+        case 2:
+          return basePrice + 50
+        case 3:
+          return basePrice + 50 + 25
+        case 4:
+          return basePrice + 50 + 25 + 25
+        default:
+          return basePrice
+      }
+    }, [players.length, basePrice])
 
-  React.useEffect(() => {
-    setValue(name, totalPrice)
-  }, [totalPrice, name, setValue])
+    React.useEffect(() => {
+      setValue(name, totalPrice)
+    }, [totalPrice, name, setValue])
 
-  return (
-    <Width width={width}>
-      <Label htmlFor={name}>{label}</Label>
-      <div className="text-sm">${totalPrice}</div>
+    return (
+      <Width width={width}>
+        <Label htmlFor={name}>{label}</Label>
+        <div className="text-sm">${totalPrice}</div>
 
-      {requiredFromProps && errors[name] && <Error />}
-    </Width>
-  )
-}
+        {requiredFromProps && errors[name] && <Error />}
+      </Width>
+    )
+  }
