@@ -1,21 +1,28 @@
 import type { StripeWebhookHandler } from '@payloadcms/plugin-stripe/types'
 import type Stripe from 'stripe'
+import { APIError } from 'payload'
 
 export const checkoutSessionCompleted: StripeWebhookHandler<{
   data: {
     object: Stripe.Checkout.Session
   }
 }> = async ({ event, payload }) => {
-  console.log('checkoutSessionCompleted handler called')
-
   const { id: sessionId, metadata, amount_total } = event.data.object
   const submissionId = metadata?.submissionId
 
+  payload.logger.info(
+    `🪝 Processing checkout session completed for session ID: ${sessionId}`,
+  )
+
   if (!submissionId) {
-    payload.logger.error('No submissionId found in checkout session metadata')
-    return
+    throw new APIError('No submissionId found in checkout session metadata')
   }
+
   try {
+    payload.logger.info(
+      `- Updating form submission ${submissionId} with payment status`,
+    )
+
     await payload.update({
       collection: 'form-submissions',
       id: submissionId,
@@ -27,9 +34,9 @@ export const checkoutSessionCompleted: StripeWebhookHandler<{
     })
 
     payload.logger.info(
-      `Successfully updated form submission ${submissionId} for checkout session ${sessionId}`,
+      `✅ Successfully updated form submission ${submissionId} for checkout session ${sessionId}`,
     )
   } catch (error) {
-    payload.logger.error(`Error updating form submission: ${error}`)
+    throw new APIError(`Error updating form submission: ${error}`)
   }
 }
