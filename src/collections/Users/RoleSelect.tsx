@@ -44,6 +44,7 @@ const RoleSelect: TextFieldClientComponent = ({ path = '' }) => {
     <>
       <label className="field-label">Role Select</label>
       <SelectField
+        path={path}
         field={{
           name: path,
           hasMany: false,
