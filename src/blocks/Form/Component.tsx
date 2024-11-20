@@ -73,51 +73,25 @@ export const FormBlock: React.FC<
       const submitForm = async () => {
         setError(undefined)
 
-        // Flatten nested arrays and objects into key-value pairs
-        const flattenedData = Object.entries(data).reduce((acc: any[], [key, value]) => {
-          if (Array.isArray(value)) {
-            // Get the singular form by removing 's' from plural
-            const singularKey = key.endsWith('s') ? key.slice(0, -1) : key
+        const parents = data.parentArray ?? []
+        const players = data.playerArray ?? []
 
-            // For arrays, create separate entries for each item
-            value.forEach((item, index) => {
-              if (typeof item === 'object') {
-                Object.entries(item).forEach(([itemKey, itemValue]) => {
-                  acc.push({
-                    field: `${singularKey}_${index + 1}_${itemKey}`,
-                    value: String(itemValue),
-                  })
-                })
-              } else {
-                acc.push({
-                  field: `${singularKey}_${index + 1}`,
-                  value: String(item),
-                })
-              }
-            })
-          } else if (typeof value === 'object' && value !== null) {
-            // For objects, create separate entries for each property
-            Object.entries(value).forEach(([objKey, objValue]) => {
-              acc.push({
-                field: `${key}_${objKey}`,
-                value: String(objValue),
-              })
-            })
-          } else {
-            // For simple values
-            acc.push({
-              field: key,
-              value: String(value),
-            })
-          }
-          return acc
-        }, [])
+        const submissionData = Object.entries(data)
+          .filter(([name]) => !['playerArray', 'parentArray', 'price'].includes(name))
+          .map(([name, value]) => ({
+            field: name,
+            value,
+          }))
 
         try {
           const req = await fetch(`${baseUrl}/api/form-submissions`, {
             body: JSON.stringify({
               form: formID,
-              submissionData: flattenedData,
+              submissionData: submissionData,
+              parents: parents,
+              players: players,
+              amount: data.price,
+              paymentStatus: "unpaid"
             }),
             headers: {
               'Content-Type': 'application/json',
@@ -155,8 +129,9 @@ export const FormBlock: React.FC<
           setIsLoading(false)
           setHasSubmitted(true)
 
-          if (data.Price && Number(data.Price) > 0) {
-            const session = await createCheckoutSession(submissionId, Number(data.Price))
+          if (data.price && Number(data.price) > 0) {
+            console.log("Creating checkout session")
+            const session = await createCheckoutSession(submissionId, Number(data.price))
             if (session?.url) {
               router.push(session.url)
             } else {

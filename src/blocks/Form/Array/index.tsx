@@ -7,7 +7,8 @@ import { Plus, Trash2 } from 'lucide-react'
 import { ArrayField } from './types'
 
 export const Array: React.FC<ArrayField> = (props) => {
-  const { fields: itemFields, labelPlural, minRows = 0, maxRows = 10 } = props
+  const { fields: itemFields, labelPlural, minRows = 0, maxRows = 10, name } = props
+
   const {
     register,
     control,
@@ -15,14 +16,14 @@ export const Array: React.FC<ArrayField> = (props) => {
   } = useFormContext()
   const { fields, append, remove } = useFieldArray({
     control,
-    name: labelPlural,
+    name: name,
     shouldUnregister: true,
   })
 
   return (
     <div>
       <CardHeader className="flex flex-row items-center justify-between px-0">
-        <CardTitle>{props.labelPlural}</CardTitle>
+        <CardTitle>{labelPlural}</CardTitle>
       </CardHeader>
       <CardContent className="space-y-6 px-0">
         {fields.map((field, index) => (

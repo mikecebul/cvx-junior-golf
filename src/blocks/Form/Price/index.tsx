@@ -5,6 +5,7 @@ import { Error } from '../Error'
 import { Width } from '../Width'
 import { Label } from '@/components/ui/label'
 import { PriceField } from './types'
+import { Separator } from '@/components/ui/separator'
 
 export const Price: React.FC<
   PriceField & {
@@ -53,9 +54,12 @@ export const Price: React.FC<
 
     return (
       <Width width={width}>
-        <Label htmlFor={name}>{label}</Label>
-        <div className="bg-green-400 text-black p-2 rounded-lg">${totalPrice} - ({items.length}) {items.length === 1 ? 'Player' : 'Players'}</div>
-        {errors[name] && <Error />}
+        <div className="py-4 text-right">
+          <Separator className='mb-4' />
+          <Label htmlFor={name} className='font-semibold'>{label}:</Label>
+          <p>({items.length}) {items.length === 1 ? 'Player' : 'Players'} - <span className="font-bold">${totalPrice}</span></p>
+          {errors[name] && <Error />}
+        </div>
       </Width>
     )
   }

@@ -220,21 +220,83 @@ export default buildConfig({
             ...fields,
             {
               name: 'amount',
-              label: 'Amount',
-              type: 'text',
+              type: 'number',
               admin: {
                 position: 'sidebar',
-              },
+              }
             },
             {
               name: 'paymentStatus',
-              label: 'Payment Status',
               type: 'text',
+              label: 'Payment Status',
               defaultValue: 'unpaid',
               admin: {
                 position: 'sidebar',
+              }
+            }, {
+              name: 'parents',
+              type: 'array',
+              admin: {
+                components: {
+                  RowLabel: '@/fields/form-submissions/PersonRowLabel',
+                },
+                condition: (_, siblingData) => {
+                  return siblingData?.parents?.length > 0
+                }
               },
+              fields: [
+                {
+                  name: 'firstName',
+                  label: 'First Name',
+                  type: 'text',
+                },
+                {
+                  name: 'lastName',
+                  label: 'Last Name',
+                  type: 'text',
+                },
+              ],
             },
+            {
+              name: 'players',
+              type: 'array',
+              admin: {
+                components: {
+                  RowLabel: '@/fields/form-submissions/PersonRowLabel',
+                },
+                condition: (_, siblingData) => {
+                  return siblingData?.players?.length > 0
+                }
+              },
+              fields: [
+                {
+                  name: 'firstName',
+                  label: 'First Name',
+                  type: 'text',
+                },
+                {
+                  name: 'lastName',
+                  label: 'Last Name',
+                  type: 'text',
+                },
+                {
+                  name: 'birthdate',
+                  label: 'Birthdate',
+                  type: 'text',
+                },
+                {
+                  name: 'gender',
+                  label: 'Gender',
+                  type: 'text',
+                },
+                {
+                  name: 'ethnicity',
+                  label: 'Ethnicity',
+                  type: 'text',
+                }
+              ],
+            },
+
           ]
         },
       },

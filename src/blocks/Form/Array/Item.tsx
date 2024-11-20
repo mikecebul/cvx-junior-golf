@@ -8,6 +8,7 @@ import { ArrayItemField } from './types'
 
 interface ItemProps {
   index: number
+  name: string
   field: ArrayItemField[]
   labelSingular: string
   labelPlural: string
@@ -19,6 +20,7 @@ export const Item: React.FC<ItemProps> = ({
   index,
   field,
   register,
+  name,
   errors,
   labelSingular,
   labelPlural,
@@ -35,7 +37,7 @@ export const Item: React.FC<ItemProps> = ({
             <Input
               id={`${index}-${textField.name}`}
               type="text"
-              {...register(`${labelPlural}[${index}].${textField.name}`, {
+              {...register(`${name}[${index}].${textField.name}`, {
                 required: textField.required,
               })}
             />

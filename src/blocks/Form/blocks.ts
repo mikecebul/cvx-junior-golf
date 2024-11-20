@@ -178,12 +178,18 @@ export const Array: Block = {
       type: 'row',
       fields: [
         {
+          ...name,
+          admin: {
+            width: '33%',
+          },
+        },
+        {
           name: 'labelSingular',
           type: 'text',
           label: 'Singular Label',
           required: true,
           admin: {
-            width: '50%',
+            width: '33%',
           },
         },
         {
@@ -192,7 +198,7 @@ export const Array: Block = {
           label: 'Plural Label',
           required: true,
           admin: {
-            width: '50%',
+            width: '33%',
           },
         },
       ],
@@ -200,26 +206,6 @@ export const Array: Block = {
     {
       type: 'row',
       fields: [
-        {
-          name: 'minRows',
-          type: 'number',
-          label: 'Minimum Rows',
-          required: true,
-          defaultValue: 1,
-          admin: {
-            width: '50%',
-          },
-        },
-        {
-          name: 'maxRows',
-          type: 'number',
-          label: 'Maximum Rows',
-          required: true,
-          defaultValue: 4,
-          admin: {
-            width: '50%',
-          },
-        },
       ],
     },
     {
@@ -229,7 +215,27 @@ export const Array: Block = {
           ...width,
           defaultValue: 100,
           admin: {
-            width: '50%',
+            width: '33%',
+          },
+        },
+        {
+          name: 'minRows',
+          type: 'number',
+          label: 'Minimum Rows',
+          required: true,
+          defaultValue: 1,
+          admin: {
+            width: '33%',
+          },
+        },
+        {
+          name: 'maxRows',
+          type: 'number',
+          label: 'Maximum Rows',
+          required: true,
+          defaultValue: 4,
+          admin: {
+            width: '33%',
           },
         },
       ],

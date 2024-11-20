@@ -15,7 +15,7 @@ export const buildInitialFormState = (fields: (FormFieldBlock | ArrayField | Pri
 
       return {
         ...initialSchema,
-        [field.labelPlural]: field.minRows > 0 ? [emptyItem] : [],
+        [field.name]: field.minRows > 0 ? [emptyItem] : [],
       }
     }
     if (field.blockType === 'checkbox') {

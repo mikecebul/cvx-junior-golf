@@ -548,11 +548,12 @@ export interface Form {
             blockType: 'textarea';
           }
         | {
+            name: string;
             labelSingular: string;
             labelPlural: string;
+            width?: number | null;
             minRows: number;
             maxRows: number;
-            width?: number | null;
             fields?:
               | (
                   | {
@@ -684,8 +685,25 @@ export interface FormSubmission {
         id?: string | null;
       }[]
     | null;
-  amount?: string | null;
+  amount?: number | null;
   paymentStatus?: string | null;
+  parents?:
+    | {
+        firstName?: string | null;
+        lastName?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  players?:
+    | {
+        firstName?: string | null;
+        lastName?: string | null;
+        birthdate?: string | null;
+        gender?: string | null;
+        ethnicity?: string | null;
+        id?: string | null;
+      }[]
+    | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1206,11 +1224,12 @@ export interface FormsSelect<T extends boolean = true> {
         array?:
           | T
           | {
+              name?: T;
               labelSingular?: T;
               labelPlural?: T;
+              width?: T;
               minRows?: T;
               maxRows?: T;
-              width?: T;
               fields?:
                 | T
                 | {
@@ -1296,6 +1315,23 @@ export interface FormSubmissionsSelect<T extends boolean = true> {
       };
   amount?: T;
   paymentStatus?: T;
+  parents?:
+    | T
+    | {
+        firstName?: T;
+        lastName?: T;
+        id?: T;
+      };
+  players?:
+    | T
+    | {
+        firstName?: T;
+        lastName?: T;
+        birthdate?: T;
+        gender?: T;
+        ethnicity?: T;
+        id?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
 }
