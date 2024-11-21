@@ -38,8 +38,10 @@ import { Events } from './collections/Events'
 import { Media } from './collections/Media'
 import { MediaBlock } from './blocks/MediaBlock/config'
 import { baseUrl } from './utilities/baseUrl'
-import { Array, Price } from './blocks/Form/blocks'
+import { Array } from './blocks/Form/blocks'
 import { checkoutSessionCompleted } from './plugins/stripe/webhooks/checkoutSessionCompleted'
+import { adminOrSuperAdmin } from './access/adminOrSuperAdmin'
+import { anyone } from './access/anyone'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -168,9 +170,12 @@ export default buildConfig({
     formBuilderPlugin({
       defaultToEmail: 'info@cvxjrgolf.org',
       fields: {
-        payment: false,
+        payment: {
+          admin: {
+            condition: () => false,
+          },
+        },
         array: Array,
-        price: Price,
       },
       formOverrides: {
         labels: {
@@ -200,103 +205,49 @@ export default buildConfig({
           singular: 'Form Submission',
           plural: 'Form Submissions',
         },
-        fields: ({ defaultFields }) => {
-          const fields = defaultFields.map((field) => {
-            if (field.type === 'array') {
-              return {
-                ...field,
-                admin: {
-                  ...field.admin,
-                  initCollapsed: true,
-                  components: {
-                    RowLabel: '@/fields/form-submissions/FormSubmissionRowLabel',
-                  },
-                },
-              }
-            }
-            return field
-          })
+        fields: () => {
           return [
-            ...fields,
             {
-              name: 'amount',
-              type: 'number',
+              name: 'formData',
+              type: 'json',
+              required: true,
               admin: {
+                description: 'Submitted form data',
+              },
+            },
+            {
+              name: 'price',
+              type: 'text',
+              required: true,
+              admin: {
+                description: 'Payment amount in cents',
                 position: 'sidebar',
-              }
+              },
             },
             {
               name: 'paymentStatus',
-              type: 'text',
-              label: 'Payment Status',
-              defaultValue: 'unpaid',
+              type: 'select',
+              required: true,
+              defaultValue: 'pending',
+              options: [
+                {
+                  label: 'Pending',
+                  value: 'pending',
+                },
+                {
+                  label: 'Paid',
+                  value: 'paid',
+                },
+                {
+                  label: 'Failed',
+                  value: 'failed',
+                },
+              ],
               admin: {
+                description: 'Current status of the payment',
                 position: 'sidebar',
-              }
-            }, {
-              name: 'parents',
-              type: 'array',
-              admin: {
-                components: {
-                  RowLabel: '@/fields/form-submissions/PersonRowLabel',
-                },
-                condition: (_, siblingData) => {
-                  return siblingData?.parents?.length > 0
-                }
               },
-              fields: [
-                {
-                  name: 'firstName',
-                  label: 'First Name',
-                  type: 'text',
-                },
-                {
-                  name: 'lastName',
-                  label: 'Last Name',
-                  type: 'text',
-                },
-              ],
             },
-            {
-              name: 'players',
-              type: 'array',
-              admin: {
-                components: {
-                  RowLabel: '@/fields/form-submissions/PersonRowLabel',
-                },
-                condition: (_, siblingData) => {
-                  return siblingData?.players?.length > 0
-                }
-              },
-              fields: [
-                {
-                  name: 'firstName',
-                  label: 'First Name',
-                  type: 'text',
-                },
-                {
-                  name: 'lastName',
-                  label: 'Last Name',
-                  type: 'text',
-                },
-                {
-                  name: 'birthdate',
-                  label: 'Birthdate',
-                  type: 'text',
-                },
-                {
-                  name: 'gender',
-                  label: 'Gender',
-                  type: 'text',
-                },
-                {
-                  name: 'ethnicity',
-                  label: 'Ethnicity',
-                  type: 'text',
-                }
-              ],
-            },
-
           ]
         },
       },

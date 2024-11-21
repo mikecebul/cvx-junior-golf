@@ -505,6 +505,27 @@ export interface Form {
             name: string;
             label?: string | null;
             width?: number | null;
+            basePrice?: number | null;
+            priceConditions?:
+              | {
+                  fieldToUse?: string | null;
+                  condition?: ('hasValue' | 'equals' | 'notEquals') | null;
+                  valueForCondition?: string | null;
+                  operator?: ('add' | 'subtract' | 'multiply' | 'divide') | null;
+                  valueType?: ('static' | 'valueOfField') | null;
+                  valueForOperator?: string | null;
+                  id?: string | null;
+                }[]
+              | null;
+            required?: boolean | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'payment';
+          }
+        | {
+            name: string;
+            label?: string | null;
+            width?: number | null;
             defaultValue?: string | null;
             options?:
               | {
@@ -580,23 +601,6 @@ export interface Form {
             id?: string | null;
             blockName?: string | null;
             blockType: 'array';
-          }
-        | {
-            name: string;
-            label?: string | null;
-            arrayField: string;
-            basePrice: number;
-            priceConditions?:
-              | {
-                  itemCount: number;
-                  price: number;
-                  id?: string | null;
-                }[]
-              | null;
-            width?: number | null;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'price';
           }
       )[]
     | null;
@@ -677,33 +681,28 @@ export interface User {
  */
 export interface FormSubmission {
   id: string;
-  form: string | Form;
-  submissionData?:
+  formData:
     | {
-        field: string;
-        value: string;
-        id?: string | null;
-      }[]
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
     | null;
-  amount?: number | null;
-  paymentStatus?: string | null;
-  parents?:
-    | {
-        firstName?: string | null;
-        lastName?: string | null;
-        id?: string | null;
-      }[]
-    | null;
-  players?:
-    | {
-        firstName?: string | null;
-        lastName?: string | null;
-        birthdate?: string | null;
-        gender?: string | null;
-        ethnicity?: string | null;
-        id?: string | null;
-      }[]
-    | null;
+  price: string;
+  paymentStatus: 'pending' | 'paid' | 'failed';
+  payment?: {
+    field?: string | null;
+    status?: string | null;
+    amount?: number | null;
+    paymentProcessor?: string | null;
+    creditCard?: {
+      token?: string | null;
+      brand?: string | null;
+      number?: string | null;
+    };
+  };
   updatedAt: string;
   createdAt: string;
 }
@@ -1171,6 +1170,28 @@ export interface FormsSelect<T extends boolean = true> {
               id?: T;
               blockName?: T;
             };
+        payment?:
+          | T
+          | {
+              name?: T;
+              label?: T;
+              width?: T;
+              basePrice?: T;
+              priceConditions?:
+                | T
+                | {
+                    fieldToUse?: T;
+                    condition?: T;
+                    valueForCondition?: T;
+                    operator?: T;
+                    valueType?: T;
+                    valueForOperator?: T;
+                    id?: T;
+                  };
+              required?: T;
+              id?: T;
+              blockName?: T;
+            };
         select?:
           | T
           | {
@@ -1258,24 +1279,6 @@ export interface FormsSelect<T extends boolean = true> {
               id?: T;
               blockName?: T;
             };
-        price?:
-          | T
-          | {
-              name?: T;
-              label?: T;
-              arrayField?: T;
-              basePrice?: T;
-              priceConditions?:
-                | T
-                | {
-                    itemCount?: T;
-                    price?: T;
-                    id?: T;
-                  };
-              width?: T;
-              id?: T;
-              blockName?: T;
-            };
       };
   submitButtonLabel?: T;
   confirmationType?: T;
@@ -1305,32 +1308,23 @@ export interface FormsSelect<T extends boolean = true> {
  * via the `definition` "form-submissions_select".
  */
 export interface FormSubmissionsSelect<T extends boolean = true> {
-  form?: T;
-  submissionData?:
+  formData?: T;
+  price?: T;
+  paymentStatus?: T;
+  payment?:
     | T
     | {
         field?: T;
-        value?: T;
-        id?: T;
-      };
-  amount?: T;
-  paymentStatus?: T;
-  parents?:
-    | T
-    | {
-        firstName?: T;
-        lastName?: T;
-        id?: T;
-      };
-  players?:
-    | T
-    | {
-        firstName?: T;
-        lastName?: T;
-        birthdate?: T;
-        gender?: T;
-        ethnicity?: T;
-        id?: T;
+        status?: T;
+        amount?: T;
+        paymentProcessor?: T;
+        creditCard?:
+          | T
+          | {
+              token?: T;
+              brand?: T;
+              number?: T;
+            };
       };
   updatedAt?: T;
   createdAt?: T;

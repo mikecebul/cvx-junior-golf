@@ -11,9 +11,19 @@ export async function getPaymentPrice({
   priceConditions: any // Update this type based on your actual price conditions type
   fieldValues: Record<string, any>
 }) {
+  const modifiedFieldValues = { ...fieldValues }
+
+  // Modify the fieldValues for array fields referenced in conditions
+  priceConditions?.forEach((condition) => {
+    const fieldValue = fieldValues[condition.fieldToUse]
+    if (Array.isArray(fieldValue)) {
+      modifiedFieldValues[condition.fieldToUse] = fieldValue.length.toString()
+    }
+  })
+
   return getPaymentTotal({
     basePrice,
     priceConditions,
-    fieldValues,
+    fieldValues: modifiedFieldValues,
   })
 }

@@ -21,6 +21,8 @@ import { PreviewComponent as PreviewComponent_a8a977ebc872c5d5ea7ee689724c0860 }
 import { SlugComponent as SlugComponent_92cc057d0a2abb4f6cf0307edf59f986 } from '@/fields/slug/SlugComponent'
 import { default as default_f4047b1a8a90d344d3f09d570ca929c0 } from '@/collections/Users/RoleCell'
 import { default as default_a0ed575495a5f102e2308e339b13de0a } from '@/collections/Users/RoleSelect'
+import { DynamicFieldSelector as DynamicFieldSelector_fcc98597230ed7571a28f97c55b16e63 } from '@payloadcms/plugin-form-builder/client'
+import { DynamicPriceSelector as DynamicPriceSelector_fcc98597230ed7571a28f97c55b16e63 } from '@payloadcms/plugin-form-builder/client'
 import { HorizontalRuleFeatureClient as HorizontalRuleFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { UploadFeatureClient as UploadFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { BlockquoteFeatureClient as BlockquoteFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
@@ -33,8 +35,6 @@ import { InlineCodeFeatureClient as InlineCodeFeatureClient_e70f5e05f09f93e00b99
 import { SuperscriptFeatureClient as SuperscriptFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { SubscriptFeatureClient as SubscriptFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { StrikethroughFeatureClient as StrikethroughFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
-import { default as default_37607d35d1db3b01c6b21c2073119a22 } from '@/fields/form-submissions/FormSubmissionRowLabel'
-import { default as default_b825d41593a09b9565b00c1bc83de81f } from '@/fields/form-submissions/PersonRowLabel'
 import { default as default_9734ea5d74b781c5b6e952c2aa41414f } from '@/globals/CompanyInfo/SocialRowLabel'
 import { default as default_3ffd8082d3e9477cf001d7760082c496 } from '@/globals/CompanyInfo/HoursRowLabel'
 import { default as default_a8ed57560afaff4535f43ca83a9fecbd } from '@/graphics/Icon'
@@ -64,6 +64,8 @@ export const importMap = {
   "@/fields/slug/SlugComponent#SlugComponent": SlugComponent_92cc057d0a2abb4f6cf0307edf59f986,
   "@/collections/Users/RoleCell#default": default_f4047b1a8a90d344d3f09d570ca929c0,
   "@/collections/Users/RoleSelect#default": default_a0ed575495a5f102e2308e339b13de0a,
+  "@payloadcms/plugin-form-builder/client#DynamicFieldSelector": DynamicFieldSelector_fcc98597230ed7571a28f97c55b16e63,
+  "@payloadcms/plugin-form-builder/client#DynamicPriceSelector": DynamicPriceSelector_fcc98597230ed7571a28f97c55b16e63,
   "@payloadcms/richtext-lexical/client#HorizontalRuleFeatureClient": HorizontalRuleFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@payloadcms/richtext-lexical/client#UploadFeatureClient": UploadFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@payloadcms/richtext-lexical/client#BlockquoteFeatureClient": BlockquoteFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
@@ -76,8 +78,6 @@ export const importMap = {
   "@payloadcms/richtext-lexical/client#SuperscriptFeatureClient": SuperscriptFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@payloadcms/richtext-lexical/client#SubscriptFeatureClient": SubscriptFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@payloadcms/richtext-lexical/client#StrikethroughFeatureClient": StrikethroughFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
-  "@/fields/form-submissions/FormSubmissionRowLabel#default": default_37607d35d1db3b01c6b21c2073119a22,
-  "@/fields/form-submissions/PersonRowLabel#default": default_b825d41593a09b9565b00c1bc83de81f,
   "@/globals/CompanyInfo/SocialRowLabel#default": default_9734ea5d74b781c5b6e952c2aa41414f,
   "@/globals/CompanyInfo/HoursRowLabel#default": default_3ffd8082d3e9477cf001d7760082c496,
   "@/graphics/Icon#default": default_a8ed57560afaff4535f43ca83a9fecbd,

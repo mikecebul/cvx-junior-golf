@@ -23,7 +23,6 @@ export const Item: React.FC<ItemProps> = ({
   name,
   errors,
   labelSingular,
-  labelPlural,
 }) => {
   return (
     <div className="space-y-4">
@@ -41,7 +40,7 @@ export const Item: React.FC<ItemProps> = ({
                 required: textField.required,
               })}
             />
-            {textField.required && errors?.[labelPlural]?.[index]?.[textField.name] && <Error />}
+            {textField.required && errors?.[name]?.[index]?.[textField.name] && <Error />}
           </div>
         ))}
       </div>

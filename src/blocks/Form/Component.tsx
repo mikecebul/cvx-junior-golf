@@ -68,94 +68,96 @@ export const FormBlock: React.FC<
   const router = useRouter()
 
   const onSubmit = useCallback(
-    (data: Data) => {
-      let loadingTimerID: ReturnType<typeof setTimeout>
-      const submitForm = async () => {
-        setError(undefined)
+    async (data: Data) => {
+      setError(undefined)
+      setIsLoading(true)
 
-        const parents = data.parentArray ?? []
-        const players = data.playerArray ?? []
+      const formData = Object.entries(data)
+        .filter(([name]) => !['price', 'paymentStatus'].includes(name))
+        .reduce(
+          (acc, [name, value]) => ({
+            ...acc,
+            [name]: value,
+          }),
+          {},
+        )
 
-        const submissionData = Object.entries(data)
-          .filter(([name]) => !['playerArray', 'parentArray', 'price'].includes(name))
-          .map(([name, value]) => ({
-            field: name,
-            value,
-          }))
+      console.log('Sending payload:', {
+        form: formID,
+        formData,
+        amount: data.price,
+        paymentStatus: 'unpaid',
+      })
 
-        try {
-          const req = await fetch(`${baseUrl}/api/form-submissions`, {
-            body: JSON.stringify({
-              form: formID,
-              submissionData: submissionData,
-              parents: parents,
-              players: players,
-              amount: data.price,
-              paymentStatus: "unpaid"
-            }),
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            method: 'POST',
-          })
+      try {
+        const req = await fetch(`${baseUrl}/api/form-submissions`, {
+          body: JSON.stringify({
+            form: formID,
+            formData,
+            price: data.price.toString(),
+            paymentStatus: 'pending',
+          }),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          method: 'POST',
+        })
 
-          const res = await req.json()
+        const res = await req.json()
 
-          clearTimeout(loadingTimerID)
+        console.log('Server response:', {
+          status: req.status,
+          body: res,
+        })
 
-          if (req.status >= 400) {
-            setIsLoading(false)
-
-            setError({
-              message: res.errors?.[0]?.message || 'Internal Server Error',
-              status: res.status,
-            })
-
-            return
-          }
-
-          const { doc: formSubmission } = res
-          const submissionId: string = formSubmission.id
-
-          if (!submissionId) {
-            console.error('No submission ID received from the server')
-            setError({
-              message: 'Failed to get submission ID',
-              status: 'error',
-            })
-            return
-          }
-
-          setIsLoading(false)
-          setHasSubmitted(true)
-
-          if (data.price && Number(data.price) > 0) {
-            console.log("Creating checkout session")
-            const session = await createCheckoutSession(submissionId, Number(data.price))
-            if (session?.url) {
-              router.push(session.url)
-            } else {
-              setError({
-                message: session?.error || 'Failed to create checkout session',
-                status: 'error',
-              })
-            }
-          } else {
-            if (confirmationType === 'redirect' && redirect) {
-              const { url: redirectUrl } = redirect
-              if (redirectUrl) router.push(redirectUrl)
-            }
-          }
-        } catch (err) {
-          console.warn(err)
+        if (req.status >= 400) {
           setIsLoading(false)
           setError({
-            message: 'Something went wrong.',
+            message: res.errors?.[0]?.message || 'Internal Server Error',
+            status: req.status.toString(),
           })
+          return
         }
-      }
 
-      void submitForm()
+        const { doc: formSubmission } = res
+        const submissionId: string = formSubmission.id
+
+        if (!submissionId) {
+          console.error('No submission ID received from the server')
+          setError({
+            message: 'Failed to get submission ID',
+            status: 'error',
+          })
+          return
+        }
+
+        setIsLoading(false)
+        setHasSubmitted(true)
+
+        if (data.price && Number(data.price) > 0) {
+          console.log('Creating checkout session')
+          const session = await createCheckoutSession(submissionId, Number(data.price))
+          if (session?.url) {
+            router.push(session.url)
+          } else {
+            setError({
+              message: session?.error || 'Failed to create checkout session',
+              status: 'error',
+            })
+          }
+        } else {
+          if (confirmationType === 'redirect' && redirect) {
+            const { url: redirectUrl } = redirect
+            if (redirectUrl) router.push(redirectUrl)
+          }
+        }
+      } catch (err) {
+        console.warn(err)
+        setIsLoading(false)
+        setError({
+          message: 'Something went wrong.',
+        })
+      }
     },
     [router, formID, redirect, confirmationType],
   )

@@ -1,18 +1,55 @@
 import type { PaymentField } from '@payloadcms/plugin-form-builder/types'
-import type { FieldErrorsImpl, FieldValues, UseFormRegister, UseFormWatch } from 'react-hook-form'
+import {
+  useFormContext,
+  useWatch,
+  type FieldErrorsImpl,
+  type FieldValues,
+  type UseFormRegister,
+  type UseFormWatch,
+  Control,
+} from 'react-hook-form'
 import React from 'react'
 
 import { Error } from '../Error'
 import { Width } from '../Width'
 import { Label } from '@/components/ui/label'
+import { getPaymentPrice } from './actions/getPaymentPrice'
 
+// Create a new component for watching arrays and calculating price
+const PriceWatcher: React.FC<{
+  control: Control<FieldValues>
+  basePrice: number
+  priceConditions: any
+  name: string
+  setValue: any
+}> = ({ control, basePrice, priceConditions, name, setValue }) => {
+  const arrayFields = useWatch({
+    control,
+    name: ['parentArray', 'playerArray'],
+  })
+
+  React.useEffect(() => {
+    const updatePrice = async () => {
+      const calculatedPrice = await getPaymentPrice({
+        basePrice,
+        priceConditions,
+        fieldValues: {
+          parentArray: arrayFields[0],
+          playerArray: arrayFields[1],
+        },
+      })
+      setValue(name, calculatedPrice)
+    }
+    updatePrice()
+  }, [basePrice, priceConditions, name, setValue, arrayFields])
+
+  return null
+}
+
+// Main Payment component
 export const Payment: React.FC<
   PaymentField & {
-    errors: Partial<
-      FieldErrorsImpl<{
-        [x: string]: any
-      }>
-    >
+    errors: Partial<FieldErrorsImpl<{ [x: string]: any }>>
     register: UseFormRegister<FieldValues>
     watch: UseFormWatch<FieldValues>
     setValue: any
@@ -26,34 +63,32 @@ export const Payment: React.FC<
   required: requiredFromProps,
   width,
   watch,
+  priceConditions,
   setValue,
 }) => {
-    const players = watch('Players') || []
-    const totalPrice = React.useMemo(() => {
-      switch (players.length) {
-        case 1:
-          return basePrice
-        case 2:
-          return basePrice + 50
-        case 3:
-          return basePrice + 50 + 25
-        case 4:
-          return basePrice + 50 + 25 + 25
-        default:
-          return basePrice
-      }
-    }, [players.length, basePrice])
+  const { control } = useFormContext()
 
-    React.useEffect(() => {
-      setValue(name, totalPrice)
-    }, [totalPrice, name, setValue])
+  // Watch only the price field for display
+  const price = useWatch({
+    control,
+    name,
+    defaultValue: basePrice,
+  })
 
-    return (
-      <Width width={width}>
-        <Label htmlFor={name}>{label}</Label>
-        <div className="text-sm">${totalPrice}</div>
+  return (
+    <Width width={width}>
+      <Label htmlFor={name}>{label}</Label>
+      <div className="text-sm">${price}</div>
 
-        {requiredFromProps && errors[name] && <Error />}
-      </Width>
-    )
-  }
+      <PriceWatcher
+        control={control}
+        basePrice={basePrice}
+        priceConditions={priceConditions}
+        name={name}
+        setValue={setValue}
+      />
+
+      {requiredFromProps && errors[name] && <Error />}
+    </Width>
+  )
+}
