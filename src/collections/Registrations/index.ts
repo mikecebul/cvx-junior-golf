@@ -84,12 +84,15 @@ export const Registrations: CollectionConfig = {
   },
   hooks: {
     beforeChange: [
+      // (args) => {
+      //   const plugin = args.req.payload.config.plugins.find((p) => p.name === 'formBuilderPlugin')
+      //   return createCharge(args, plugin as FormBuilderPluginConfig)
+      // },
       (args) => {
-        const plugin = args.req.payload.config.plugins.find((p) => p.name === 'formBuilderPlugin')
-        return createCharge(args, plugin as FormBuilderPluginConfig)
-      },
-      (args) => {
-        const plugin = args.req.payload.config.plugins.find((p) => p.name === 'formBuilderPlugin')
+        console.log('Data', args.data)
+        const plugin = args.req.payload.config.plugins[1]
+        console.log('Plugin', plugin)
+        console.log('Plugins', args.req.payload.config.plugins)
         return sendEmail(args, plugin as FormBuilderPluginConfig)
       },
     ],

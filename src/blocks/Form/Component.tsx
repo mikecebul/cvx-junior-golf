@@ -98,11 +98,6 @@ export const FormBlock: React.FC<
 
         const res = await req.json()
 
-        console.log('Server response:', {
-          status: req.status,
-          body: res,
-        })
-
         if (req.status >= 400) {
           setIsLoading(false)
           setError({
@@ -112,10 +107,10 @@ export const FormBlock: React.FC<
           return
         }
 
-        const { doc: formSubmission } = res
-        const submissionId: string = formSubmission.id
+        const { doc: registration } = res
+        const registrationId: string = registration.id
 
-        if (!submissionId) {
+        if (!registrationId) {
           console.error('No submission ID received from the server')
           setError({
             message: 'Failed to get submission ID',
@@ -129,7 +124,7 @@ export const FormBlock: React.FC<
 
         if (data.price && Number(data.price) > 0) {
           console.log('Creating checkout session')
-          const session = await createCheckoutSession(submissionId, Number(data.price))
+          const session = await createCheckoutSession(registrationId, Number(data.price))
           if (session?.url) {
             router.push(session.url)
           } else {
