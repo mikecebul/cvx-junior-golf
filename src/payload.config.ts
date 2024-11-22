@@ -38,7 +38,7 @@ import { Events } from './collections/Events'
 import { Media } from './collections/Media'
 import { MediaBlock } from './blocks/MediaBlock/config'
 import { baseUrl } from './utilities/baseUrl'
-import { Array } from './blocks/Form/blocks'
+import { Array, Price } from './blocks/Form/blocks'
 import { checkoutSessionCompleted } from './plugins/stripe/webhooks/checkoutSessionCompleted'
 import { Registrations } from './collections/Registrations'
 
@@ -171,6 +171,7 @@ export default buildConfig({
       fields: {
         payment: true,
         array: Array,
+        price: Price,
       },
       formOverrides: {
         fields: ({ defaultFields }) => [
