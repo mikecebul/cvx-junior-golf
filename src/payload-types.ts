@@ -32,6 +32,7 @@ export interface Config {
     events: Event;
     media: Media;
     users: User;
+    registrations: Registration;
     forms: Form;
     'form-submissions': FormSubmission;
     redirects: Redirect;
@@ -45,6 +46,7 @@ export interface Config {
     events: EventsSelect<false> | EventsSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
+    registrations: RegistrationsSelect<false> | RegistrationsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
@@ -570,8 +572,8 @@ export interface Form {
           }
         | {
             name: string;
+            label: string;
             labelSingular: string;
-            labelPlural: string;
             width?: number | null;
             minRows: number;
             maxRows: number;
@@ -677,11 +679,12 @@ export interface User {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "form-submissions".
+ * via the `definition` "registrations".
  */
-export interface FormSubmission {
+export interface Registration {
   id: string;
-  formData:
+  form: string | Form;
+  formData?:
     | {
         [k: string]: unknown;
       }
@@ -690,8 +693,25 @@ export interface FormSubmission {
     | number
     | boolean
     | null;
-  price: string;
+  price: number;
   paymentStatus: 'pending' | 'paid' | 'failed';
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "form-submissions".
+ */
+export interface FormSubmission {
+  id: string;
+  form: string | Form;
+  submissionData?:
+    | {
+        field: string;
+        value: string;
+        id?: string | null;
+      }[]
+    | null;
   payment?: {
     field?: string | null;
     status?: string | null;
@@ -746,6 +766,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'users';
         value: string | User;
+      } | null)
+    | ({
+        relationTo: 'registrations';
+        value: string | Registration;
       } | null)
     | ({
         relationTo: 'forms';
@@ -1114,6 +1138,18 @@ export interface UsersSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "registrations_select".
+ */
+export interface RegistrationsSelect<T extends boolean = true> {
+  form?: T;
+  formData?: T;
+  price?: T;
+  paymentStatus?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "forms_select".
  */
 export interface FormsSelect<T extends boolean = true> {
@@ -1246,8 +1282,8 @@ export interface FormsSelect<T extends boolean = true> {
           | T
           | {
               name?: T;
+              label?: T;
               labelSingular?: T;
-              labelPlural?: T;
               width?: T;
               minRows?: T;
               maxRows?: T;
@@ -1308,9 +1344,14 @@ export interface FormsSelect<T extends boolean = true> {
  * via the `definition` "form-submissions_select".
  */
 export interface FormSubmissionsSelect<T extends boolean = true> {
-  formData?: T;
-  price?: T;
-  paymentStatus?: T;
+  form?: T;
+  submissionData?:
+    | T
+    | {
+        field?: T;
+        value?: T;
+        id?: T;
+      };
   payment?:
     | T
     | {

@@ -40,8 +40,7 @@ import { MediaBlock } from './blocks/MediaBlock/config'
 import { baseUrl } from './utilities/baseUrl'
 import { Array } from './blocks/Form/blocks'
 import { checkoutSessionCompleted } from './plugins/stripe/webhooks/checkoutSessionCompleted'
-import { adminOrSuperAdmin } from './access/adminOrSuperAdmin'
-import { anyone } from './access/anyone'
+import { Registrations } from './collections/Registrations'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -147,7 +146,7 @@ export default buildConfig({
   db: mongooseAdapter({
     url: process.env.DATABASE_URI!,
   }),
-  collections: [Pages, Events, Media, Users],
+  collections: [Pages, Events, Media, Users, Registrations],
   cors: [baseUrl].filter(Boolean),
   csrf: [baseUrl].filter(Boolean),
   email: resendAdapter({
@@ -170,18 +169,10 @@ export default buildConfig({
     formBuilderPlugin({
       defaultToEmail: 'info@cvxjrgolf.org',
       fields: {
-        payment: {
-          admin: {
-            condition: () => false,
-          },
-        },
+        payment: true,
         array: Array,
       },
       formOverrides: {
-        labels: {
-          singular: 'Registration Form',
-          plural: 'Registration Forms',
-        },
         fields: ({ defaultFields }) => [
           ...defaultFields.map((field) => {
             if ('name' in field && field.name === 'confirmationMessage') {
@@ -201,54 +192,8 @@ export default buildConfig({
         ],
       },
       formSubmissionOverrides: {
-        labels: {
-          singular: 'Form Submission',
-          plural: 'Form Submissions',
-        },
-        fields: () => {
-          return [
-            {
-              name: 'formData',
-              type: 'json',
-              required: true,
-              admin: {
-                description: 'Submitted form data',
-              },
-            },
-            {
-              name: 'price',
-              type: 'text',
-              required: true,
-              admin: {
-                description: 'Payment amount in cents',
-                position: 'sidebar',
-              },
-            },
-            {
-              name: 'paymentStatus',
-              type: 'select',
-              required: true,
-              defaultValue: 'pending',
-              options: [
-                {
-                  label: 'Pending',
-                  value: 'pending',
-                },
-                {
-                  label: 'Paid',
-                  value: 'paid',
-                },
-                {
-                  label: 'Failed',
-                  value: 'failed',
-                },
-              ],
-              admin: {
-                description: 'Current status of the payment',
-                position: 'sidebar',
-              },
-            },
-          ]
+        admin: {
+          hidden: true,
         },
       },
     }),

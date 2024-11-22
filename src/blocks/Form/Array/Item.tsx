@@ -11,7 +11,7 @@ interface ItemProps {
   name: string
   field: ArrayItemField[]
   labelSingular: string
-  labelPlural: string
+  label: string
   errors: Partial<FieldErrorsImpl<{ [x: string]: any }>>
   register: UseFormRegister<FieldValues>
 }

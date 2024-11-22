@@ -82,19 +82,12 @@ export const FormBlock: React.FC<
           {},
         )
 
-      console.log('Sending payload:', {
-        form: formID,
-        formData,
-        amount: data.price,
-        paymentStatus: 'unpaid',
-      })
-
       try {
-        const req = await fetch(`${baseUrl}/api/form-submissions`, {
+        const req = await fetch(`${baseUrl}/api/registrations`, {
           body: JSON.stringify({
             form: formID,
             formData,
-            price: data.price.toString(),
+            price: data.price,
             paymentStatus: 'pending',
           }),
           headers: {

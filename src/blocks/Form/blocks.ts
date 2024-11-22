@@ -184,18 +184,18 @@ export const Array: Block = {
           },
         },
         {
-          name: 'labelSingular',
+          name: 'label',
           type: 'text',
-          label: 'Singular Label',
+          label: 'Label Plural',
           required: true,
           admin: {
             width: '33%',
           },
         },
         {
-          name: 'labelPlural',
+          name: 'labelSingular',
           type: 'text',
-          label: 'Plural Label',
+          label: 'Label Singular',
           required: true,
           admin: {
             width: '33%',
@@ -205,8 +205,7 @@ export const Array: Block = {
     },
     {
       type: 'row',
-      fields: [
-      ],
+      fields: [],
     },
     {
       type: 'row',

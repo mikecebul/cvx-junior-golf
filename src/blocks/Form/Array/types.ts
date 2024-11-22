@@ -10,8 +10,8 @@ export interface ArrayItemField {
 export interface ArrayField extends BlockConfig {
   blockType: 'array'
   name: string
+  label: string
   labelSingular: string
-  labelPlural: string
   minRows: number
   maxRows: number
   width?: number
