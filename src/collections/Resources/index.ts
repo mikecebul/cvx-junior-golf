@@ -1,8 +1,17 @@
-import { linkGroup } from "@/fields/link/linkGroup";
-import { CollectionConfig } from "payload";
+import { anyone } from '@/access/anyone'
+import { authenticated } from '@/access/authenticated'
+import { linkGroup } from '@/fields/link/linkGroup'
+import { CollectionConfig } from 'payload'
 
 export const Resources: CollectionConfig = {
   slug: 'resources',
+  access: {
+    admin: authenticated,
+    create: authenticated,
+    delete: authenticated,
+    read: anyone,
+    update: authenticated,
+  },
   labels: {
     singular: 'Resource',
     plural: 'Resources',

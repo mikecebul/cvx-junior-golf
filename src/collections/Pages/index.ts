@@ -25,13 +25,15 @@ import { EventsPage } from '@/blocks/EventsPage/config'
 import { Donate } from '@/blocks/Donate/config'
 import { FormBlock } from '@/blocks/Form/config'
 import { baseUrl } from '@/utilities/baseUrl'
+import { anyone } from '@/access/anyone'
 
 export const Pages: CollectionConfig = {
   slug: 'pages',
   access: {
+    admin: authenticated,
     create: authenticated,
     delete: authenticated,
-    read: authenticatedOrPublished,
+    read: anyone,
     update: authenticated,
   },
   admin: {

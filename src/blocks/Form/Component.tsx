@@ -40,6 +40,15 @@ interface FormValues {
   [key: string]: any
 }
 
+interface FormData {
+  parents: Array<{
+    firstName: string
+    lastName: string
+    [key: string]: any
+  }>
+  [key: string]: any
+}
+
 export const FormBlock: React.FC<
   {
     id?: string
@@ -79,12 +88,13 @@ export const FormBlock: React.FC<
             ...acc,
             [name]: value,
           }),
-          {},
+          {} as FormData,
         )
 
       try {
-        const req = await fetch(`${baseUrl}/api/registrations`, {
+        const req = await fetch(`${baseUrl}/api/form-submissions`, {
           body: JSON.stringify({
+            title: `${formData.parents[0].firstName} ${formData.parents[0].lastName}`,
             form: formID,
             formData,
             price: data.price,

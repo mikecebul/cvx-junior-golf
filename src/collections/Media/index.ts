@@ -15,6 +15,7 @@ export const Media: CollectionConfig = {
     plural: 'Media',
   },
   access: {
+    admin: authenticated,
     create: authenticated,
     delete: authenticated,
     read: anyone,

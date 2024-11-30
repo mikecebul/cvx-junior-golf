@@ -3,7 +3,7 @@ import { resendAdapter } from '@payloadcms/email-resend'
 
 import { stripePlugin } from '@payloadcms/plugin-stripe'
 import { redirectsPlugin } from '@payloadcms/plugin-redirects'
-import { fields, formBuilderPlugin } from '@payloadcms/plugin-form-builder'
+import { formBuilderPlugin } from '@payloadcms/plugin-form-builder'
 import { seoPlugin } from '@payloadcms/plugin-seo'
 import { s3Storage as s3StoragePlugin } from '@payloadcms/storage-s3'
 import { S3_PLUGIN_CONFIG } from './plugins/s3'
@@ -40,7 +40,7 @@ import { MediaBlock } from './blocks/MediaBlock/config'
 import { baseUrl } from './utilities/baseUrl'
 import { Array, Price } from './blocks/Form/blocks'
 import { checkoutSessionCompleted } from './plugins/stripe/webhooks/checkoutSessionCompleted'
-import { Registrations } from './collections/Registrations'
+import { adminOrSuperAdmin } from './access/adminOrSuperAdmin'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -146,7 +146,7 @@ export default buildConfig({
   db: mongooseAdapter({
     url: process.env.DATABASE_URI!,
   }),
-  collections: [Pages, Events, Media, Users, Registrations],
+  collections: [Pages, Events, Media, Users],
   cors: [baseUrl].filter(Boolean),
   csrf: [baseUrl].filter(Boolean),
   email: resendAdapter({
@@ -193,8 +193,61 @@ export default buildConfig({
         ],
       },
       formSubmissionOverrides: {
+        access: {
+          update: superAdmin,
+        },
         admin: {
-          hidden: true,
+          useAsTitle: 'title',
+        },
+        labels: {
+          singular: 'Registration',
+          plural: 'Registrations',
+        },
+        fields: ({ defaultFields }) => {
+          const guttedDefaultFields = defaultFields.filter(
+            (field) =>
+              'name' in field && field.name !== 'payment' && field.name !== 'submissionData',
+          )
+          return [
+            // ...guttedDefaultFields,
+            {
+              name: 'title',
+              type: 'text',
+            },
+            {
+              name: 'formData',
+              type: 'json',
+              admin: {
+                components: {
+                  Field: '@/plugins/form-builder/FormData',
+                },
+              },
+            },
+            {
+              name: 'payment',
+              type: 'group',
+              admin: {
+                position: 'sidebar',
+              },
+              fields: [
+                {
+                  name: 'amount',
+                  type: 'number',
+                },
+                {
+                  name: 'status',
+                  type: 'select',
+                  defaultValue: 'pending',
+                  options: [
+                    { label: 'Pending', value: 'pending' },
+                    { label: 'Paid', value: 'paid' },
+                    { label: 'Cancelled', value: 'cancelled' },
+                    { label: 'Refunded', value: 'refunded' },
+                  ],
+                },
+              ],
+            },
+          ]
         },
       },
     }),
@@ -237,9 +290,9 @@ export default buildConfig({
       collections: {
         media: {
           disableLocalStorage: true,
-          generateFileURL: (args: any) => {
-            if (typeof args.filename !== 'string') return null as unknown as string
-            return `https://${process.env.NEXT_PUBLIC_S3_HOSTNAME}/${args.prefix}/${args.filename}`
+          generateFileURL: ({ filename, prefix }) => {
+            if (typeof filename !== 'string') return null as unknown as string
+            return `https://${process.env.NEXT_PUBLIC_S3_HOSTNAME}/${prefix}/${filename}`
           },
           prefix: 'media',
         },

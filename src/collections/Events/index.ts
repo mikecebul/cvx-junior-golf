@@ -10,6 +10,7 @@ export const Events: CollectionConfig = {
     plural: 'Events',
   },
   access: {
+    admin: authenticated,
     create: authenticated,
     delete: authenticated,
     read: anyone,

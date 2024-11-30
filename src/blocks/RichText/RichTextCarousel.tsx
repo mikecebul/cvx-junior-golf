@@ -26,8 +26,8 @@ export default function RichTextCarousel({ images }: { images: Media[] }) {
               className="object-cover w-full max-w-3xl rounded-lg shadow-lg ring-1 ring-gray-400/10 max-h-96"
               src={image.url ?? ''}
               alt="Image"
-              width={960}
-              height={640}
+              width={image.width ?? 960}
+              height={image.height ?? 640}
               priority
             />
           </CarouselItem>

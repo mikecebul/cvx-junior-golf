@@ -25,7 +25,7 @@ const PriceWatcher: React.FC<{
 }> = ({ control, basePrice, priceConditions, name, setValue }) => {
   const arrayFields = useWatch({
     control,
-    name: ['parentArray', 'playerArray'],
+    name: ['parents', 'players'],
   })
 
   React.useEffect(() => {
@@ -34,8 +34,8 @@ const PriceWatcher: React.FC<{
         basePrice,
         priceConditions,
         fieldValues: {
-          parentArray: arrayFields[0],
-          playerArray: arrayFields[1],
+          parents: arrayFields[0],
+          players: arrayFields[1],
         },
       })
       setValue(name, calculatedPrice)

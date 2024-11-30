@@ -32,7 +32,6 @@ export interface Config {
     events: Event;
     media: Media;
     users: User;
-    registrations: Registration;
     forms: Form;
     'form-submissions': FormSubmission;
     redirects: Redirect;
@@ -46,7 +45,6 @@ export interface Config {
     events: EventsSelect<false> | EventsSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
-    registrations: RegistrationsSelect<false> | RegistrationsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
@@ -679,7 +677,7 @@ export interface Form {
 export interface User {
   id: string;
   name?: string | null;
-  role: string;
+  role: 'editor' | 'admin' | 'superAdmin';
   updatedAt: string;
   createdAt: string;
   enableAPIKey?: boolean | null;
@@ -696,11 +694,11 @@ export interface User {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "registrations".
+ * via the `definition` "form-submissions".
  */
-export interface Registration {
+export interface FormSubmission {
   id: string;
-  form: string | Form;
+  title?: string | null;
   formData?:
     | {
         [k: string]: unknown;
@@ -710,35 +708,9 @@ export interface Registration {
     | number
     | boolean
     | null;
-  price: number;
-  paymentStatus: 'pending' | 'paid' | 'failed';
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "form-submissions".
- */
-export interface FormSubmission {
-  id: string;
-  form: string | Form;
-  submissionData?:
-    | {
-        field: string;
-        value: string;
-        id?: string | null;
-      }[]
-    | null;
   payment?: {
-    field?: string | null;
-    status?: string | null;
     amount?: number | null;
-    paymentProcessor?: string | null;
-    creditCard?: {
-      token?: string | null;
-      brand?: string | null;
-      number?: string | null;
-    };
+    status?: ('pending' | 'paid' | 'cancelled' | 'refunded') | null;
   };
   updatedAt: string;
   createdAt: string;
@@ -783,10 +755,6 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'users';
         value: string | User;
-      } | null)
-    | ({
-        relationTo: 'registrations';
-        value: string | Registration;
       } | null)
     | ({
         relationTo: 'forms';
@@ -1063,11 +1031,9 @@ export interface PagesSelect<T extends boolean = true> {
         metadata?:
           | T
           | {
-              overview?: T;
               title?: T;
               image?: T;
               description?: T;
-              preview?: T;
             };
       };
   publishedAt?: T;
@@ -1152,18 +1118,6 @@ export interface UsersSelect<T extends boolean = true> {
   hash?: T;
   loginAttempts?: T;
   lockUntil?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "registrations_select".
- */
-export interface RegistrationsSelect<T extends boolean = true> {
-  form?: T;
-  formData?: T;
-  price?: T;
-  paymentStatus?: T;
-  updatedAt?: T;
-  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1379,28 +1333,13 @@ export interface FormsSelect<T extends boolean = true> {
  * via the `definition` "form-submissions_select".
  */
 export interface FormSubmissionsSelect<T extends boolean = true> {
-  form?: T;
-  submissionData?:
-    | T
-    | {
-        field?: T;
-        value?: T;
-        id?: T;
-      };
+  title?: T;
+  formData?: T;
   payment?:
     | T
     | {
-        field?: T;
-        status?: T;
         amount?: T;
-        paymentProcessor?: T;
-        creditCard?:
-          | T
-          | {
-              token?: T;
-              brand?: T;
-              number?: T;
-            };
+        status?: T;
       };
   updatedAt?: T;
   createdAt?: T;

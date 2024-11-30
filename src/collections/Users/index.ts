@@ -1,21 +1,22 @@
 import type { CollectionConfig } from 'payload'
+import { text } from 'payload/shared'
 
 import { authenticated } from '../../access/authenticated'
 import { roleSelectMutate } from './access/roleSelectMutate'
 import { ensureFirstUserIsSuperAdmin } from './hooks/ensureFirstUserIsSuperAdmin'
 import { revalidatePath } from 'next/cache'
 import { superAdmin } from '@/access/superAdmin'
-import { adminOrSuperAdmin } from '@/access/adminOrSuperAdmin'
 import { self } from '@/access/self'
+import { adminUserAccess } from './access/adminUserAccess'
 
 const Users: CollectionConfig = {
   slug: 'users',
   access: {
     admin: authenticated,
-    create: ({ req }) => adminOrSuperAdmin({ req }),
-    delete: ({ req, id }) => self({ req, id }) || adminOrSuperAdmin({ req, id }),
+    create: ({ req }) => adminUserAccess({ req }) || superAdmin({ req }),
+    delete: ({ req }) => adminUserAccess({ req }) || superAdmin({ req }),
     read: authenticated,
-    update: ({ req, id }) => self({ req, id }) || adminOrSuperAdmin({ req, id }),
+    update: ({ req, id }) => self({ req, id }) || adminUserAccess({ req }) || superAdmin({ req }),
   },
   admin: {
     hideAPIURL: !superAdmin,
@@ -32,17 +33,40 @@ const Users: CollectionConfig = {
     },
     {
       name: 'role',
-      type: 'text',
+      type: 'select',
       defaultValue: 'editor',
       required: true,
       access: {
         create: roleSelectMutate,
-        read: () => true,
+        read: async ({ req: { payload } }) => {
+          const users = await payload.find({
+            collection: 'users',
+            limit: 0,
+          })
+          return users.totalDocs > 0
+        },
         update: roleSelectMutate,
       },
+      options: [
+        {
+          label: 'Editor',
+          value: 'editor',
+        },
+        {
+          label: 'Admin',
+          value: 'admin',
+        },
+        {
+          label: 'Super Admin',
+          value: 'superAdmin',
+        },
+      ],
       admin: {
         components: {
-          Field: '@/collections/Users/RoleSelect',
+          Field: {
+            path: '@/collections/Users/RoleSelect.client',
+            exportName: 'RoleSelectClient',
+          },
           Cell: '@/collections/Users/RoleCell',
         },
       },
@@ -53,12 +77,21 @@ const Users: CollectionConfig = {
             req.headers['X-Payload-Migration'] !== 'true' && revalidatePath('/(payload)', 'layout'),
         ],
       },
+      validate: (val, { req: { user } }) => {
+        if (user?.role !== 'superAdmin' && val === 'superAdmin')
+          return 'Admins cannot create super admins'
+        if (user?.role === 'editor') return 'Editors cannot update roles'
+        return true
+      },
     },
     {
       name: 'enableAPIKey',
       type: 'checkbox',
       access: {
         update: ({ req }) => !!superAdmin({ req }),
+      },
+      admin: {
+        condition: ({ user }) => user?.role === 'superAdmin',
       },
     },
     {
