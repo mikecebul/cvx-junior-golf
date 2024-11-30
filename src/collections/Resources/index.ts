@@ -1,5 +1,5 @@
-import { anyone } from '@/access/anyone'
 import { authenticated } from '@/access/authenticated'
+import { authenticatedOrPublished } from '@/access/authenticatedOrPublished'
 import { linkGroup } from '@/fields/link/linkGroup'
 import { CollectionConfig } from 'payload'
 
@@ -9,7 +9,7 @@ export const Resources: CollectionConfig = {
     admin: authenticated,
     create: authenticated,
     delete: authenticated,
-    read: anyone,
+    read: authenticatedOrPublished,
     update: authenticated,
   },
   labels: {

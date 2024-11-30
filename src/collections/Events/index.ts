@@ -1,5 +1,6 @@
 import { anyone } from '@/access/anyone'
 import { authenticated } from '@/access/authenticated'
+import { authenticatedOrPublished } from '@/access/authenticatedOrPublished'
 import { superAdmin } from '@/access/superAdmin'
 import { CollectionConfig } from 'payload'
 
@@ -13,7 +14,7 @@ export const Events: CollectionConfig = {
     admin: authenticated,
     create: authenticated,
     delete: authenticated,
-    read: anyone,
+    read: authenticatedOrPublished,
     update: authenticated,
   },
   admin: {
