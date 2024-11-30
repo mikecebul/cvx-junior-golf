@@ -20,7 +20,7 @@ export const checkoutSessionCompleted: StripeWebhookHandler<{
   if (payment_status === 'paid') {
     try {
       const submission = await payload.findByID({
-        collection: 'registrations',
+        collection: 'form-submissions',
         id: submissionId,
       })
 
