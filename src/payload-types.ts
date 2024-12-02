@@ -8,6 +8,16 @@
 
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "LinkGroup".
+ */
+export type LinkGroup =
+  | {
+      link: Link;
+      id?: string | null;
+    }[]
+  | null;
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "LinkCards".
  */
 export type LinkCards =
@@ -109,6 +119,7 @@ export interface Page {
     | LinksBlock
     | EventsPageBlock
     | FormBlock
+    | FeatureHighlightsBlock
   )[];
   meta?: {
     hideFromSearchEngines?: boolean | null;
@@ -132,29 +143,10 @@ export interface Page {
 export interface Hero {
   type: 'highImpact' | 'mediumImpact';
   highImpact?: {
+    direction?: ('ltr' | 'rtl') | null;
     title: string;
     description: string;
-    links?:
-      | {
-          link: {
-            type?: ('reference' | 'custom') | null;
-            newTab?: boolean | null;
-            reference?:
-              | ({
-                  relationTo: 'pages';
-                  value: string | Page;
-                } | null)
-              | ({
-                  relationTo: 'media';
-                  value: string | Media;
-                } | null);
-            url?: string | null;
-            label: string;
-            appearance?: ('default' | 'outline') | null;
-          };
-          id?: string | null;
-        }[]
-      | null;
+    links?: LinkGroup;
     image: string | Media;
   };
   mediumImpact?: {
@@ -165,6 +157,26 @@ export interface Hero {
   id?: string | null;
   blockName?: string | null;
   blockType: 'hero';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Link".
+ */
+export interface Link {
+  type?: ('reference' | 'custom') | null;
+  newTab?: boolean | null;
+  reference?:
+    | ({
+        relationTo: 'pages';
+        value: string | Page;
+      } | null)
+    | ({
+        relationTo: 'media';
+        value: string | Media;
+      } | null);
+  url?: string | null;
+  label: string;
+  appearance?: ('default' | 'outline') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -210,8 +222,11 @@ export interface Media {
  * via the `definition` "EventsBlock".
  */
 export interface EventsBlock {
+  direction?: ('ltr' | 'rtl') | null;
   title: string;
   description: string;
+  links?: LinkGroup;
+  image?: (string | null) | Media;
   eventItems?: (string | Event)[] | null;
   id?: string | null;
   blockName?: string | null;
@@ -251,27 +266,7 @@ export interface Event {
 export interface HowItWorksBlock {
   title?: string | null;
   description?: string | null;
-  links?:
-    | {
-        link: {
-          type?: ('reference' | 'custom') | null;
-          newTab?: boolean | null;
-          reference?:
-            | ({
-                relationTo: 'pages';
-                value: string | Page;
-              } | null)
-            | ({
-                relationTo: 'media';
-                value: string | Media;
-              } | null);
-          url?: string | null;
-          label: string;
-          appearance?: ('default' | 'outline') | null;
-        };
-        id?: string | null;
-      }[]
-    | null;
+  links?: LinkGroup;
   id?: string | null;
   blockName?: string | null;
   blockType: 'howItWorks';
@@ -291,22 +286,7 @@ export interface HistoryBlock {
         id?: string | null;
       }[]
     | null;
-  link: {
-    type?: ('reference' | 'custom') | null;
-    newTab?: boolean | null;
-    reference?:
-      | ({
-          relationTo: 'pages';
-          value: string | Page;
-        } | null)
-      | ({
-          relationTo: 'media';
-          value: string | Media;
-        } | null);
-    url?: string | null;
-    label: string;
-    appearance?: ('default' | 'outline') | null;
-  };
+  link: Link;
   id?: string | null;
   blockName?: string | null;
   blockType: 'history';
@@ -316,24 +296,10 @@ export interface HistoryBlock {
  * via the `definition` "DonateBlock".
  */
 export interface DonateBlock {
-  title?: string | null;
-  description?: string | null;
-  link: {
-    type?: ('reference' | 'custom') | null;
-    newTab?: boolean | null;
-    reference?:
-      | ({
-          relationTo: 'pages';
-          value: string | Page;
-        } | null)
-      | ({
-          relationTo: 'media';
-          value: string | Media;
-        } | null);
-    url?: string | null;
-    label: string;
-    appearance?: ('default' | 'outline') | null;
-  };
+  direction?: ('ltr' | 'rtl') | null;
+  title: string;
+  description: string;
+  links?: LinkGroup;
   image?: (string | null) | Media;
   id?: string | null;
   blockName?: string | null;
@@ -672,6 +638,28 @@ export interface Form {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FeatureHighlightsBlock".
+ */
+export interface FeatureHighlightsBlock {
+  direction?: ('ltr' | 'rtl') | null;
+  title?: string | null;
+  description?: string | null;
+  links?: LinkGroup;
+  image?: (string | null) | Media;
+  highlights?:
+    | {
+        icon?: string | null;
+        title?: string | null;
+        description?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'featureHighlights';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users".
  */
 export interface User {
@@ -826,6 +814,7 @@ export interface PagesSelect<T extends boolean = true> {
               highImpact?:
                 | T
                 | {
+                    direction?: T;
                     title?: T;
                     description?: T;
                     links?:
@@ -858,8 +847,25 @@ export interface PagesSelect<T extends boolean = true> {
         events?:
           | T
           | {
+              direction?: T;
               title?: T;
               description?: T;
+              links?:
+                | T
+                | {
+                    link?:
+                      | T
+                      | {
+                          type?: T;
+                          newTab?: T;
+                          reference?: T;
+                          url?: T;
+                          label?: T;
+                          appearance?: T;
+                        };
+                    id?: T;
+                  };
+              image?: T;
               eventItems?: T;
               id?: T;
               blockName?: T;
@@ -916,17 +922,23 @@ export interface PagesSelect<T extends boolean = true> {
         donate?:
           | T
           | {
+              direction?: T;
               title?: T;
               description?: T;
-              link?:
+              links?:
                 | T
                 | {
-                    type?: T;
-                    newTab?: T;
-                    reference?: T;
-                    url?: T;
-                    label?: T;
-                    appearance?: T;
+                    link?:
+                      | T
+                      | {
+                          type?: T;
+                          newTab?: T;
+                          reference?: T;
+                          url?: T;
+                          label?: T;
+                          appearance?: T;
+                        };
+                    id?: T;
                   };
               image?: T;
               id?: T;
@@ -954,6 +966,7 @@ export interface PagesSelect<T extends boolean = true> {
                           highImpact?:
                             | T
                             | {
+                                direction?: T;
                                 title?: T;
                                 description?: T;
                                 links?:
@@ -1020,6 +1033,39 @@ export interface PagesSelect<T extends boolean = true> {
               form?: T;
               enableIntro?: T;
               introContent?: T;
+              id?: T;
+              blockName?: T;
+            };
+        featureHighlights?:
+          | T
+          | {
+              direction?: T;
+              title?: T;
+              description?: T;
+              links?:
+                | T
+                | {
+                    link?:
+                      | T
+                      | {
+                          type?: T;
+                          newTab?: T;
+                          reference?: T;
+                          url?: T;
+                          label?: T;
+                          appearance?: T;
+                        };
+                    id?: T;
+                  };
+              image?: T;
+              highlights?:
+                | T
+                | {
+                    icon?: T;
+                    title?: T;
+                    description?: T;
+                    id?: T;
+                  };
               id?: T;
               blockName?: T;
             };
@@ -1400,21 +1446,7 @@ export interface Header {
   id: string;
   navItems?:
     | {
-        link: {
-          type?: ('reference' | 'custom') | null;
-          newTab?: boolean | null;
-          reference?:
-            | ({
-                relationTo: 'pages';
-                value: string | Page;
-              } | null)
-            | ({
-                relationTo: 'media';
-                value: string | Media;
-              } | null);
-          url?: string | null;
-          label: string;
-        };
+        link: Link;
         id?: string | null;
       }[]
     | null;
@@ -1429,21 +1461,7 @@ export interface Footer {
   id: string;
   pageLinks?:
     | {
-        link: {
-          type?: ('reference' | 'custom') | null;
-          newTab?: boolean | null;
-          reference?:
-            | ({
-                relationTo: 'pages';
-                value: string | Page;
-              } | null)
-            | ({
-                relationTo: 'media';
-                value: string | Media;
-              } | null);
-          url?: string | null;
-          label: string;
-        };
+        link: Link;
         id?: string | null;
       }[]
     | null;
@@ -1474,21 +1492,7 @@ export interface CompanyInfo {
   social?:
     | {
         platform?: string | null;
-        link: {
-          type?: ('reference' | 'custom') | null;
-          newTab?: boolean | null;
-          reference?:
-            | ({
-                relationTo: 'pages';
-                value: string | Page;
-              } | null)
-            | ({
-                relationTo: 'media';
-                value: string | Media;
-              } | null);
-          url?: string | null;
-          label: string;
-        };
+        link: Link;
         id?: string | null;
       }[]
     | null;

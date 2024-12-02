@@ -1,6 +1,7 @@
 import React, { Fragment, JSX } from 'react'
 import { CMSLink } from '@/components/Link'
 import { DefaultNodeTypes, SerializedBlockNode } from '@payloadcms/richtext-lexical'
+import { cn } from '@/utilities/cn'
 
 import {
   IS_BOLD,
@@ -131,8 +132,18 @@ export function serializeLexical({ nodes }: Props): JSX.Element {
             }
             case 'heading': {
               const Tag = node?.tag
+              const paddingMap = {
+                h1: 'pb-8', // 2rem
+                h2: 'pb-6', // 1.5rem
+                h3: 'pb-4', // 1rem
+                h4: 'pb-3', // 0.75rem
+                h5: 'pb-2', // 0.5rem
+                h6: 'pb-2', // 0.5rem
+              }
+              const paddingClass = paddingMap[Tag] || 'pb-2'
+
               return (
-                <Tag className="col-start-2" key={index}>
+                <Tag className={cn('col-start-2', paddingClass)} key={index}>
                   {serializedChildren}
                 </Tag>
               )

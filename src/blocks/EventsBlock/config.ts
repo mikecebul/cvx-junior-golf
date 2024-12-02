@@ -1,5 +1,5 @@
+import { linkGroup } from '@/fields/link/linkGroup'
 import { Block } from 'payload'
-import { Hero } from '@/blocks/Hero/config'
 
 export const Events: Block = {
   slug: 'events',
@@ -10,6 +10,15 @@ export const Events: Block = {
   interfaceName: 'EventsBlock',
   fields: [
     {
+      name: 'direction',
+      type: 'radio',
+      defaultValue: 'ltr',
+      options: [
+        { label: 'Left to Right', value: 'ltr' },
+        { label: 'Right to Left', value: 'rtl' },
+      ],
+    },
+    {
       name: 'title',
       type: 'text',
       required: true,
@@ -18,6 +27,21 @@ export const Events: Block = {
       name: 'description',
       type: 'textarea',
       required: true,
+    },
+    linkGroup({
+      overrides: {
+        maxRows: 2,
+        admin: {
+          components: {
+            RowLabel: '@/fields/link/LinkRowLabel',
+          },
+        },
+      },
+    }),
+    {
+      name: 'image',
+      type: 'upload',
+      relationTo: 'media',
     },
     {
       name: 'eventItems',

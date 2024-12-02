@@ -31,6 +31,16 @@ export const Hero: Block = {
       },
       fields: [
         {
+          name: 'direction',
+          type: 'radio',
+          defaultValue: 'ltr',
+          label: 'Direction',
+          options: [
+            { label: 'Left to Right', value: 'ltr' },
+            { label: 'Right to Left', value: 'rtl' },
+          ],
+        },
+        {
           name: 'title',
           label: 'Title',
           type: 'text',

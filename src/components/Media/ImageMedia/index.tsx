@@ -27,12 +27,12 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
 
   const [isLoading, setIsLoading] = React.useState(true)
 
-  let width: number | undefined
-  let height: number | undefined
+  let width: number | undefined = 960
+  let height: number | undefined = 640
   let alt = altFromProps
-  let src: StaticImageData | string = srcFromProps || '/placeholder.png'
+  let src: StaticImageData | string = srcFromProps || '/placeholder.svg'
 
-  if (!src && resource && typeof resource === 'object') {
+  if (resource && typeof resource === 'object') {
     const {
       alt: altFromResource,
       filename: fullFilename,
@@ -41,11 +41,11 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
       width: fullWidth,
     } = resource
 
-    width = fullWidth!
-    height = fullHeight!
+    width = fullWidth ?? width
+    height = fullHeight ?? height
     alt = altFromResource
 
-    src = url ?? '/placeholder.png'
+    src = url ?? '/placeholder.svg'
   }
 
   // NOTE: this is used by the browser to determine which image to download at different screen sizes
@@ -58,9 +58,9 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
   return (
     <NextImage
       alt={alt || ''}
-      className={cn(imgClassName)}
+      className={cn('rounded-lg', imgClassName)}
       fill={fill}
-      height={!fill ? height : undefined}
+      height={!fill ? height : 640}
       onClick={onClick}
       onLoad={() => {
         setIsLoading(false)
@@ -72,7 +72,7 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
       quality={90}
       sizes={sizes}
       src={src}
-      width={!fill ? width : undefined}
+      width={!fill ? width : 960}
     />
   )
 }

@@ -12,6 +12,7 @@ import { EventsPageBlock } from './EventsPage/Component'
 import { DonateBlock } from './Donate/Component'
 import { FormBlock } from './Form/Component'
 import { MediaBlock } from './MediaBlock/Component'
+import { FeatureHighlightsBlock } from './FeatureHighlights/Component'
 
 const blockComponents = {
   hero: HeroBlock,
@@ -24,6 +25,7 @@ const blockComponents = {
   donate: DonateBlock,
   formBlock: FormBlock,
   mediaBlock: MediaBlock,
+  featureHighlights: FeatureHighlightsBlock,
 }
 
 export const RenderBlocks: React.FC<{
@@ -38,13 +40,14 @@ export const RenderBlocks: React.FC<{
       <Fragment>
         {blocks.map((block, index) => {
           const { blockType } = block
+          // console.log('block type', blockType)
 
           if (blockType && blockType in blockComponents) {
             const Block = blockComponents[blockType]
 
             if (Block) {
               return (
-                <div key={index}>
+                <div key={index} className="py-24">
                   <Block {...(block as any)} />
                 </div>
               )

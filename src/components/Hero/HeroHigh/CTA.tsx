@@ -2,9 +2,9 @@
 
 import { CMSLink } from '@/components/Link'
 import { track } from '@vercel/analytics/react'
-import { HeroHighProps } from './index'
+import type { LinkGroup } from '@/payload-types'
 
-export const CTA = ({ links }: { links: HeroHighProps['links'] }) => {
+export const CTA = ({ links }: { links: LinkGroup }) => {
   return (
     <div className="flex gap-4 flex-wrap">
       {links != null &&

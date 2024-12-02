@@ -25,6 +25,7 @@ import { EventsPage } from '@/blocks/EventsPage/config'
 import { Donate } from '@/blocks/Donate/config'
 import { FormBlock } from '@/blocks/Form/config'
 import { baseUrl } from '@/utilities/baseUrl'
+import { FeatureHighlights } from '@/blocks/FeatureHighlights/config'
 
 export const Pages: CollectionConfig = {
   slug: 'pages',
@@ -74,6 +75,7 @@ export const Pages: CollectionConfig = {
                 Links,
                 EventsPage,
                 FormBlock,
+                FeatureHighlights,
               ],
               required: true,
             },

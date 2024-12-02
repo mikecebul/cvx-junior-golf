@@ -1,5 +1,4 @@
 import type { CollectionConfig } from 'payload'
-import { text } from 'payload/shared'
 
 import { authenticated } from '../../access/authenticated'
 import { roleSelectMutate } from './access/roleSelectMutate'

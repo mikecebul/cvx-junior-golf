@@ -1,54 +1,65 @@
 import Container from '@/components/Container'
 import { Description, Title } from '@/components/Hero/HeroMedium'
 import { EventsBlock as EventsBlockType } from '@/payload-types'
-import Image from 'next/image'
 import { format } from 'date-fns'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { CalendarIcon, MapPinIcon } from 'lucide-react'
 import RichText from '@/components/RichText'
+import { CTALinks } from '@/components/CTALinks'
+import { TwoColumnLayout } from '@/components/TwoColumnLayout'
+import { Media } from '@/components/Media'
 
-export const EventsBlock = ({ title, description, eventItems }: EventsBlockType) => {
+export const EventsBlock = ({
+  title,
+  description,
+  eventItems,
+  direction,
+  links,
+  image,
+}: EventsBlockType) => {
   return (
-    <Container>
-      <div className="space-y-12">
-        {title && (
-          <div className="flex flex-col gap-4">
-            <Title heading="h2" text={title} />
-            <Description text={description} />
-          </div>
-        )}
+    <Container className="space-y-12">
+      <TwoColumnLayout direction={direction ?? 'ltr'}>
+        <>
+          <Title heading="h2" text={title} />
+          <Description text={description} />
+          <CTALinks links={links ?? []} justify="start" />
+        </>
+        {image && typeof image === 'object' && <Media resource={image} className="rounded-lg" />}
+      </TwoColumnLayout>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {Array.isArray(eventItems) &&
-            eventItems.length > 0 &&
-            eventItems.map((event) => {
-              if (typeof event !== 'object') {
-                return null
-              }
-              return (
-                <Card key={event.id} className="col-span-1">
-                  <CardHeader>
-                    <CardTitle>{event.title}</CardTitle>
-                    <CardDescription>
-                      <span className="flex flex-col gap-2">
-                        <span className="flex items-center gap-2">
-                          <CalendarIcon className="size-4" />
-                          <span>{format(event.date, 'MMMM do, yyyy')}</span>
-                        </span>
-                        <span className="flex items-center gap-2">
-                          <MapPinIcon className="size-4" />
-                          <span>Charlevoix Golf Club</span>
-                        </span>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {Array.isArray(eventItems) &&
+          eventItems.length > 0 &&
+          eventItems.map((event) => {
+            if (typeof event !== 'object') {
+              return null
+            }
+            return (
+              <Card key={event.id} className="col-span-1">
+                <CardHeader className="">
+                  <CardTitle>{event.title}</CardTitle>
+                </CardHeader>
+                <CardContent className="pb-2">
+                  <CardDescription className="text-lg">
+                    <span className="flex flex-col">
+                      <span className="flex items-center gap-2">
+                        <CalendarIcon className="size-4" />
+                        <span>{format(event.date, 'MMMM do, yyyy')}</span>
                       </span>
-                    </CardDescription>
-                    <CardContent className="p-0">
-                      <RichText content={event.description} />
-                    </CardContent>
-                  </CardHeader>
-                </Card>
-              )
-            })}
-        </div>
+                      <span className="flex items-center gap-2">
+                        <MapPinIcon className="size-4" />
+                        <span>{event.location}</span>
+                      </span>
+                    </span>
+                  </CardDescription>
+                </CardContent>
+                <CardContent className="">
+                  <RichText content={event.description} />
+                </CardContent>
+              </Card>
+            )
+          })}
       </div>
     </Container>
   )

@@ -39,7 +39,7 @@ export const EventsPageBlock = ({ title, events, announcements }: EventsPageBloc
             })}
         </div>
       </div>
-      {!!announcements && (
+      {announcements && announcements.length > 0 && (
         <div className="space-y-8">
           <h2 className="text-2xl font-bold mb-4">Announcements</h2>
           <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
