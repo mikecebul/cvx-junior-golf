@@ -28,16 +28,18 @@ export const TwoColumnLayout = ({
   return (
     <div className={`grid grid-cols-1 ${breakpoint}:grid-cols-2 gap-12`}>
       <div
-        className={cn('flex flex-col gap-4 justify-center', {
-          [`${breakpoint}:order-2`]: direction === 'rtl',
-        })}
+        className={cn(
+          'flex flex-col gap-4 justify-center order-1',
+          direction === 'rtl' && `${breakpoint}:order-2`,
+        )}
       >
         {contentColumn}
       </div>
       <div
-        className={cn('flex justify-center items-center ', {
-          [`${breakpoint}:order-1`]: direction === 'rtl',
-        })}
+        className={cn(
+          'flex justify-center items-center order-2',
+          direction === 'rtl' && `${breakpoint}:order-1`,
+        )}
       >
         {mediaColumn}
       </div>
