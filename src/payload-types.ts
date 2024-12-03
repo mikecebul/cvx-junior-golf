@@ -120,6 +120,7 @@ export interface Page {
     | EventsPageBlock
     | FormBlock
     | FeatureHighlightsBlock
+    | TwoColumnLayoutBlock
   )[];
   meta?: {
     hideFromSearchEngines?: boolean | null;
@@ -660,6 +661,27 @@ export interface FeatureHighlightsBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TwoColumnLayoutBlock".
+ */
+export interface TwoColumnLayoutBlock {
+  direction?: ('ltr' | 'rtl') | null;
+  breakpoint?: ('sm' | 'md' | 'lg' | 'xl') | null;
+  columnOne: {
+    subtitleIcon?: string | null;
+    subtitleText?: string | null;
+    title: string;
+    description: string;
+    links?: LinkGroup;
+  };
+  columnTwo?: {
+    image?: (string | null) | Media;
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'twoColumnLayout';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users".
  */
 export interface User {
@@ -1065,6 +1087,42 @@ export interface PagesSelect<T extends boolean = true> {
                     title?: T;
                     description?: T;
                     id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        twoColumnLayout?:
+          | T
+          | {
+              direction?: T;
+              breakpoint?: T;
+              columnOne?:
+                | T
+                | {
+                    subtitleIcon?: T;
+                    subtitleText?: T;
+                    title?: T;
+                    description?: T;
+                    links?:
+                      | T
+                      | {
+                          link?:
+                            | T
+                            | {
+                                type?: T;
+                                newTab?: T;
+                                reference?: T;
+                                url?: T;
+                                label?: T;
+                                appearance?: T;
+                              };
+                          id?: T;
+                        };
+                  };
+              columnTwo?:
+                | T
+                | {
+                    image?: T;
                   };
               id?: T;
               blockName?: T;

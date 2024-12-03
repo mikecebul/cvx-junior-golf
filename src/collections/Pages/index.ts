@@ -26,6 +26,7 @@ import { Donate } from '@/blocks/Donate/config'
 import { FormBlock } from '@/blocks/Form/config'
 import { baseUrl } from '@/utilities/baseUrl'
 import { FeatureHighlights } from '@/blocks/FeatureHighlights/config'
+import { TwoColumnLayout } from '@/blocks/TwoColumnLayout/config'
 
 export const Pages: CollectionConfig = {
   slug: 'pages',
@@ -76,6 +77,7 @@ export const Pages: CollectionConfig = {
                 EventsPage,
                 FormBlock,
                 FeatureHighlights,
+                TwoColumnLayout,
               ],
               required: true,
             },

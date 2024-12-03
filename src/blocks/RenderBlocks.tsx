@@ -13,6 +13,7 @@ import { DonateBlock } from './Donate/Component'
 import { FormBlock } from './Form/Component'
 import { MediaBlock } from './MediaBlock/Component'
 import { FeatureHighlightsBlock } from './FeatureHighlights/Component'
+import { TwoColumnLayoutBlock } from './TwoColumnLayout/Component'
 
 const blockComponents = {
   hero: HeroBlock,
@@ -26,6 +27,7 @@ const blockComponents = {
   formBlock: FormBlock,
   mediaBlock: MediaBlock,
   featureHighlights: FeatureHighlightsBlock,
+  twoColumnLayout: TwoColumnLayoutBlock,
 }
 
 export const RenderBlocks: React.FC<{
