@@ -1,4 +1,4 @@
-import React, { FC, Fragment } from 'react'
+import React, { Fragment } from 'react'
 
 import type { Page } from '@/payload-types'
 
@@ -13,8 +13,10 @@ import { DonateBlock } from './Donate/Component'
 import { FormBlock } from './Form/Component'
 import { MediaBlock } from './MediaBlock/Component'
 import { FeatureHighlightsBlock } from './FeatureHighlights/Component'
+import { EventCardsBlock } from './EventCards/Component'
+import { FeatureCardsBlock } from './FeatureCards/Component'
+import { LayoutBlock } from './Layout/Component'
 import { TwoColumnLayoutBlock } from './TwoColumnLayout/Component'
-
 const blockComponents = {
   hero: HeroBlock,
   richText: RichTextBlock,
@@ -27,13 +29,17 @@ const blockComponents = {
   formBlock: FormBlock,
   mediaBlock: MediaBlock,
   featureHighlights: FeatureHighlightsBlock,
+  eventCards: EventCardsBlock,
+  featureCards: FeatureCardsBlock,
   twoColumnLayout: TwoColumnLayoutBlock,
+  layout: LayoutBlock,
 }
 
 export const RenderBlocks: React.FC<{
   blocks: Page['layout'][number][]
+  nested?: boolean
 }> = (props) => {
-  const { blocks } = props
+  const { blocks, nested = false } = props
 
   const hasBlocks = blocks && Array.isArray(blocks) && blocks.length > 0
 
@@ -42,14 +48,17 @@ export const RenderBlocks: React.FC<{
       <Fragment>
         {blocks.map((block, index) => {
           const { blockType } = block
-          // console.log('block type', blockType)
 
           if (blockType && blockType in blockComponents) {
             const Block = blockComponents[blockType]
 
             if (Block) {
-              return (
-                <div key={index} className="py-24">
+              return nested ? (
+                <div key={index} className="pt-12 first:pt-0">
+                  <Block {...(block as any)} />
+                </div>
+              ) : (
+                <div key={index} className="py-24 last:pb-48">
                   <Block {...(block as any)} />
                 </div>
               )

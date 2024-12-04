@@ -1,5 +1,5 @@
 import { cn } from '@/utilities/cn'
-import type { ReactNode } from 'react'
+import { type ReactNode } from 'react'
 
 export default function Container({
   className,

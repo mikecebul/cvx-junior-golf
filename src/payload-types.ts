@@ -121,6 +121,9 @@ export interface Page {
     | FormBlock
     | FeatureHighlightsBlock
     | TwoColumnLayoutBlock
+    | EventCardsBlock
+    | FeatureCardsBlock
+    | LayoutBlock
   )[];
   meta?: {
     hideFromSearchEngines?: boolean | null;
@@ -667,8 +670,11 @@ export interface TwoColumnLayoutBlock {
   direction?: ('ltr' | 'rtl') | null;
   breakpoint?: ('sm' | 'md' | 'lg' | 'xl') | null;
   columnOne: {
-    subtitleIcon?: string | null;
-    subtitleText?: string | null;
+    hasSubtitle?: boolean | null;
+    subtitle?: {
+      icon?: string | null;
+      text?: string | null;
+    };
     title: string;
     description: string;
     links?: LinkGroup;
@@ -679,6 +685,43 @@ export interface TwoColumnLayoutBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'twoColumnLayout';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "EventCardsBlock".
+ */
+export interface EventCardsBlock {
+  eventCards?: (string | Event)[] | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'eventCards';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FeatureCardsBlock".
+ */
+export interface FeatureCardsBlock {
+  cards?:
+    | {
+        icon?: string | null;
+        title?: string | null;
+        description?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'featureCards';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "LayoutBlock".
+ */
+export interface LayoutBlock {
+  blocks?: (TwoColumnLayoutBlock | FeatureCardsBlock | EventCardsBlock)[] | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'layout';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1099,8 +1142,13 @@ export interface PagesSelect<T extends boolean = true> {
               columnOne?:
                 | T
                 | {
-                    subtitleIcon?: T;
-                    subtitleText?: T;
+                    hasSubtitle?: T;
+                    subtitle?:
+                      | T
+                      | {
+                          icon?: T;
+                          text?: T;
+                        };
                     title?: T;
                     description?: T;
                     links?:
@@ -1123,6 +1171,99 @@ export interface PagesSelect<T extends boolean = true> {
                 | T
                 | {
                     image?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        eventCards?:
+          | T
+          | {
+              eventCards?: T;
+              id?: T;
+              blockName?: T;
+            };
+        featureCards?:
+          | T
+          | {
+              cards?:
+                | T
+                | {
+                    icon?: T;
+                    title?: T;
+                    description?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        layout?:
+          | T
+          | {
+              blocks?:
+                | T
+                | {
+                    twoColumnLayout?:
+                      | T
+                      | {
+                          direction?: T;
+                          breakpoint?: T;
+                          columnOne?:
+                            | T
+                            | {
+                                hasSubtitle?: T;
+                                subtitle?:
+                                  | T
+                                  | {
+                                      icon?: T;
+                                      text?: T;
+                                    };
+                                title?: T;
+                                description?: T;
+                                links?:
+                                  | T
+                                  | {
+                                      link?:
+                                        | T
+                                        | {
+                                            type?: T;
+                                            newTab?: T;
+                                            reference?: T;
+                                            url?: T;
+                                            label?: T;
+                                            appearance?: T;
+                                          };
+                                      id?: T;
+                                    };
+                              };
+                          columnTwo?:
+                            | T
+                            | {
+                                image?: T;
+                              };
+                          id?: T;
+                          blockName?: T;
+                        };
+                    featureCards?:
+                      | T
+                      | {
+                          cards?:
+                            | T
+                            | {
+                                icon?: T;
+                                title?: T;
+                                description?: T;
+                                id?: T;
+                              };
+                          id?: T;
+                          blockName?: T;
+                        };
+                    eventCards?:
+                      | T
+                      | {
+                          eventCards?: T;
+                          id?: T;
+                          blockName?: T;
+                        };
                   };
               id?: T;
               blockName?: T;

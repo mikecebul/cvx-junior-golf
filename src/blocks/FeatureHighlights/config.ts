@@ -41,7 +41,7 @@ export const FeatureHighlights: Block = {
       type: 'array',
       admin: {
         components: {
-          RowLabel: '@/blocks/FeatureHighlights/RowLabel',
+          RowLabel: '@/components/RowLabel/RowLabelWithTitle',
         },
       },
       fields: [
@@ -50,7 +50,7 @@ export const FeatureHighlights: Block = {
           type: 'text',
           admin: {
             components: {
-              Field: '@/blocks/FeatureHighlights/IconSelect',
+              Field: '@/fields/IconSelect/Component',
             },
           },
         },

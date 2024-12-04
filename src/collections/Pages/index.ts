@@ -27,6 +27,9 @@ import { FormBlock } from '@/blocks/Form/config'
 import { baseUrl } from '@/utilities/baseUrl'
 import { FeatureHighlights } from '@/blocks/FeatureHighlights/config'
 import { TwoColumnLayout } from '@/blocks/TwoColumnLayout/config'
+import { EventCards } from '@/blocks/EventCards/config'
+import { FeatureCards } from '@/blocks/FeatureCards/config'
+import { Layout } from '@/blocks/Layout/config'
 
 export const Pages: CollectionConfig = {
   slug: 'pages',
@@ -78,6 +81,9 @@ export const Pages: CollectionConfig = {
                 FormBlock,
                 FeatureHighlights,
                 TwoColumnLayout,
+                EventCards,
+                FeatureCards,
+                Layout,
               ],
               required: true,
             },

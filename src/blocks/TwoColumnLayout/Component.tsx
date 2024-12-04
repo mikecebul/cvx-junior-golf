@@ -1,3 +1,4 @@
+import Container from '@/components/Container'
 import { CTALinks } from '@/components/CTALinks'
 import { Description, Title } from '@/components/Hero/HeroMedium'
 import { Media } from '@/components/Media'
@@ -13,25 +14,25 @@ export const TwoColumnLayoutBlock = ({
   const { image } = columnTwo ?? {}
 
   return (
-    <div className={`grid grid-cols-1 ${breakpoint}:grid-cols-2 gap-12`}>
-      <div
-        className={cn(
-          'flex flex-col gap-4 justify-center order-1',
-          direction === 'rtl' && `${breakpoint}:order-2`,
-        )}
-      >
-        {title && <Title text={title} />}
-        {description && <Description text={description} />}
-        {links && <CTALinks links={links} />}
+    <Container>
+      <div className={`grid grid-cols-1 ${breakpoint}:grid-cols-2 gap-12`}>
+        <div
+          className={cn('flex flex-col gap-4 justify-center order-1', {
+            [`${breakpoint}:order-2`]: direction === 'rtl',
+          })}
+        >
+          {title && <Title text={title} />}
+          {description && <Description text={description} />}
+          {links && <CTALinks links={links} />}
+        </div>
+        <div
+          className={cn('flex justify-center items-center order-2', {
+            [`${breakpoint}:order-1`]: direction === 'rtl',
+          })}
+        >
+          {image && <Media resource={image} />}
+        </div>
       </div>
-      <div
-        className={cn(
-          'flex justify-center items-center order-2',
-          direction === 'rtl' && `${breakpoint}:order-1`,
-        )}
-      >
-        {image && <Media resource={image} />}
-      </div>
-    </div>
+    </Container>
   )
 }

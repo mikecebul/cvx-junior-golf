@@ -36,19 +36,29 @@ export const TwoColumnLayout: Block = {
       type: 'group',
       fields: [
         {
-          type: 'row',
+          name: 'hasSubtitle',
+          type: 'checkbox',
+          label: 'Use Subtitle',
+          defaultValue: false,
+        },
+        {
+          name: 'subtitle',
+          type: 'group',
+          admin: {
+            condition: (_, siblingData) => Boolean(siblingData.hasSubtitle),
+          },
           fields: [
             {
-              name: 'subtitleIcon',
+              name: 'icon',
               type: 'text',
               admin: {
                 components: {
-                  Field: '@/fields/icon/IconField',
+                  Field: '@/fields/iconSelect/Component',
                 },
               },
             },
             {
-              name: 'subtitleText',
+              name: 'text',
               type: 'text',
             },
           ],

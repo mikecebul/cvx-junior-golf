@@ -1,37 +1,17 @@
 import Container from '@/components/Container'
-import { Description, Title } from '@/components/Hero/HeroMedium'
-import { EventsBlock as EventsBlockType } from '@/payload-types'
-import { format } from 'date-fns'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { CalendarIcon, MapPinIcon } from 'lucide-react'
 import RichText from '@/components/RichText'
-import { CTALinks } from '@/components/CTALinks'
-import { TwoColumnLayout } from '@/components/TwoColumnLayout'
-import { Media } from '@/components/Media'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import type { EventCardsBlock as EventsCardsBlockType } from '@/payload-types'
+import { format } from 'date-fns'
+import { CalendarIcon, MapPinIcon } from 'lucide-react'
 
-export const EventsBlock = ({
-  title,
-  description,
-  eventItems,
-  direction,
-  links,
-  image,
-}: EventsBlockType) => {
+export const EventCardsBlock = ({ eventCards }: EventsCardsBlockType) => {
   return (
-    <Container className="space-y-12">
-      <TwoColumnLayout direction={direction ?? 'ltr'}>
-        <>
-          <Title heading="h2" text={title} />
-          <Description text={description} />
-          <CTALinks links={links ?? []} />
-        </>
-        {image && typeof image === 'object' && <Media resource={image} className="rounded-lg" />}
-      </TwoColumnLayout>
-
+    <Container>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {Array.isArray(eventItems) &&
-          eventItems.length > 0 &&
-          eventItems.map((event) => {
+        {Array.isArray(eventCards) &&
+          eventCards.length > 0 &&
+          eventCards.map((event) => {
             if (typeof event !== 'object') {
               return null
             }
