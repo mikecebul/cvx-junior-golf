@@ -50,7 +50,7 @@ export const FeatureHighlights: Block = {
           type: 'text',
           admin: {
             components: {
-              Field: '@/fields/IconSelect/Component',
+              Field: '@/fields/iconSelect/Component',
             },
           },
         },

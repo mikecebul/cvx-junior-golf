@@ -13,7 +13,6 @@ import { InlineToolbarFeatureClient as InlineToolbarFeatureClient_e70f5e05f09f93
 import { FixedToolbarFeatureClient as FixedToolbarFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { default as default_408b2ce35de6900fd0448b93f24844c8 } from '@/components/RowLabel/RowLabelWithTitle'
 import { default as default_45a9e02fede122b11ba76d93e498124a } from '@/blocks/EventsPage/RowLabel'
-import { default as default_ffdb3edf4d2c65d88280bf538ab0ca7a } from '@/fields/IconSelect/Component'
 import { default as default_d19e4d519402fcd5af8b22307c04bcbe } from '@/fields/iconSelect/Component'
 import { OverviewComponent as OverviewComponent_a8a977ebc872c5d5ea7ee689724c0860 } from '@payloadcms/plugin-seo/client'
 import { MetaTitleComponent as MetaTitleComponent_a8a977ebc872c5d5ea7ee689724c0860 } from '@payloadcms/plugin-seo/client'
@@ -59,7 +58,6 @@ export const importMap = {
   "@payloadcms/richtext-lexical/client#FixedToolbarFeatureClient": FixedToolbarFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@/components/RowLabel/RowLabelWithTitle#default": default_408b2ce35de6900fd0448b93f24844c8,
   "@/blocks/EventsPage/RowLabel#default": default_45a9e02fede122b11ba76d93e498124a,
-  "@/fields/IconSelect/Component#default": default_ffdb3edf4d2c65d88280bf538ab0ca7a,
   "@/fields/iconSelect/Component#default": default_d19e4d519402fcd5af8b22307c04bcbe,
   "@payloadcms/plugin-seo/client#OverviewComponent": OverviewComponent_a8a977ebc872c5d5ea7ee689724c0860,
   "@payloadcms/plugin-seo/client#MetaTitleComponent": MetaTitleComponent_a8a977ebc872c5d5ea7ee689724c0860,
