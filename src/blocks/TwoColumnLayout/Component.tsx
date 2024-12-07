@@ -13,12 +13,27 @@ export const TwoColumnLayoutBlock = ({
   const { title, description, links } = columnOne ?? {}
   const { image } = columnTwo ?? {}
 
+  const getBreakpointOrderClass = (order: 1 | 2) => {
+    switch (breakpoint) {
+      case 'sm':
+        return `sm:order-${order}`
+      case 'md':
+        return `md:order-${order}`
+      case 'lg':
+        return `lg:order-${order}`
+      case 'xl':
+        return `xl:order-${order}`
+      default:
+        return `lg:order-${order}` // fallback to lg
+    }
+  }
+
   return (
     <Container>
       <div className={`grid grid-cols-1 ${breakpoint}:grid-cols-2 gap-12`}>
         <div
           className={cn('flex flex-col gap-4 justify-center order-1', {
-            [`${breakpoint}:order-2`]: direction === 'rtl',
+            [getBreakpointOrderClass(2)]: direction === 'rtl',
           })}
         >
           {title && <Title text={title} />}
@@ -27,7 +42,7 @@ export const TwoColumnLayoutBlock = ({
         </div>
         <div
           className={cn('flex justify-center items-center order-2', {
-            [`${breakpoint}:order-1`]: direction === 'rtl',
+            [getBreakpointOrderClass(1)]: direction === 'rtl',
           })}
         >
           {image && <Media resource={image} />}
