@@ -1,7 +1,9 @@
 import Container from '@/components/Container'
 import { CTALinks } from '@/components/CTALinks'
 import { Description, Title } from '@/components/Hero/HeroMedium'
+import { Icon } from '@/components/Icons/Icon'
 import { Media } from '@/components/Media'
+import { Badge } from '@/components/ui/badge'
 import type { TwoColumnLayoutBlock as TwoColumnLayoutBlockType } from '@/payload-types'
 import { cn } from '@/utilities/cn'
 export const TwoColumnLayoutBlock = ({
@@ -10,7 +12,7 @@ export const TwoColumnLayoutBlock = ({
   columnOne,
   columnTwo,
 }: TwoColumnLayoutBlockType) => {
-  const { title, description, links } = columnOne ?? {}
+  const { hasSubtitle, subtitle, title, description, links } = columnOne ?? {}
   const { image } = columnTwo ?? {}
 
   return (
@@ -24,6 +26,12 @@ export const TwoColumnLayoutBlock = ({
             'xl:order-2': direction === 'rtl' && breakpoint === 'xl',
           })}
         >
+          {hasSubtitle && (
+            <Badge variant="brand" className="w-fit">
+              <Icon name={subtitle?.icon ?? 'trophy'} className="mr-1 size-4" />
+              {subtitle?.text}
+            </Badge>
+          )}
           {title && <Title text={title} />}
           {description && <Description text={description} />}
           {links && <CTALinks links={links} />}
