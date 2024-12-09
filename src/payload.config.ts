@@ -152,8 +152,7 @@ export default buildConfig({
   email: resendAdapter({
     defaultFromAddress: process.env.RESEND_DEFAULT_EMAIL || 'info@cvxjrgolf.org',
     defaultFromName: 'CVX Junior Golf',
-    apiKey: 're_az2w6oVx_7dBGmuNDdH614qshNDNciz8E',
-    // apiKey: process.env.RESEND_API_KEY || 're_az2w6oVx_7dBGmuNDdH614qshNDNciz8E',
+    apiKey: process.env.RESEND_API_KEY,
   }),
   endpoints: [],
   globals: [Header, Footer, CompanyInfo],
