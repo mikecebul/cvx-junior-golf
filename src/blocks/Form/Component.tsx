@@ -97,8 +97,10 @@ export const FormBlock: React.FC<
             title: `${data.parents[0].firstName} ${data.parents[0].lastName}`,
             form: formID,
             submissionData,
-            price: data.price,
-            paymentStatus: 'pending',
+            payment: {
+              amount: data.price,
+              status: 'pending',
+            },
           }),
           headers: {
             'Content-Type': 'application/json',

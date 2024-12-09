@@ -25,10 +25,20 @@ export const checkoutSessionCompleted: StripeWebhookHandler<{
       })
 
       const enhancedSubmissionData = {
-        ...JSON.parse(JSON.stringify(submission.formData)),
+        ...JSON.parse(JSON.stringify(submission.submissionData)),
         paymentStatus: payment_status,
-        amount: amount_total ? `$${(amount_total / 100).toFixed(2)}` : '$0.00',
+        amount: amount_total ? `$${amount_total / 100}` : '$0.00',
       }
+
+      await payload.update({
+        collection: 'form-submissions',
+        id: submissionId,
+        data: {
+          payment: {
+            status: payment_status,
+          },
+        },
+      })
 
       await sendPaymentConfirmationEmail({
         submission,
