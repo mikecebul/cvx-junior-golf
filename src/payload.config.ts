@@ -151,8 +151,8 @@ export default buildConfig({
   csrf: [baseUrl].filter(Boolean),
   email: resendAdapter({
     defaultFromAddress: process.env.RESEND_DEFAULT_EMAIL || 'info@cvxjrgolf.org',
-    defaultFromName: 'CVX Junior Golf',
-    apiKey: process.env.RESEND_API_KEY,
+    defaultFromName: 'Charlevoix County Junior Golf Association',
+    apiKey: process.env.RESEND_API_KEY!,
   }),
   endpoints: [],
   globals: [Header, Footer, CompanyInfo],
