@@ -13,6 +13,7 @@ import Container from '@/components/Container'
 import { createCheckoutSession } from '@/plugins/stripe/action'
 import { baseUrl } from '@/utilities/baseUrl'
 import { Card } from '@/components/ui/card'
+import { format } from 'date-fns'
 
 export type Value = unknown
 
@@ -91,10 +92,14 @@ export const FormBlock: React.FC<
         )
 
       try {
-        const parent = `${data.parents[0].firstName} ${data.parents[0].lastName}`
+        const title =
+          data.parents?.[0]?.firstName && data.parents[0]?.lastName
+            ? `${data.parents[0].firstName} ${data.parents[0].lastName}`
+            : `CVX Jr Golf Registration - ${format(new Date(), 'MMMM d, yyyy')}`
+
         const req = await fetch(`${baseUrl}/api/form-submissions`, {
           body: JSON.stringify({
-            title: parent ?? 'CVX Jr Golf Registration',
+            title,
             form: formID,
             submissionData,
             payment: {
@@ -113,7 +118,8 @@ export const FormBlock: React.FC<
         if (req.status >= 400) {
           setIsLoading(false)
           setError({
-            message: res.errors?.[0]?.message || 'Internal Server Error',
+            message:
+              res.errors?.[0]?.message || 'Internal Server Error | failed to create submission',
             status: req.status.toString(),
           })
           return
