@@ -21,6 +21,11 @@ export interface Property {
 }
 
 export interface Data {
+  parents: Array<{
+    firstName: string
+    lastName: string
+    [key: string]: any
+  }>
   [key: string]: Property | Property[]
 }
 
@@ -32,12 +37,6 @@ export type FormBlockType = {
   introContent?: {
     [k: string]: unknown
   }[]
-}
-
-// Add this interface above the FormBlock component
-interface FormValues {
-  numberOfChildren: string
-  [key: string]: any
 }
 
 interface FormData {
@@ -61,7 +60,7 @@ export const FormBlock: React.FC<
     introContent,
   } = props
 
-  const formMethods = useForm<FormValues>({
+  const formMethods = useForm({
     defaultValues: buildInitialFormState(formFromProps.fields),
   })
   const {
@@ -92,9 +91,10 @@ export const FormBlock: React.FC<
         )
 
       try {
+        const parent = `${data.parents[0].firstName} ${data.parents[0].lastName}`
         const req = await fetch(`${baseUrl}/api/form-submissions`, {
           body: JSON.stringify({
-            title: `${data.parents[0].firstName} ${data.parents[0].lastName}`,
+            title: parent ?? 'CVX Jr Golf Registration',
             form: formID,
             submissionData,
             payment: {
@@ -135,14 +135,31 @@ export const FormBlock: React.FC<
         setHasSubmitted(true)
 
         if (data.price && Number(data.price) > 0) {
-          console.log('Creating checkout session')
-          const session = await createCheckoutSession(submissionId, Number(data.price))
-          if (session?.url) {
-            router.push(session.url)
-          } else {
+          try {
+            console.log('Creating checkout session with:', {
+              submissionId,
+              price: Number(data.price),
+            })
+            const session = await createCheckoutSession(submissionId, Number(data.price))
+
+            if (!session) {
+              throw new Error('No session returned from createCheckoutSession')
+            }
+
+            if (session?.url) {
+              router.push(session.url)
+            } else {
+              console.error('Stripe session created but no URL returned:', session)
+              setError({
+                message: 'Failed to create checkout URL',
+                status: 'error',
+              })
+            }
+          } catch (err) {
+            console.error('Stripe checkout session creation failed:', err)
             setError({
-              message: session?.error || 'Failed to create checkout session',
-              status: 'error',
+              message: 'Failed to create payment session. Please try again.',
+              status: '500',
             })
           }
         } else {
