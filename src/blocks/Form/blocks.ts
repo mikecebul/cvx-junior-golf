@@ -171,7 +171,7 @@ export const Price: Block = {
   },
 }
 
-export const Array: Block = {
+export const ArrayBlock: Block = {
   slug: 'array',
   fields: [
     {

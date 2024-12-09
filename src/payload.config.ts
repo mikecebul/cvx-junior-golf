@@ -38,7 +38,7 @@ import { Events } from './collections/Events'
 import { Media } from './collections/Media'
 import { MediaBlock } from './blocks/MediaBlock/config'
 import { baseUrl } from './utilities/baseUrl'
-import { Array, Price } from './blocks/Form/blocks'
+import { ArrayBlock } from './blocks/Form/blocks'
 import { checkoutSessionCompleted } from './plugins/stripe/webhooks/checkoutSessionCompleted'
 import { adminOrSuperAdmin } from './access/adminOrSuperAdmin'
 
@@ -150,9 +150,10 @@ export default buildConfig({
   cors: [baseUrl].filter(Boolean),
   csrf: [baseUrl].filter(Boolean),
   email: resendAdapter({
-    defaultFromAddress: process.env.RESEND_DEFAULT_EMAIL || '',
+    defaultFromAddress: process.env.RESEND_DEFAULT_EMAIL || 'info@cvxjrgolf.org',
     defaultFromName: 'CVX Junior Golf',
-    apiKey: process.env.RESEND_API_KEY || '',
+    apiKey: 're_az2w6oVx_7dBGmuNDdH614qshNDNciz8E',
+    // apiKey: process.env.RESEND_API_KEY || 're_az2w6oVx_7dBGmuNDdH614qshNDNciz8E',
   }),
   endpoints: [],
   globals: [Header, Footer, CompanyInfo],
@@ -170,7 +171,38 @@ export default buildConfig({
       defaultToEmail: 'info@cvxjrgolf.org',
       fields: {
         payment: true,
-        array: Array,
+        array: ArrayBlock,
+      },
+      beforeEmail: (emailsToSend, beforeChangeParams) => {
+        const { data } = beforeChangeParams
+        const formData = data.submissionData as Record<string, any[]>
+
+        let additionalContent = '<hr style="margin: 30px 0; border: 1px solid #eee;">'
+        additionalContent += '<h2 style="color: #333;">Registration Details</h2>'
+
+        const arrayFields = Object.entries(formData).filter(([_, value]) => Array.isArray(value))
+
+        arrayFields.forEach(([fieldName, items]) => {
+          additionalContent += `<h3 style="margin-top: 20px; color: #333;">${fieldName.toUpperCase()}</h3>`
+
+          items.forEach((item, index) => {
+            additionalContent += `<div style="margin: 10px 0; padding: 10px; background: #f5f5f5; border-radius: 4px;">`
+            Object.entries(item).forEach(([key, value]) => {
+              const formattedKey = key
+                .split(/(?=[A-Z])|_|\s/)
+                .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+                .join(' ')
+              additionalContent += `<p><strong>${formattedKey}:</strong> ${value}</p>`
+            })
+            additionalContent += '</div>'
+          })
+        })
+
+        emailsToSend.forEach((email) => {
+          email.html = `${email.html || ''}${additionalContent}`
+        })
+
+        return emailsToSend
       },
       formOverrides: {
         fields: ({ defaultFields }) => [
