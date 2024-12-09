@@ -5,21 +5,15 @@ import Container from '@/components/Container'
 import { MotionStaggeredChild } from '@/components/framer/MotionStaggeredChild'
 import { MotionStaggerChildren } from '@/components/framer/MotionStaggeredChildren'
 import { GridSVG } from '@/components/GridSVG'
-import { HeroMedium } from '@/components/Hero/HeroMedium'
+import { Description, Title } from '@/components/Hero/HeroMedium'
 import type { LinksBlock as LinksBlockType } from '@/payload-types'
 
-export const LinksBlock = ({ hero, linkCards }: LinksBlockType) => {
-  const { mediumImpact } = (Array.isArray(hero) && hero[0]) || {}
+export const LinksBlock = ({ title, description, linkCards }: LinksBlockType) => {
   return (
     <Container>
       <GridSVG />
-      {mediumImpact && (
-        <HeroMedium
-          title={mediumImpact.title}
-          subtitle={mediumImpact.subtitle}
-          description={mediumImpact.description}
-        />
-      )}
+      {title && <Title text={title} />}
+      {description && <Description text={description} />}
       {!!linkCards && linkCards.length > 0 && (
         <MotionStaggerChildren>
           <CardGrid>

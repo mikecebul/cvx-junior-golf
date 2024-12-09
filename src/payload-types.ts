@@ -340,7 +340,8 @@ export interface RichTextBlock {
  * via the `definition` "LinksBlock".
  */
 export interface LinksBlock {
-  hero?: Hero[] | null;
+  title: string;
+  description?: string | null;
   linkCards?: LinkCards;
   id?: string | null;
   blockName?: string | null;
@@ -1021,47 +1022,8 @@ export interface PagesSelect<T extends boolean = true> {
         linksBlock?:
           | T
           | {
-              hero?:
-                | T
-                | {
-                    hero?:
-                      | T
-                      | {
-                          type?: T;
-                          highImpact?:
-                            | T
-                            | {
-                                direction?: T;
-                                title?: T;
-                                description?: T;
-                                links?:
-                                  | T
-                                  | {
-                                      link?:
-                                        | T
-                                        | {
-                                            type?: T;
-                                            newTab?: T;
-                                            reference?: T;
-                                            url?: T;
-                                            label?: T;
-                                            appearance?: T;
-                                          };
-                                      id?: T;
-                                    };
-                                image?: T;
-                              };
-                          mediumImpact?:
-                            | T
-                            | {
-                                subtitle?: T;
-                                title?: T;
-                                description?: T;
-                              };
-                          id?: T;
-                          blockName?: T;
-                        };
-                  };
+              title?: T;
+              description?: T;
               linkCards?:
                 | T
                 | {
