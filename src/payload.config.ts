@@ -165,7 +165,7 @@ export default buildConfig({
       webhooks: {
         'checkout.session.completed': checkoutSessionCompleted,
       },
-      logs: true,
+      logs: false,
     }),
     formBuilderPlugin({
       defaultToEmail: 'info@cvxjrgolf.org',
