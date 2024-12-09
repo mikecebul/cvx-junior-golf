@@ -110,16 +110,11 @@ export interface Page {
   id: string;
   title: string;
   layout: (
-    | Hero
     | EventsBlock
-    | HowItWorksBlock
-    | HistoryBlock
-    | DonateBlock
     | RichTextBlock
     | LinksBlock
     | EventsPageBlock
     | FormBlock
-    | FeatureHighlightsBlock
     | TwoColumnLayoutBlock
     | EventCardsBlock
     | FeatureCardsBlock
@@ -142,25 +137,18 @@ export interface Page {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "Hero".
+ * via the `definition` "EventsBlock".
  */
-export interface Hero {
-  type: 'highImpact' | 'mediumImpact';
-  highImpact?: {
-    direction?: ('ltr' | 'rtl') | null;
-    title: string;
-    description: string;
-    links?: LinkGroup;
-    image: string | Media;
-  };
-  mediumImpact?: {
-    subtitle?: string | null;
-    title: string;
-    description?: string | null;
-  };
+export interface EventsBlock {
+  direction?: ('ltr' | 'rtl') | null;
+  title: string;
+  description: string;
+  links?: LinkGroup;
+  image?: (string | null) | Media;
+  eventItems?: (string | Event)[] | null;
   id?: string | null;
   blockName?: string | null;
-  blockType: 'hero';
+  blockType: 'events';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -223,21 +211,6 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "EventsBlock".
- */
-export interface EventsBlock {
-  direction?: ('ltr' | 'rtl') | null;
-  title: string;
-  description: string;
-  links?: LinkGroup;
-  image?: (string | null) | Media;
-  eventItems?: (string | Event)[] | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'events';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "events".
  */
 export interface Event {
@@ -262,52 +235,6 @@ export interface Event {
   location: string;
   updatedAt: string;
   createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "HowItWorksBlock".
- */
-export interface HowItWorksBlock {
-  title?: string | null;
-  description?: string | null;
-  links?: LinkGroup;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'howItWorks';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "HistoryBlock".
- */
-export interface HistoryBlock {
-  title?: string | null;
-  description?: string | null;
-  image?: (string | null) | Media;
-  items?:
-    | {
-        title?: string | null;
-        description?: string | null;
-        id?: string | null;
-      }[]
-    | null;
-  link: Link;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'history';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "DonateBlock".
- */
-export interface DonateBlock {
-  direction?: ('ltr' | 'rtl') | null;
-  title: string;
-  description: string;
-  links?: LinkGroup;
-  image?: (string | null) | Media;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'donate';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -643,28 +570,6 @@ export interface Form {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "FeatureHighlightsBlock".
- */
-export interface FeatureHighlightsBlock {
-  direction?: ('ltr' | 'rtl') | null;
-  title?: string | null;
-  description?: string | null;
-  links?: LinkGroup;
-  image?: (string | null) | Media;
-  highlights?:
-    | {
-        icon?: string | null;
-        title?: string | null;
-        description?: string | null;
-        id?: string | null;
-      }[]
-    | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'featureHighlights';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "TwoColumnLayoutBlock".
  */
 export interface TwoColumnLayoutBlock {
@@ -873,43 +778,6 @@ export interface PagesSelect<T extends boolean = true> {
   layout?:
     | T
     | {
-        hero?:
-          | T
-          | {
-              type?: T;
-              highImpact?:
-                | T
-                | {
-                    direction?: T;
-                    title?: T;
-                    description?: T;
-                    links?:
-                      | T
-                      | {
-                          link?:
-                            | T
-                            | {
-                                type?: T;
-                                newTab?: T;
-                                reference?: T;
-                                url?: T;
-                                label?: T;
-                                appearance?: T;
-                              };
-                          id?: T;
-                        };
-                    image?: T;
-                  };
-              mediumImpact?:
-                | T
-                | {
-                    subtitle?: T;
-                    title?: T;
-                    description?: T;
-                  };
-              id?: T;
-              blockName?: T;
-            };
         events?:
           | T
           | {
@@ -933,80 +801,6 @@ export interface PagesSelect<T extends boolean = true> {
                   };
               image?: T;
               eventItems?: T;
-              id?: T;
-              blockName?: T;
-            };
-        howItWorks?:
-          | T
-          | {
-              title?: T;
-              description?: T;
-              links?:
-                | T
-                | {
-                    link?:
-                      | T
-                      | {
-                          type?: T;
-                          newTab?: T;
-                          reference?: T;
-                          url?: T;
-                          label?: T;
-                          appearance?: T;
-                        };
-                    id?: T;
-                  };
-              id?: T;
-              blockName?: T;
-            };
-        history?:
-          | T
-          | {
-              title?: T;
-              description?: T;
-              image?: T;
-              items?:
-                | T
-                | {
-                    title?: T;
-                    description?: T;
-                    id?: T;
-                  };
-              link?:
-                | T
-                | {
-                    type?: T;
-                    newTab?: T;
-                    reference?: T;
-                    url?: T;
-                    label?: T;
-                    appearance?: T;
-                  };
-              id?: T;
-              blockName?: T;
-            };
-        donate?:
-          | T
-          | {
-              direction?: T;
-              title?: T;
-              description?: T;
-              links?:
-                | T
-                | {
-                    link?:
-                      | T
-                      | {
-                          type?: T;
-                          newTab?: T;
-                          reference?: T;
-                          url?: T;
-                          label?: T;
-                          appearance?: T;
-                        };
-                    id?: T;
-                  };
-              image?: T;
               id?: T;
               blockName?: T;
             };
@@ -1060,39 +854,6 @@ export interface PagesSelect<T extends boolean = true> {
               form?: T;
               enableIntro?: T;
               introContent?: T;
-              id?: T;
-              blockName?: T;
-            };
-        featureHighlights?:
-          | T
-          | {
-              direction?: T;
-              title?: T;
-              description?: T;
-              links?:
-                | T
-                | {
-                    link?:
-                      | T
-                      | {
-                          type?: T;
-                          newTab?: T;
-                          reference?: T;
-                          url?: T;
-                          label?: T;
-                          appearance?: T;
-                        };
-                    id?: T;
-                  };
-              image?: T;
-              highlights?:
-                | T
-                | {
-                    icon?: T;
-                    title?: T;
-                    description?: T;
-                    id?: T;
-                  };
               id?: T;
               blockName?: T;
             };

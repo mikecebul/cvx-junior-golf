@@ -16,25 +16,21 @@ export const EventCardsBlock = ({ eventCards }: EventsCardsBlockType) => {
               return null
             }
             return (
-              <Card key={event.id} className="col-span-1">
+              <Card key={event.id} className="col-span-1 bg-green-50/50">
                 <CardHeader className="">
                   <CardTitle>{event.title}</CardTitle>
                 </CardHeader>
-                <CardContent className="pb-2">
-                  <CardDescription className="text-lg">
-                    <span className="flex flex-col">
-                      <span className="flex items-center gap-2">
-                        <CalendarIcon className="size-4" />
-                        <span>{format(event.date, 'MMMM do, yyyy')}</span>
-                      </span>
-                      <span className="flex items-center gap-2">
-                        <MapPinIcon className="size-4" />
-                        <span>{event.location}</span>
-                      </span>
+                <CardContent>
+                  <div className="font-semibold pb-4">
+                    <span className="flex items-center gap-2">
+                      <CalendarIcon className="size-4" />
+                      <span>{format(event.date, 'MMMM do, yyyy')}</span>
                     </span>
-                  </CardDescription>
-                </CardContent>
-                <CardContent className="">
+                    <span className="flex items-center gap-2">
+                      <MapPinIcon className="size-4" />
+                      <span>{event.location}</span>
+                    </span>
+                  </div>
                   <RichText content={event.description} />
                 </CardContent>
               </Card>

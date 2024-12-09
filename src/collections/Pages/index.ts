@@ -2,7 +2,6 @@ import type { CollectionConfig } from 'payload'
 
 import { authenticated } from '../../access/authenticated'
 import { authenticatedOrPublished } from '../../access/authenticatedOrPublished'
-import { Hero } from '@/blocks/Hero/config'
 import { slugField } from '@/fields/slug'
 import { populatePublishedAt } from '../../hooks/populatePublishedAt'
 import { generatePreviewPath } from '../../utilities/generatePreviewPath'
@@ -18,14 +17,10 @@ import {
 import { Links } from '@/blocks/Links/config'
 import { superAdmin } from '@/access/superAdmin'
 import { Events } from '@/blocks/EventsBlock/config'
-import { howItWorks } from '@/blocks/HowItWorks/config'
-import { History } from '@/blocks/History/config'
 import { RichText } from '@/blocks/RichText/config'
 import { EventsPage } from '@/blocks/EventsPage/config'
-import { Donate } from '@/blocks/Donate/config'
 import { FormBlock } from '@/blocks/Form/config'
 import { baseUrl } from '@/utilities/baseUrl'
-import { FeatureHighlights } from '@/blocks/FeatureHighlights/config'
 import { TwoColumnLayout } from '@/blocks/TwoColumnLayout/config'
 import { EventCards } from '@/blocks/EventCards/config'
 import { FeatureCards } from '@/blocks/FeatureCards/config'
@@ -70,16 +65,11 @@ export const Pages: CollectionConfig = {
               name: 'layout',
               type: 'blocks',
               blocks: [
-                Hero,
                 Events,
-                howItWorks,
-                History,
-                Donate,
                 RichText,
                 Links,
                 EventsPage,
                 FormBlock,
-                FeatureHighlights,
                 TwoColumnLayout,
                 EventCards,
                 FeatureCards,

@@ -151,7 +151,7 @@ export function serializeLexical({ nodes }: Props): JSX.Element {
             case 'list': {
               const Tag = node?.tag
               return (
-                <Tag className="list col-start-2" key={index}>
+                <Tag className="prose-li:my-0" key={index}>
                   {serializedChildren}
                 </Tag>
               )
@@ -161,7 +161,7 @@ export function serializeLexical({ nodes }: Props): JSX.Element {
                 return (
                   <li
                     aria-checked={node.checked ? 'true' : 'false'}
-                    className={` ${node.checked ? '' : ''} text-lg`}
+                    className={` ${node.checked ? '' : ''} my-0`}
                     key={index}
                     // eslint-disable-next-line jsx-a11y/no-noninteractive-element-to-interactive-role
                     role="checkbox"

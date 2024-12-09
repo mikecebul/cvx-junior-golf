@@ -2,33 +2,24 @@ import React, { Fragment } from 'react'
 
 import type { Page } from '@/payload-types'
 
-import { HeroBlock } from '@/blocks/Hero/Component'
 import { LinksBlock } from './Links/Component'
-import HowItWorksBlock from './HowItWorks/Component'
-import { HistoryBlock } from './History/Component'
 import { EventsBlock } from './EventsBlock/Component'
 import { RichTextBlock } from './RichText/Component'
 import { EventsPageBlock } from './EventsPage/Component'
-import { DonateBlock } from './Donate/Component'
 import { FormBlock } from './Form/Component'
 import { MediaBlock } from './MediaBlock/Component'
-import { FeatureHighlightsBlock } from './FeatureHighlights/Component'
 import { EventCardsBlock } from './EventCards/Component'
 import { FeatureCardsBlock } from './FeatureCards/Component'
 import { LayoutBlock } from './Layout/Component'
 import { TwoColumnLayoutBlock } from './TwoColumnLayout/Component'
+
 const blockComponents = {
-  hero: HeroBlock,
   richText: RichTextBlock,
   linksBlock: LinksBlock,
   events: EventsBlock,
-  howItWorks: HowItWorksBlock,
-  history: HistoryBlock,
   eventsPage: EventsPageBlock,
-  donate: DonateBlock,
   formBlock: FormBlock,
   mediaBlock: MediaBlock,
-  featureHighlights: FeatureHighlightsBlock,
   eventCards: EventCardsBlock,
   featureCards: FeatureCardsBlock,
   twoColumnLayout: TwoColumnLayoutBlock,
