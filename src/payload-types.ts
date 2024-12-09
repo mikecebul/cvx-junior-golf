@@ -640,6 +640,7 @@ export interface User {
  */
 export interface FormSubmission {
   id: string;
+  form: string | Form;
   title?: string | null;
   submissionData?:
     | {
@@ -1266,6 +1267,7 @@ export interface FormsSelect<T extends boolean = true> {
  * via the `definition` "form-submissions_select".
  */
 export interface FormSubmissionsSelect<T extends boolean = true> {
+  form?: T;
   title?: T;
   submissionData?: T;
   payment?:

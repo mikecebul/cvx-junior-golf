@@ -158,7 +158,7 @@ export default buildConfig({
   globals: [Header, Footer, CompanyInfo],
   plugins: [
     stripePlugin({
-      isTestKey: true || process.env.STRIPE_SECRET_KEY?.includes('sk_test'),
+      isTestKey: process.env.STRIPE_SECRET_KEY?.includes('sk_test') ?? true,
       stripeSecretKey: process.env.STRIPE_SECRET_KEY || '',
       stripeWebhooksEndpointSecret: process.env.STRIPE_WEBHOOKS_ENDPOINT_SECRET,
       webhooks: {
@@ -203,12 +203,10 @@ export default buildConfig({
           plural: 'Registrations',
         },
         fields: ({ defaultFields }) => {
-          const guttedDefaultFields = defaultFields.filter(
-            (field) =>
-              'name' in field && field.name !== 'payment' && field.name !== 'submissionData',
-          )
+          const formField = defaultFields.find((field) => 'name' in field && field.name === 'form')
+
           return [
-            // ...guttedDefaultFields,
+            ...(formField ? [formField] : []),
             {
               name: 'title',
               type: 'text',
