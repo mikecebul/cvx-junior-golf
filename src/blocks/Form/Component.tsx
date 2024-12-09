@@ -81,7 +81,7 @@ export const FormBlock: React.FC<
       setError(undefined)
       setIsLoading(true)
 
-      const formData = Object.entries(data)
+      const submissionData = Object.entries(data)
         .filter(([name]) => !['price', 'paymentStatus'].includes(name))
         .reduce(
           (acc, [name, value]) => ({
@@ -94,9 +94,9 @@ export const FormBlock: React.FC<
       try {
         const req = await fetch(`${baseUrl}/api/form-submissions`, {
           body: JSON.stringify({
-            title: `${formData.parents[0].firstName} ${formData.parents[0].lastName}`,
+            title: `${data.parents[0].firstName} ${data.parents[0].lastName}`,
             form: formID,
-            formData,
+            submissionData,
             price: data.price,
             paymentStatus: 'pending',
           }),

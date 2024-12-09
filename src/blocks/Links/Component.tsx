@@ -12,7 +12,7 @@ export const LinksBlock = ({ title, description, linkCards }: LinksBlockType) =>
   return (
     <Container>
       <GridSVG />
-      <HeroMedium title={title} description={description} />
+      <HeroMedium title={title || undefined} description={description || undefined} />
       {!!linkCards && linkCards.length > 0 && (
         <MotionStaggerChildren>
           <CardGrid>

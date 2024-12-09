@@ -500,23 +500,6 @@ export interface Form {
             blockName?: string | null;
             blockType: 'array';
           }
-        | {
-            name: string;
-            label?: string | null;
-            arrayField: string;
-            basePrice: number;
-            priceConditions?:
-              | {
-                  itemCount: number;
-                  price: number;
-                  id?: string | null;
-                }[]
-              | null;
-            width?: number | null;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'price';
-          }
       )[]
     | null;
   submitButtonLabel?: string | null;
@@ -658,7 +641,7 @@ export interface User {
 export interface FormSubmission {
   id: string;
   title?: string | null;
-  formData?:
+  submissionData?:
     | {
         [k: string]: unknown;
       }
@@ -1254,24 +1237,6 @@ export interface FormsSelect<T extends boolean = true> {
               id?: T;
               blockName?: T;
             };
-        price?:
-          | T
-          | {
-              name?: T;
-              label?: T;
-              arrayField?: T;
-              basePrice?: T;
-              priceConditions?:
-                | T
-                | {
-                    itemCount?: T;
-                    price?: T;
-                    id?: T;
-                  };
-              width?: T;
-              id?: T;
-              blockName?: T;
-            };
       };
   submitButtonLabel?: T;
   confirmationType?: T;
@@ -1302,7 +1267,7 @@ export interface FormsSelect<T extends boolean = true> {
  */
 export interface FormSubmissionsSelect<T extends boolean = true> {
   title?: T;
-  formData?: T;
+  submissionData?: T;
   payment?:
     | T
     | {

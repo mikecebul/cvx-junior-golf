@@ -171,7 +171,6 @@ export default buildConfig({
       fields: {
         payment: true,
         array: Array,
-        price: Price,
       },
       formOverrides: {
         fields: ({ defaultFields }) => [
@@ -215,7 +214,7 @@ export default buildConfig({
               type: 'text',
             },
             {
-              name: 'formData',
+              name: 'submissionData',
               type: 'json',
               admin: {
                 components: {
