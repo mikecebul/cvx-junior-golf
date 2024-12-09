@@ -14,8 +14,7 @@ export const EventsPage: Block = {
       type: 'text',
     },
     {
-      name: 'events',
-      label: 'Events',
+      name: 'eventCards',
       type: 'relationship',
       relationTo: 'events',
       hasMany: true,
@@ -27,7 +26,7 @@ export const EventsPage: Block = {
       admin: {
         initCollapsed: true,
         components: {
-          RowLabel: '@/blocks/EventsPage/RowLabel',
+          RowLabel: '@/components/RowLabel/RowLabelWithTitle',
         },
       },
       fields: [

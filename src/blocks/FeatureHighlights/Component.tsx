@@ -1,11 +1,8 @@
-import { Trophy } from 'lucide-react'
 import { FeatureHighlightsBlock as FeatureHighlightsType } from '@/payload-types'
 import Container from '@/components/Container'
 import { Icon } from '@/components/Icons/Icon'
 import { Description, Title } from '@/components/Hero/HeroMedium'
-import { cn } from '@/utilities/cn'
 import { CTALinks } from '@/components/CTALinks'
-import Image from 'next/image'
 import { TwoColumnLayout } from '@/components/TwoColumnLayout'
 import { Media } from '@/components/Media'
 

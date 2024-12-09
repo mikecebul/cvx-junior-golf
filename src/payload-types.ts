@@ -352,7 +352,7 @@ export interface LinksBlock {
  */
 export interface EventsPageBlock {
   title?: string | null;
-  events?: (string | Event)[] | null;
+  eventCards?: (string | Event)[] | null;
   announcements?:
     | {
         title: string;
@@ -1081,7 +1081,7 @@ export interface PagesSelect<T extends boolean = true> {
           | T
           | {
               title?: T;
-              events?: T;
+              eventCards?: T;
               announcements?:
                 | T
                 | {

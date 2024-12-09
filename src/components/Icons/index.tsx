@@ -32,6 +32,7 @@ import {
   GraduationCap,
   Trophy,
   LandPlot,
+  Handshake,
 } from 'lucide-react'
 import { ReactNode } from 'react'
 import { cn } from '@/utilities/cn'
@@ -84,6 +85,9 @@ export const Icons = {
   baby: Baby,
   kid: PersonStanding,
   clock: Clock,
+  graduationCap: GraduationCap,
+  handshake: Handshake,
+  trophy: Trophy,
 }
 
 export type LucideIconsType = (typeof lucideIcons)[number]
@@ -103,6 +107,7 @@ export const lucideIcons = [
   { component: Glasses, label: 'Glasses', value: 'Glasses' },
   { component: GraduationCap, label: 'Graduation Cap', value: 'GraduationCap' },
   { component: Users, label: 'Group', value: 'Users' },
+  { component: Handshake, label: 'Handshake', value: 'Handshake' },
   { component: Tally4, label: 'Jail', value: 'Tally4' },
   { component: Mail, label: 'Mail', value: 'Mail' },
   { component: Menu, label: 'Menu', value: 'Menu' },
@@ -173,5 +178,8 @@ export const lucideIconArray = [
   Baby,
   PersonStanding,
   Clock,
+  GraduationCap,
+  Handshake,
+  Trophy,
 ]
 export type LuicideIconArray = typeof lucideIconArray

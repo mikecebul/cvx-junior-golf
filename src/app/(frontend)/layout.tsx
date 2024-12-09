@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 
 import { cn } from 'src/utilities/cn'
-import { Inter } from 'next/font/google'
+import { Geist } from 'next/font/google'
 import type { ReactNode } from 'react'
 
 import { AdminBar } from '@/components/AdminBar'
@@ -17,13 +17,13 @@ import { Analytics } from '@vercel/analytics/react'
 
 export const dynamic = 'force-static'
 
-const inter = Inter({ subsets: ['latin'] })
+const geist = Geist({ subsets: ['latin'] })
 
 export default async function RootLayout({ children }: { children: ReactNode }) {
   const { isEnabled } = await draftMode()
 
   return (
-    <html className={cn(inter.className)} lang="en" suppressHydrationWarning>
+    <html className={cn(geist.className)} lang="en" suppressHydrationWarning>
       <head>
         <link href="/favicon.ico" rel="icon" sizes="32x32" />
       </head>

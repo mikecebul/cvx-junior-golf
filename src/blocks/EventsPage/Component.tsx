@@ -1,39 +1,44 @@
 import Container from '@/components/Container'
-import { Card, CardContent, CardDescriptionDiv, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { EventsPageBlock as EventsPageBlockType } from '@/payload-types'
 import { CalendarIcon, MapPinIcon } from 'lucide-react'
 import { format } from 'date-fns'
 import RichText from '@/components/RichText'
 
-export const EventsPageBlock = ({ title, events, announcements }: EventsPageBlockType) => {
+export const EventsPageBlock = ({ title, eventCards, announcements }: EventsPageBlockType) => {
   return (
     <Container className="space-y-16">
       <div className="space-y-8">
         <h2 className="text-2xl font-bold mb-4">{title}</h2>
         <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-          {!!events &&
-            events?.map((event) => {
-              if (typeof event !== 'object') return null
+          {Array.isArray(eventCards) &&
+            eventCards.length > 0 &&
+            eventCards.map((event) => {
+              if (typeof event !== 'object') {
+                return null
+              }
               return (
-                <Card key={event.id}>
-                  <CardHeader>
+                <Card key={event.id} className="col-span-1">
+                  <CardHeader className="">
                     <CardTitle>{event.title}</CardTitle>
-                    <CardDescriptionDiv>
-                      <div className="flex items-center gap-2">
-                        <CalendarIcon className="size-4" />
-                        <span>{format(event.date, 'MMMM do, yyyy')}</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <MapPinIcon className="size-4" />
-                        <span>{event.location}</span>
-                      </div>
-                    </CardDescriptionDiv>
-                    <CardContent className="px-0">
-                      <div className="prose leading-6">
-                        <RichText content={event.description} />
-                      </div>
-                    </CardContent>
                   </CardHeader>
+                  <CardContent className="pb-2">
+                    <CardDescription className="text-base">
+                      <span className="flex flex-col">
+                        <span className="flex items-center gap-2">
+                          <CalendarIcon className="size-4" />
+                          <span>{format(event.date, 'MMMM do, yyyy')}</span>
+                        </span>
+                        <span className="flex items-center gap-2">
+                          <MapPinIcon className="size-4" />
+                          <span>{event.location}</span>
+                        </span>
+                      </span>
+                    </CardDescription>
+                  </CardContent>
+                  <CardContent className="">
+                    <RichText content={event.description} />
+                  </CardContent>
                 </Card>
               )
             })}
@@ -51,7 +56,7 @@ export const EventsPageBlock = ({ title, events, announcements }: EventsPageBloc
                     <CardTitle>{announcement.title}</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <div className="prose leading-6">
+                    <div className="">
                       <RichText content={announcement.description} />
                     </div>
                   </CardContent>
