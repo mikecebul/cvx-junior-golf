@@ -40,7 +40,7 @@ import { MediaBlock } from './blocks/MediaBlock/config'
 import { baseUrl } from './utilities/baseUrl'
 import { ArrayBlock } from './blocks/Form/blocks'
 import { checkoutSessionCompleted } from './plugins/stripe/webhooks/checkoutSessionCompleted'
-import { adminOrSuperAdmin } from './access/adminOrSuperAdmin'
+import { revalidatePath } from 'next/cache'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -204,6 +204,9 @@ export default buildConfig({
         return emailsToSend
       },
       formOverrides: {
+        hooks: {
+          afterChange: [() => revalidatePath('/(frontend)/register', 'page')],
+        },
         fields: ({ defaultFields }) => [
           ...defaultFields.map((field) => {
             if ('name' in field && field.name === 'confirmationMessage') {
