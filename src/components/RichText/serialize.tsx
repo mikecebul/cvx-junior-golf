@@ -125,25 +125,25 @@ export function serializeLexical({ nodes }: Props): JSX.Element {
             }
             case 'paragraph': {
               return (
-                <p className="col-start-2 text-base" key={index}>
+                <p className="col-start-2 text-base prose text-pretty" key={index}>
                   {serializedChildren}
                 </p>
               )
             }
             case 'heading': {
               const Tag = node?.tag
-              const paddingMap = {
-                h1: 'pb-8', // 2rem
-                h2: 'pb-6', // 1.5rem
-                h3: 'pb-4', // 1rem
-                h4: 'pb-3', // 0.75rem
-                h5: 'pb-2', // 0.5rem
-                h6: 'pb-2', // 0.5rem
+              const textSizeMap = {
+                h1: 'text-4xl', // 2rem
+                h2: 'text-3xl', // 1.5rem
+                h3: 'text-2xl', // 1rem
+                h4: 'text-xl', // 0.75rem
+                h5: 'text-lg', // 0.5rem
+                h6: 'text-base', // 0.5rem
               }
-              const paddingClass = paddingMap[Tag] || 'pb-2'
+              const textSizeClass = textSizeMap[Tag] || 'text-base'
 
               return (
-                <Tag className={cn('col-start-2', paddingClass)} key={index}>
+                <Tag className={cn('col-start-2 prose text-pretty', textSizeClass)} key={index}>
                   {serializedChildren}
                 </Tag>
               )
