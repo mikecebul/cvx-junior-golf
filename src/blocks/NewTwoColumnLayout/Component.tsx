@@ -19,12 +19,16 @@ export const NewTwoColumnLayoutBlock = ({
 }: NewTwoColumnLayoutBlockType) => {
   const { contentType: columnOneType, cta, richText, verticalAlignment = 'center' } = columnOne ?? {}
   const { hasSubtitle, subtitle, title, description, links } = cta ?? {}
-  const { contentType: columnTwoType, form, images, priority } = columnTwo ?? {}
+  const { contentType: columnTwoType, form, images, priority, sticky = false } = columnTwo ?? {}
   const validImages = imagesAsMedia(images)
 
   return (
-    <Container>
-      <div className={`grid grid-cols-1 ${breakpoint}:grid-cols-2 gap-12`}>
+    <Container className="xl:overflow-visible">
+      <div className={cn(
+        'grid grid-cols-1 gap-12',
+        `${breakpoint}:grid-cols-2`,
+        { 'xl:items-start': sticky }
+      )}>
         <div
           className={cn('flex flex-col gap-4 justify-center order-1', {
             'justify-center': verticalAlignment === 'center',
@@ -53,7 +57,9 @@ export const NewTwoColumnLayoutBlock = ({
           )}
         </div>
         <div
-          className={cn('flex justify-center items-center order-2', {
+          className={cn('order-2', {
+            'flex justify-center items-center': !sticky,
+            'sticky xl:top-20 xl:pt-2': sticky,
             'sm:order-1': direction === 'rtl' && breakpoint === 'sm',
             'md:order-1': direction === 'rtl' && breakpoint === 'md',
             'lg:order-1': direction === 'rtl' && breakpoint === 'lg',

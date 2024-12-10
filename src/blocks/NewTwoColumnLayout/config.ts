@@ -98,11 +98,22 @@ export const NewTwoColumnLayout: Block = {
           defaultValue: 'image',
         },
         {
-          name: 'form',
-          type: 'blocks',
-          blocks: [FormBlock],
+          name: 'priority',
+          type: 'checkbox',
+          defaultValue: false,
           admin: {
-            condition: (_, siblingData) => Boolean(siblingData.contentType === 'form'),
+            width: '25%',
+            condition: (_, siblingData) => Boolean(siblingData.contentType === 'image'),
+          },
+        },
+        {
+          name: 'sticky',
+          type: 'checkbox',
+          defaultValue: false,
+          label: 'Make images sticky on scroll',
+          admin: {
+            description: 'Images will follow as user scrolls',
+            condition: (_, siblingData) => Boolean(siblingData.contentType === 'image'),
           },
         },
         {
@@ -115,12 +126,11 @@ export const NewTwoColumnLayout: Block = {
           },
         },
         {
-          name: 'priority',
-          type: 'checkbox',
-          defaultValue: false,
+          name: 'form',
+          type: 'blocks',
+          blocks: [FormBlock],
           admin: {
-            width: '25%',
-            condition: (_, siblingData) => Boolean(siblingData.contentType === 'image'),
+            condition: (_, siblingData) => Boolean(siblingData.contentType === 'form'),
           },
         },
       ],

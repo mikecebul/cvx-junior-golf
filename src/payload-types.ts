@@ -615,9 +615,10 @@ export interface NewTwoColumnLayoutBlock {
   };
   columnTwo?: {
     contentType?: ('image' | 'form') | null;
-    form?: FormBlock[] | null;
-    images?: (string | Media)[] | null;
     priority?: boolean | null;
+    sticky?: boolean | null;
+    images?: (string | Media)[] | null;
+    form?: FormBlock[] | null;
   };
   id?: string | null;
   blockName?: string | null;
@@ -975,6 +976,9 @@ export interface PagesSelect<T extends boolean = true> {
                 | T
                 | {
                     contentType?: T;
+                    priority?: T;
+                    sticky?: T;
+                    images?: T;
                     form?:
                       | T
                       | {
@@ -988,8 +992,6 @@ export interface PagesSelect<T extends boolean = true> {
                                 blockName?: T;
                               };
                         };
-                    images?: T;
-                    priority?: T;
                   };
               id?: T;
               blockName?: T;
@@ -1065,6 +1067,9 @@ export interface PagesSelect<T extends boolean = true> {
                             | T
                             | {
                                 contentType?: T;
+                                priority?: T;
+                                sticky?: T;
+                                images?: T;
                                 form?:
                                   | T
                                   | {
@@ -1078,8 +1083,6 @@ export interface PagesSelect<T extends boolean = true> {
                                             blockName?: T;
                                           };
                                     };
-                                images?: T;
-                                priority?: T;
                               };
                           id?: T;
                           blockName?: T;
