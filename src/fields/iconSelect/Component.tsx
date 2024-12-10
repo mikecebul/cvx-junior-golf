@@ -16,7 +16,7 @@ const IconSelect: SelectFieldClientComponent = ({ path, validate }) => {
   }
 
   return (
-    <>
+    <div>
       <label className="field-label">Icon Select</label>
       <div className="flex gap-4 items-center">
         <Icon name={value} className="shrink-0" />
@@ -34,7 +34,7 @@ const IconSelect: SelectFieldClientComponent = ({ path, validate }) => {
           />
         </div>
       </div>
-    </>
+    </div>
   )
 }
 

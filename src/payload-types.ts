@@ -653,7 +653,7 @@ export interface FeatureCardsBlock {
  * via the `definition` "LayoutBlock".
  */
 export interface LayoutBlock {
-  blocks?: (TwoColumnLayoutBlock | FeatureCardsBlock | EventCardsBlock)[] | null;
+  blocks?: (NewTwoColumnLayoutBlock | TwoColumnLayoutBlock | FeatureCardsBlock | EventCardsBlock)[] | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'layout';
@@ -1017,6 +1017,68 @@ export interface PagesSelect<T extends boolean = true> {
               blocks?:
                 | T
                 | {
+                    newTwoColumnLayout?:
+                      | T
+                      | {
+                          direction?: T;
+                          breakpoint?: T;
+                          columnOne?:
+                            | T
+                            | {
+                                contentType?: T;
+                                verticalAlignment?: T;
+                                richText?: T;
+                                cta?:
+                                  | T
+                                  | {
+                                      hasSubtitle?: T;
+                                      subtitle?:
+                                        | T
+                                        | {
+                                            icon?: T;
+                                            text?: T;
+                                          };
+                                      title?: T;
+                                      description?: T;
+                                      links?:
+                                        | T
+                                        | {
+                                            link?:
+                                              | T
+                                              | {
+                                                  type?: T;
+                                                  newTab?: T;
+                                                  reference?: T;
+                                                  url?: T;
+                                                  label?: T;
+                                                  appearance?: T;
+                                                };
+                                            id?: T;
+                                          };
+                                    };
+                              };
+                          columnTwo?:
+                            | T
+                            | {
+                                contentType?: T;
+                                form?:
+                                  | T
+                                  | {
+                                      formBlock?:
+                                        | T
+                                        | {
+                                            form?: T;
+                                            enableIntro?: T;
+                                            introContent?: T;
+                                            id?: T;
+                                            blockName?: T;
+                                          };
+                                    };
+                                images?: T;
+                              };
+                          id?: T;
+                          blockName?: T;
+                        };
                     twoColumnLayout?:
                       | T
                       | {

@@ -16,17 +16,26 @@ export const contentFields: Field[] = [
     },
     fields: [
       {
-        name: 'icon',
-        type: 'text',
-        admin: {
-          components: {
-            Field: '@/fields/iconSelect/Component',
+        type: 'row',
+        fields: [
+          {
+            name: 'icon',
+            type: 'text',
+            admin: {
+              components: {
+                Field: '@/fields/iconSelect/Component',
+              },
+              width: '33%',
+            },
           },
-        },
-      },
-      {
-        name: 'text',
-        type: 'text',
+          {
+            name: 'text',
+            type: 'text',
+            // admin: {
+            //   width: '50%',
+            // },
+          },
+        ],
       },
     ],
   },
