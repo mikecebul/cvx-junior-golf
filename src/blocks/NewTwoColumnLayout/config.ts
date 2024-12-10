@@ -114,6 +114,15 @@ export const NewTwoColumnLayout: Block = {
             condition: (_, siblingData) => Boolean(siblingData.contentType === 'image'),
           },
         },
+        {
+          name: 'priority',
+          type: 'checkbox',
+          defaultValue: false,
+          admin: {
+            width: '25%',
+            condition: (_, siblingData) => Boolean(siblingData.contentType === 'image'),
+          },
+        },
       ],
     },
   ],

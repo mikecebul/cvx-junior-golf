@@ -616,6 +616,7 @@ export interface NewTwoColumnLayoutBlock {
     contentType?: ('image' | 'form') | null;
     form?: FormBlock[] | null;
     images?: (string | Media)[] | null;
+    priority?: boolean | null;
   };
   id?: string | null;
   blockName?: string | null;
@@ -986,6 +987,7 @@ export interface PagesSelect<T extends boolean = true> {
                               };
                         };
                     images?: T;
+                    priority?: T;
                   };
               id?: T;
               blockName?: T;
@@ -1075,6 +1077,7 @@ export interface PagesSelect<T extends boolean = true> {
                                           };
                                     };
                                 images?: T;
+                                priority?: T;
                               };
                           id?: T;
                           blockName?: T;

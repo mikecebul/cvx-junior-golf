@@ -19,7 +19,7 @@ export const NewTwoColumnLayoutBlock = ({
 }: NewTwoColumnLayoutBlockType) => {
   const { contentType: columnOneType, cta, richText, verticalAlignment = 'center' } = columnOne ?? {}
   const { hasSubtitle, subtitle, title, description, links } = cta ?? {}
-  const { contentType: columnTwoType, form, images } = columnTwo ?? {}
+  const { contentType: columnTwoType, form, images, priority } = columnTwo ?? {}
   const validImages = imagesAsMedia(images)
 
   return (
@@ -63,7 +63,7 @@ export const NewTwoColumnLayoutBlock = ({
           {columnTwoType === 'form' ? (
             form && <RenderBlocks blocks={form} nested />
           ) : (
-            validImages.length > 0 ? <RichTextCarousel images={validImages} /> : <Media resource={images?.[0]} />
+            validImages.length > 0 ? <RichTextCarousel images={validImages} priority={priority} /> : <Media resource={images?.[0]} />
           )}
         </div>
       </div>
