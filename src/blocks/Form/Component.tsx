@@ -222,7 +222,7 @@ export const FormBlock: React.FC<
                     }
                     return null
                   })}
-                <Button form={formID} type="submit" variant="default" className="w-full">
+                <Button form={formID} type="submit" variant="brand" className="w-full">
                   {submitButtonLabel}
                 </Button>
               </Card>

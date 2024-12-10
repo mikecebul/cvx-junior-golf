@@ -17,20 +17,25 @@ export const NewTwoColumnLayoutBlock = ({
   columnOne,
   columnTwo,
 }: NewTwoColumnLayoutBlockType) => {
-  const { contentType: columnOneType, cta, richText, verticalAlignment = 'center' } = columnOne ?? {}
+  const {
+    contentType: columnOneType,
+    cta,
+    richText,
+    verticalAlignment = 'center',
+  } = columnOne ?? {}
   const { hasSubtitle, subtitle, title, description, links } = cta ?? {}
   const { contentType: columnTwoType, form, images, priority, sticky = false } = columnTwo ?? {}
   const validImages = imagesAsMedia(images)
 
   return (
     <Container className="xl:overflow-visible">
-      <div className={cn(
-        'grid grid-cols-1 gap-12',
-        `${breakpoint}:grid-cols-2`,
-        { 'xl:items-start': sticky }
-      )}>
+      <div
+        className={cn('grid grid-cols-1 gap-12', `${breakpoint}:grid-cols-2`, {
+          'xl:items-start': sticky,
+        })}
+      >
         <div
-          className={cn('flex flex-col gap-4 justify-center order-1', {
+          className={cn('order-1 flex flex-col justify-center gap-4', {
             'justify-center': verticalAlignment === 'center',
             'justify-start': verticalAlignment === 'top',
             'justify-end': verticalAlignment === 'bottom',
@@ -58,7 +63,7 @@ export const NewTwoColumnLayoutBlock = ({
         </div>
         <div
           className={cn('order-2', {
-            'flex justify-center items-center': !sticky,
+            'flex items-center justify-center': !sticky,
             'sticky xl:top-20 xl:pt-2': sticky,
             'sm:order-1': direction === 'rtl' && breakpoint === 'sm',
             'md:order-1': direction === 'rtl' && breakpoint === 'md',
@@ -68,8 +73,10 @@ export const NewTwoColumnLayoutBlock = ({
         >
           {columnTwoType === 'form' ? (
             form && <RenderBlocks blocks={form} nested />
+          ) : validImages.length > 0 ? (
+            <RichTextCarousel images={validImages} priority={priority} />
           ) : (
-            validImages.length > 0 ? <RichTextCarousel images={validImages} priority={priority} /> : <Media resource={images?.[0]} />
+            <Media resource={images?.[0]} />
           )}
         </div>
       </div>
