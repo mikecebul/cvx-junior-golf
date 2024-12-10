@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 
-import { cn } from 'src/utilities/cn'
-import { Geist } from 'next/font/google'
+import { GeistSans } from 'geist/font/sans'
 import type { ReactNode } from 'react'
 
 import { AdminBar } from '@/components/AdminBar'
@@ -17,13 +16,11 @@ import { Analytics } from '@vercel/analytics/react'
 
 export const dynamic = 'force-static'
 
-const geist = Geist({ subsets: ['latin'] })
-
 export default async function RootLayout({ children }: { children: ReactNode }) {
   const { isEnabled } = await draftMode()
 
   return (
-    <html className={cn(geist.className)} lang="en" suppressHydrationWarning>
+    <html className={GeistSans.className} lang="en" suppressHydrationWarning>
       <head>
         <link href="/favicon.ico" rel="icon" sizes="32x32" />
       </head>

@@ -5,6 +5,7 @@ import {
   HeadingFeature,
   InlineToolbarFeature,
   lexicalEditor,
+  ParagraphFeature
 } from '@payloadcms/richtext-lexical'
 
 export const FormBlock: Block = {
@@ -32,6 +33,7 @@ export const FormBlock: Block = {
         features: ({ rootFeatures }) => {
           return [
             ...rootFeatures,
+            ParagraphFeature(),
             HeadingFeature({ enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4'] }),
             FixedToolbarFeature(),
             InlineToolbarFeature(),

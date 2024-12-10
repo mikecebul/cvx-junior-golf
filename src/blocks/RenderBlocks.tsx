@@ -12,6 +12,7 @@ import { EventCardsBlock } from './EventCards/Component'
 import { FeatureCardsBlock } from './FeatureCards/Component'
 import { LayoutBlock } from './Layout/Component'
 import { TwoColumnLayoutBlock } from './TwoColumnLayout/Component'
+import { NewTwoColumnLayoutBlock } from './NewTwoColumnLayout/Component'
 
 const blockComponents = {
   richText: RichTextBlock,
@@ -23,6 +24,7 @@ const blockComponents = {
   eventCards: EventCardsBlock,
   featureCards: FeatureCardsBlock,
   twoColumnLayout: TwoColumnLayoutBlock,
+  newTwoColumnLayout: NewTwoColumnLayoutBlock,
   layout: LayoutBlock,
 }
 

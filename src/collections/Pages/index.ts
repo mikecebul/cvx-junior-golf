@@ -25,6 +25,7 @@ import { TwoColumnLayout } from '@/blocks/TwoColumnLayout/config'
 import { EventCards } from '@/blocks/EventCards/config'
 import { FeatureCards } from '@/blocks/FeatureCards/config'
 import { Layout } from '@/blocks/Layout/config'
+import { NewTwoColumnLayout } from '@/blocks/NewTwoColumnLayout/config'
 
 export const Pages: CollectionConfig = {
   slug: 'pages',
@@ -71,6 +72,7 @@ export const Pages: CollectionConfig = {
                 EventsPage,
                 FormBlock,
                 TwoColumnLayout,
+                NewTwoColumnLayout,
                 EventCards,
                 FeatureCards,
                 Layout,

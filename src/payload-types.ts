@@ -116,6 +116,7 @@ export interface Page {
     | EventsPageBlock
     | FormBlock
     | TwoColumnLayoutBlock
+    | NewTwoColumnLayoutBlock
     | EventCardsBlock
     | FeatureCardsBlock
     | LayoutBlock
@@ -577,6 +578,51 @@ export interface TwoColumnLayoutBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "NewTwoColumnLayoutBlock".
+ */
+export interface NewTwoColumnLayoutBlock {
+  direction?: ('ltr' | 'rtl') | null;
+  breakpoint?: ('sm' | 'md' | 'lg' | 'xl') | null;
+  columnOne?: {
+    contentType?: ('cta' | 'richText') | null;
+    verticalAlignment?: ('top' | 'center' | 'bottom') | null;
+    richText?: {
+      root: {
+        type: string;
+        children: {
+          type: string;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    cta?: {
+      hasSubtitle?: boolean | null;
+      subtitle?: {
+        icon?: string | null;
+        text?: string | null;
+      };
+      title: string;
+      description: string;
+      links?: LinkGroup;
+    };
+  };
+  columnTwo?: {
+    contentType?: ('image' | 'form') | null;
+    form?: FormBlock[] | null;
+    images?: (string | Media)[] | null;
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'newTwoColumnLayout';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "EventCardsBlock".
  */
 export interface EventCardsBlock {
@@ -878,6 +924,68 @@ export interface PagesSelect<T extends boolean = true> {
                 | T
                 | {
                     image?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        newTwoColumnLayout?:
+          | T
+          | {
+              direction?: T;
+              breakpoint?: T;
+              columnOne?:
+                | T
+                | {
+                    contentType?: T;
+                    verticalAlignment?: T;
+                    richText?: T;
+                    cta?:
+                      | T
+                      | {
+                          hasSubtitle?: T;
+                          subtitle?:
+                            | T
+                            | {
+                                icon?: T;
+                                text?: T;
+                              };
+                          title?: T;
+                          description?: T;
+                          links?:
+                            | T
+                            | {
+                                link?:
+                                  | T
+                                  | {
+                                      type?: T;
+                                      newTab?: T;
+                                      reference?: T;
+                                      url?: T;
+                                      label?: T;
+                                      appearance?: T;
+                                    };
+                                id?: T;
+                              };
+                        };
+                  };
+              columnTwo?:
+                | T
+                | {
+                    contentType?: T;
+                    form?:
+                      | T
+                      | {
+                          formBlock?:
+                            | T
+                            | {
+                                form?: T;
+                                enableIntro?: T;
+                                introContent?: T;
+                                id?: T;
+                                blockName?: T;
+                              };
+                        };
+                    images?: T;
                   };
               id?: T;
               blockName?: T;
