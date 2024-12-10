@@ -13,6 +13,11 @@ export const RichText: Block = {
       type: 'richText',
     },
     {
+      name: 'priority',
+      type: 'checkbox',
+      defaultValue: false,
+    },
+    {
       name: 'images',
       type: 'upload',
       relationTo: 'media',

@@ -258,6 +258,7 @@ export interface RichTextBlock {
     };
     [k: string]: unknown;
   } | null;
+  priority?: boolean | null;
   images?: (string | Media)[] | null;
   id?: string | null;
   blockName?: string | null;
@@ -840,6 +841,7 @@ export interface PagesSelect<T extends boolean = true> {
           | {
               subtitle?: T;
               richContent?: T;
+              priority?: T;
               images?: T;
               id?: T;
               blockName?: T;
