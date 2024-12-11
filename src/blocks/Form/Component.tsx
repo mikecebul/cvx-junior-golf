@@ -206,7 +206,7 @@ export const FormBlock: React.FC<
                     if (Field) {
                       return (
                         <div
-                          className={`last:mb-0 ${'width' in field && field.width === 100 ? 'w-full' : 'w-full sm:basis-[calc(50%-0.5rem)]'}`}
+                          className={`last:mb-0 ${'width' in field && field.width === 100 ? 'w-full' : 'w-full md:basis-[calc(50%-0.5rem)]'}`}
                           key={index}
                         >
                           <Field
