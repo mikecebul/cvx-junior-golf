@@ -10,6 +10,7 @@ import { RenderBlocks } from '@/blocks/RenderBlocks'
 import { generateMeta } from '@/utilities/generateMeta'
 
 import type { Page as PageType } from '@/payload-types'
+import { LivePreviewListener } from '@/components/LivePreviewListener'
 
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
@@ -56,6 +57,7 @@ export default async function Page({ params: paramsPromise }: Args) {
     <main>
       {/* Allows redirects for valid pages too */}
       <PayloadRedirects disableNotFound url={url} />
+      <LivePreviewListener />
       <RenderBlocks blocks={layout} />
     </main>
   )
