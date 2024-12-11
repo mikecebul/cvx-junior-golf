@@ -171,6 +171,53 @@ export const Price: Block = {
   },
 }
 
+export const DateOfBirth: Block = {
+  slug: 'dateOfBirth',
+  fields: [
+    {
+      type: 'row',
+      fields: [
+        {
+          ...name,
+          admin: {
+            width: '50%',
+          },
+        },
+        {
+          ...label,
+          admin: {
+            width: '50%',
+          },
+        },
+      ],
+    },
+    {
+      type: 'row',
+      fields: [
+        {
+          ...width,
+          admin: {
+            width: '50%',
+          },
+        },
+        {
+          name: 'defaultValue',
+          type: 'text',
+          label: 'Default Value',
+          admin: {
+            width: '50%',
+          },
+        },
+      ],
+    },
+    required,
+  ],
+  labels: {
+    plural: 'Date of Birth Fields',
+    singular: 'Date of Birth',
+  },
+}
+
 export const ArrayBlock: Block = {
   slug: 'array',
   fields: [
@@ -243,7 +290,8 @@ export const ArrayBlock: Block = {
       type: 'blocks',
       name: 'fields',
       label: 'Fields',
-      blocks: [Text, Email],
+      blocks: [Text, Email, DateOfBirth],
     },
   ],
 }
+

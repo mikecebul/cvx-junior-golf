@@ -1,6 +1,7 @@
 import { BlockConfig } from '@payloadcms/plugin-form-builder/types'
 
-export interface ArrayItemField {
+export type ArrayItemField = {
+  blockType: 'text' | 'email' | 'dateOfBirth'
   name: string
   label: string
   required?: boolean

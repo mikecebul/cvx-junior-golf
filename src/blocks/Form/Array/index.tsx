@@ -39,7 +39,7 @@ export const Array: React.FC<ArrayField> = (props) => {
                 <Trash2 className="size-4 text-red-700 hover:text-red-900" />
               </Button>
             )}
-            <Item index={index} field={itemFields} register={register} errors={errors} {...props} />
+            <Item index={index} field={itemFields} register={register} errors={errors} {...props} control={control} />
           </div>
         ))}
         {fields.length < maxRows && (

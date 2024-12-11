@@ -39,7 +39,7 @@ import { Events } from './collections/Events'
 import { Media } from './collections/Media'
 import { MediaBlock } from './blocks/MediaBlock/config'
 import { baseUrl } from './utilities/baseUrl'
-import { ArrayBlock } from './blocks/Form/blocks'
+import { ArrayBlock, DateOfBirth } from './blocks/Form/blocks'
 import { checkoutSessionCompleted } from './plugins/stripe/webhooks/checkoutSessionCompleted'
 import { revalidatePath } from 'next/cache'
 
@@ -171,8 +171,9 @@ export default buildConfig({
     formBuilderPlugin({
       defaultToEmail: 'info@cvxjrgolf.org',
       fields: {
-        payment: true,
         array: ArrayBlock,
+        dateOfBirth: DateOfBirth,
+        payment: true,
       },
       beforeEmail: (emailsToSend, beforeChangeParams) => {
         const { data } = beforeChangeParams

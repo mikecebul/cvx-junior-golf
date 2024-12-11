@@ -1,10 +1,12 @@
 import React from 'react'
 import type { FieldErrorsImpl, FieldValues, UseFormRegister } from 'react-hook-form'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Error } from '../Error'
 import { CardDescription } from '@/components/ui/card'
 import { ArrayItemField } from './types'
+import { DateOfBirth } from '../DateOfBirth'
+import { Email } from '../Email'
+import { Text } from '../Text'
+import { DateOfBirthField } from '../DateOfBirth/type'
+import { EmailField, TextField } from '@payloadcms/plugin-form-builder/types'
 
 interface ItemProps {
   index: number
@@ -14,6 +16,7 @@ interface ItemProps {
   label: string
   errors: Partial<FieldErrorsImpl<{ [x: string]: any }>>
   register: UseFormRegister<FieldValues>
+  control: any
 }
 
 export const Item: React.FC<ItemProps> = ({
@@ -23,24 +26,51 @@ export const Item: React.FC<ItemProps> = ({
   name,
   errors,
   labelSingular,
+  control,
 }) => {
+  const renderField = (fieldItem: ArrayItemField, fieldIndex: number) => {
+    switch (fieldItem.blockType) {
+      case 'dateOfBirth':
+        return (
+          <DateOfBirth
+            {...(fieldItem as DateOfBirthField)}
+            name={`${name}[${index}].${fieldItem.name}`}
+            control={control}
+            errors={errors}
+          />
+        )
+      case 'email':
+        return (
+          <Email
+            {...(fieldItem as EmailField)}
+            name={`${name}[${index}].${fieldItem.name}`}
+            errors={errors}
+            register={register}
+          />
+        )
+      case 'text':
+        return (
+          <Text
+            {...(fieldItem as TextField)}
+            name={`${name}[${index}].${fieldItem.name}`}
+            errors={errors}
+            register={register}
+          />
+        )
+      default:
+        return null
+    }
+  }
+
   return (
     <div className="space-y-4">
       <CardDescription>
         {labelSingular} {index + 1}
       </CardDescription>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        {field.map((textField, fieldIndex) => (
+        {field.map((fieldItem, fieldIndex) => (
           <div key={fieldIndex} className="space-y-2">
-            <Label htmlFor={`${index}-${textField.name}`}>{textField.label}</Label>
-            <Input
-              id={`${index}-${textField.name}`}
-              type="text"
-              {...register(`${name}[${index}].${textField.name}`, {
-                required: textField.required,
-              })}
-            />
-            {textField.required && errors?.[name]?.[index]?.[textField.name] && <Error />}
+            {renderField(fieldItem, fieldIndex)}
           </div>
         ))}
       </div>

@@ -10,6 +10,7 @@ import { Text } from './Text'
 import { Textarea } from './Textarea'
 import { Array } from './Array'
 import { Price } from './Price'
+import { DateOfBirth } from './DateOfBirth'
 
 export const fields = {
   checkbox: Checkbox,
@@ -24,4 +25,5 @@ export const fields = {
   payment: Payment,
   array: Array,
   price: Price,
+  dateOfBirth: DateOfBirth,
 }

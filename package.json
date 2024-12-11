@@ -65,6 +65,7 @@
     "payload-admin-bar": "^1.0.6",
     "prism-react-renderer": "^2.4.0",
     "react": "19.0.0",
+    "react-day-picker": "8.10.1",
     "react-dom": "19.0.0",
     "react-hook-form": "7.45.4",
     "sharp": "0.32.6",
