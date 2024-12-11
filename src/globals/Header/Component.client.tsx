@@ -19,9 +19,9 @@ export const HeaderClient = ({
   const { phone } = contact || {}
 
   return (
-    <header className="sticky top-0 z-40 flex w-full py-2 bg-background/50 backdrop-blur-sm">
+    <header className="sticky top-0 z-40 flex w-full py-3 bg-background/50 backdrop-blur-sm overflow-clip">
       <div className="flex items-center w-full px-4 md:px-8 2xl:px-0 2xl:container">
-        <Logo />
+        <Logo name={contact?.name ?? 'Charlevoix Junior Golf'} />
         <MainNav navItems={navItems} />
         <MobileNav navItems={navItems} />
         <div className="flex flex-col items-center text-lg xl:flex-row 2xl:space-x-2">
