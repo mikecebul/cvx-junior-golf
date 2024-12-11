@@ -1,11 +1,9 @@
 import { Separator } from '@/components/ui/separator'
 import Link from 'next/link'
 
-import type { CompanyInfo, Footer } from '@/payload-types'
 import { cn } from '@/utilities/cn'
 import { buttonVariants } from '@/components/ui/button'
 import { Clock, Facebook, Mail, Navigation, Phone, Printer } from 'lucide-react'
-import Image from 'next/image'
 import Container from '@/components/Container'
 import { CMSLink } from '@/components/Link'
 import { getPayload } from 'payload'
@@ -20,7 +18,7 @@ export async function Footer() {
     depth: 1,
   })
 
-  const { contact, social, hours } = await payload.findGlobal({
+  const { contact, social, hours, } = await payload.findGlobal({
     slug: 'company-info',
     depth: 1,
   })
@@ -87,26 +85,26 @@ export async function Footer() {
                     </div>
                   </li>
                 )}
-                {(contact.physicalAddress?.address || contact.mailingAddress?.address) && (
+                {(contact.physicalAddress?.street || contact.mailingAddress?.street) && (
                   <li className={cn(
                     buttonVariants({ variant: 'text' }),
                     'text-gray-500 flex items-start justify-start h-full',
                   )}>
                     <Navigation className="flex-shrink-0 mr-2" size={20} />
                     <ul>
-                      {contact.physicalAddress?.address && (
+                      {contact.physicalAddress?.street && (
                         <li>
                           <span>
                             <strong>Physical: </strong>
-                            {contact.physicalAddress.address}
+                            {`${contact.physicalAddress.street}, ${contact.physicalAddress.cityStateZip}`}
                           </span>
                         </li>
                       )}
-                      {contact.mailingAddress?.address && (
+                      {contact.mailingAddress?.street && (
                         <li>
                           <span>
                             <strong>Mailing: </strong>
-                            {contact.mailingAddress.address}
+                            {`${contact.mailingAddress.street}, ${contact.mailingAddress.cityStateZip}`}
                           </span>
                         </li>
                       )}
@@ -164,7 +162,7 @@ export async function Footer() {
             <div className="col-span-1 sm:col-span-2 lg:col-span-1">
               <p className="text-lg font-bold">Location</p>
               <Separator className="my-4" />
-              <GoogleMap />
+              <GoogleMap contact={contact} />
             </div>
           )}
         </div>

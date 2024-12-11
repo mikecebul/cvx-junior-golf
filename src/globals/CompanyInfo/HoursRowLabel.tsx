@@ -18,13 +18,13 @@ const HoursRowLabel: PayloadClientReactComponent<RowLabelComponent> = () => {
   if (data.type === 'default')
     return (
       <div>
-        <p className="dark:text-orange-400 dark:font-medium font-bold capitalize">{`${rowNumber} - ${data.day}: ${data.hours}`}</p>
+        <p className="dark:text-orange-400 dark:font-medium font-bold capitalize">{`${(rowNumber ?? 0) + 1} - ${data.day}: ${data.hours}`}</p>
       </div>
     )
   if (data.type === 'custom')
     return (
       <div>
-        <p className="dark:text-orange-400 dark:font-medium font-bold capitalize">{`${rowNumber} - ${data.note}`}</p>
+        <p className="dark:text-orange-400 dark:font-medium font-bold capitalize">{`${(rowNumber ?? 0) + 1} - ${data.note}`}</p>
       </div>
     )
 }

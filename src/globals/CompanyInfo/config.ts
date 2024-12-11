@@ -7,67 +7,37 @@ export const CompanyInfo: GlobalConfig = {
   slug: 'company-info',
   label: 'Company Info',
   admin: {
-    description: 'Update business information.',
     hideAPIURL: !superAdmin,
   },
   hooks: {
-    afterChange: [({ req }) => req.headers['X-Payload-Migration'] !== 'true' && revalidatePath('/', 'layout')],
+    afterChange: [({ req }) => {
+      if (req.headers['X-Payload-Migration'] !== 'true') {
+        revalidatePath('/(payload)', 'layout')
+        revalidatePath('/(frontend)', 'layout')
+      }
+    }],
   },
   fields: [
     {
       name: 'contact',
       type: 'group',
       admin: {
-        description: 'Company contact information.',
       },
       fields: [
         {
-          name: 'physicalAddress',
-          type: 'group',
-          label: 'Physical Address',
-          admin: {
-            description: 'The physical location of the business.',
-          },
+          type: 'row',
           fields: [
             {
-              name: 'address',
+              name: 'name',
               type: 'text',
-              required: true,
-              admin: { width: '70%' },
+              admin: { width: '50%' },
             },
             {
-              name: 'googleMapLink',
+              name: 'email',
+              label: 'Email',
               type: 'text',
-              label: 'Google Map Link',
-              admin: {
-                description: 'Optional: Add a Google Maps link for this address',
-                width: '100%'
-              },
-            },
-          ],
-        },
-        {
-          name: 'mailingAddress',
-          type: 'group',
-          label: 'Mailing Address',
-          admin: {
-            description: 'The mailing address for the business.',
-          },
-          fields: [
-            {
-              name: 'address',
-              type: 'text',
-              required: true,
-              admin: { width: '70%' },
-            },
-            {
-              name: 'googleMapLink',
-              type: 'text',
-              label: 'Google Map Link',
-              admin: {
-                description: 'Optional: Add a Google Maps link for this address',
-                width: '100%'
-              },
+              defaultValue: 'info@cvxjrgolf.org',
+              admin: { width: '50%' },
             },
           ],
         },
@@ -79,26 +49,74 @@ export const CompanyInfo: GlobalConfig = {
               label: 'Phone Number',
               type: 'text',
               defaultValue: '(231) 547-1144',
-              admin: { width: '45%' },
+              admin: { width: '50%' },
             },
             {
               name: 'fax',
               label: 'Fax',
               type: 'text',
               defaultValue: '(231) 547-4970',
-              admin: { width: '45%' },
+              admin: { width: '50%' },
             },
           ],
         },
         {
-          type: 'row',
+          name: 'physicalAddress',
+          type: 'group',
+          label: 'Physical Address',
           fields: [
             {
-              name: 'email',
-              label: 'Email',
-              type: 'text',
-              defaultValue: 'info@cvxjrgolf.org',
-              admin: { width: '45%' },
+              type: 'row',
+              fields: [
+                {
+                  name: 'street',
+                  label: 'Street Address',
+                  type: 'text',
+                  required: true,
+                  admin: { width: '50%' },
+                },
+                {
+                  name: 'cityStateZip',
+                  label: 'City, State, Zip',
+                  type: 'text',
+                  required: true,
+                  admin: { width: '50%' },
+                },
+              ],
+            },
+            {
+              name: 'coordinates',
+              type: 'point',
+              label: 'Map Location',
+              admin: {
+                description: 'Select the exact location on Google Maps',
+              },
+            },
+          ],
+        },
+        {
+          name: 'mailingAddress',
+          type: 'group',
+          label: 'Mailing Address',
+          fields: [
+            {
+              type: 'row',
+              fields: [
+                {
+                  name: 'street',
+                  label: 'Street Address',
+                  type: 'text',
+                  required: true,
+                  admin: { width: '50%' },
+                },
+                {
+                  name: 'cityStateZip',
+                  label: 'City, State, Zip',
+                  type: 'text',
+                  required: true,
+                  admin: { width: '50%' },
+                },
+              ],
             },
           ],
         },

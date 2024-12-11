@@ -1544,17 +1544,23 @@ export interface Footer {
 export interface CompanyInfo {
   id: string;
   contact: {
-    physicalAddress: {
-      address: string;
-      googleMapLink?: string | null;
-    };
-    mailingAddress: {
-      address: string;
-      googleMapLink?: string | null;
-    };
+    name?: string | null;
+    email?: string | null;
     phone?: string | null;
     fax?: string | null;
-    email?: string | null;
+    physicalAddress: {
+      street: string;
+      cityStateZip: string;
+      /**
+       * @minItems 2
+       * @maxItems 2
+       */
+      coordinates?: [number, number] | null;
+    };
+    mailingAddress: {
+      street: string;
+      cityStateZip: string;
+    };
   };
   social?:
     | {
@@ -1631,21 +1637,23 @@ export interface CompanyInfoSelect<T extends boolean = true> {
   contact?:
     | T
     | {
+        name?: T;
+        email?: T;
+        phone?: T;
+        fax?: T;
         physicalAddress?:
           | T
           | {
-              address?: T;
-              googleMapLink?: T;
+              street?: T;
+              cityStateZip?: T;
+              coordinates?: T;
             };
         mailingAddress?:
           | T
           | {
-              address?: T;
-              googleMapLink?: T;
+              street?: T;
+              cityStateZip?: T;
             };
-        phone?: T;
-        fax?: T;
-        email?: T;
       };
   social?:
     | T

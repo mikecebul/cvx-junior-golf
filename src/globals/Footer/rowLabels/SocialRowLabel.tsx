@@ -8,7 +8,7 @@ const SocialRowLabel: PayloadClientReactComponent<RowLabelComponent> = () => {
 
   return (
     <div>
-      <p className="dark:text-orange-400 dark:font-medium font-bold capitalize">{`${rowNumber} - ${data.platform || 'undefined'}`}</p>
+      <p className="dark:text-orange-400 dark:font-medium font-bold capitalize">{`${(rowNumber ?? 0) + 1} - ${data.platform || 'undefined'}`}</p>
     </div>
   )
 }
