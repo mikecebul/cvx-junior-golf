@@ -40,10 +40,30 @@ export const contentFields: Field[] = [
     ],
   },
   {
-    name: 'title',
-    label: 'Title',
-    type: 'text',
-    required: true,
+    type: 'row',
+    fields: [
+      {
+        name: 'title',
+        label: 'Title',
+        type: 'text',
+        required: true,
+        admin: {
+          width: '50%',
+        },
+      },
+      {
+        name: 'heading',
+        type: 'radio',
+        defaultValue: 'h2',
+        options: [
+          { label: 'H1', value: 'h1' },
+          { label: 'H2', value: 'h2' },
+        ],
+        admin: {
+          width: '50%',
+        },
+      },
+    ],
   },
   {
     name: 'description',

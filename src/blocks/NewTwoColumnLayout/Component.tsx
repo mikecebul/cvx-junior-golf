@@ -23,7 +23,7 @@ export const NewTwoColumnLayoutBlock = ({
     richText,
     verticalAlignment = 'center',
   } = columnOne ?? {}
-  const { hasSubtitle, subtitle, title, description, links } = cta ?? {}
+  const { hasSubtitle, subtitle, title, heading, description, links } = cta ?? {}
   const { contentType: columnTwoType, form, images, priority, sticky = false } = columnTwo ?? {}
   const validImages = imagesAsMedia(images)
 
@@ -53,7 +53,7 @@ export const NewTwoColumnLayoutBlock = ({
                   {subtitle?.text}
                 </Badge>
               )}
-              {title && <Title text={title} />}
+              {title && <Title text={title} heading={heading ?? 'h2'} />}
               {description && <Description text={description} />}
               {links && <CTALinks links={links} />}
             </>

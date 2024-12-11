@@ -609,6 +609,7 @@ export interface NewTwoColumnLayoutBlock {
         text?: string | null;
       };
       title: string;
+      heading?: ('h1' | 'h2') | null;
       description: string;
       links?: LinkGroup;
     };
@@ -954,6 +955,7 @@ export interface PagesSelect<T extends boolean = true> {
                                 text?: T;
                               };
                           title?: T;
+                          heading?: T;
                           description?: T;
                           links?:
                             | T
@@ -1045,6 +1047,7 @@ export interface PagesSelect<T extends boolean = true> {
                                             text?: T;
                                           };
                                       title?: T;
+                                      heading?: T;
                                       description?: T;
                                       links?:
                                         | T

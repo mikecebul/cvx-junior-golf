@@ -30,7 +30,7 @@ export const Title = ({
     return (
       <h1
         className={cn(
-          'text-6xl md:text-7xl font-extrabold tracking-tight capitalize text-pretty max-w-prose',
+          'text-6xl md:text-7xl font-bold tracking-tight capitalize text-balance max-w-prose',
           className,
         )}
       >
@@ -42,7 +42,7 @@ export const Title = ({
     return (
       <h2
         className={cn(
-          'text-5xl font-bold tracking-tight capitalize text-pretty max-w-prose',
+          'text-5xl font-bold tracking-tight capitalize text-balance max-w-prose',
           className,
         )}
       >
