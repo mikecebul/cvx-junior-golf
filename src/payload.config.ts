@@ -18,6 +18,7 @@ import {
   OrderedListFeature,
   lexicalEditor,
   BlocksFeature,
+  ParagraphFeature,
 } from '@payloadcms/richtext-lexical'
 import sharp from 'sharp' // editor-import
 import { UnderlineFeature } from '@payloadcms/richtext-lexical'
@@ -109,7 +110,8 @@ export default buildConfig({
       return [
         FixedToolbarFeature(),
         InlineToolbarFeature(),
-        HeadingFeature({ enabledHeadingSizes: ['h2'] }),
+        ParagraphFeature(),
+        HeadingFeature({ enabledHeadingSizes: ['h1', 'h2'] }),
         UnderlineFeature(),
         BoldFeature(),
         ItalicFeature(),

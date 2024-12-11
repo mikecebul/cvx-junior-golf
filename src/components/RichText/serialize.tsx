@@ -133,12 +133,12 @@ export function serializeLexical({ nodes }: Props): JSX.Element {
             case 'heading': {
               const Tag = node?.tag
               const textSizeMap = {
-                h1: 'text-4xl', // 2rem
-                h2: 'text-3xl', // 1.5rem
-                h3: 'text-2xl', // 1rem
-                h4: 'text-xl', // 0.75rem
-                h5: 'text-lg', // 0.5rem
-                h6: 'text-base', // 0.5rem
+                h1: 'text-6xl md:text-7xl font-bold tracking-tight text-balance max-w-prose', // 2rem
+                h2: 'text-5xl font-bold tracking-tight text-balance max-w-prose', // 1.5rem
+                h3: 'text-4xl font-semibold tracking-tight text-balance max-w-prose', // 1rem
+                h4: 'text-3xl font-semibold tracking-tight text-balance max-w-prose', // 0.75rem
+                h5: 'text-2xl font-medium tracking-tight text-balance max-w-prose', // 0.5rem
+                h6: 'text-xl font-medium tracking-tight text-balance max-w-prose', // 0.5rem
               }
               const textSizeClass = textSizeMap[Tag] || 'text-base'
 
