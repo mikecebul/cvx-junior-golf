@@ -26,6 +26,7 @@ import { EventCards } from '@/blocks/EventCards/config'
 import { FeatureCards } from '@/blocks/FeatureCards/config'
 import { Layout } from '@/blocks/Layout/config'
 import { NewTwoColumnLayout } from '@/blocks/NewTwoColumnLayout/config'
+import { revalidateDelete } from './hooks/revalidateDelete'
 
 export const Pages: CollectionConfig = {
   slug: 'pages',
@@ -138,11 +139,12 @@ export const Pages: CollectionConfig = {
   hooks: {
     afterChange: [revalidatePage],
     beforeChange: [populatePublishedAt],
+    afterDelete: [revalidateDelete],
   },
   versions: {
     drafts: {
       autosave: {
-        interval: 500, // attempting to compensate for a slow server/db connection
+        interval: 100, // We set this interval for optimal live preview
       },
     },
     maxPerDoc: 50,
