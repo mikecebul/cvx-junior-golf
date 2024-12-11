@@ -14,7 +14,7 @@ import { Logo } from '@/components/Logo'
 
 export type NavItem = NonNullable<Header['navItems']>[number]
 
-export function MobileNav({ navItems }: { navItems: NavItem[] }) {
+export function MobileNav({ navItems, name }: { navItems: NavItem[]; name: string }) {
   const [open, setOpen] = useState(false)
   const currentPathName = usePathname()
 
@@ -35,7 +35,7 @@ export function MobileNav({ navItems }: { navItems: NavItem[] }) {
         </SheetTrigger>
         <SheetContent side="right" className="w-72 sm:w-1/2">
           <div className="flex justify-center mt-16">
-            <Logo />
+            <Logo name={name} />
           </div>
           <ScrollArea className="my-4 h-[calc(100vh-9rem)] pb-10">
             <div className="flex flex-col items-center justify-center gap-10 py-2">
@@ -47,7 +47,7 @@ export function MobileNav({ navItems }: { navItems: NavItem[] }) {
                         typeof link.reference.value.slug === 'string'
                         ? link.reference.value.slug
                         : link.reference?.relationTo === 'media' &&
-                            typeof link.reference.value.url === 'string'
+                          typeof link.reference.value.url === 'string'
                           ? link.reference.value.url
                           : ''
                       : ''

@@ -23,7 +23,7 @@ export const HeaderClient = ({
       <div className="flex items-center w-full px-4 md:px-8 2xl:px-0 2xl:container">
         <Logo name={contact?.name ?? 'Charlevoix Junior Golf'} />
         <MainNav navItems={navItems} />
-        <MobileNav navItems={navItems} />
+        <MobileNav navItems={navItems} name={contact?.name ?? 'Charlevoix Junior Golf'} />
         <div className="flex flex-col items-center text-lg xl:flex-row 2xl:space-x-2">
           <div
             className={cn(
