@@ -7,7 +7,10 @@ export const revalidateHeader: GlobalAfterChangeHook = ({ doc, req }) => {
 
   payload.logger.info(`Revalidating header`)
 
-  if (req.headers['X-Payload-Migration'] !== 'true') revalidatePath('/(payload)', 'layout')
+  if (req.headers['X-Payload-Migration'] !== 'true') {
+    revalidatePath('/(payload)', 'layout')
+    revalidatePath('/(frontend)', 'layout')
+  }
 
   return doc
 }
