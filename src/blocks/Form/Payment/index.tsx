@@ -14,6 +14,7 @@ import { Error } from '../Error'
 import { Width } from '../Width'
 import { Label } from '@/components/ui/label'
 import { getPaymentPrice } from './actions/getPaymentPrice'
+import { div } from 'framer-motion/client'
 
 // Create a new component for watching arrays and calculating price
 const PriceWatcher: React.FC<{
@@ -66,29 +67,31 @@ export const Payment: React.FC<
   priceConditions,
   setValue,
 }) => {
-  const { control } = useFormContext()
+    const { control } = useFormContext()
 
-  // Watch only the price field for display
-  const price = useWatch({
-    control,
-    name,
-    defaultValue: basePrice,
-  })
+    // Watch only the price field for display
+    const price = useWatch({
+      control,
+      name,
+      defaultValue: basePrice,
+    })
 
-  return (
-    <Width width={width}>
-      <Label htmlFor={name}>{label}</Label>
-      <div className="text-sm">${price}</div>
+    return (
+      <div className=''>
+        <Width width={width}>
+          <Label htmlFor={name} className='text-xl font-semibold'>{label}</Label>
+          <div className="text-base">${price}</div>
 
-      <PriceWatcher
-        control={control}
-        basePrice={basePrice}
-        priceConditions={priceConditions}
-        name={name}
-        setValue={setValue}
-      />
+          <PriceWatcher
+            control={control}
+            basePrice={basePrice}
+            priceConditions={priceConditions}
+            name={name}
+            setValue={setValue}
+          />
 
-      {requiredFromProps && errors[name] && <Error />}
-    </Width>
-  )
-}
+          {requiredFromProps && errors[name] && <Error />}
+        </Width>
+      </div>
+    )
+  }

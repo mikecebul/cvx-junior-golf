@@ -29,7 +29,7 @@ export const Item: React.FC<ItemProps> = ({
       <CardDescription>
         {labelSingular} {index + 1}
       </CardDescription>
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {field.map((textField, fieldIndex) => (
           <div key={fieldIndex} className="space-y-2">
             <Label htmlFor={`${index}-${textField.name}`}>{textField.label}</Label>
