@@ -52,6 +52,7 @@ interface FormData {
 export const FormBlock: React.FC<
   {
     id?: string
+    nested?: boolean
   } & FormBlockType
 > = (props) => {
   const {
@@ -59,6 +60,7 @@ export const FormBlock: React.FC<
     form: formFromProps,
     form: { id: formID, confirmationMessage, confirmationType, redirect, submitButtonLabel } = {},
     introContent,
+    nested = false,
   } = props
 
   const formMethods = useForm({
@@ -185,51 +187,57 @@ export const FormBlock: React.FC<
     [router, formID, redirect, confirmationType],
   )
 
+  const content = (
+    <FormProvider {...formMethods}>
+      {enableIntro && introContent && !hasSubmitted && (
+        <RichText className="mb-8" content={introContent} enableGutter={false} />
+      )}
+      {!isLoading && hasSubmitted && confirmationType === 'message' && (
+        <RichText content={confirmationMessage} />
+      )}
+      {isLoading && !hasSubmitted && <p>Loading, please wait...</p>}
+      {error && <div>{`${error.status || '500'}: ${error.message || ''}`}</div>}
+      {!hasSubmitted && (
+        <form id={formID} onSubmit={handleSubmit(onSubmit)}>
+          <Card className="p-4 flex flex-wrap gap-4">
+            {formFromProps &&
+              formFromProps.fields?.map((field: FormFieldBlock, index) => {
+                const Field: React.FC<any> = fields?.[field.blockType]
+                if (Field) {
+                  return (
+                    <div
+                      className="w-full"
+                      key={index}
+                    >
+                      <Field
+                        form={formFromProps}
+                        {...field}
+                        {...formMethods}
+                        control={control}
+                        errors={errors}
+                        register={register}
+                      />
+                    </div>
+                  )
+                }
+                return null
+              })}
+            <Button form={formID} type="submit" variant="brand" className="w-full">
+              {submitButtonLabel}
+            </Button>
+          </Card>
+        </form>
+      )}
+    </FormProvider>
+  )
+
+  if (nested) {
+    return <div className="max-w-2xl mx-auto">{content}</div>
+  }
+
   return (
     <Container>
-      <div className="max-w-2xl mx-auto">
-        <FormProvider {...formMethods}>
-          {enableIntro && introContent && !hasSubmitted && (
-            <RichText className="mb-8" content={introContent} enableGutter={false} />
-          )}
-          {!isLoading && hasSubmitted && confirmationType === 'message' && (
-            <RichText content={confirmationMessage} />
-          )}
-          {isLoading && !hasSubmitted && <p>Loading, please wait...</p>}
-          {error && <div>{`${error.status || '500'}: ${error.message || ''}`}</div>}
-          {!hasSubmitted && (
-            <form id={formID} onSubmit={handleSubmit(onSubmit)}>
-              <Card className="p-4 flex flex-wrap gap-4">
-                {formFromProps &&
-                  formFromProps.fields?.map((field: FormFieldBlock, index) => {
-                    const Field: React.FC<any> = fields?.[field.blockType]
-                    if (Field) {
-                      return (
-                        <div
-                          className="w-full"
-                          key={index}
-                        >
-                          <Field
-                            form={formFromProps}
-                            {...field}
-                            {...formMethods}
-                            control={control}
-                            errors={errors}
-                            register={register}
-                          />
-                        </div>
-                      )
-                    }
-                    return null
-                  })}
-                <Button form={formID} type="submit" variant="brand" className="w-full">
-                  {submitButtonLabel}
-                </Button>
-              </Card>
-            </form>
-          )}
-        </FormProvider>
-      </div>
+      <div className="max-w-2xl mx-auto">{content}</div>
     </Container>
   )
 }

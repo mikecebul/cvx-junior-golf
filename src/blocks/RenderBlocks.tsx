@@ -48,11 +48,11 @@ export const RenderBlocks: React.FC<{
             if (Block) {
               return nested ? (
                 <div key={index} className="pt-12 first:pt-0">
-                  <Block {...(block as any)} />
+                  <Block {...(block as any)} nested={nested} />
                 </div>
               ) : (
                 <div key={index} className="py-24 last:pb-48">
-                  <Block {...(block as any)} />
+                  <Block {...(block as any)} nested={nested} />
                 </div>
               )
             }
