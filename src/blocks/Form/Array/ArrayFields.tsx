@@ -1,17 +1,17 @@
 import React from 'react'
 import type { FieldErrorsImpl, FieldValues, UseFormRegister } from 'react-hook-form'
 import { CardDescription } from '@/components/ui/card'
-import { ArrayItemField } from './types'
+import type { ArrayEntryField } from './types'
 import { DateOfBirth } from '../DateOfBirth'
 import { Email } from '../Email'
 import { Text } from '../Text'
 import { DateOfBirthField } from '../DateOfBirth/type'
 import { EmailField, TextField } from '@payloadcms/plugin-form-builder/types'
 
-interface ItemProps {
+interface ArrayFieldsProps {
   index: number
   name: string
-  field: ArrayItemField[]
+  fields: ArrayEntryField[]
   labelSingular: string
   label: string
   errors: Partial<FieldErrorsImpl<{ [x: string]: any }>>
@@ -19,16 +19,16 @@ interface ItemProps {
   control: any
 }
 
-export const Item: React.FC<ItemProps> = ({
+export const ArrayFields: React.FC<ArrayFieldsProps> = ({
   index,
-  field,
+  fields,
   register,
   name,
   errors,
   labelSingular,
   control,
 }) => {
-  const renderField = (fieldItem: ArrayItemField, fieldIndex: number) => {
+  const renderField = (fieldItem: ArrayEntryField, fieldIndex: number) => {
     switch (fieldItem.blockType) {
       case 'dateOfBirth':
         return (
@@ -67,11 +67,9 @@ export const Item: React.FC<ItemProps> = ({
       <CardDescription>
         {labelSingular} {index + 1}
       </CardDescription>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        {field.map((fieldItem, fieldIndex) => (
-          <div key={fieldIndex} className="space-y-2">
-            {renderField(fieldItem, fieldIndex)}
-          </div>
+      <div className="flex flex-wrap gap-4">
+        {fields.map((fieldItem, fieldIndex) => (
+          <React.Fragment key={fieldIndex}>{renderField(fieldItem, fieldIndex)}</React.Fragment>
         ))}
       </div>
     </div>

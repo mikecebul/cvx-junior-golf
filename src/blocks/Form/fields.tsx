@@ -8,7 +8,7 @@ import { Select } from './Select'
 import { State } from './State'
 import { Text } from './Text'
 import { Textarea } from './Textarea'
-import { Array } from './Array'
+import { ArrayField } from './Array/ArrayField'
 import { Price } from './Price'
 import { DateOfBirth } from './DateOfBirth'
 
@@ -23,7 +23,7 @@ export const fields = {
   text: Text,
   textarea: Textarea,
   payment: Payment,
-  array: Array,
+  array: ArrayField,
   price: Price,
   dateOfBirth: DateOfBirth,
 }

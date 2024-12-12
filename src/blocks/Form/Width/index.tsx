@@ -1,13 +1,13 @@
-import * as React from 'react'
+import { cn } from '@/utilities/cn'
+import type { ReactNode } from 'react'
+import { widthMap, type WidthKey } from '@/utilities/widthMap'
 
-export const Width: React.FC<{
-  children: React.ReactNode
+interface WidthProps {
+  children: ReactNode
   className?: string
-  width?: number | string
-}> = ({ children, className, width }) => {
-  return (
-    <div className={className} style={{ maxWidth: width ? `${width}%` : undefined }}>
-      {children}
-    </div>
-  )
+  width?: WidthKey
+}
+
+export const Width = ({ children, className, width }: WidthProps) => {
+  return <div className={cn('w-full', width && widthMap[width], className)}>{children}</div>
 }
