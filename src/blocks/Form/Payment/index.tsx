@@ -14,7 +14,6 @@ import { Error } from '../Error'
 import { Width } from '../Width'
 import { Label } from '@/components/ui/label'
 import { getPaymentPrice } from './actions/getPaymentPrice'
-import { div } from 'framer-motion/client'
 
 // Create a new component for watching arrays and calculating price
 const PriceWatcher: React.FC<{
