@@ -1,104 +1,26 @@
-export const widthMap = {
-  1: 'sm:max-w-[calc(1%-1rem)]',
-  2: 'sm:max-w-[calc(2%-1rem)]',
-  3: 'sm:max-w-[calc(3%-1rem)]',
-  4: 'sm:max-w-[calc(4%-1rem)]',
-  5: 'sm:max-w-[calc(5%-1rem)]',
-  6: 'sm:max-w-[calc(6%-1rem)]',
-  7: 'sm:max-w-[calc(7%-1rem)]',
-  8: 'sm:max-w-[calc(8%-1rem)]',
-  9: 'sm:max-w-[calc(9%-1rem)]',
-  10: 'sm:max-w-[calc(10%-1rem)]',
-  11: 'sm:max-w-[calc(11%-1rem)]',
-  12: 'sm:max-w-[calc(12%-1rem)]',
-  13: 'sm:max-w-[calc(13%-1rem)]',
-  14: 'sm:max-w-[calc(14%-1rem)]',
-  15: 'sm:max-w-[calc(15%-1rem)]',
-  16: 'sm:max-w-[calc(16%-1rem)]',
-  17: 'sm:max-w-[calc(17%-1rem)]',
-  18: 'sm:max-w-[calc(18%-1rem)]',
-  19: 'sm:max-w-[calc(19%-1rem)]',
-  20: 'sm:max-w-[calc(20%-1rem)]',
-  21: 'sm:max-w-[calc(21%-1rem)]',
-  22: 'sm:max-w-[calc(22%-1rem)]',
-  23: 'sm:max-w-[calc(23%-1rem)]',
-  24: 'sm:max-w-[calc(24%-1rem)]',
-  25: 'sm:max-w-[calc(25%-1rem)]',
-  26: 'sm:max-w-[calc(26%-1rem)]',
-  27: 'sm:max-w-[calc(27%-1rem)]',
-  28: 'sm:max-w-[calc(28%-1rem)]',
-  29: 'sm:max-w-[calc(29%-1rem)]',
-  30: 'sm:max-w-[calc(30%-1rem)]',
-  31: 'sm:max-w-[calc(31%-1rem)]',
-  32: 'sm:max-w-[calc(32%-1rem)]',
-  33: 'sm:max-w-[calc(33.333%-1rem)]',
-  34: 'sm:max-w-[calc(34.333%-1rem)]',
-  35: 'sm:max-w-[calc(35.333%-1rem)]',
-  36: 'sm:max-w-[calc(36.333%-1rem)]',
-  37: 'sm:max-w-[calc(37.333%-1rem)]',
-  38: 'sm:max-w-[calc(38.333%-1rem)]',
-  39: 'sm:max-w-[calc(39.333%-1rem)]',
-  40: 'sm:max-w-[calc(40%-1rem)]',
-  41: 'sm:max-w-[calc(41%-1rem)]',
-  42: 'sm:max-w-[calc(42%-1rem)]',
-  43: 'sm:max-w-[calc(43%-1rem)]',
-  44: 'sm:max-w-[calc(44%-1rem)]',
-  45: 'sm:max-w-[calc(45%-1rem)]',
-  46: 'sm:max-w-[calc(46%-1rem)]',
-  47: 'sm:max-w-[calc(47%-1rem)]',
-  48: 'sm:max-w-[calc(48%-1rem)]',
-  49: 'sm:max-w-[calc(49%-1rem)]',
-  50: 'sm:max-w-[calc(50%-1rem)]',
-  51: 'sm:max-w-[calc(51%-1rem)]',
-  52: 'sm:max-w-[calc(52%-1rem)]',
-  53: 'sm:max-w-[calc(53%-1rem)]',
-  54: 'sm:max-w-[calc(54%-1rem)]',
-  55: 'sm:max-w-[calc(55%-1rem)]',
-  56: 'sm:max-w-[calc(56%-1rem)]',
-  57: 'sm:max-w-[calc(57%-1rem)]',
-  58: 'sm:max-w-[calc(58%-1rem)]',
-  59: 'sm:max-w-[calc(59%-1rem)]',
-  60: 'sm:max-w-[calc(60%-1rem)]',
-  61: 'sm:max-w-[calc(61%-1rem)]',
-  62: 'sm:max-w-[calc(62%-1rem)]',
-  63: 'sm:max-w-[calc(63%-1rem)]',
-  64: 'sm:max-w-[calc(64%-1rem)]',
-  65: 'sm:max-w-[calc(65%-1rem)]',
-  66: 'sm:max-w-[calc(66.666%-1rem)]',
-  67: 'sm:max-w-[calc(67.666%-1rem)]',
-  68: 'sm:max-w-[calc(68.666%-1rem)]',
-  69: 'sm:max-w-[calc(69.666%-1rem)]',
-  70: 'sm:max-w-[calc(70%-1rem)]',
-  71: 'sm:max-w-[calc(71%-1rem)]',
-  72: 'sm:max-w-[calc(72%-1rem)]',
-  73: 'sm:max-w-[calc(73%-1rem)]',
-  74: 'sm:max-w-[calc(74%-1rem)]',
-  75: 'sm:max-w-[calc(75%-1rem)]',
-  76: 'sm:max-w-[calc(76%-1rem)]',
-  77: 'sm:max-w-[calc(77%-1rem)]',
-  78: 'sm:max-w-[calc(78%-1rem)]',
-  79: 'sm:max-w-[calc(79%-1rem)]',
-  80: 'sm:max-w-[calc(80%-1rem)]',
-  81: 'sm:max-w-[calc(81%-1rem)]',
-  82: 'sm:max-w-[calc(82%-1rem)]',
-  83: 'sm:max-w-[calc(83%-1rem)]',
-  84: 'sm:max-w-[calc(84%-1rem)]',
-  85: 'sm:max-w-[calc(85%-1rem)]',
-  86: 'sm:max-w-[calc(86%-1rem)]',
-  87: 'sm:max-w-[calc(87%-1rem)]',
-  88: 'sm:max-w-[calc(88%-1rem)]',
-  89: 'sm:max-w-[calc(89%-1rem)]',
-  90: 'sm:max-w-[calc(90%-1rem)]',
-  91: 'sm:max-w-[calc(91%-1rem)]',
-  92: 'sm:max-w-[calc(92%-1rem)]',
-  93: 'sm:max-w-[calc(93%-1rem)]',
-  94: 'sm:max-w-[calc(94%-1rem)]',
-  95: 'sm:max-w-[calc(95%-1rem)]',
-  96: 'sm:max-w-[calc(96%-1rem)]',
-  97: 'sm:max-w-[calc(97%-1rem)]',
-  98: 'sm:max-w-[calc(98%-1rem)]',
-  99: 'sm:max-w-[calc(99%-1rem)]',
-  100: 'sm:max-w-[calc(100%-1rem)]',
+// Define practical width presets
+const baseWidthMap = {
+  25: 'sm:max-w-[calc(25%-1rem)]', // Quarter width
+  33: 'sm:max-w-[calc(33.333%-1rem)]', // Third width
+  50: 'sm:max-w-[calc(50%-1rem)]', // Half width
+  66: 'sm:max-w-[calc(66.666%-1rem)]', // Two thirds width
+  75: 'sm:max-w-[calc(75%-1rem)]', // Three quarters width
+  100: 'sm:max-w-[calc(100%-1rem)]', // Full width
 } as const
 
-export type WidthKey = keyof typeof widthMap
+// Helper function to find the closest preset width
+const getClosestWidth = (width: number) => {
+  const presets = Object.keys(baseWidthMap).map(Number)
+  return presets.reduce((prev, curr) =>
+    Math.abs(curr - width) < Math.abs(prev - width) ? curr : prev,
+  )
+}
+
+// Export a function that snaps to the nearest preset
+export const getWidth = (width: number | undefined) => {
+  if (!width) return undefined
+  const closestWidth = getClosestWidth(width)
+  return baseWidthMap[closestWidth as keyof typeof baseWidthMap]
+}
+
+export type WidthKey = number | undefined

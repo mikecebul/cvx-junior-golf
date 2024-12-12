@@ -1,6 +1,6 @@
 import { cn } from '@/utilities/cn'
 import type { ReactNode } from 'react'
-import { widthMap, type WidthKey } from '@/utilities/widthMap'
+import { getWidth, type WidthKey } from '@/utilities/widthMap'
 
 interface WidthProps {
   children: ReactNode
@@ -9,5 +9,5 @@ interface WidthProps {
 }
 
 export const Width = ({ children, className, width }: WidthProps) => {
-  return <div className={cn('w-full', width && widthMap[width], className)}>{children}</div>
+  return <div className={cn('w-full', getWidth(width), className)}>{children}</div>
 }
