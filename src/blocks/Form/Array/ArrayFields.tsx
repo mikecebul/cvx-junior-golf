@@ -1,12 +1,15 @@
 import React from 'react'
 import type { FieldErrorsImpl, FieldValues, UseFormRegister } from 'react-hook-form'
-import { CardDescription } from '@/components/ui/card'
+import { CardDescription, CardDescriptionDiv } from '@/components/ui/card'
 import type { ArrayEntryField } from './types'
 import { DateOfBirth } from '../DateOfBirth'
 import { Email } from '../Email'
 import { Text } from '../Text'
 import { DateOfBirthField } from '../DateOfBirth/type'
 import { EmailField, TextField } from '@payloadcms/plugin-form-builder/types'
+import { Button } from '@/components/ui/button'
+import { Trash2 } from 'lucide-react'
+import { cn } from '@/utilities/cn'
 
 interface ArrayFieldsProps {
   index: number
@@ -17,6 +20,9 @@ interface ArrayFieldsProps {
   errors: Partial<FieldErrorsImpl<{ [x: string]: any }>>
   register: UseFormRegister<FieldValues>
   control: any
+  remove: (index: number) => void
+  minRows: number
+  currentRows: number
 }
 
 export const ArrayFields: React.FC<ArrayFieldsProps> = ({
@@ -27,7 +33,12 @@ export const ArrayFields: React.FC<ArrayFieldsProps> = ({
   errors,
   labelSingular,
   control,
+  remove,
+  minRows,
+  currentRows,
 }) => {
+  console.log('minRows:', minRows)
+  console.log('currentRows:', currentRows)
   const renderField = (fieldItem: ArrayEntryField, fieldIndex: number) => {
     switch (fieldItem.blockType) {
       case 'dateOfBirth':
@@ -64,9 +75,21 @@ export const ArrayFields: React.FC<ArrayFieldsProps> = ({
 
   return (
     <div className="space-y-4">
-      <CardDescription>
+      <CardDescriptionDiv className="flex items-center justify-between">
         {labelSingular} {index + 1}
-      </CardDescription>
+        <Button
+          type="button"
+          variant="ghost"
+          size="icon"
+          className={cn('size-7 rounded-full hover:bg-red-100 transition-opacity', {
+            'opacity-0 pointer-events-none': currentRows <= minRows,
+            'opacity-100': currentRows > minRows,
+          })}
+          onClick={() => remove(index)}
+        >
+          <Trash2 className="size-4 text-red-700 hover:text-red-900" />
+        </Button>
+      </CardDescriptionDiv>
       <div className="flex flex-wrap gap-4">
         {fields.map((fieldItem, fieldIndex) => (
           <React.Fragment key={fieldIndex}>{renderField(fieldItem, fieldIndex)}</React.Fragment>

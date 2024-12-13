@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button'
 import { CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Plus, Trash2 } from 'lucide-react'
 import { ArrayBlockConfig } from './types'
+import { motion, AnimatePresence } from 'motion/react'
 
 export const ArrayField: React.FC<ArrayBlockConfig> = (props) => {
   const { label, minRows = 0, maxRows = 10, name } = props
@@ -25,29 +26,30 @@ export const ArrayField: React.FC<ArrayBlockConfig> = (props) => {
       <CardHeader className="flex flex-row items-center justify-between px-0">
         <CardTitle>{label}</CardTitle>
       </CardHeader>
-      <CardContent className="space-y-6 px-0">
-        {fields.map((field, index) => (
-          <div key={field.id} className="relative space-y-4 rounded-lg border p-4">
-            {fields.length > minRows && (
-              <Button
-                type="button"
-                variant="ghost"
-                size="icon"
-                className="absolute right-2 top-2 size-7 rounded-full hover:bg-red-100"
-                onClick={() => remove(index)}
-              >
-                <Trash2 className="size-4 text-red-700 hover:text-red-900" />
-              </Button>
-            )}
-            <ArrayFields
-              index={index}
-              register={register}
-              errors={errors}
-              {...props}
-              control={control}
-            />
-          </div>
-        ))}
+      <CardContent className="flex flex-col px-0 gap-4">
+        <AnimatePresence mode="sync">
+          {fields.map((field, index) => (
+            <motion.div
+              initial={false}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              layout
+              transition={{ duration: 0.2 }}
+              key={field.id}
+              className="relative rounded-lg border p-4 overflow-hidden"
+            >
+              <ArrayFields
+                index={index}
+                register={register}
+                errors={errors}
+                {...props}
+                control={control}
+                remove={remove}
+                currentRows={fields.length}
+              />
+            </motion.div>
+          ))}
+        </AnimatePresence>
         {fields.length < maxRows && (
           <Button
             type="button"
