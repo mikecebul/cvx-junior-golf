@@ -4,6 +4,7 @@ import { fileURLToPath } from 'url'
 import path from 'path'
 import { superAdmin } from '@/access/superAdmin'
 import { authenticated } from '@/access/authenticated'
+import { editorOrHigher } from '@/access/editorOrHigher'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -16,10 +17,10 @@ export const Media: CollectionConfig = {
   },
   access: {
     admin: authenticated,
-    create: authenticated,
-    delete: authenticated,
+    create: editorOrHigher,
+    delete: editorOrHigher,
     read: anyone,
-    update: authenticated,
+    update: editorOrHigher,
   },
   admin: {
     defaultColumns: ['filename', 'alt', 'updatedAt'],

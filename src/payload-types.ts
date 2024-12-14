@@ -689,7 +689,7 @@ export interface LayoutBlock {
 export interface User {
   id: string;
   name?: string | null;
-  role: 'editor' | 'admin' | 'superAdmin';
+  role: 'user' | 'editor' | 'admin' | 'superAdmin';
   updatedAt: string;
   createdAt: string;
   enableAPIKey?: boolean | null;

@@ -23,6 +23,10 @@ export const RoleSelectClient: SelectFieldClientComponent = ({ path, validate })
           label: 'Editor',
           value: 'editor',
         },
+        {
+          label: 'User',
+          value: 'user',
+        },
       ]
     return [
       {
@@ -32,6 +36,10 @@ export const RoleSelectClient: SelectFieldClientComponent = ({ path, validate })
       {
         label: 'Editor',
         value: 'editor',
+      },
+      {
+        label: 'User',
+        value: 'user',
       },
     ]
   }

@@ -27,15 +27,16 @@ import { FeatureCards } from '@/blocks/FeatureCards/config'
 import { Layout } from '@/blocks/Layout/config'
 import { NewTwoColumnLayout } from '@/blocks/NewTwoColumnLayout/config'
 import { revalidateDelete } from './hooks/revalidateDelete'
+import { editorOrHigher } from '@/access/editorOrHigher'
 
 export const Pages: CollectionConfig = {
   slug: 'pages',
   access: {
     admin: authenticated,
-    create: authenticated,
-    delete: authenticated,
+    create: editorOrHigher,
+    delete: editorOrHigher,
     read: authenticatedOrPublished,
-    update: authenticated,
+    update: editorOrHigher,
   },
   admin: {
     defaultColumns: ['title', 'slug', 'updatedAt'],

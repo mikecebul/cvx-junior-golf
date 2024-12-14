@@ -42,6 +42,10 @@ import { baseUrl } from './utilities/baseUrl'
 import { ArrayBlock, DateOfBirth } from './blocks/Form/blocks'
 import { checkoutSessionCompleted } from './plugins/stripe/webhooks/checkoutSessionCompleted'
 import { revalidatePath } from 'next/cache'
+import { editorOrHigher } from './access/editorOrHigher'
+import { anyone } from './access/anyone'
+import { adminOrSuperAdmin } from './access/adminOrSuperAdmin'
+import { authenticated } from './access/authenticated'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -207,6 +211,13 @@ export default buildConfig({
         return emailsToSend
       },
       formOverrides: {
+        access: {
+          admin: authenticated,
+          create: editorOrHigher,
+          delete: editorOrHigher,
+          update: editorOrHigher,
+          read: authenticated,
+        },
         hooks: {
           afterChange: [() => revalidatePath('/(frontend)/register', 'page')],
         },
@@ -230,7 +241,11 @@ export default buildConfig({
       },
       formSubmissionOverrides: {
         access: {
-          update: superAdmin,
+          admin: authenticated,
+          update: adminOrSuperAdmin,
+          delete: adminOrSuperAdmin,
+          create: anyone,
+          read: authenticated,
         },
         admin: {
           useAsTitle: 'title',
