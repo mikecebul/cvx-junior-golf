@@ -48,6 +48,10 @@ const Users: CollectionConfig = {
       },
       options: [
         {
+          label: 'User',
+          value: 'user',
+        },
+        {
           label: 'Editor',
           value: 'editor',
         },
