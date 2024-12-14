@@ -6,9 +6,10 @@ import { CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Plus, Trash2 } from 'lucide-react'
 import { ArrayBlockConfig } from './types'
 import { motion, AnimatePresence } from 'motion/react'
+import { cn } from '@/utilities/cn'
 
 export const ArrayField: React.FC<ArrayBlockConfig> = (props) => {
-  const { label, minRows = 0, maxRows = 10, name } = props
+  const { label, maxRows = 10, name } = props
 
   const {
     register,
@@ -26,17 +27,21 @@ export const ArrayField: React.FC<ArrayBlockConfig> = (props) => {
       <CardHeader className="flex flex-row items-center justify-between px-0">
         <CardTitle>{label}</CardTitle>
       </CardHeader>
-      <CardContent className="flex flex-col px-0 gap-4">
-        <AnimatePresence mode="sync">
+      <CardContent className="flex flex-col gap-4 px-0">
+        <AnimatePresence initial={false} mode="sync">
           {fields.map((field, index) => (
             <motion.div
-              initial={false}
+              initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
+              exit={{
+                opacity: 0,
+                height: 0,
+                transition: { duration: 0.3 },
+              }}
               layout
-              transition={{ duration: 0.2 }}
+              transition={{ duration: 0.3 }}
               key={field.id}
-              className="relative rounded-lg border p-4 overflow-hidden"
+              className="rounded-lg border p-4"
             >
               <ArrayFields
                 index={index}
@@ -50,18 +55,20 @@ export const ArrayField: React.FC<ArrayBlockConfig> = (props) => {
             </motion.div>
           ))}
         </AnimatePresence>
-        {fields.length < maxRows && (
-          <Button
-            type="button"
-            size="icon"
-            className="size-7 rounded-full bg-green-400 hover:bg-green-500"
-            onClick={() => append({})}
-          >
-            <Plus className="h-4 w-4 text-black" />
-          </Button>
-        )
-        }
-
+        <Button
+          type="button"
+          size="icon"
+          className={cn(
+            'size-7 rounded-full bg-green-400 transition-opacity duration-300 hover:bg-green-500',
+            {
+              'pointer-events-none opacity-0': fields.length >= maxRows,
+              'opacity-100': fields.length < maxRows,
+            },
+          )}
+          onClick={() => append({})}
+        >
+          <Plus className="h-4 w-4 text-black" />
+        </Button>
       </CardContent>
     </div>
   )

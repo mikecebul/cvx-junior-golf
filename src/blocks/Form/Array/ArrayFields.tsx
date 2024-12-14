@@ -1,6 +1,6 @@
 import React from 'react'
 import type { FieldErrorsImpl, FieldValues, UseFormRegister } from 'react-hook-form'
-import { CardDescription, CardDescriptionDiv } from '@/components/ui/card'
+import { CardDescriptionDiv } from '@/components/ui/card'
 import type { ArrayEntryField } from './types'
 import { DateOfBirth } from '../DateOfBirth'
 import { Email } from '../Email'
@@ -37,8 +37,6 @@ export const ArrayFields: React.FC<ArrayFieldsProps> = ({
   minRows,
   currentRows,
 }) => {
-  console.log('minRows:', minRows)
-  console.log('currentRows:', currentRows)
   const renderField = (fieldItem: ArrayEntryField, fieldIndex: number) => {
     switch (fieldItem.blockType) {
       case 'dateOfBirth':
@@ -81,8 +79,8 @@ export const ArrayFields: React.FC<ArrayFieldsProps> = ({
           type="button"
           variant="ghost"
           size="icon"
-          className={cn('size-7 rounded-full hover:bg-red-100 transition-opacity', {
-            'opacity-0 pointer-events-none': currentRows <= minRows,
+          className={cn('size-7 rounded-full transition-opacity hover:bg-red-100', {
+            'pointer-events-none opacity-0': currentRows <= minRows,
             'opacity-100': currentRows > minRows,
           })}
           onClick={() => remove(index)}
