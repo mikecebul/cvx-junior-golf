@@ -129,6 +129,7 @@ export const NewTwoColumnLayout: Block = {
           name: 'form',
           type: 'blocks',
           blocks: [FormBlock],
+          maxRows: 1,
           admin: {
             condition: (_, siblingData) => Boolean(siblingData.contentType === 'form'),
           },

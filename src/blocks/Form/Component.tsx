@@ -199,16 +199,13 @@ export const FormBlock: React.FC<
       {error && <div>{`${error.status || '500'}: ${error.message || ''}`}</div>}
       {!hasSubmitted && (
         <form id={formID} onSubmit={handleSubmit(onSubmit)}>
-          <Card className="p-4 flex flex-wrap gap-4">
+          <Card className="flex flex-wrap gap-4 p-4">
             {formFromProps &&
               formFromProps.fields?.map((field: FormFieldBlock, index) => {
                 const Field: React.FC<any> = fields?.[field.blockType]
                 if (Field) {
                   return (
-                    <div
-                      className="w-full"
-                      key={index}
-                    >
+                    <div className="w-full" key={index}>
                       <Field
                         form={formFromProps}
                         {...field}
@@ -232,12 +229,12 @@ export const FormBlock: React.FC<
   )
 
   if (nested) {
-    return <div className="max-w-2xl mx-auto">{content}</div>
+    return <div className="">{content}</div>
   }
 
   return (
     <Container>
-      <div className="max-w-2xl mx-auto">{content}</div>
+      <div className="mx-auto max-w-2xl">{content}</div>
     </Container>
   )
 }
