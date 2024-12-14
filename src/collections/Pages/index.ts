@@ -32,7 +32,6 @@ import { editorOrHigher } from '@/access/editorOrHigher'
 export const Pages: CollectionConfig = {
   slug: 'pages',
   access: {
-    admin: authenticated,
     create: editorOrHigher,
     delete: editorOrHigher,
     read: authenticatedOrPublished,

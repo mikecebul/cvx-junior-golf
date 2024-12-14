@@ -7,7 +7,6 @@ import { CollectionConfig } from 'payload'
 export const Resources: CollectionConfig = {
   slug: 'resources',
   access: {
-    admin: authenticated,
     create: editorOrHigher,
     delete: editorOrHigher,
     read: authenticatedOrPublished,
