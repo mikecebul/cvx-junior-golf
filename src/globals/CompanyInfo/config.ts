@@ -1,3 +1,5 @@
+import { authenticated } from '@/access/authenticated'
+import { editorOrHigher } from '@/access/editorOrHigher'
 import { superAdmin } from '@/access/superAdmin'
 import { link } from '@/fields/link'
 import { revalidatePath } from 'next/cache'
@@ -6,23 +8,28 @@ import { GlobalConfig } from 'payload'
 export const CompanyInfo: GlobalConfig = {
   slug: 'company-info',
   label: 'Company Info',
+  access: {
+    read: authenticated,
+    update: editorOrHigher,
+  },
   admin: {
     hideAPIURL: !superAdmin,
   },
   hooks: {
-    afterChange: [({ req }) => {
-      if (req.headers['X-Payload-Migration'] !== 'true') {
-        revalidatePath('/(payload)', 'layout')
-        revalidatePath('/(frontend)', 'layout')
-      }
-    }],
+    afterChange: [
+      ({ req }) => {
+        if (req.headers['X-Payload-Migration'] !== 'true') {
+          revalidatePath('/(payload)', 'layout')
+          revalidatePath('/(frontend)', 'layout')
+        }
+      },
+    ],
   },
   fields: [
     {
       name: 'contact',
       type: 'group',
-      admin: {
-      },
+      admin: {},
       fields: [
         {
           type: 'row',
