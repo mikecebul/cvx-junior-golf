@@ -72,7 +72,7 @@ const Users: CollectionConfig = {
           },
           Cell: '@/collections/Users/RoleCell',
         },
-        condition: ({ user }) => {
+        condition: (data, siblingData, { user }) => {
           if (!user) return false
           return true
         }
