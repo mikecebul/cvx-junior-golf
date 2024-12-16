@@ -11,7 +11,6 @@ import { MediaBlock } from './MediaBlock/Component'
 import { EventCardsBlock } from './EventCards/Component'
 import { FeatureCardsBlock } from './FeatureCards/Component'
 import { LayoutBlock } from './Layout/Component'
-import { TwoColumnLayoutBlock } from './TwoColumnLayout/Component'
 import { NewTwoColumnLayoutBlock } from './NewTwoColumnLayout/Component'
 
 const blockComponents = {
@@ -23,7 +22,6 @@ const blockComponents = {
   mediaBlock: MediaBlock,
   eventCards: EventCardsBlock,
   featureCards: FeatureCardsBlock,
-  twoColumnLayout: TwoColumnLayoutBlock,
   newTwoColumnLayout: NewTwoColumnLayoutBlock,
   layout: LayoutBlock,
 }
