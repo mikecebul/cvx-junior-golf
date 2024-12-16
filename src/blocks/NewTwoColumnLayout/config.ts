@@ -6,8 +6,8 @@ export const NewTwoColumnLayout: Block = {
   slug: 'newTwoColumnLayout',
   interfaceName: 'NewTwoColumnLayoutBlock',
   labels: {
-    singular: 'New Two Column Layout',
-    plural: 'New Two Column Layouts',
+    singular: 'Two Column Layout',
+    plural: 'Two Column Layouts',
   },
   fields: [
     {

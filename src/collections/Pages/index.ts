@@ -21,7 +21,6 @@ import { RichText } from '@/blocks/RichText/config'
 import { EventsPage } from '@/blocks/EventsPage/config'
 import { FormBlock } from '@/blocks/Form/config'
 import { baseUrl } from '@/utilities/baseUrl'
-import { TwoColumnLayout } from '@/blocks/TwoColumnLayout/config'
 import { EventCards } from '@/blocks/EventCards/config'
 import { FeatureCards } from '@/blocks/FeatureCards/config'
 import { Layout } from '@/blocks/Layout/config'
@@ -72,7 +71,6 @@ export const Pages: CollectionConfig = {
                 Links,
                 EventsPage,
                 FormBlock,
-                TwoColumnLayout,
                 NewTwoColumnLayout,
                 EventCards,
                 FeatureCards,
