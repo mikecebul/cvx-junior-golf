@@ -72,6 +72,10 @@ const Users: CollectionConfig = {
           },
           Cell: '@/collections/Users/RoleCell',
         },
+        condition: ({ user }) => {
+          if (!user) return false
+          return true
+        }
       },
       hooks: {
         beforeChange: [ensureFirstUserIsSuperAdmin],
@@ -80,7 +84,15 @@ const Users: CollectionConfig = {
             req.headers['X-Payload-Migration'] !== 'true' && revalidatePath('/(payload)', 'layout'),
         ],
       },
-      validate: (val, { req: { user } }) => {
+      validate: async (val, { req: { user, payload } }) => {
+        if (!user) {
+          const users = await payload.find({
+            collection: 'users',
+            limit: 0,
+          })
+          if (users.totalDocs === 0) return true
+        }
+
         if (user?.role !== 'superAdmin' && val === 'superAdmin')
           return 'Admins cannot create super admins'
         if (user?.role === 'editor') return 'Editors cannot update roles'
