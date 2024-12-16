@@ -343,7 +343,7 @@ export default buildConfig({
             if (typeof filename !== 'string') return null as unknown as string
             return `https://${process.env.NEXT_PUBLIC_S3_HOSTNAME}/${prefix}/${filename}`
           },
-          prefix: 'media',
+          prefix: process.env.NEXT_PUBLIC_UPLOAD_PREFIX,
         },
       },
     }),
