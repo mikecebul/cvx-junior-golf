@@ -52,3 +52,4 @@ For questions or issues, please open a GitHub issue or contact me on Discord.
 ## License
 
 This project is licensed under the MIT License. See the LICENSE file for more details.
+.
