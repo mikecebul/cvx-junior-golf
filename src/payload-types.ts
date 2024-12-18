@@ -807,268 +807,15 @@ export interface PagesSelect<T extends boolean = true> {
   layout?:
     | T
     | {
-        events?:
-          | T
-          | {
-              direction?: T;
-              title?: T;
-              description?: T;
-              links?:
-                | T
-                | {
-                    link?:
-                      | T
-                      | {
-                          type?: T;
-                          newTab?: T;
-                          reference?: T;
-                          url?: T;
-                          label?: T;
-                          appearance?: T;
-                        };
-                    id?: T;
-                  };
-              image?: T;
-              eventItems?: T;
-              id?: T;
-              blockName?: T;
-            };
-        richText?:
-          | T
-          | {
-              subtitle?: T;
-              richContent?: T;
-              priority?: T;
-              images?: T;
-              id?: T;
-              blockName?: T;
-            };
-        linksBlock?:
-          | T
-          | {
-              title?: T;
-              description?: T;
-              linkCards?:
-                | T
-                | {
-                    linkType?: T;
-                    title?: T;
-                    description?: T;
-                    imageUploadOption?: T;
-                    keywords?: T;
-                    image?: T;
-                    href?: T;
-                    id?: T;
-                  };
-              id?: T;
-              blockName?: T;
-            };
-        eventsPage?:
-          | T
-          | {
-              title?: T;
-              eventCards?: T;
-              announcements?:
-                | T
-                | {
-                    title?: T;
-                    description?: T;
-                    id?: T;
-                  };
-              id?: T;
-              blockName?: T;
-            };
-        formBlock?:
-          | T
-          | {
-              form?: T;
-              enableIntro?: T;
-              introContent?: T;
-              id?: T;
-              blockName?: T;
-            };
-        newTwoColumnLayout?:
-          | T
-          | {
-              direction?: T;
-              breakpoint?: T;
-              columnOne?:
-                | T
-                | {
-                    contentType?: T;
-                    verticalAlignment?: T;
-                    richText?: T;
-                    cta?:
-                      | T
-                      | {
-                          hasSubtitle?: T;
-                          subtitle?:
-                            | T
-                            | {
-                                icon?: T;
-                                text?: T;
-                              };
-                          title?: T;
-                          heading?: T;
-                          description?: T;
-                          links?:
-                            | T
-                            | {
-                                link?:
-                                  | T
-                                  | {
-                                      type?: T;
-                                      newTab?: T;
-                                      reference?: T;
-                                      url?: T;
-                                      label?: T;
-                                      appearance?: T;
-                                    };
-                                id?: T;
-                              };
-                        };
-                  };
-              columnTwo?:
-                | T
-                | {
-                    contentType?: T;
-                    priority?: T;
-                    sticky?: T;
-                    images?: T;
-                    form?:
-                      | T
-                      | {
-                          formBlock?:
-                            | T
-                            | {
-                                form?: T;
-                                enableIntro?: T;
-                                introContent?: T;
-                                id?: T;
-                                blockName?: T;
-                              };
-                        };
-                  };
-              id?: T;
-              blockName?: T;
-            };
-        eventCards?:
-          | T
-          | {
-              eventCards?: T;
-              id?: T;
-              blockName?: T;
-            };
-        featureCards?:
-          | T
-          | {
-              cards?:
-                | T
-                | {
-                    icon?: T;
-                    title?: T;
-                    description?: T;
-                    id?: T;
-                  };
-              id?: T;
-              blockName?: T;
-            };
-        layout?:
-          | T
-          | {
-              blocks?:
-                | T
-                | {
-                    newTwoColumnLayout?:
-                      | T
-                      | {
-                          direction?: T;
-                          breakpoint?: T;
-                          columnOne?:
-                            | T
-                            | {
-                                contentType?: T;
-                                verticalAlignment?: T;
-                                richText?: T;
-                                cta?:
-                                  | T
-                                  | {
-                                      hasSubtitle?: T;
-                                      subtitle?:
-                                        | T
-                                        | {
-                                            icon?: T;
-                                            text?: T;
-                                          };
-                                      title?: T;
-                                      heading?: T;
-                                      description?: T;
-                                      links?:
-                                        | T
-                                        | {
-                                            link?:
-                                              | T
-                                              | {
-                                                  type?: T;
-                                                  newTab?: T;
-                                                  reference?: T;
-                                                  url?: T;
-                                                  label?: T;
-                                                  appearance?: T;
-                                                };
-                                            id?: T;
-                                          };
-                                    };
-                              };
-                          columnTwo?:
-                            | T
-                            | {
-                                contentType?: T;
-                                priority?: T;
-                                sticky?: T;
-                                images?: T;
-                                form?:
-                                  | T
-                                  | {
-                                      formBlock?:
-                                        | T
-                                        | {
-                                            form?: T;
-                                            enableIntro?: T;
-                                            introContent?: T;
-                                            id?: T;
-                                            blockName?: T;
-                                          };
-                                    };
-                              };
-                          id?: T;
-                          blockName?: T;
-                        };
-                    featureCards?:
-                      | T
-                      | {
-                          cards?:
-                            | T
-                            | {
-                                icon?: T;
-                                title?: T;
-                                description?: T;
-                                id?: T;
-                              };
-                          id?: T;
-                          blockName?: T;
-                        };
-                    eventCards?:
-                      | T
-                      | {
-                          eventCards?: T;
-                          id?: T;
-                          blockName?: T;
-                        };
-                  };
-              id?: T;
-              blockName?: T;
-            };
+        events?: T | EventsBlockSelect<T>;
+        richText?: T | RichTextBlockSelect<T>;
+        linksBlock?: T | LinksBlockSelect<T>;
+        eventsPage?: T | EventsPageBlockSelect<T>;
+        formBlock?: T | FormBlockSelect<T>;
+        newTwoColumnLayout?: T | NewTwoColumnLayoutBlockSelect<T>;
+        eventCards?: T | EventCardsBlockSelect<T>;
+        featureCards?: T | FeatureCardsBlockSelect<T>;
+        layout?: T | LayoutBlockSelect<T>;
       };
   meta?:
     | T
@@ -1088,6 +835,190 @@ export interface PagesSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "EventsBlock_select".
+ */
+export interface EventsBlockSelect<T extends boolean = true> {
+  direction?: T;
+  title?: T;
+  description?: T;
+  links?: T | LinkGroupSelect<T>;
+  image?: T;
+  eventItems?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "LinkGroup_select".
+ */
+export interface LinkGroupSelect<T extends boolean = true> {
+  link?: T | LinkSelect<T>;
+  id?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Link_select".
+ */
+export interface LinkSelect<T extends boolean = true> {
+  type?: T;
+  newTab?: T;
+  reference?: T;
+  url?: T;
+  label?: T;
+  appearance?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "RichTextBlock_select".
+ */
+export interface RichTextBlockSelect<T extends boolean = true> {
+  subtitle?: T;
+  richContent?: T;
+  priority?: T;
+  images?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "LinksBlock_select".
+ */
+export interface LinksBlockSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  linkCards?: T | LinkCardsSelect<T>;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "LinkCards_select".
+ */
+export interface LinkCardsSelect<T extends boolean = true> {
+  linkType?: T;
+  title?: T;
+  description?: T;
+  imageUploadOption?: T;
+  keywords?: T;
+  image?: T;
+  href?: T;
+  id?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "EventsPageBlock_select".
+ */
+export interface EventsPageBlockSelect<T extends boolean = true> {
+  title?: T;
+  eventCards?: T;
+  announcements?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FormBlock_select".
+ */
+export interface FormBlockSelect<T extends boolean = true> {
+  form?: T;
+  enableIntro?: T;
+  introContent?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "NewTwoColumnLayoutBlock_select".
+ */
+export interface NewTwoColumnLayoutBlockSelect<T extends boolean = true> {
+  direction?: T;
+  breakpoint?: T;
+  columnOne?:
+    | T
+    | {
+        contentType?: T;
+        verticalAlignment?: T;
+        richText?: T;
+        cta?:
+          | T
+          | {
+              hasSubtitle?: T;
+              subtitle?:
+                | T
+                | {
+                    icon?: T;
+                    text?: T;
+                  };
+              title?: T;
+              heading?: T;
+              description?: T;
+              links?: T | LinkGroupSelect<T>;
+            };
+      };
+  columnTwo?:
+    | T
+    | {
+        contentType?: T;
+        priority?: T;
+        sticky?: T;
+        images?: T;
+        form?:
+          | T
+          | {
+              formBlock?: T | FormBlockSelect<T>;
+            };
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "EventCardsBlock_select".
+ */
+export interface EventCardsBlockSelect<T extends boolean = true> {
+  eventCards?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FeatureCardsBlock_select".
+ */
+export interface FeatureCardsBlockSelect<T extends boolean = true> {
+  cards?:
+    | T
+    | {
+        icon?: T;
+        title?: T;
+        description?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "LayoutBlock_select".
+ */
+export interface LayoutBlockSelect<T extends boolean = true> {
+  blocks?:
+    | T
+    | {
+        newTwoColumnLayout?: T | NewTwoColumnLayoutBlockSelect<T>;
+        featureCards?: T | FeatureCardsBlockSelect<T>;
+        eventCards?: T | EventCardsBlockSelect<T>;
+      };
+  id?: T;
+  blockName?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1527,15 +1458,7 @@ export interface HeaderSelect<T extends boolean = true> {
   navItems?:
     | T
     | {
-        link?:
-          | T
-          | {
-              type?: T;
-              newTab?: T;
-              reference?: T;
-              url?: T;
-              label?: T;
-            };
+        link?: T | LinkSelect<T>;
         id?: T;
       };
   updatedAt?: T;
@@ -1550,15 +1473,7 @@ export interface FooterSelect<T extends boolean = true> {
   pageLinks?:
     | T
     | {
-        link?:
-          | T
-          | {
-              type?: T;
-              newTab?: T;
-              reference?: T;
-              url?: T;
-              label?: T;
-            };
+        link?: T | LinkSelect<T>;
         id?: T;
       };
   showContact?: T;
@@ -1597,15 +1512,7 @@ export interface CompanyInfoSelect<T extends boolean = true> {
     | T
     | {
         platform?: T;
-        link?:
-          | T
-          | {
-              type?: T;
-              newTab?: T;
-              reference?: T;
-              url?: T;
-              label?: T;
-            };
+        link?: T | LinkSelect<T>;
         id?: T;
       };
   hours?:

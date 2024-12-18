@@ -28,18 +28,19 @@ export const Textarea: React.FC<
   rows = 3,
   width,
 }) => {
-  return (
-    <Width width={width}>
-      <Label htmlFor={name}>{label}</Label>
+    return (
+      <Width width={width}>
+        <Label htmlFor={name}>{label}</Label>
 
-      <TextAreaComponent
-        defaultValue={defaultValue}
-        id={name}
-        rows={rows}
-        {...register(name, { required: requiredFromProps })}
-      />
-
-      {requiredFromProps && errors[name] && <Error />}
-    </Width>
-  )
-}
+        <TextAreaComponent
+          defaultValue={defaultValue}
+          id={name}
+          rows={rows}
+          {...register(name, { required: requiredFromProps })}
+        />
+        <div className="min-h-[24px]">
+          {requiredFromProps && errors[name] && <Error />}
+        </div>
+      </Width>
+    )
+  }

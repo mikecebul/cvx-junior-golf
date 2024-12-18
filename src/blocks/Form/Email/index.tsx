@@ -27,8 +27,9 @@ export const Email: React.FC<
         type="text"
         {...register(name, { pattern: /^\S[^\s@]*@\S+$/, required: requiredFromProps })}
       />
-
-      {requiredFromProps && errors[name] && <Error />}
+      <div className="min-h-[24px]">
+        {requiredFromProps && errors[name] && <Error />}
+      </div>
     </Width>
   )
 }

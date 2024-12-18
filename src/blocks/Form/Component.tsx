@@ -21,7 +21,7 @@ export interface Property {
   [key: string]: Value
 }
 
-export interface Data {
+interface FormData {
   parents: Array<{
     firstName: string
     lastName: string
@@ -38,15 +38,6 @@ export type FormBlockType = {
   introContent?: {
     [k: string]: unknown
   }[]
-}
-
-interface FormData {
-  parents: Array<{
-    firstName: string
-    lastName: string
-    [key: string]: any
-  }>
-  [key: string]: any
 }
 
 export const FormBlock: React.FC<
@@ -79,7 +70,7 @@ export const FormBlock: React.FC<
   const router = useRouter()
 
   const onSubmit = useCallback(
-    async (data: Data) => {
+    async (data: FormData) => {
       setError(undefined)
       setIsLoading(true)
 
@@ -229,7 +220,7 @@ export const FormBlock: React.FC<
   )
 
   if (nested) {
-    return <div className="">{content}</div>
+    return <div className="mx-auto max-w-2xl">{content}</div>
   }
 
   return (

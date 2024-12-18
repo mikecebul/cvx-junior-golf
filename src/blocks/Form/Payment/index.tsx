@@ -88,8 +88,9 @@ export const Payment: React.FC<
             name={name}
             setValue={setValue}
           />
-
-          {requiredFromProps && errors[name] && <Error />}
+          <div className="min-h-[24px]">
+            {requiredFromProps && errors[name] && <Error />}
+          </div>
         </Width>
       </div>
     )
