@@ -219,7 +219,7 @@ export default buildConfig({
           read: authenticated,
         },
         hooks: {
-          afterChange: [() => revalidatePath('/(frontend)/register', 'page')],
+          afterChange: [() => revalidatePath('/register')],
         },
         fields: ({ defaultFields }) => [
           ...defaultFields.map((field) => {
