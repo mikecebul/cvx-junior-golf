@@ -47,13 +47,17 @@ export const ArrayFields: React.FC<ArrayFieldsProps> = ({
     const Field = fieldComponents[fieldItem.blockType]
 
     if (Field) {
+      const fieldName = `${name}[${index}].${fieldItem.name}`
+      const wrappedErrors = {
+        [fieldName]: errors?.[name]?.[index]?.[fieldItem.name]
+      }
       return (
         <Field
           {...(fieldItem as any)}
-          name={`${name}[${index}].${fieldItem.name}`}
-          errors={errors}
-          register={register}
+          name={fieldName}
           control={control}
+          errors={wrappedErrors}
+          register={register}
         />
       )
     }
@@ -61,7 +65,7 @@ export const ArrayFields: React.FC<ArrayFieldsProps> = ({
   }
 
   return (
-    <div className="space-y-4">
+    <div className="">
       <CardDescriptionDiv className="flex items-center justify-between">
         {labelSingular} {index + 1}
         <Button
@@ -77,7 +81,7 @@ export const ArrayFields: React.FC<ArrayFieldsProps> = ({
           <Trash2 className="size-4 text-red-700 hover:text-red-900" />
         </Button>
       </CardDescriptionDiv>
-      <div className="flex flex-wrap gap-4">
+      <div className="flex flex-wrap gap-x-4 gap-y-2">
         {fields.map((fieldItem, fieldIndex) => (
           <React.Fragment key={fieldIndex}>{renderField(fieldItem, fieldIndex)}</React.Fragment>
         ))}

@@ -18,6 +18,7 @@ export const Text: React.FC<
     register: UseFormRegister<FieldValues>
   }
 > = ({ name, defaultValue, errors, label, register, required: requiredFromProps, width }) => {
+  console.log("Errors at Text Field:", errors)
   return (
     <Width width={width}>
       <Label htmlFor={name}>{label}</Label>
@@ -27,7 +28,9 @@ export const Text: React.FC<
         type="text"
         {...register(name, { required: requiredFromProps })}
       />
-      {requiredFromProps && errors[name] && <Error />}
+      <div className="min-h-[24px]">
+        {requiredFromProps && errors[name] && <Error />}
+      </div>
     </Width>
   )
 }

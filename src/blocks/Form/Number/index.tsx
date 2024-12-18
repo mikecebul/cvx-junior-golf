@@ -26,7 +26,9 @@ export const Number: React.FC<
         type="number"
         {...register(name, { required: requiredFromProps })}
       />
-      {requiredFromProps && errors[name] && <Error />}
+      <div className="min-h-[24px]">
+        {requiredFromProps && errors[name] && <Error />}
+      </div>
     </Width>
   )
 }

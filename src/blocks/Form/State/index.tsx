@@ -55,7 +55,9 @@ export const State: React.FC<
         }}
         rules={{ required }}
       />
-      {required && errors[name] && <Error />}
+      <div className="min-h-[24px]">
+        {required && errors[name] && <Error />}
+      </div>
     </Width>
   )
 }

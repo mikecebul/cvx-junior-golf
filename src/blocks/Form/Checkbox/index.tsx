@@ -38,7 +38,9 @@ export const Checkbox: React.FC<
         />
         <Label htmlFor={name}>{label}</Label>
       </div>
-      {requiredFromProps && errors[name] && <Error />}
+      <div className="min-h-[24px]">
+        {requiredFromProps && errors[name] && <Error />}
+      </div>
     </Width>
   )
 }
