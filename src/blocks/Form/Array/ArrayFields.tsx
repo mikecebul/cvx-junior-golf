@@ -5,8 +5,6 @@ import type { ArrayEntryField } from './types'
 import { DateOfBirth } from '../DateOfBirth'
 import { Email } from '../Email'
 import { Text } from '../Text'
-import { DateOfBirthField } from '../DateOfBirth/type'
-import { EmailField, TextField } from '@payloadcms/plugin-form-builder/types'
 import { Button } from '@/components/ui/button'
 import { Trash2 } from 'lucide-react'
 import { cn } from '@/utilities/cn'
@@ -25,6 +23,14 @@ interface ArrayFieldsProps {
   currentRows: number
 }
 
+type FieldComponentType = ArrayEntryField['blockType']
+
+const fieldComponents: Record<FieldComponentType, React.ComponentType<any>> = {
+  dateOfBirth: DateOfBirth,
+  email: Email,
+  text: Text,
+} as const
+
 export const ArrayFields: React.FC<ArrayFieldsProps> = ({
   index,
   fields,
@@ -38,37 +44,20 @@ export const ArrayFields: React.FC<ArrayFieldsProps> = ({
   currentRows,
 }) => {
   const renderField = (fieldItem: ArrayEntryField, fieldIndex: number) => {
-    switch (fieldItem.blockType) {
-      case 'dateOfBirth':
-        return (
-          <DateOfBirth
-            {...(fieldItem as DateOfBirthField)}
-            name={`${name}[${index}].${fieldItem.name}`}
-            control={control}
-            errors={errors}
-          />
-        )
-      case 'email':
-        return (
-          <Email
-            {...(fieldItem as EmailField)}
-            name={`${name}[${index}].${fieldItem.name}`}
-            errors={errors}
-            register={register}
-          />
-        )
-      case 'text':
-        return (
-          <Text
-            {...(fieldItem as TextField)}
-            name={`${name}[${index}].${fieldItem.name}`}
-            errors={errors}
-            register={register}
-          />
-        )
-      default:
-        return null
+    const Field = fieldComponents[fieldItem.blockType]
+
+    if (Field) {
+      return (
+        <Field
+          {...(fieldItem as any)}
+          name={`${name}[${index}].${fieldItem.name}`}
+          errors={errors}
+          register={register}
+          control={control}
+        />
+      )
     }
+    return null
   }
 
   return (
