@@ -153,7 +153,7 @@ export default buildConfig({
     pool: {
       connectionString: process.env.POSTGRES_URL || '',
     },
-    push: true,
+    push: process.env.NODE_ENV === 'development',
   }),
   collections: [Pages, Events, Media, Users],
   cors: [baseUrl].filter(Boolean),
