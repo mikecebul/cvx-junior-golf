@@ -1,4 +1,4 @@
-import { mongooseAdapter } from '@payloadcms/db-mongodb'
+import { vercelPostgresAdapter } from '@payloadcms/db-vercel-postgres'
 import { resendAdapter } from '@payloadcms/email-resend'
 
 import { stripePlugin } from '@payloadcms/plugin-stripe'
@@ -149,8 +149,11 @@ export default buildConfig({
       ]
     },
   }),
-  db: mongooseAdapter({
-    url: process.env.DATABASE_URI!,
+  db: vercelPostgresAdapter({
+    pool: {
+      connectionString: process.env.POSTGRES_URL || '',
+    },
+    push: true,
   }),
   collections: [Pages, Events, Media, Users],
   cors: [baseUrl].filter(Boolean),

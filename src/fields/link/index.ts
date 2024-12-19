@@ -144,6 +144,7 @@ export const link: LinkType = ({ appearances, disableLabel = false, overrides = 
     linkResult.fields.push({
       name: 'appearance',
       type: 'select',
+      enumName: ({ tableName }) => `${tableName}_link_style`,
       admin: {
         description: 'Choose how the link should be rendered.',
       },

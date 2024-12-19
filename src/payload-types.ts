@@ -27,7 +27,7 @@ export type LinkCards =
       description: string;
       imageUploadOption?: ('generate' | 'manual') | null;
       keywords?: string | null;
-      image?: (string | null) | Media;
+      image?: (number | null) | Media;
       href: string;
       id?: string | null;
     }[]
@@ -63,7 +63,7 @@ export interface Config {
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
   };
   db: {
-    defaultIDType: string;
+    defaultIDType: number;
   };
   globals: {
     header: Header;
@@ -107,7 +107,7 @@ export interface UserAuthOperations {
  * via the `definition` "pages".
  */
 export interface Page {
-  id: string;
+  id: number;
   title: string;
   layout: (
     | EventsBlock
@@ -115,7 +115,7 @@ export interface Page {
     | LinksBlock
     | EventsPageBlock
     | FormBlock
-    | NewTwoColumnLayoutBlock
+    | TwoColLayout
     | EventCardsBlock
     | FeatureCardsBlock
     | LayoutBlock
@@ -124,7 +124,7 @@ export interface Page {
     hideFromSearchEngines?: boolean | null;
     metadata?: {
       title?: string | null;
-      image?: (string | null) | Media;
+      image?: (number | null) | Media;
       description?: string | null;
     };
   };
@@ -144,8 +144,8 @@ export interface EventsBlock {
   title: string;
   description: string;
   links?: LinkGroup;
-  image?: (string | null) | Media;
-  eventItems?: (string | Event)[] | null;
+  image?: (number | null) | Media;
+  eventItems?: (number | Event)[] | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'events';
@@ -160,11 +160,11 @@ export interface Link {
   reference?:
     | ({
         relationTo: 'pages';
-        value: string | Page;
+        value: number | Page;
       } | null)
     | ({
         relationTo: 'media';
-        value: string | Media;
+        value: number | Media;
       } | null);
   url?: string | null;
   label: string;
@@ -175,7 +175,7 @@ export interface Link {
  * via the `definition` "media".
  */
 export interface Media {
-  id: string;
+  id: number;
   alt: string;
   caption?: string | null;
   prefix?: string | null;
@@ -214,7 +214,7 @@ export interface Media {
  * via the `definition` "events".
  */
 export interface Event {
-  id: string;
+  id: number;
   title: string;
   description: {
     root: {
@@ -258,7 +258,7 @@ export interface RichTextBlock {
     [k: string]: unknown;
   } | null;
   priority?: boolean | null;
-  images?: (string | Media)[] | null;
+  images?: (number | Media)[] | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'richText';
@@ -281,7 +281,7 @@ export interface LinksBlock {
  */
 export interface EventsPageBlock {
   title?: string | null;
-  eventCards?: (string | Event)[] | null;
+  eventCards?: (number | Event)[] | null;
   announcements?:
     | {
         title: string;
@@ -312,7 +312,7 @@ export interface EventsPageBlock {
  * via the `definition` "FormBlock".
  */
 export interface FormBlock {
-  form: string | Form;
+  form: number | Form;
   enableIntro?: boolean | null;
   introContent?: {
     root: {
@@ -338,7 +338,7 @@ export interface FormBlock {
  * via the `definition` "forms".
  */
 export interface Form {
-  id: string;
+  id: number;
   title: string;
   fields?:
     | (
@@ -574,14 +574,14 @@ export interface Form {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "NewTwoColumnLayoutBlock".
+ * via the `definition` "TwoColLayout".
  */
-export interface NewTwoColumnLayoutBlock {
+export interface TwoColLayout {
   direction?: ('ltr' | 'rtl') | null;
   breakpoint?: ('sm' | 'md' | 'lg' | 'xl') | null;
-  columnOne?: {
+  colOne?: {
     contentType?: ('cta' | 'richText') | null;
-    verticalAlignment?: ('top' | 'center' | 'bottom') | null;
+    vAlign?: ('top' | 'center' | 'bottom') | null;
     richText?: {
       root: {
         type: string;
@@ -609,23 +609,23 @@ export interface NewTwoColumnLayoutBlock {
       links?: LinkGroup;
     };
   };
-  columnTwo?: {
+  colTwo?: {
     contentType?: ('image' | 'form') | null;
     priority?: boolean | null;
     sticky?: boolean | null;
-    images?: (string | Media)[] | null;
+    images?: (number | Media)[] | null;
     form?: FormBlock[] | null;
   };
   id?: string | null;
   blockName?: string | null;
-  blockType: 'newTwoColumnLayout';
+  blockType: 'twoColumnLayout';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "EventCardsBlock".
  */
 export interface EventCardsBlock {
-  eventCards?: (string | Event)[] | null;
+  eventCards?: (number | Event)[] | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'eventCards';
@@ -652,7 +652,7 @@ export interface FeatureCardsBlock {
  * via the `definition` "LayoutBlock".
  */
 export interface LayoutBlock {
-  blocks?: (NewTwoColumnLayoutBlock | FeatureCardsBlock | EventCardsBlock)[] | null;
+  blocks?: (TwoColLayout | FeatureCardsBlock | EventCardsBlock)[] | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'layout';
@@ -662,7 +662,7 @@ export interface LayoutBlock {
  * via the `definition` "users".
  */
 export interface User {
-  id: string;
+  id: number;
   name?: string | null;
   role?: ('user' | 'editor' | 'admin' | 'superAdmin') | null;
   updatedAt: string;
@@ -684,8 +684,8 @@ export interface User {
  * via the `definition` "form-submissions".
  */
 export interface FormSubmission {
-  id: string;
-  form: string | Form;
+  id: number;
+  form: number | Form;
   title?: string | null;
   submissionData?:
     | {
@@ -708,13 +708,13 @@ export interface FormSubmission {
  * via the `definition` "redirects".
  */
 export interface Redirect {
-  id: string;
+  id: number;
   from: string;
   to?: {
     type?: ('reference' | 'custom') | null;
     reference?: {
       relationTo: 'pages';
-      value: string | Page;
+      value: number | Page;
     } | null;
     url?: string | null;
   };
@@ -726,40 +726,40 @@ export interface Redirect {
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
-  id: string;
+  id: number;
   document?:
     | ({
         relationTo: 'pages';
-        value: string | Page;
+        value: number | Page;
       } | null)
     | ({
         relationTo: 'events';
-        value: string | Event;
+        value: number | Event;
       } | null)
     | ({
         relationTo: 'media';
-        value: string | Media;
+        value: number | Media;
       } | null)
     | ({
         relationTo: 'users';
-        value: string | User;
+        value: number | User;
       } | null)
     | ({
         relationTo: 'forms';
-        value: string | Form;
+        value: number | Form;
       } | null)
     | ({
         relationTo: 'form-submissions';
-        value: string | FormSubmission;
+        value: number | FormSubmission;
       } | null)
     | ({
         relationTo: 'redirects';
-        value: string | Redirect;
+        value: number | Redirect;
       } | null);
   globalSlug?: string | null;
   user: {
     relationTo: 'users';
-    value: string | User;
+    value: number | User;
   };
   updatedAt: string;
   createdAt: string;
@@ -769,10 +769,10 @@ export interface PayloadLockedDocument {
  * via the `definition` "payload-preferences".
  */
 export interface PayloadPreference {
-  id: string;
+  id: number;
   user: {
     relationTo: 'users';
-    value: string | User;
+    value: number | User;
   };
   key?: string | null;
   value?:
@@ -792,7 +792,7 @@ export interface PayloadPreference {
  * via the `definition` "payload-migrations".
  */
 export interface PayloadMigration {
-  id: string;
+  id: number;
   name?: string | null;
   batch?: number | null;
   updatedAt: string;
@@ -812,7 +812,7 @@ export interface PagesSelect<T extends boolean = true> {
         linksBlock?: T | LinksBlockSelect<T>;
         eventsPage?: T | EventsPageBlockSelect<T>;
         formBlock?: T | FormBlockSelect<T>;
-        newTwoColumnLayout?: T | NewTwoColumnLayoutBlockSelect<T>;
+        twoColumnLayout?: T | TwoColLayoutSelect<T>;
         eventCards?: T | EventCardsBlockSelect<T>;
         featureCards?: T | FeatureCardsBlockSelect<T>;
         layout?: T | LayoutBlockSelect<T>;
@@ -937,16 +937,16 @@ export interface FormBlockSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "NewTwoColumnLayoutBlock_select".
+ * via the `definition` "TwoColLayout_select".
  */
-export interface NewTwoColumnLayoutBlockSelect<T extends boolean = true> {
+export interface TwoColLayoutSelect<T extends boolean = true> {
   direction?: T;
   breakpoint?: T;
-  columnOne?:
+  colOne?:
     | T
     | {
         contentType?: T;
-        verticalAlignment?: T;
+        vAlign?: T;
         richText?: T;
         cta?:
           | T
@@ -964,7 +964,7 @@ export interface NewTwoColumnLayoutBlockSelect<T extends boolean = true> {
               links?: T | LinkGroupSelect<T>;
             };
       };
-  columnTwo?:
+  colTwo?:
     | T
     | {
         contentType?: T;
@@ -1013,7 +1013,7 @@ export interface LayoutBlockSelect<T extends boolean = true> {
   blocks?:
     | T
     | {
-        newTwoColumnLayout?: T | NewTwoColumnLayoutBlockSelect<T>;
+        twoColumnLayout?: T | TwoColLayoutSelect<T>;
         featureCards?: T | FeatureCardsBlockSelect<T>;
         eventCards?: T | EventCardsBlockSelect<T>;
       };
@@ -1379,7 +1379,7 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
  * via the `definition` "header".
  */
 export interface Header {
-  id: string;
+  id: number;
   navItems?:
     | {
         link: Link;
@@ -1394,7 +1394,7 @@ export interface Header {
  * via the `definition` "footer".
  */
 export interface Footer {
-  id: string;
+  id: number;
   pageLinks?:
     | {
         link: Link;
@@ -1411,24 +1411,23 @@ export interface Footer {
  * via the `definition` "company-info".
  */
 export interface CompanyInfo {
-  id: string;
-  contact: {
+  id: number;
+  contact?: {
     name?: string | null;
     email?: string | null;
     phone?: string | null;
     fax?: string | null;
-    physicalAddress: {
-      street: string;
-      cityStateZip: string;
-      /**
-       * @minItems 2
-       * @maxItems 2
-       */
-      coordinates?: [number, number] | null;
+    physicalAddress?: {
+      street?: string | null;
+      cityStateZip?: string | null;
+      coordinates?: {
+        lat?: number | null;
+        lng?: number | null;
+      };
     };
-    mailingAddress: {
-      street: string;
-      cityStateZip: string;
+    mailingAddress?: {
+      street?: string | null;
+      cityStateZip?: string | null;
     };
   };
   social?:
@@ -1499,7 +1498,12 @@ export interface CompanyInfoSelect<T extends boolean = true> {
           | {
               street?: T;
               cityStateZip?: T;
-              coordinates?: T;
+              coordinates?:
+                | T
+                | {
+                    lat?: T;
+                    lng?: T;
+                  };
             };
         mailingAddress?:
           | T
@@ -1534,7 +1538,7 @@ export interface CompanyInfoSelect<T extends boolean = true> {
  */
 export interface MediaBlock {
   position?: ('default' | 'fullscreen') | null;
-  media: string | Media;
+  media: number | Media;
   id?: string | null;
   blockName?: string | null;
   blockType: 'mediaBlock';

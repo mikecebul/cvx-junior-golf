@@ -1,6 +1,4 @@
 import type { CollectionConfig } from 'payload'
-
-import { authenticated } from '../../access/authenticated'
 import { authenticatedOrPublished } from '../../access/authenticatedOrPublished'
 import { slugField } from '@/fields/slug'
 import { populatePublishedAt } from '../../hooks/populatePublishedAt'
@@ -24,7 +22,7 @@ import { baseUrl } from '@/utilities/baseUrl'
 import { EventCards } from '@/blocks/EventCards/config'
 import { FeatureCards } from '@/blocks/FeatureCards/config'
 import { Layout } from '@/blocks/Layout/config'
-import { NewTwoColumnLayout } from '@/blocks/NewTwoColumnLayout/config'
+import { TwoColumnLayout } from '@/blocks/TwoColumnLayout/config'
 import { revalidateDelete } from './hooks/revalidateDelete'
 import { editorOrHigher } from '@/access/editorOrHigher'
 
@@ -71,7 +69,7 @@ export const Pages: CollectionConfig = {
                 Links,
                 EventsPage,
                 FormBlock,
-                NewTwoColumnLayout,
+                TwoColumnLayout,
                 EventCards,
                 FeatureCards,
                 Layout,

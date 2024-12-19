@@ -11,7 +11,7 @@ import { MediaBlock } from './MediaBlock/Component'
 import { EventCardsBlock } from './EventCards/Component'
 import { FeatureCardsBlock } from './FeatureCards/Component'
 import { LayoutBlock } from './Layout/Component'
-import { NewTwoColumnLayoutBlock } from './NewTwoColumnLayout/Component'
+import { TwoColumnLayoutBlock } from './TwoColumnLayout/Component'
 
 const blockComponents = {
   richText: RichTextBlock,
@@ -22,7 +22,7 @@ const blockComponents = {
   mediaBlock: MediaBlock,
   eventCards: EventCardsBlock,
   featureCards: FeatureCardsBlock,
-  newTwoColumnLayout: NewTwoColumnLayoutBlock,
+  twoColumnLayout: TwoColumnLayoutBlock,
   layout: LayoutBlock,
 }
 

@@ -2,9 +2,10 @@ import { Block } from 'payload'
 import { contentFields } from '@/fields/contentFields'
 import { FormBlock } from '../Form/config'
 
-export const NewTwoColumnLayout: Block = {
-  slug: 'newTwoColumnLayout',
-  interfaceName: 'NewTwoColumnLayoutBlock',
+export const TwoColumnLayout: Block = {
+  slug: 'twoColumnLayout',
+  dbName: ({ tableName }) => `${tableName}_two_col_layout`,
+  interfaceName: 'TwoColLayout',
   labels: {
     singular: 'Two Column Layout',
     plural: 'Two Column Layouts',
@@ -37,7 +38,8 @@ export const NewTwoColumnLayout: Block = {
       },
     },
     {
-      name: 'columnOne',
+      name: 'colOne',
+      label: 'Column One',
       type: 'group',
       fields: [
         {
@@ -56,7 +58,8 @@ export const NewTwoColumnLayout: Block = {
               },
             },
             {
-              name: 'verticalAlignment',
+              name: 'vAlign',
+              label: 'Vertical Alignment',
               type: 'select',
               options: ['top', 'center', 'bottom'],
               defaultValue: 'center',
@@ -85,7 +88,8 @@ export const NewTwoColumnLayout: Block = {
       ],
     },
     {
-      name: 'columnTwo',
+      name: 'colTwo',
+      label: 'Column Two',
       type: 'group',
       fields: [
         {

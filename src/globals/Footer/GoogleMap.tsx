@@ -6,12 +6,12 @@ import { LandPlot } from 'lucide-react'
 
 
 export const GoogleMap = ({ contact }: { contact: CompanyInfo['contact'] }) => {
-  const { name, physicalAddress: { coordinates, street, cityStateZip } } = contact
+  const { name, physicalAddress } = contact ?? {}
+  const { coordinates, street, cityStateZip } = physicalAddress ?? {}
+  const { lat, lng } = coordinates ?? {}
   const defaultPosition = { lat: 45.323236601619016, lng: -85.24322617394134 }
 
-  const position = coordinates
-    ? { lat: coordinates[1], lng: coordinates[0] }
-    : defaultPosition
+  const position = lat && lng ? { lat, lng } : defaultPosition
 
   return (
     <div className="h-[350px]">
