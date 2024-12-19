@@ -39,7 +39,7 @@ export const checkoutSessionCompleted: StripeWebhookHandler<{
 
       const form = await payload.findByID({
         collection: 'forms',
-        id: typeof submission.form === 'string' ? submission.form : submission.form.id,
+        id: typeof submission.form === 'number' ? submission.form : submission.form.id,
       })
       const { emails } = form
 
