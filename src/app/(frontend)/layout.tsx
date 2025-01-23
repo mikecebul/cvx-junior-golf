@@ -12,6 +12,7 @@ import { Header } from '@/globals/Header/Component'
 import { ThemeProvider } from 'next-themes'
 import { baseUrl } from '@/utilities/baseUrl'
 import { Analytics } from '@vercel/analytics/react'
+import Script from 'next/script'
 
 export const dynamic = 'force-static'
 
@@ -22,6 +23,12 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
     <html className={GeistSans.className} lang="en" suppressHydrationWarning>
       <head>
         <link href="/favicon.ico" rel="icon" sizes="32x32" />
+        <Script
+          defer
+          data-website-id="1a24175e-5d6f-4e40-9418-5ad510285f62"
+          src="https://analytics.mikecebul.dev/script.js"
+          strategy="lazyOnload"
+        />
       </head>
       <body className="flex flex-col min-h-dvh">
         <ThemeProvider forcedTheme="light">
