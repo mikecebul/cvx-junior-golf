@@ -27,31 +27,46 @@ export const ArrayField: React.FC<ArrayBlockConfig> = (props) => {
       <CardHeader className="flex flex-row items-center justify-between px-0">
         <CardTitle>{label}</CardTitle>
       </CardHeader>
-      <CardContent className="flex flex-col gap-4 px-0">
+      <CardContent className="flex flex-col px-0">
         <AnimatePresence initial={false} mode="sync">
           {fields.map((field, index) => (
             <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{
-                opacity: 0,
-                height: 0,
-                transition: { duration: 0.3 },
-              }}
-              layout
+              initial={{ marginBottom: 0 }}
+              animate={{ marginBottom: 16 }}
+              exit={{ marginBottom: 0 }}
               transition={{ duration: 0.3 }}
               key={field.id}
-              className="rounded-lg border p-4"
             >
-              <ArrayFields
-                index={index}
-                register={register}
-                errors={errors}
-                {...props}
-                control={control}
-                remove={remove}
-                currentRows={fields.length}
-              />
+              <motion.div
+                initial={{ opacity: 0, height: 0, padding: 0 }}
+                animate={{
+                  opacity: 1,
+                  height: 'auto',
+                  padding: 16
+                }}
+                exit={{
+                  opacity: 0,
+                  height: 0,
+                  padding: 0,
+                  transition: { duration: 0.2 },
+                }}
+                transition={{
+                  opacity: { duration: 0.05, delay: 0.15 },
+                  height: { duration: 0.2 },
+                  padding: { duration: 0.2 }
+                }}
+                className="rounded-lg border w-full overflow-hidden"
+              >
+                <ArrayFields
+                  index={index}
+                  register={register}
+                  errors={errors}
+                  {...props}
+                  control={control}
+                  remove={remove}
+                  currentRows={fields.length}
+                />
+              </motion.div>
             </motion.div>
           ))}
         </AnimatePresence>
