@@ -52,9 +52,9 @@ const dirname = path.dirname(filename)
 
 const generateTitle: GenerateTitle<Page> = ({ doc }) => {
   if ('name' in doc) {
-    return doc.name ? `${doc.name} | CVX Junior Golf` : 'CVX Junior Golf'
+    return doc.name ? `${doc.name}` : 'Charlevoix County Junior Golf Association'
   }
-  return doc?.title ? `${doc.title} | CVX Junior Golf` : 'CVX Junior Golf'
+  return doc?.title ? `${doc.title}` : 'Charlevoix County Junior Golf Association'
 }
 
 const generateURL: GenerateURL<Page> = ({ doc }) => {
