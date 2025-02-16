@@ -3,7 +3,12 @@ import React from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
 const FormData: UIFieldServerComponent = async ({ data }) => {
-  const formData = data.submissionData as Record<string, any[]>
+  const formData = data?.submissionData as Record<string, any[]>
+
+  // Return early if no form data
+  if (!formData) {
+    return <div>No submission data available</div>
+  }
 
   const arrayFields = Object.entries(formData).filter(([_, value]) => Array.isArray(value))
 
