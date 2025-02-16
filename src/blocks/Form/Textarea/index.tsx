@@ -38,7 +38,7 @@ export const Textarea: React.FC<
           rows={rows}
           {...register(name, { required: requiredFromProps })}
         />
-        <div className="min-h-[24px]">
+        <div className="">
           {requiredFromProps && errors[name] && <Error />}
         </div>
       </Width>

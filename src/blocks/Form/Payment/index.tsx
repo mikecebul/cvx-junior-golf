@@ -78,7 +78,7 @@ export const Payment: React.FC<
     return (
       <div className=''>
         <Width width={width}>
-          <Label htmlFor={name} className='text-xl font-semibold'>{label}</Label>
+          <Label htmlFor={name} className='text-base font-semibold'>{label}</Label>
           <div className="text-base">${price}</div>
 
           <PriceWatcher
@@ -88,7 +88,7 @@ export const Payment: React.FC<
             name={name}
             setValue={setValue}
           />
-          <div className="min-h-[24px]">
+          <div className="">
             {requiredFromProps && errors[name] && <Error />}
           </div>
         </Width>

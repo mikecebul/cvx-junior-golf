@@ -81,7 +81,7 @@ export const ArrayFields: React.FC<ArrayFieldsProps> = ({
           <Trash2 className="size-4 text-red-700 hover:text-red-900" />
         </Button>
       </CardDescriptionDiv>
-      <div className="flex flex-wrap gap-x-4 gap-y-2">
+      <div className="flex flex-wrap gap-x-4 gap-y-3 ">
         {fields.map((fieldItem, fieldIndex) => (
           <React.Fragment key={fieldIndex}>{renderField(fieldItem, fieldIndex)}</React.Fragment>
         ))}

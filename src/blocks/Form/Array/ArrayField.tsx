@@ -24,15 +24,15 @@ export const ArrayField: React.FC<ArrayBlockConfig> = (props) => {
 
   return (
     <div>
-      <CardHeader className="flex flex-row items-center justify-between px-0">
-        <CardTitle>{label}</CardTitle>
+      <CardHeader className="flex flex-row items-center justify-between px-0 py-2">
+        <CardTitle className='text-base tracking-normal'>{label}</CardTitle>
       </CardHeader>
-      <CardContent className="flex flex-col px-0">
+      <CardContent className="flex flex-col px-0 py-2">
         <AnimatePresence initial={false} mode="sync">
           {fields.map((field, index) => (
             <motion.div
               initial={{ marginBottom: 0 }}
-              animate={{ marginBottom: 16 }}
+              animate={{ marginBottom: 8 }}
               exit={{ marginBottom: 0 }}
               transition={{ duration: 0.3 }}
               key={field.id}
@@ -42,7 +42,7 @@ export const ArrayField: React.FC<ArrayBlockConfig> = (props) => {
                 animate={{
                   opacity: 1,
                   height: 'auto',
-                  padding: 16
+                  padding: 8
                 }}
                 exit={{
                   opacity: 0,
@@ -76,7 +76,7 @@ export const ArrayField: React.FC<ArrayBlockConfig> = (props) => {
           className={cn(
             'size-7 rounded-full bg-green-400 transition-opacity duration-300 hover:bg-green-500',
             {
-              'pointer-events-none opacity-0': fields.length >= maxRows,
+              'pointer-events-none opacity-0 h-0': fields.length >= maxRows,
               'opacity-100': fields.length < maxRows,
             },
           )}

@@ -27,7 +27,7 @@ export const Text: React.FC<
         type="text"
         {...register(name, { required: requiredFromProps })}
       />
-      <div className="min-h-[24px]">
+      <div className="">
         {requiredFromProps && errors[name] && <Error />}
       </div>
     </Width>

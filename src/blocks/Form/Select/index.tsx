@@ -54,7 +54,7 @@ export const Select: React.FC<
         }}
         rules={{ required }}
       />
-      <div className="min-h-[24px]">
+      <div className="">
         {required && errors[name] && <Error />}
       </div>
     </Width>
