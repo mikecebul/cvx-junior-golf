@@ -8,7 +8,7 @@ import { CalendarIcon, MapPinIcon } from 'lucide-react'
 export const EventCardsBlock = ({ eventCards }: EventsCardsBlockType) => {
   return (
     <Container>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
         {Array.isArray(eventCards) &&
           eventCards.length > 0 &&
           eventCards.map((event) => {
