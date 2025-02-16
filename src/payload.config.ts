@@ -171,7 +171,7 @@ export default buildConfig({
   globals: [Header, Footer, CompanyInfo],
   plugins: [
     stripePlugin({
-      isTestKey: process.env.STRIPE_SECRET_KEY?.includes('sk_test') ?? true,
+      isTestKey: process.env.STRIPE_SECRET_KEY?.includes('sk_test') ?? false,
       stripeSecretKey: process.env.STRIPE_SECRET_KEY || '',
       stripeWebhooksEndpointSecret: process.env.STRIPE_WEBHOOKS_ENDPOINT_SECRET,
       webhooks: {

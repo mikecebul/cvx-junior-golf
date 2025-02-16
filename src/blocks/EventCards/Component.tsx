@@ -1,6 +1,6 @@
 import Container from '@/components/Container'
 import RichText from '@/components/RichText'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import type { EventCardsBlock as EventsCardsBlockType } from '@/payload-types'
 import { format } from 'date-fns'
 import { CalendarIcon, MapPinIcon } from 'lucide-react'
