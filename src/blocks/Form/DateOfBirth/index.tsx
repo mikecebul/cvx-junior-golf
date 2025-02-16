@@ -35,6 +35,7 @@ export const DateOfBirth: React.FC<
       <Label htmlFor={name}>{label}</Label>
       <Controller
         control={control}
+        shouldUnregister
         defaultValue={defaultValue}
         name={name}
         render={({ field }) => (
