@@ -261,11 +261,23 @@ export default buildConfig({
           singular: 'Registration',
           plural: 'Registrations',
         },
+        // @ts-expect-error
         fields: ({ defaultFields }) => {
           const formField = defaultFields.find((field) => 'name' in field && field.name === 'form')
 
+          const transformedFormField = formField ? {
+            ...formField,
+            admin: {
+              readOnly: false,
+            },
+            access: {
+              create: () => true,
+              update: () => adminOrSuperAdmin,
+            },
+          } : undefined
+
           return [
-            ...(formField ? [formField] : []),
+            ...(formField ? [transformedFormField] : []),
             {
               name: 'title',
               type: 'text',
