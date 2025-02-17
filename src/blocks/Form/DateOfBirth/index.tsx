@@ -49,7 +49,7 @@ export const DateOfBirth: React.FC<
                 )}
               >
                 {field.value ? (
-                  format(field.value, 'dd/MM/yyyy')
+                  format(field.value, 'MM/dd/yyyy')
                 ) : (
                   <span>Pick a date</span>
                 )}
