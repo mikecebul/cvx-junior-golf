@@ -31,7 +31,7 @@ export default async function robots(): Promise<MetadataRoute.Robots> {
     rules: {
       userAgent: '*',
       allow: '/',
-      disallow: ['/admin', ...disallowedPages],
+      disallow: ['/admin', '/sentry-example-page', ...disallowedPages],
     },
     sitemap: `${baseUrl}/sitemap.xml`,
   }

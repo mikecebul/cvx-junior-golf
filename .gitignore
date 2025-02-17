@@ -20,3 +20,5 @@ public/meta
 # sqlite db
 payload.db
 dump.sql
+# Sentry Config File
+.env.sentry-build-plugin

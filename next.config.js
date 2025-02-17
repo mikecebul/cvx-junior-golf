@@ -1,5 +1,6 @@
 import { withPayload } from '@payloadcms/next/withPayload'
 import redirects from './redirects.js'
+import { withSentryConfig } from '@sentry/nextjs'
 
 const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL
 
@@ -33,14 +34,22 @@ const nextConfig = {
   },
   reactStrictMode: true,
   redirects,
-  async rewrites() {
-    return [
-      {
-        source: '/RDFK',
-        destination: '/rdfk',
-      },
-    ]
-  },
 }
 
-export default withPayload(nextConfig)
+// Sentry Configuration
+const sentryConfig = {
+  org: 'mikecbul',
+  project: 'cvx-jr-golf',
+  sentryUrl: 'https://monitor.mikecebul.dev/',
+  silent: !process.env.CI,
+  widenClientFileUpload: true,
+  reactComponentAnnotation: {
+    enabled: true,
+  },
+  tunnelRoute: '/monitoring',
+  hideSourceMaps: true,
+  disableLogger: true,
+  automaticVercelMonitors: true,
+}
+
+export default withSentryConfig(withPayload(nextConfig), sentryConfig)
