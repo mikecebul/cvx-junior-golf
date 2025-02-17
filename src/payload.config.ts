@@ -48,6 +48,8 @@ import { anyone } from './access/anyone'
 import { adminOrSuperAdmin } from './access/adminOrSuperAdmin'
 import { authenticated } from './access/authenticated'
 
+import { format } from 'date-fns'
+
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
@@ -205,7 +207,16 @@ export default buildConfig({
                 .split(/(?=[A-Z])|_|\s/)
                 .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
                 .join(' ')
-              additionalContent += `<p><strong>${formattedKey}:</strong> ${value}</p>`
+
+              let displayValue = value
+              if ((key.toLowerCase().includes('date') || key.toLowerCase().includes('dob')) && value && typeof value === 'string') {
+                try {
+                  displayValue = format(new Date(value), 'MMMM d, yyyy')
+                } catch (e) {
+                  console.error('Invalid date:', value)
+                }
+              }
+              additionalContent += `<p><strong>${formattedKey}:</strong> ${displayValue}</p>`
             })
             additionalContent += '</div>'
           })
