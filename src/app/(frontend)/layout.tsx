@@ -24,12 +24,12 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
         <link href="/favicon.ico" rel="icon" sizes="32x32" />
         <Script
           defer
-          data-website-id="1a24175e-5d6f-4e40-9418-5ad510285f62"
+          data-website-id="bb29bba2-5ce1-4426-b2a0-b7612ef004a9"
           src="https://analytics.mikecebul.dev/script.js"
           strategy="lazyOnload"
         />
       </head>
-      <body className="flex flex-col min-h-dvh">
+      <body className="flex min-h-dvh flex-col">
         <ThemeProvider forcedTheme="light">
           <AdminBar
             adminBarProps={{
