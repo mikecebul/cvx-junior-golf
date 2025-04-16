@@ -68,7 +68,7 @@ export default function Page() {
 
         <p>
           Next, look for the error on the{' '}
-          <a href="https://monitor.mikecebul.dev/organizations/mikecbul/issues/?project=1">
+          <a href="https://monitor.mikecebul.dev/mikecebul/issues?project=1">
             Issues Page
           </a>
           .
