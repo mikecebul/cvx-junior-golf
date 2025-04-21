@@ -1,6 +1,9 @@
 import { mongooseAdapter } from '@payloadcms/db-mongodb'
 import { resendAdapter } from '@payloadcms/email-resend'
 
+import { sentryPlugin } from '@payloadcms/plugin-sentry'
+import * as Sentry from '@sentry/nextjs'
+
 import { stripePlugin } from '@payloadcms/plugin-stripe'
 import { redirectsPlugin } from '@payloadcms/plugin-redirects'
 import { formBuilderPlugin } from '@payloadcms/plugin-form-builder'
@@ -172,6 +175,21 @@ export default buildConfig({
   endpoints: [],
   globals: [Header, Footer, CompanyInfo],
   plugins: [
+    sentryPlugin({
+      options: {
+        captureErrors: [400, 403],
+        context: ({ defaultContext, req }) => {
+          return {
+            ...defaultContext,
+            tags: {
+              locale: req.locale,
+            },
+          }
+        },
+        debug: true,
+      },
+      Sentry,
+    }),
     stripePlugin({
       isTestKey: process.env.STRIPE_SECRET_KEY?.includes('sk_test') ?? false,
       stripeSecretKey: process.env.STRIPE_SECRET_KEY || '',
@@ -209,7 +227,11 @@ export default buildConfig({
                 .join(' ')
 
               let displayValue = value
-              if ((key.toLowerCase().includes('date') || key.toLowerCase().includes('dob')) && value && typeof value === 'string') {
+              if (
+                (key.toLowerCase().includes('date') || key.toLowerCase().includes('dob')) &&
+                value &&
+                typeof value === 'string'
+              ) {
                 try {
                   displayValue = format(new Date(value), 'MMMM d, yyyy')
                 } catch (e) {
@@ -276,16 +298,18 @@ export default buildConfig({
         fields: ({ defaultFields }) => {
           const formField = defaultFields.find((field) => 'name' in field && field.name === 'form')
 
-          const transformedFormField = formField ? {
-            ...formField,
-            admin: {
-              readOnly: false,
-            },
-            access: {
-              create: () => true,
-              update: () => adminOrSuperAdmin,
-            },
-          } : undefined
+          const transformedFormField = formField
+            ? {
+                ...formField,
+                admin: {
+                  readOnly: false,
+                },
+                access: {
+                  create: () => true,
+                  update: () => adminOrSuperAdmin,
+                },
+              }
+            : undefined
 
           return [
             ...(formField ? [transformedFormField] : []),

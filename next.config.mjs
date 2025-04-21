@@ -38,9 +38,10 @@ const nextConfig = {
 
 // Sentry Configuration
 const sentryConfig = {
-  org: 'mikecbul',
+  org: 'mikecebul',
   project: 'cvx-jr-golf',
   sentryUrl: 'https://monitor.mikecebul.dev/',
+  authToken: process.env.SENTRY_AUTH_TOKEN,
   silent: !process.env.CI,
   widenClientFileUpload: true,
   reactComponentAnnotation: {
