@@ -177,7 +177,7 @@ export default buildConfig({
   plugins: [
     sentryPlugin({
       options: {
-        captureErrors: [400, 403],
+        captureErrors: [400, 401, 403],
         context: ({ defaultContext, req }) => {
           return {
             ...defaultContext,
