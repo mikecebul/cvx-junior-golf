@@ -3,7 +3,7 @@ import type { Metadata } from 'next'
 import { GeistSans } from 'geist/font/sans'
 import type { ReactNode } from 'react'
 
-import { AdminBar } from '@/components/AdminBar'
+import { PayloadAdminBar } from '@payloadcms/admin-bar'
 import { Footer } from '@/globals/Footer/Component'
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
 import './globals.css'
@@ -29,11 +29,6 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
       </head>
       <body className="flex min-h-dvh flex-col">
         <ThemeProvider forcedTheme="light">
-          <AdminBar
-            adminBarProps={{
-              preview: isEnabled,
-            }}
-          />
           <Header />
           <div className="flex grow flex-col">{children}</div>
           <Footer />
