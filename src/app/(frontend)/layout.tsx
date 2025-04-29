@@ -2,20 +2,15 @@ import type { Metadata } from 'next'
 
 import { GeistSans } from 'geist/font/sans'
 import type { ReactNode } from 'react'
-
-import { PayloadAdminBar } from '@payloadcms/admin-bar'
 import { Footer } from '@/globals/Footer/Component'
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
 import './globals.css'
-import { draftMode } from 'next/headers'
 import { Header } from '@/globals/Header/Component'
 import { ThemeProvider } from 'next-themes'
 import { baseUrl } from '@/utilities/baseUrl'
 import Script from 'next/script'
 
 export default async function RootLayout({ children }: { children: ReactNode }) {
-  const { isEnabled } = await draftMode()
-
   return (
     <html className={GeistSans.className} lang="en" suppressHydrationWarning>
       <head>

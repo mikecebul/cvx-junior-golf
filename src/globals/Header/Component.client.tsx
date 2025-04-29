@@ -6,7 +6,7 @@ import { buttonVariants } from '@/components/ui/button'
 import { Icons } from '@/components/Icons'
 import { MainNav } from './MainNav'
 import { MobileNav } from './MobileNav'
-import { Logo } from '@/components/Logo'
+import { DashboardLogo, Logo } from '@/components/Logo'
 import Container from '@/components/Container'
 import { PayloadAdminBar } from '@payloadcms/admin-bar'
 import { baseUrl } from '@/utilities/baseUrl'
@@ -23,9 +23,16 @@ export const HeaderClient = ({
 
   return (
     <header className="bg-background/50 sticky top-0 z-40 flex w-full flex-col overflow-clip backdrop-blur-xs">
-      <div>
-        <PayloadAdminBar cmsURL={baseUrl} collectionSlug="pages" style={{ position: 'static' }} />
-      </div>
+      <PayloadAdminBar
+        cmsURL={baseUrl}
+        collectionSlug="pages"
+        logo={<DashboardLogo name={'Dashboard'} />}
+        classNames={{
+          logout: 'mr-8',
+          logo: 'ml-8 text-white',
+        }}
+        className="static!"
+      />
       <div className="flex w-full items-center px-4 py-3 md:px-8 2xl:container 2xl:mx-auto">
         <Logo name={companyName ?? 'Charlevoix Junior Golf'} />
         <MainNav navItems={navItems} />
