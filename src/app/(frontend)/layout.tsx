@@ -13,8 +13,6 @@ import { ThemeProvider } from 'next-themes'
 import { baseUrl } from '@/utilities/baseUrl'
 import Script from 'next/script'
 
-export const dynamic = 'force-static'
-
 export default async function RootLayout({ children }: { children: ReactNode }) {
   const { isEnabled } = await draftMode()
 
@@ -37,7 +35,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
             }}
           />
           <Header />
-          <div className="grow">{children}</div>
+          <div className="flex grow flex-col">{children}</div>
           <Footer />
         </ThemeProvider>
       </body>

@@ -72,7 +72,7 @@ export const DateOfBirth: React.FC<
                 fromYear={1950}
                 toYear={new Date().getFullYear()}
                 classNames={{
-                  dropdown: "rdp-dropdown bg-card rounded-md border !px-2",
+                  dropdown: "rdp-dropdown bg-card rounded-md border px-2!",
                   dropdown_icon: "ml-2",
                   dropdown_year: "rdp-dropdown_year ml-3",
                   dropdown_month: "",

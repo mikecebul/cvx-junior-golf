@@ -58,7 +58,7 @@ export async function Footer() {
                         'flex justify-start group-hover:text-primary',
                       )}
                     >
-                      <Phone className="flex-shrink-0 mr-2" size={20} />
+                      <Phone className="shrink-0 mr-2" size={20} />
                       {contact.phone}
                     </a>
                   </li>
@@ -72,7 +72,7 @@ export async function Footer() {
                         'flex justify-start group-hover:text-primary',
                       )}
                     >
-                      <Mail className="flex-shrink-0 mr-2" size={20} />
+                      <Mail className="shrink-0 mr-2" size={20} />
                       {contact.email}
                     </a>
                   </li>
@@ -90,7 +90,7 @@ export async function Footer() {
                     buttonVariants({ variant: 'text' }),
                     'text-gray-500 flex items-start justify-start h-full',
                   )}>
-                    <Navigation className="flex-shrink-0 mr-2" size={20} />
+                    <Navigation className="shrink-0 mr-2" size={20} />
                     <ul>
                       {contact.physicalAddress?.street && (
                         <li>

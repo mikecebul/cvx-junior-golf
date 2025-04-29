@@ -29,7 +29,7 @@ export function MainNav({ navItems }: { navItems: NavItem[] }) {
               {...link}
               appearance="nav"
               className={cn('', {
-                'rounded-bl-lg rounded-br-lg border-b-2 border-b-brand border-opacity-100 text-brand':
+                'border-b-brand border-opacity-100 text-brand rounded-br-lg rounded-bl-lg border-b-2':
                   isActiveRoute(currentPathName as string, slug),
               })}
             />

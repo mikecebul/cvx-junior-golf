@@ -23,7 +23,7 @@ export function MobileNav({ navItems, companyName }: { navItems: NavItem[]; comp
       <Sheet open={open} onOpenChange={setOpen}>
         <SheetTrigger asChild>
           <Button
-            className="h-8 w-8 bg-secondary p-0 text-primary hover:bg-muted-foreground/20"
+            className="bg-secondary text-primary hover:bg-muted-foreground/20 h-8 w-8 p-0"
             onClick={() => setOpen(!open)}
           >
             {open ? (
@@ -59,7 +59,7 @@ export function MobileNav({ navItems, companyName }: { navItems: NavItem[]; comp
                     {...link}
                     appearance="nav"
                     className={cn('text-lg', {
-                      'rounded-bl-lg rounded-br-lg border-b-2 border-b-brand border-opacity-100 text-brand':
+                      'border-b-brand border-opacity-100 text-brand rounded-br-lg rounded-bl-lg border-b-2':
                         isActiveRoute(currentPathName as string, slug),
                     })}
                     onClick={() => {

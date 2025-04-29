@@ -7,6 +7,7 @@ import { Icons } from '@/components/Icons'
 import { MainNav } from './MainNav'
 import { MobileNav } from './MobileNav'
 import { Logo } from '@/components/Logo'
+import Container from '@/components/Container'
 
 export const HeaderClient = ({
   header,
@@ -19,8 +20,8 @@ export const HeaderClient = ({
   const { phone, name: companyName } = contact || {}
 
   return (
-    <header className="sticky top-0 z-40 flex w-full overflow-clip bg-background/50 py-3 backdrop-blur-sm">
-      <div className="flex w-full items-center px-4 2xl:container md:px-8 2xl:px-0">
+    <header className="bg-background/50 sticky top-0 z-40 flex w-full overflow-clip py-3 backdrop-blur-xs">
+      <div className="flex w-full items-center px-4 md:px-8 2xl:container 2xl:mx-auto">
         <Logo name={companyName ?? 'Charlevoix Junior Golf'} />
         <MainNav navItems={navItems} />
         <MobileNav navItems={navItems} companyName={companyName ?? 'Charlevoix Junior Golf'} />
@@ -28,7 +29,7 @@ export const HeaderClient = ({
           <div
             className={cn(
               buttonVariants({ variant: 'text' }),
-              'hidden text-lg text-brand xl:inline-flex pr-0',
+              'text-brand hidden pr-0 text-lg xl:inline-flex',
             )}
           >
             <Icons.phone className="mr-2" size={20} />
