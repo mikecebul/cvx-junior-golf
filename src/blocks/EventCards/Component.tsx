@@ -1,5 +1,6 @@
 import Container from '@/components/Container'
 import RichText from '@/components/RichText'
+import { NewRichText } from '@/components/RichText/NewRichText'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import type { EventCardsBlock as EventsCardsBlockType } from '@/payload-types'
 import { format } from 'date-fns'
@@ -8,7 +9,7 @@ import { CalendarIcon, MapPinIcon } from 'lucide-react'
 export const EventCardsBlock = ({ eventCards }: EventsCardsBlockType) => {
   return (
     <Container>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+      <div className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-3">
         {Array.isArray(eventCards) &&
           eventCards.length > 0 &&
           eventCards.map((event) => {
@@ -21,7 +22,7 @@ export const EventCardsBlock = ({ eventCards }: EventsCardsBlockType) => {
                   <CardTitle>{event.title}</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="font-semibold pb-4">
+                  <div className="pb-4 font-semibold">
                     <span className="flex items-center gap-2">
                       <CalendarIcon className="size-4" />
                       <span>{format(event.date, 'MMMM do, yyyy')}</span>
@@ -31,7 +32,7 @@ export const EventCardsBlock = ({ eventCards }: EventsCardsBlockType) => {
                       <span>{event.location}</span>
                     </span>
                   </div>
-                  <RichText content={event.description} />
+                  <NewRichText data={event.description} />
                 </CardContent>
               </Card>
             )
