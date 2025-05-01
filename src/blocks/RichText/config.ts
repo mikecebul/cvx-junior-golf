@@ -1,3 +1,4 @@
+import { HeadingFeature, lexicalEditor } from '@payloadcms/richtext-lexical'
 import { Block } from 'payload'
 
 export const RichText: Block = {
@@ -11,6 +12,11 @@ export const RichText: Block = {
     {
       name: 'richContent',
       type: 'richText',
+      editor: lexicalEditor({
+        features: ({ rootFeatures }) => {
+          return [...rootFeatures, HeadingFeature({ enabledHeadingSizes: ['h2'] })]
+        },
+      }),
     },
     {
       name: 'priority',

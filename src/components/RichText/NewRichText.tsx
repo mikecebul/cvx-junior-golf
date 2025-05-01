@@ -43,12 +43,12 @@ const jsxConverters: JSXConvertersFunction<NodeTypes> = ({ defaultConverters }) 
 
     const Tag = node?.tag
     const textSizeMap = {
-      h1: 'text-6xl md:text-7xl font-bold tracking-tight text-balance max-w-prose pb-16', // 3.375rem
-      h2: 'text-5xl font-bold tracking-tight text-balance max-w-prose pb-8', // 3rem
-      h3: 'text-4xl font-semibold tracking-tight text-balance max-w-prose pb-6', // 2.25rem
-      h4: 'text-3xl font-semibold tracking-tight text-balance max-w-prose pb-4', // 1.875rem
-      h5: 'text-2xl font-medium tracking-tight text-balance max-w-prose pb-4', // 1.5rem
-      h6: 'text-xl font-medium tracking-tight text-balance max-w-prose pb-4', // 1.25rem
+      h1: 'text-6xl md:text-7xl font-bold tracking-tight text-balance max-w-prose pb-16',
+      h2: 'text-4xl font-bold tracking-tight text-balance max-w-prose pb-8',
+      h3: 'text-2xl font-semibold tracking-tight text-balance max-w-prose pb-6', 
+      h4: 'text-xl font-semibold tracking-tight text-balance max-w-prose pb-4',
+      h5: 'text-xl font-medium tracking-tight text-balance max-w-prose pb-4',
+      h6: 'text-lg font-medium tracking-tight text-balance max-w-prose pb-4',
     }
     const textSizeClass = textSizeMap[Tag] || 'text-base'
 
