@@ -4,7 +4,7 @@ import { EventsPageBlock as EventsPageBlockType } from '@/payload-types'
 import { CalendarIcon, MapPinIcon } from 'lucide-react'
 import { format } from 'date-fns'
 import { Title } from '@/components/Hero/HeroMedium'
-import { NewRichText } from '@/components/RichText/NewRichText'
+import { RichText } from '@/components/RichText'
 
 export const EventsPageBlock = ({ title, eventCards, announcements }: EventsPageBlockType) => {
   return (
@@ -38,7 +38,7 @@ export const EventsPageBlock = ({ title, eventCards, announcements }: EventsPage
                     </CardDescription>
                   </CardContent>
                   <CardContent className="">
-                    <NewRichText data={event.description} />
+                    <RichText data={event.description} />
                   </CardContent>
                 </Card>
               )
@@ -58,7 +58,7 @@ export const EventsPageBlock = ({ title, eventCards, announcements }: EventsPage
                   </CardHeader>
                   <CardContent>
                     <div className="">
-                      <NewRichText data={announcement.description} />
+                      <RichText data={announcement.description} />
                     </div>
                   </CardContent>
                 </Card>

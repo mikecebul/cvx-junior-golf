@@ -6,10 +6,10 @@ import { Media } from '@/components/Media'
 import { Badge } from '@/components/ui/badge'
 import type { NewTwoColumnLayoutBlock as NewTwoColumnLayoutBlockType } from '@/payload-types'
 import { cn } from '@/utilities/cn'
-import RichText from '@/components/RichText'
 import { RenderBlocks } from '../RenderBlocks'
 import RichTextCarousel from '../RichText/RichTextCarousel'
 import { imagesAsMedia } from '@/utilities/imagesAsLandscapes'
+import { RichText } from '@/components/RichText'
 
 export const NewTwoColumnLayoutBlock = ({
   direction = 'ltr',
@@ -58,7 +58,7 @@ export const NewTwoColumnLayoutBlock = ({
               {links && <CTALinks links={links} />}
             </>
           ) : (
-            richText && <RichText content={richText} />
+            richText && <RichText data={richText} />
           )}
         </div>
         <div

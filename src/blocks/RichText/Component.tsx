@@ -3,7 +3,7 @@ import { Subtitle } from '@/components/Hero/HeroMedium'
 import { RichTextBlock as RichTextBlockType } from '@/payload-types'
 import { imagesAsMedia } from '@/utilities/imagesAsLandscapes'
 import RichTextCarousel from './RichTextCarousel'
-import { NewRichText } from '@/components/RichText/NewRichText'
+import { RichText } from '@/components/RichText'
 
 export const RichTextBlock = ({ subtitle, images, richContent, priority }: RichTextBlockType) => {
   const validImages = imagesAsMedia(images)
@@ -18,7 +18,7 @@ export const RichTextBlock = ({ subtitle, images, richContent, priority }: RichT
         </div>
         <div>
           <Subtitle text={subtitle ?? ''} />
-          {richContent && <NewRichText data={richContent} />}
+          {richContent && <RichText data={richContent} />}
         </div>
       </div>
     </Container>

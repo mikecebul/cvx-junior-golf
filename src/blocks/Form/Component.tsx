@@ -4,7 +4,6 @@ import type { FormFieldBlock, Form as FormType } from '@payloadcms/plugin-form-b
 import { useRouter } from 'next/navigation'
 import React, { useCallback, useState } from 'react'
 import { useForm, FormProvider } from 'react-hook-form'
-import RichText from '@/components/RichText'
 import { Button } from '@/components/ui/button'
 
 import { buildInitialFormState } from './buildInitialFormState'
@@ -14,6 +13,7 @@ import { createCheckoutSession } from '@/plugins/stripe/action'
 import { baseUrl } from '@/utilities/baseUrl'
 import { Card } from '@/components/ui/card'
 import { format } from 'date-fns'
+import { RichText, type RichTextContent } from '@/components/RichText'
 
 export type Value = unknown
 
@@ -35,9 +35,7 @@ export type FormBlockType = {
   blockType?: 'formBlock'
   enableIntro: boolean
   form: FormType
-  introContent?: {
-    [k: string]: unknown
-  }[]
+  introContent?: RichTextContent
 }
 
 export const FormBlock: React.FC<
@@ -181,10 +179,10 @@ export const FormBlock: React.FC<
   const content = (
     <FormProvider {...formMethods}>
       {enableIntro && introContent && !hasSubmitted && (
-        <RichText className="mb-8" content={introContent} enableGutter={false} />
+        <RichText className="mb-8" data={introContent} enableGutter={false} />
       )}
       {!isLoading && hasSubmitted && confirmationType === 'message' && (
-        <RichText content={confirmationMessage} />
+        <RichText data={confirmationMessage} />
       )}
       {isLoading && !hasSubmitted && <p>Loading, please wait...</p>}
       {error && <div>{`${error.status || '500'}: ${error.message || ''}`}</div>}

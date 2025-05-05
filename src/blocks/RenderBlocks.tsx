@@ -12,10 +12,8 @@ import { EventCardsBlock } from './EventCards/Component'
 import { FeatureCardsBlock } from './FeatureCards/Component'
 import { LayoutBlock } from './Layout/Component'
 import { NewTwoColumnLayoutBlock } from './NewTwoColumnLayout/Component'
-import { NewRichText } from '@/components/RichText/NewRichText'
 
 const blockComponents = {
-  NewRichText: NewRichText,
   richText: RichTextBlock,
   linksBlock: LinksBlock,
   events: EventsBlock,

@@ -1,6 +1,5 @@
 import Container from '@/components/Container'
-import RichText from '@/components/RichText'
-import { NewRichText } from '@/components/RichText/NewRichText'
+import { RichText } from '@/components/RichText'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import type { EventCardsBlock as EventsCardsBlockType } from '@/payload-types'
 import { format } from 'date-fns'
@@ -32,7 +31,7 @@ export const EventCardsBlock = ({ eventCards }: EventsCardsBlockType) => {
                       <span>{event.location}</span>
                     </span>
                   </div>
-                  <NewRichText data={event.description} />
+                  <RichText data={event.description} className='text-muted-foreground' />
                 </CardContent>
               </Card>
             )

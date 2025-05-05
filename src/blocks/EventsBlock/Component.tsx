@@ -4,10 +4,10 @@ import { EventsBlock as EventsBlockType } from '@/payload-types'
 import { format } from 'date-fns'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { CalendarIcon, MapPinIcon } from 'lucide-react'
-import RichText from '@/components/RichText'
 import { CTALinks } from '@/components/CTALinks'
 import { TwoColumnLayout } from '@/components/TwoColumnLayout'
 import { Media } from '@/components/Media'
+import { RichText } from '@/components/RichText'
 
 export const EventsBlock = ({
   title,
@@ -55,7 +55,7 @@ export const EventsBlock = ({
                   </CardDescription>
                 </CardContent>
                 <CardContent className="">
-                  <RichText content={event.description} />
+                  <RichText data={event.description} />
                 </CardContent>
               </Card>
             )
