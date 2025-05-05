@@ -9,7 +9,7 @@ import { RichText } from '@/components/RichText'
 export const EventsPageBlock = ({ title, eventCards, announcements }: EventsPageBlockType) => {
   return (
     <Container className="space-y-16">
-      <div className="space-y-8">
+      <div className="space-y-16">
         <Title text={title ?? 'Upcoming Events'} heading="h1" />
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 xl:grid-cols-3">
           {Array.isArray(eventCards) &&
@@ -23,7 +23,7 @@ export const EventsPageBlock = ({ title, eventCards, announcements }: EventsPage
                   <CardHeader className="">
                     <CardTitle>{event.title}</CardTitle>
                   </CardHeader>
-                  <CardContent className="pb-2">
+                  <CardContent className="pb-6">
                     <CardDescription className="text-base">
                       <span className="flex flex-col">
                         <span className="flex items-center gap-2">

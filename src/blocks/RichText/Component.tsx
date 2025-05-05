@@ -18,7 +18,7 @@ export const RichTextBlock = ({ subtitle, images, richContent, priority }: RichT
         </div>
         <div>
           <Subtitle text={subtitle ?? ''} />
-          {richContent && <RichText data={richContent} />}
+          {richContent && <RichText data={richContent} className="lg:text-lg" />}
         </div>
       </div>
     </Container>

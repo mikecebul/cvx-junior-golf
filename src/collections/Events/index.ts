@@ -1,8 +1,7 @@
-import { anyone } from '@/access/anyone'
-import { authenticated } from '@/access/authenticated'
 import { authenticatedOrPublished } from '@/access/authenticatedOrPublished'
 import { editorOrHigher } from '@/access/editorOrHigher'
 import { superAdmin } from '@/access/superAdmin'
+import { HeadingFeature, lexicalEditor } from '@payloadcms/richtext-lexical'
 import { CollectionConfig } from 'payload'
 
 export const Events: CollectionConfig = {
@@ -31,6 +30,11 @@ export const Events: CollectionConfig = {
       name: 'description',
       type: 'richText',
       required: true,
+      editor: lexicalEditor({
+        features: ({ rootFeatures }) => {
+          return [...rootFeatures, HeadingFeature({ enabledHeadingSizes: [] })]
+        },
+      }),
     },
     {
       name: 'date',

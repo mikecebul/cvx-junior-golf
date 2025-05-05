@@ -14,7 +14,7 @@ export const RichText: Block = {
       type: 'richText',
       editor: lexicalEditor({
         features: ({ rootFeatures }) => {
-          return [...rootFeatures, HeadingFeature({ enabledHeadingSizes: ['h2'] })]
+          return [...rootFeatures, HeadingFeature({ enabledHeadingSizes: ['h1', 'h2'] })]
         },
       }),
     },

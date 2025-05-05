@@ -28,7 +28,7 @@ export const EventsBlock = ({
         {image && typeof image === 'object' && <Media resource={image} className="rounded-lg" />}
       </TwoColumnLayout>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
         {Array.isArray(eventItems) &&
           eventItems.length > 0 &&
           eventItems.map((event) => {
@@ -40,8 +40,8 @@ export const EventsBlock = ({
                 <CardHeader className="">
                   <CardTitle>{event.title}</CardTitle>
                 </CardHeader>
-                <CardContent className="pb-2">
-                  <CardDescription className="text-lg">
+                <CardContent className="pb-6">
+                  <CardDescription className="text-base">
                     <span className="flex flex-col">
                       <span className="flex items-center gap-2">
                         <CalendarIcon className="size-4" />
