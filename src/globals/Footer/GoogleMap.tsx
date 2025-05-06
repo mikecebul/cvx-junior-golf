@@ -4,32 +4,28 @@ import { CompanyInfo } from '@/payload-types'
 import { APIProvider, InfoWindow, Map } from '@vis.gl/react-google-maps'
 import { LandPlot } from 'lucide-react'
 
-
 export const GoogleMap = ({ contact }: { contact: CompanyInfo['contact'] }) => {
-  const { name, physicalAddress: { coordinates, street, cityStateZip } } = contact
-  const defaultPosition = { lat: 45.323236601619016, lng: -85.24322617394134 }
+  const {
+    name,
+    physicalAddress: { coordinates, street, cityStateZip },
+  } = contact
+  const defaultPosition = { lat: 45.3235, lng: -85.2432 }
 
-  const position = coordinates
-    ? { lat: coordinates[1], lng: coordinates[0] }
-    : defaultPosition
+  const position = coordinates ? { lat: coordinates[1], lng: coordinates[0] } : defaultPosition
 
   return (
     <div className="h-[350px]">
       <APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!}>
-        <Map
-          defaultZoom={16}
-          defaultCenter={position}
-          disableDefaultUI
-
-        >
+        <Map defaultZoom={13} defaultCenter={position} disableDefaultUI>
           <InfoWindow
             position={position}
             shouldFocus={false}
+            maxWidth={280}
             headerContent={
-              <div className="flex gap-4 items-center">
-                <LandPlot className="size-8 text-primary shrink-0" />
+              <div className="flex items-center gap-4">
+                <LandPlot className="text-primary size-8 shrink-0" />
                 <div className="flex flex-col gap-4">
-                  <h3 className="text-base font-bold text-balance leading-5">{name}</h3>
+                  <h3 className="text-base leading-5 font-bold text-balance">{name}</h3>
                 </div>
               </div>
             }

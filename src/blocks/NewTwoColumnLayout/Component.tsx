@@ -58,7 +58,7 @@ export const NewTwoColumnLayoutBlock = ({
               {links && <CTALinks links={links} />}
             </>
           ) : (
-            richText && <RichText data={richText} />
+            richText && <RichText data={richText} className="lg:text-lg" />
           )}
         </div>
         <div
