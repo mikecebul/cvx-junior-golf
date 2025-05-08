@@ -3,7 +3,6 @@ import { anyone } from '../../access/anyone'
 import { fileURLToPath } from 'url'
 import path from 'path'
 import { superAdmin } from '@/access/superAdmin'
-import { authenticated } from '@/access/authenticated'
 import { editorOrHigher } from '@/access/editorOrHigher'
 
 const filename = fileURLToPath(import.meta.url)
@@ -23,6 +22,7 @@ export const Media: CollectionConfig = {
   },
   admin: {
     defaultColumns: ['filename', 'alt', 'updatedAt'],
+    group: 'Admin',
     hideAPIURL: !superAdmin,
   },
   upload: {

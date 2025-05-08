@@ -371,6 +371,9 @@ export default buildConfig({
           update: superAdmin,
           create: superAdmin,
         },
+        admin: {
+          group: 'Admin',
+        },
         // @ts-expect-error
         fields: ({ defaultFields }) => {
           return defaultFields.map((field) => {

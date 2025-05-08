@@ -20,6 +20,7 @@ const Users: CollectionConfig = {
   admin: {
     hideAPIURL: !superAdmin,
     defaultColumns: ['name', 'email', 'role'],
+    group: 'Admin',
     useAsTitle: 'name',
   },
   auth: {
@@ -75,7 +76,7 @@ const Users: CollectionConfig = {
         condition: (data, siblingData, { user }) => {
           if (!user) return false
           return true
-        }
+        },
       },
       hooks: {
         beforeChange: [ensureFirstUserIsSuperAdmin],
