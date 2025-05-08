@@ -41,8 +41,10 @@ import { default as default_9734ea5d74b781c5b6e952c2aa41414f } from '@/globals/C
 import { default as default_3ffd8082d3e9477cf001d7760082c496 } from '@/globals/CompanyInfo/HoursRowLabel'
 import { default as default_a8ed57560afaff4535f43ca83a9fecbd } from '@/graphics/Icon'
 import { default as default_1ceaa075bd8323ee72a35f935e6cfcf1 } from '@/components/Logo/Graphic'
+import { default as default_95a1304f99d4385400076a6aaa04a867 } from '@/components/afterNavLinks/LinkToAnalyticsDefaultRootView'
 import { AdminErrorBoundary as AdminErrorBoundary_e5a9e14bdbe97e70ba60697217fe7688 } from '@payloadcms/plugin-sentry/client'
 import { S3ClientUploadHandler as S3ClientUploadHandler_f97aa6c64367fa259c5bc0567239ef24 } from '@payloadcms/storage-s3/client'
+import { default as default_562672c6d49401890858663241518d7e } from '@/components/views/Analytics'
 
 export const importMap = {
   "@/fields/link/LinkRowLabel#default": default_88a731f1ba0e751fb9249907ce942610,
@@ -88,6 +90,8 @@ export const importMap = {
   "@/globals/CompanyInfo/HoursRowLabel#default": default_3ffd8082d3e9477cf001d7760082c496,
   "@/graphics/Icon#default": default_a8ed57560afaff4535f43ca83a9fecbd,
   "@/components/Logo/Graphic#default": default_1ceaa075bd8323ee72a35f935e6cfcf1,
+  "@/components/afterNavLinks/LinkToAnalyticsDefaultRootView#default": default_95a1304f99d4385400076a6aaa04a867,
   "@payloadcms/plugin-sentry/client#AdminErrorBoundary": AdminErrorBoundary_e5a9e14bdbe97e70ba60697217fe7688,
-  "@payloadcms/storage-s3/client#S3ClientUploadHandler": S3ClientUploadHandler_f97aa6c64367fa259c5bc0567239ef24
+  "@payloadcms/storage-s3/client#S3ClientUploadHandler": S3ClientUploadHandler_f97aa6c64367fa259c5bc0567239ef24,
+  "@/components/views/Analytics#default": default_562672c6d49401890858663241518d7e
 }

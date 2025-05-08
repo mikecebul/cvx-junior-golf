@@ -78,9 +78,16 @@ export default buildConfig({
   admin: {
     avatar: 'default',
     components: {
+      afterNavLinks: ['@/components/afterNavLinks/LinkToAnalyticsDefaultRootView'],
       graphics: {
         Icon: '@/graphics/Icon',
         Logo: '@/components/Logo/Graphic',
+      },
+      views: {
+        CustomRootView: {
+          Component: '@/components/views/Analytics',
+          path: '/analytics',
+        },
       },
     },
     importMap: {
