@@ -3,12 +3,13 @@ import Link from 'next/link'
 
 import { cn } from '@/utilities/cn'
 import { buttonVariants } from '@/components/ui/button'
-import { Clock, Facebook, Mail, Navigation, Phone, Printer } from 'lucide-react'
+import { Clock, Copy, Facebook, Mail, Navigation, Phone, Printer } from 'lucide-react'
 import Container from '@/components/Container'
 import { CMSLink } from '@/components/Link'
 import { getPayload } from 'payload'
 import payloadConfig from '@payload-config'
 import { GoogleMap } from './GoogleMap'
+import { Copyright } from './Copyright'
 
 export async function Footer() {
   const payload = await getPayload({ config: payloadConfig })
@@ -171,13 +172,11 @@ export async function Footer() {
 
         <Separator />
         <div className="flex items-center justify-center">
-          <span className="block text-center text-sm text-gray-500">
-            © {new Date().getFullYear()}{' '}
+          <Copyright>
             <Link href="/" className={cn(buttonVariants({ variant: 'ghost' }), 'p-0')}>
               Charlevoix Junior Golf
             </Link>
-            . All Rights Reserved.
-          </span>
+          </Copyright>
         </div>
       </Container>
     </footer>
