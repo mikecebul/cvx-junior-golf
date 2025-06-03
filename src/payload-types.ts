@@ -100,6 +100,7 @@ export interface Config {
     events: Event;
     media: Media;
     users: User;
+    registrations: Registration;
     forms: Form;
     'form-submissions': FormSubmission;
     redirects: Redirect;
@@ -113,6 +114,7 @@ export interface Config {
     events: EventsSelect<false> | EventsSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
+    registrations: RegistrationsSelect<false> | RegistrationsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
@@ -773,6 +775,23 @@ export interface User {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "registrations".
+ */
+export interface Registration {
+  id: string;
+  year: number;
+  childFirstName: string;
+  childLastName: string;
+  childBirthdate: string;
+  parentName: string;
+  parentPhone: string;
+  parentEmail: string;
+  notes?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "form-submissions".
  */
 export interface FormSubmission {
@@ -838,6 +857,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'users';
         value: string | User;
+      } | null)
+    | ({
+        relationTo: 'registrations';
+        value: string | Registration;
       } | null)
     | ({
         relationTo: 'forms';
@@ -1190,6 +1213,22 @@ export interface UsersSelect<T extends boolean = true> {
   hash?: T;
   loginAttempts?: T;
   lockUntil?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "registrations_select".
+ */
+export interface RegistrationsSelect<T extends boolean = true> {
+  year?: T;
+  childFirstName?: T;
+  childLastName?: T;
+  childBirthdate?: T;
+  parentName?: T;
+  parentPhone?: T;
+  parentEmail?: T;
+  notes?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
