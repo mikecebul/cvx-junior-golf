@@ -82,8 +82,12 @@ const createRegistrationsOnPayment = async ({ doc, previousDoc, req }) => {
   if (prevStatus === 'paid' || newStatus !== 'paid') return
 
   const players = Array.isArray(doc.submissionData?.players) ? doc.submissionData.players : []
-  const parent = Array.isArray(doc.submissionData?.parents) && doc.submissionData.parents.length > 0 ? doc.submissionData.parents[0] : {}
-  const parentName = parent.firstName && parent.lastName ? `${parent.firstName} ${parent.lastName}` : undefined
+  const parent =
+    Array.isArray(doc.submissionData?.parents) && doc.submissionData.parents.length > 0
+      ? doc.submissionData.parents[0]
+      : {}
+  const parentName =
+    parent.firstName && parent.lastName ? `${parent.firstName} ${parent.lastName}` : undefined
   const parentPhone = parent.phone
   const parentEmail = parent.email
   const year = new Date().getFullYear()
@@ -109,6 +113,8 @@ export default buildConfig({
   admin: {
     avatar: 'default',
     components: {
+      beforeDashboard: ['@/components/beforeDashboard/RegistrationCount'],
+      afterDashboard: ['@/components/afterDashboard/Analytics'],
       afterNavLinks: ['@/components/afterNavLinks/LinkToAnalyticsDefaultRootView'],
       graphics: {
         Icon: '@/graphics/Icon',
