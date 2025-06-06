@@ -225,6 +225,7 @@ export default buildConfig({
       collections: ['registrations', 'form-submissions'],
       overrideExportCollection: (collection) => {
         collection.admin.group = 'Admin'
+        collection.upload.staticDir = path.resolve(dirname, 'uploads')
         return collection
       },
       disableJobsQueue: true,
