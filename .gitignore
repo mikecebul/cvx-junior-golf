@@ -22,3 +22,6 @@ payload.db
 dump.sql
 # Sentry Config File
 .env.sentry-build-plugin
+
+# exports
+src/uploads
