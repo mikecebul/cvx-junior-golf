@@ -23,6 +23,13 @@ import { PreviewComponent as PreviewComponent_a8a977ebc872c5d5ea7ee689724c0860 }
 import { SlugComponent as SlugComponent_92cc057d0a2abb4f6cf0307edf59f986 } from '@/fields/slug/SlugComponent'
 import { default as default_f4047b1a8a90d344d3f09d570ca929c0 } from '@/collections/Users/RoleCell'
 import { RoleSelectClient as RoleSelectClient_1e331338c38abbd719becfa9518165eb } from '@/collections/Users/RoleSelect.client'
+import { ExportListMenuItem as ExportListMenuItem_cdf7e044479f899a31f804427d568b36 } from '@payloadcms/plugin-import-export/rsc'
+import { ExportSaveButton as ExportSaveButton_cdf7e044479f899a31f804427d568b36 } from '@payloadcms/plugin-import-export/rsc'
+import { SortBy as SortBy_cdf7e044479f899a31f804427d568b36 } from '@payloadcms/plugin-import-export/rsc'
+import { FieldsToExport as FieldsToExport_cdf7e044479f899a31f804427d568b36 } from '@payloadcms/plugin-import-export/rsc'
+import { CollectionField as CollectionField_cdf7e044479f899a31f804427d568b36 } from '@payloadcms/plugin-import-export/rsc'
+import { WhereField as WhereField_cdf7e044479f899a31f804427d568b36 } from '@payloadcms/plugin-import-export/rsc'
+import { Preview as Preview_cdf7e044479f899a31f804427d568b36 } from '@payloadcms/plugin-import-export/rsc'
 import { DynamicFieldSelector as DynamicFieldSelector_fcc98597230ed7571a28f97c55b16e63 } from '@payloadcms/plugin-form-builder/client'
 import { DynamicPriceSelector as DynamicPriceSelector_fcc98597230ed7571a28f97c55b16e63 } from '@payloadcms/plugin-form-builder/client'
 import { HorizontalRuleFeatureClient as HorizontalRuleFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
@@ -44,6 +51,7 @@ import { default as default_1ceaa075bd8323ee72a35f935e6cfcf1 } from '@/component
 import { default as default_6b85bbe5b07dcbb6e3a8e43e51c14a0b } from '@/components/afterDashboard/Analytics'
 import { default as default_95a1304f99d4385400076a6aaa04a867 } from '@/components/afterNavLinks/LinkToAnalyticsDefaultRootView'
 import { default as default_1be3e1bfb8ba93ee5970c9392a7ef6e0 } from '@/components/beforeDashboard/RegistrationCount'
+import { ImportExportProvider as ImportExportProvider_cdf7e044479f899a31f804427d568b36 } from '@payloadcms/plugin-import-export/rsc'
 import { AdminErrorBoundary as AdminErrorBoundary_e5a9e14bdbe97e70ba60697217fe7688 } from '@payloadcms/plugin-sentry/client'
 import { S3ClientUploadHandler as S3ClientUploadHandler_f97aa6c64367fa259c5bc0567239ef24 } from '@payloadcms/storage-s3/client'
 import { default as default_562672c6d49401890858663241518d7e } from '@/components/views/Analytics'
@@ -74,6 +82,13 @@ export const importMap = {
   "@/fields/slug/SlugComponent#SlugComponent": SlugComponent_92cc057d0a2abb4f6cf0307edf59f986,
   "@/collections/Users/RoleCell#default": default_f4047b1a8a90d344d3f09d570ca929c0,
   "@/collections/Users/RoleSelect.client#RoleSelectClient": RoleSelectClient_1e331338c38abbd719becfa9518165eb,
+  "@payloadcms/plugin-import-export/rsc#ExportListMenuItem": ExportListMenuItem_cdf7e044479f899a31f804427d568b36,
+  "@payloadcms/plugin-import-export/rsc#ExportSaveButton": ExportSaveButton_cdf7e044479f899a31f804427d568b36,
+  "@payloadcms/plugin-import-export/rsc#SortBy": SortBy_cdf7e044479f899a31f804427d568b36,
+  "@payloadcms/plugin-import-export/rsc#FieldsToExport": FieldsToExport_cdf7e044479f899a31f804427d568b36,
+  "@payloadcms/plugin-import-export/rsc#CollectionField": CollectionField_cdf7e044479f899a31f804427d568b36,
+  "@payloadcms/plugin-import-export/rsc#WhereField": WhereField_cdf7e044479f899a31f804427d568b36,
+  "@payloadcms/plugin-import-export/rsc#Preview": Preview_cdf7e044479f899a31f804427d568b36,
   "@payloadcms/plugin-form-builder/client#DynamicFieldSelector": DynamicFieldSelector_fcc98597230ed7571a28f97c55b16e63,
   "@payloadcms/plugin-form-builder/client#DynamicPriceSelector": DynamicPriceSelector_fcc98597230ed7571a28f97c55b16e63,
   "@payloadcms/richtext-lexical/client#HorizontalRuleFeatureClient": HorizontalRuleFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
@@ -95,6 +110,7 @@ export const importMap = {
   "@/components/afterDashboard/Analytics#default": default_6b85bbe5b07dcbb6e3a8e43e51c14a0b,
   "@/components/afterNavLinks/LinkToAnalyticsDefaultRootView#default": default_95a1304f99d4385400076a6aaa04a867,
   "@/components/beforeDashboard/RegistrationCount#default": default_1be3e1bfb8ba93ee5970c9392a7ef6e0,
+  "@payloadcms/plugin-import-export/rsc#ImportExportProvider": ImportExportProvider_cdf7e044479f899a31f804427d568b36,
   "@payloadcms/plugin-sentry/client#AdminErrorBoundary": AdminErrorBoundary_e5a9e14bdbe97e70ba60697217fe7688,
   "@payloadcms/storage-s3/client#S3ClientUploadHandler": S3ClientUploadHandler_f97aa6c64367fa259c5bc0567239ef24,
   "@/components/views/Analytics#default": default_562672c6d49401890858663241518d7e

@@ -4,6 +4,7 @@ import { resendAdapter } from '@payloadcms/email-resend'
 import { sentryPlugin } from '@payloadcms/plugin-sentry'
 import * as Sentry from '@sentry/nextjs'
 
+import { importExportPlugin } from '@payloadcms/plugin-import-export'
 import { stripePlugin } from '@payloadcms/plugin-stripe'
 import { redirectsPlugin } from '@payloadcms/plugin-redirects'
 import { formBuilderPlugin } from '@payloadcms/plugin-form-builder'
@@ -104,6 +105,7 @@ const createRegistrationsOnPayment = async ({ doc, previousDoc, req }) => {
         parentName,
         parentPhone,
         parentEmail,
+        ethnicity: player.ethnicity || '',
       },
     })
   }
@@ -219,6 +221,14 @@ export default buildConfig({
   endpoints: [],
   globals: [Header, Footer, CompanyInfo],
   plugins: [
+    importExportPlugin({
+      collections: ['registrations', 'form-submissions'],
+      overrideExportCollection: (collection) => {
+        collection.admin.group = 'Admin'
+        return collection
+      },
+      disableJobsQueue: true,
+    }),
     sentryPlugin({
       options: {
         captureErrors: [400, 401, 403],

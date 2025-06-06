@@ -46,6 +46,16 @@ export const Registrations: CollectionConfig = {
       required: true,
     },
     {
+      name: 'ethnicity',
+      type: 'text',
+      required: false,
+    },
+    {
+      name: 'gender',
+      type: 'text',
+      required: false,
+    },
+    {
       name: 'parentName',
       type: 'text',
       required: true,

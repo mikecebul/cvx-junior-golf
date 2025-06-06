@@ -29,6 +29,7 @@
     "@payloadcms/live-preview-react": "3.37.0",
     "@payloadcms/next": "3.37.0",
     "@payloadcms/plugin-form-builder": "3.37.0",
+    "@payloadcms/plugin-import-export": "3.37.0",
     "@payloadcms/plugin-redirects": "3.37.0",
     "@payloadcms/plugin-sentry": "3.37.0",
     "@payloadcms/plugin-seo": "3.37.0",
