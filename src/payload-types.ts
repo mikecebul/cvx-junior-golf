@@ -793,6 +793,7 @@ export interface Registration {
   childFirstName: string;
   childLastName: string;
   childBirthdate: string;
+  childAge?: number | null;
   ethnicity?: string | null;
   gender?: string | null;
   parentName: string;
@@ -1371,6 +1372,7 @@ export interface RegistrationsSelect<T extends boolean = true> {
   childFirstName?: T;
   childLastName?: T;
   childBirthdate?: T;
+  childAge?: T;
   ethnicity?: T;
   gender?: T;
   parentName?: T;

@@ -46,6 +46,14 @@ export const Registrations: CollectionConfig = {
       required: true,
     },
     {
+      name: 'childAge',
+      type: 'number',
+      admin: {
+        readOnly: true,
+      },
+      virtual: true,
+    },
+    {
       name: 'ethnicity',
       type: 'text',
       required: false,
@@ -84,6 +92,25 @@ export const Registrations: CollectionConfig = {
       },
     },
   ],
+  hooks: {
+    afterRead: [
+      async ({ doc }) => {
+        if (doc.childBirthdate) {
+          const birth = new Date(doc.childBirthdate)
+          const today = new Date()
+          let age = today.getFullYear() - birth.getFullYear()
+          const m = today.getMonth() - birth.getMonth()
+          if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) {
+            age--
+          }
+          doc.childAge = age
+        } else {
+          doc.childAge = null
+        }
+        return doc
+      },
+    ],
+  },
 }
 
 export default Registrations
