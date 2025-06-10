@@ -95,6 +95,7 @@ const createRegistrationsOnPayment = async ({ doc, previousDoc, req }) => {
 
   for (const player of players) {
     if (!player) continue
+    const postalCode = player.postalCode || parent.postalCode || ''
     await req.payload.create({
       collection: 'registrations',
       data: {
@@ -106,6 +107,8 @@ const createRegistrationsOnPayment = async ({ doc, previousDoc, req }) => {
         parentPhone,
         parentEmail,
         ethnicity: player.ethnicity || '',
+        gender: player.gender || '',
+        postalCode,
       },
     })
   }

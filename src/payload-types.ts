@@ -799,6 +799,7 @@ export interface Registration {
   parentPhone: string;
   parentEmail: string;
   notes?: string | null;
+  postalCode?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1376,6 +1377,7 @@ export interface RegistrationsSelect<T extends boolean = true> {
   parentPhone?: T;
   parentEmail?: T;
   notes?: T;
+  postalCode?: T;
   updatedAt?: T;
   createdAt?: T;
 }

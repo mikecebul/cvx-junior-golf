@@ -75,6 +75,14 @@ export const Registrations: CollectionConfig = {
       type: 'textarea',
       required: false,
     },
+    {
+      name: 'postalCode',
+      type: 'text',
+      required: false,
+      admin: {
+        position: 'sidebar',
+      },
+    },
   ],
 }
 
