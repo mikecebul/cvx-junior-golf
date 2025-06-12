@@ -53,4 +53,7 @@ const sentryConfig = {
   automaticVercelMonitors: true,
 }
 
-export default withSentryConfig(withPayload(nextConfig), sentryConfig)
+export default withSentryConfig(
+  withPayload(nextConfig, { devBundleServerPackages: false }),
+  sentryConfig,
+)
