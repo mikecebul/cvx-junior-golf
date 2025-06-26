@@ -23,7 +23,7 @@ importers:
       '@payloadcms/db-mongodb':
         specifier: 3.43.0
         version: 3.43.0(payload@3.43.0(graphql@16.11.0)(typescript@5.8.3))
-      '@payloadcms/email-resend':
+      '@payloadcms/email-nodemailer':
         specifier: 3.43.0
         version: 3.43.0(payload@3.43.0(graphql@16.11.0)(typescript@5.8.3))
       '@payloadcms/live-preview-react':
@@ -1656,8 +1656,8 @@ packages:
     peerDependencies:
       payload: 3.43.0
 
-  '@payloadcms/email-resend@3.43.0':
-    resolution: {integrity: sha512-hxnLBYxUFiLqVVmd3On8epfC26XOdOLInqF9EOXn/4xnht/8U50pebEH4SSmb0nbDrCt4auHR/fvgWqnRP2JEg==}
+  '@payloadcms/email-nodemailer@3.43.0':
+    resolution: {integrity: sha512-JrdMnvL/Y5f2+bjIPFSlkpwj+FwhMzNP37jYuQylERot84m6x80LS0wFuW8pEMxETj76TE8GEkmcJdNNcldvlA==}
     engines: {node: ^18.20.2 || >=20.9.0}
     peerDependencies:
       payload: 3.43.0
@@ -5225,6 +5225,10 @@ packages:
   node-releases@2.0.19:
     resolution: {integrity: sha512-xxOWJsBKtzAq7DY0J+DTzuz58K8e7sJbdgwkbMWQe8UYB6ekmsQ45q0M/tJDsGaZmbC+l7n57UV8Hl5tHxO9uw==}
 
+  nodemailer@6.9.16:
+    resolution: {integrity: sha512-psAuZdTIRN08HKVd/E8ObdV6NO7NTBY3KsC30F7M4H1OnmLCUNaS56FpYxyb26zWLSyYF9Ozch9KYHhHegsiOQ==}
+    engines: {node: '>=6.0.0'}
+
   noms@0.0.0:
     resolution: {integrity: sha512-lNDU9VJaOPxUmXcLb+HQFeUgQQPtMI24Gt6hgfuMHRJgMRHMF/qZ4HJD3GDru4sSw9IQl2jPjAYnQrdIeLbwow==}
 
@@ -8412,8 +8416,9 @@ snapshots:
       - socks
       - supports-color
 
-  '@payloadcms/email-resend@3.43.0(payload@3.43.0(graphql@16.11.0)(typescript@5.8.3))':
+  '@payloadcms/email-nodemailer@3.43.0(payload@3.43.0(graphql@16.11.0)(typescript@5.8.3))':
     dependencies:
+      nodemailer: 6.9.16
       payload: 3.43.0(graphql@16.11.0)(typescript@5.8.3)
 
   '@payloadcms/eslint-config@3.28.0(@typescript-eslint/eslint-plugin@8.34.0(@typescript-eslint/parser@8.34.0(eslint@9.25.1(jiti@2.4.2))(typescript@5.8.3))(eslint@9.25.1(jiti@2.4.2))(typescript@5.8.3))(jiti@2.4.2)(ts-api-utils@2.1.0(typescript@5.8.3))':
@@ -12851,6 +12856,8 @@ snapshots:
       whatwg-url: 5.0.0
 
   node-releases@2.0.19: {}
+
+  nodemailer@6.9.16: {}
 
   noms@0.0.0:
     dependencies:

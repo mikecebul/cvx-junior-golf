@@ -1,5 +1,5 @@
 import { mongooseAdapter } from '@payloadcms/db-mongodb'
-import { resendAdapter } from '@payloadcms/email-resend'
+import { nodemailerAdapter } from '@payloadcms/email-nodemailer'
 
 import { sentryPlugin } from '@payloadcms/plugin-sentry'
 import * as Sentry from '@sentry/nextjs'
@@ -216,11 +216,24 @@ export default buildConfig({
   collections: [Pages, Events, Media, Users, Registrations],
   cors: [baseUrl].filter(Boolean),
   csrf: [baseUrl].filter(Boolean),
-  email: resendAdapter({
-    defaultFromAddress: process.env.RESEND_DEFAULT_EMAIL || 'info@cvxjrgolf.org',
+  email: nodemailerAdapter({
     defaultFromName: 'Charlevoix County Junior Golf Association',
-    apiKey: process.env.RESEND_API_KEY!,
+    defaultFromAddress: 'website@mail.cvxjrgolf.org',
+    transportOptions: {
+      host: process.env.EMAIL_HOST || 'localhost',
+      port: process.env.EMAIL_PORT ? parseInt(process.env.EMAIL_PORT, 10) : 1025,
+      auth: {
+        user: process.env.EMAIL_USER || '',
+        pass: process.env.EMAIL_PASSWORD || '',
+      },
+    },
   }),
+
+  // resendAdapter({
+  //   defaultFromAddress: process.env.RESEND_DEFAULT_EMAIL || 'info@cvxjrgolf.org',
+  //   defaultFromName: 'Charlevoix County Junior Golf Association',
+  //   apiKey: process.env.RESEND_API_KEY!,
+  // }),
   endpoints: [],
   globals: [Header, Footer, CompanyInfo],
   plugins: [
