@@ -218,7 +218,7 @@ export default buildConfig({
   csrf: [baseUrl].filter(Boolean),
   email: nodemailerAdapter({
     defaultFromName: 'Charlevoix County Junior Golf Association',
-    defaultFromAddress: 'website@mail.cvxjrgolf.org',
+    defaultFromAddress: 'website@cvxjrgolf.org',
     transportOptions: {
       host: process.env.EMAIL_HOST || 'localhost',
       port: process.env.EMAIL_PORT ? parseInt(process.env.EMAIL_PORT, 10) : 1025,
