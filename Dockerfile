@@ -53,7 +53,8 @@ RUN --mount=type=secret,id=DATABASE_URI \
     --mount=type=secret,id=STRIPE_WEBHOOKS_ENDPOINT_SECRET \
     --mount=type=secret,id=UNSPLASH_ACCESS_KEY \
     --mount=type=secret,id=UNSPLASH_URL \
-    bash -c '(\n        echo "DATABASE_URI=$(cat /run/secrets/DATABASE_URI)" && \
+    sh -c '( \
+        echo "DATABASE_URI=$(cat /run/secrets/DATABASE_URI)" && \
         echo "DOCKERHUB_TOKEN=$(cat /run/secrets/DOCKERHUB_TOKEN)" && \
         echo "DOCKERHUB_USERNAME=$(cat /run/secrets/DOCKERHUB_USERNAME)" && \
         echo "NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=$(cat /run/secrets/NEXT_PUBLIC_GOOGLE_MAPS_API_KEY)" && \
