@@ -89,8 +89,17 @@ ENV NEXT_OUTPUT=standalone
 RUN npm install -g corepack@latest
 
 RUN \
-  if [ -f pnpm-lock.yaml ]; then corepack enable pnpm && . ./.env.production && pnpm run build; \
-  else echo "Lockfile not found." && exit 1; \
+  if [ -f pnpm-lock.yaml ]; then \
+    corepack enable pnpm && \
+    echo "--- Checking .env.production ---" && \
+    grep EMAIL_HOST .env.production && \
+    echo "--- Sourcing .env.production and checking env var ---" && \
+    set -a && . ./.env.production && set +a && \
+    echo "EMAIL_HOST is set to: $EMAIL_HOST" && \
+    echo "--- Running build ---" && \
+    pnpm run build; \
+  else \
+    echo "Lockfile not found." && exit 1; \
   fi
 
 # Production image, copy all the files and run next
