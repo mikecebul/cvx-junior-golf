@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - 'main'
-      - 'dev'
+      - 'staging'
 
 jobs:
   build-and-push-dockerfile-image:
@@ -20,8 +20,8 @@ jobs:
         run: |
           if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
             echo "tag=latest" >> $GITHUB_OUTPUT
-          elif [[ "${{ github.ref }}" == "refs/heads/dev" ]]; then
-            echo "tag=dev" >> $GITHUB_OUTPUT
+          elif [[ "${{ github.ref }}" == "refs/heads/staging" ]]; then
+            echo "tag=staging" >> $GITHUB_OUTPUT
           fi
 
       - name: Log in to Docker Hub
