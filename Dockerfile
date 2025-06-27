@@ -89,7 +89,7 @@ ENV NEXT_OUTPUT=standalone
 RUN npm install -g corepack@latest
 
 RUN \
-  if [ -f pnpm-lock.yaml ]; then corepack enable pnpm && pnpm run build; \
+  if [ -f pnpm-lock.yaml ]; then corepack enable pnpm && . ./.env.production && pnpm run build; \
   else echo "Lockfile not found." && exit 1; \
   fi
 
