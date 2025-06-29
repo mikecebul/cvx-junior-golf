@@ -228,12 +228,6 @@ export default buildConfig({
       },
     },
   }),
-
-  // resendAdapter({
-  //   defaultFromAddress: process.env.RESEND_DEFAULT_EMAIL || 'info@cvxjrgolf.org',
-  //   defaultFromName: 'Charlevoix County Junior Golf Association',
-  //   apiKey: process.env.RESEND_API_KEY!,
-  // }),
   endpoints: [],
   globals: [Header, Footer, CompanyInfo],
   plugins: [
@@ -316,6 +310,7 @@ export default buildConfig({
         })
 
         emailsToSend.forEach((email) => {
+          email.from = email.from || 'info@cvxjrgolf.org'
           email.html = `${email.html || ''}${additionalContent}`
         })
 
@@ -371,15 +366,15 @@ export default buildConfig({
 
           const transformedFormField = formField
             ? {
-                ...formField,
-                admin: {
-                  readOnly: false,
-                },
-                access: {
-                  create: () => true,
-                  update: () => adminOrSuperAdmin,
-                },
-              }
+              ...formField,
+              admin: {
+                readOnly: false,
+              },
+              access: {
+                create: () => true,
+                update: () => adminOrSuperAdmin,
+              },
+            }
             : undefined
 
           return [
