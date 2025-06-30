@@ -10,9 +10,16 @@ Before starting any task, I will consult the official documentation for the core
 - **Payload CMS:** `payloadcms/payload`
 - **TanStack Form:** `tanstack/form`
 
-My process for accessing documentation is:
+## How to use GH CLI:
+
 1.  **Find the file:** Use `gh search code --repo <repo_name> "<search_term>"` to find relevant files.
-2.  **Read the file:** Use `web_fetch` with the raw GitHub URL to read the content.
+2.  **Find a GitHub issue by title:** Use `gh issue list --search "<issue_title>" --state open --json title,url` to find relevant issues.
+3.  **Read a GitHub issue by number:** Use `gh issue view <number> -R mikecebul/cvx-junior-golf`
+3.  **Read a GitHub file:** If I have quota, you can use `web_fetch` with the raw GitHub URL to read the content.
+
+## Package Manager
+
+This project uses `pnpm` as its package manager. Always use `pnpm install` to install dependencies.
 
 ## My Operating Procedure
 
