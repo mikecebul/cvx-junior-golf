@@ -15,7 +15,61 @@ Before starting any task, I will consult the official documentation for the core
 1.  **Find the file:** Use `gh search code --repo <repo_name> "<search_term>"` to find relevant files.
 2.  **Find a GitHub issue by title:** Use `gh issue list --search "<issue_title>" --state open --json title,url` to find relevant issues.
 3.  **Read a GitHub issue by number:** Use `gh issue view <number> -R mikecebul/cvx-junior-golf`
-3.  **Read a GitHub file:** If I have quota, you can use `web_fetch` with the raw GitHub URL to read the content.
+4.  **Read a GitHub file:** If I have quota, you can use `web_fetch` with the raw GitHub URL to read the content.
+
+# Basic `gh` CLI Usage
+
+1.  **Find a file in a repository:**
+
+    ```bash
+    gh search code "<search_term>" --repo owner/repo-name
+    ```
+
+    **Common Flags:**
+
+    - --language <string>: Filter results by programming language (e.g., python, javascript).
+
+    - --filename <string>: Filter on a specific filename.
+
+    - --owner <string>: Filter on a specific repository owner (user or organization).
+
+    - --limit <int>: Set the maximum number of results to return (default is 30).
+
+2.  **Find an open issue by its title:**
+
+    ```bash
+    gh issue list --search "<issue_title>" --state open
+    ```
+
+    **Common Flags:**
+
+    - --state <string>: Filter by state (open, closed, all).
+
+    - --author <string>: Filter by the user who created the issue.
+
+    - --assignee <string>: Filter by the user assigned to the issue. Use @me for issues assigned to you.
+
+    - --label <string>: Filter by a specific label.
+
+3.  **Read an issue by its number:**
+
+    ```bash
+    gh issue view <issue_number>
+    ```
+
+    **Common Flags:**
+
+    - -c, --comments: View the issue's comments.
+
+4.  **Read a file from the default branch:**
+
+    ```bash
+    gh repo view <path/to/file>
+    ```
+
+    **Common Flags:**
+
+    - -b, --branch <string>: Select a specific branch to view the file from.
 
 ## Package Manager
 
