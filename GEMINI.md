@@ -1,13 +1,29 @@
-# Project Technology Stack
+# Project Overview
 
-This project is built with the following technologies:
+This project is a Next.js website with a deeply integrated Payload CMS for content management. It uses a block-based architecture for page building and features global content for the header, footer, and company information.
 
-*   **TypeScript:** For static typing and improved code quality.
-*   **Next.js:** A React framework for building server-side rendered and static web applications.
-*   **Payload CMS:** A headless CMS for managing content.
-*   **Tailwind CSS:** A utility-first CSS framework for rapid UI development.
-*   **shadcn/ui:** A collection of re-usable UI components.
+## Core Technologies & Documentation
 
-## Getting Up-to-Date Documentation
+Before starting any task, I will consult the official documentation for the core technologies.
 
-To get the most up-to-date documentation on the latest versions of these tools, use `context7 via mcp`.
+- **Next.js:** `vercel/next.js`
+- **Payload CMS:** `payloadcms/payload`
+- **TanStack Form:** `tanstack/form`
+
+My process for accessing documentation is:
+1.  **Find the file:** Use `gh search code --repo <repo_name> "<search_term>"` to find relevant files.
+2.  **Read the file:** Use `web_fetch` with the raw GitHub URL to read the content.
+
+## My Operating Procedure
+
+To ensure I provide the best possible assistance, I will follow these steps for every request:
+
+1.  **Consider the Request:** I will first break down the user's request to fully understand the goals and requirements.
+
+2.  **Reference Documentation:** I will consult the official documentation of the relevant technologies to ensure my approach is up-to-date and follows best practices.
+
+3.  **Create & Refine Plan:** I will draft a detailed plan and then critically review it for potential issues, edge cases, or improvements. This is my internal verification step. The refined plan will be saved to a `plan.md` file.
+
+4.  **Present Plan for Approval:** I will present the final, refined plan to you for review. **I will not proceed until you approve it.** If you suggest changes, I will update the plan and present it again for approval.
+
+5.  **Execute:** Once you approve the plan, I will begin implementing the changes.
