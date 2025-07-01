@@ -1,6 +1,5 @@
 import type { CollectionConfig } from 'payload'
 
-import { authenticated } from '../../access/authenticated'
 import { authenticatedOrPublished } from '../../access/authenticatedOrPublished'
 import { slugField } from '@/fields/slug'
 import { populatePublishedAt } from '../../hooks/populatePublishedAt'
@@ -19,10 +18,10 @@ import { superAdmin } from '@/access/superAdmin'
 import { Events } from '@/blocks/EventsBlock/config'
 import { RichText } from '@/blocks/RichText/config'
 import { EventsPage } from '@/blocks/EventsPage/config'
-import { FormBlock } from '@/blocks/Form/config'
 import { baseUrl } from '@/utilities/baseUrl'
 import { EventCards } from '@/blocks/EventCards/config'
 import { FeatureCards } from '@/blocks/FeatureCards/config'
+import { Form } from '@/blocks/Form/config'
 import { Layout } from '@/blocks/Layout/config'
 import { NewTwoColumnLayout } from '@/blocks/NewTwoColumnLayout/config'
 import { revalidateDelete } from './hooks/revalidateDelete'
@@ -70,7 +69,7 @@ export const Pages: CollectionConfig = {
                 RichText,
                 Links,
                 EventsPage,
-                FormBlock,
+                Form,
                 NewTwoColumnLayout,
                 EventCards,
                 FeatureCards,

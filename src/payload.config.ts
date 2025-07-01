@@ -7,7 +7,6 @@ import * as Sentry from '@sentry/nextjs'
 import { importExportPlugin } from '@payloadcms/plugin-import-export'
 import { stripePlugin } from '@payloadcms/plugin-stripe'
 import { redirectsPlugin } from '@payloadcms/plugin-redirects'
-import { formBuilderPlugin } from '@payloadcms/plugin-form-builder'
 import { seoPlugin } from '@payloadcms/plugin-seo'
 import { s3Storage as s3StoragePlugin } from '@payloadcms/storage-s3'
 import { S3_PLUGIN_CONFIG } from './plugins/s3'
@@ -44,16 +43,10 @@ import { Events } from './collections/Events'
 import { Media } from './collections/Media'
 import { MediaBlock } from './blocks/MediaBlock/config'
 import { baseUrl } from './utilities/baseUrl'
-import { ArrayBlock, DateOfBirth } from './blocks/Form/blocks'
 import { checkoutSessionCompleted } from './plugins/stripe/webhooks/checkoutSessionCompleted'
-import { revalidatePath } from 'next/cache'
-import { editorOrHigher } from './access/editorOrHigher'
-import { anyone } from './access/anyone'
-import { adminOrSuperAdmin } from './access/adminOrSuperAdmin'
-import { authenticated } from './access/authenticated'
-
-import { format } from 'date-fns'
 import Registrations from './collections/Registrations'
+import { Forms } from './collections/Forms'
+import { FormSubmissions } from './collections/FormSubmissions'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -213,7 +206,7 @@ export default buildConfig({
   db: mongooseAdapter({
     url: process.env.DATABASE_URI!,
   }),
-  collections: [Pages, Events, Media, Users, Registrations],
+  collections: [Pages, Events, Forms, FormSubmissions, Media, Users, Registrations],
   cors: [baseUrl].filter(Boolean),
   csrf: [baseUrl].filter(Boolean),
   email: nodemailerAdapter({
@@ -263,165 +256,6 @@ export default buildConfig({
         'checkout.session.completed': checkoutSessionCompleted,
       },
       logs: false,
-    }),
-    formBuilderPlugin({
-      defaultToEmail: 'info@cvxjrgolf.org',
-      fields: {
-        array: ArrayBlock,
-        dateOfBirth: DateOfBirth,
-        payment: true,
-      },
-      beforeEmail: (emailsToSend, beforeChangeParams) => {
-        const { data } = beforeChangeParams
-        const formData = data.submissionData as Record<string, any[]>
-
-        let additionalContent = '<hr style="margin: 30px 0; border: 1px solid #eee;">'
-        additionalContent += '<h2 style="color: #333;">Registration Details</h2>'
-
-        const arrayFields = Object.entries(formData).filter(([_, value]) => Array.isArray(value))
-
-        arrayFields.forEach(([fieldName, items]) => {
-          additionalContent += `<h3 style="margin-top: 20px; color: #333;">${fieldName.toUpperCase()}</h3>`
-
-          items.forEach((item, index) => {
-            additionalContent += `<div style="margin: 10px 0; padding: 10px; background: #f5f5f5; border-radius: 4px;">`
-            Object.entries(item).forEach(([key, value]) => {
-              const formattedKey = key
-                .split(/(?=[A-Z])|_|\s/)
-                .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-                .join(' ')
-
-              let displayValue = value
-              if (
-                (key.toLowerCase().includes('date') || key.toLowerCase().includes('dob')) &&
-                value &&
-                typeof value === 'string'
-              ) {
-                try {
-                  displayValue = format(new Date(value), 'MMMM d, yyyy')
-                } catch (e) {
-                  console.error('Invalid date:', value)
-                }
-              }
-              additionalContent += `<p><strong>${formattedKey}:</strong> ${displayValue}</p>`
-            })
-            additionalContent += '</div>'
-          })
-        })
-
-        emailsToSend.forEach((email) => {
-          email.from = email.from || 'info@cvxjrgolf.org'
-          email.html = `${email.html || ''}${additionalContent}`
-        })
-
-        return emailsToSend
-      },
-      formOverrides: {
-        access: {
-          admin: authenticated,
-          create: editorOrHigher,
-          delete: editorOrHigher,
-          update: editorOrHigher,
-          read: authenticated,
-        },
-        hooks: {
-          afterChange: [() => revalidatePath('/register')],
-        },
-        fields: ({ defaultFields }) => [
-          ...defaultFields.map((field) => {
-            if ('name' in field && field.name === 'confirmationMessage') {
-              return {
-                ...field,
-                editor: lexicalEditor({
-                  features: ({ defaultFeatures }) => [
-                    ...defaultFeatures,
-                    FixedToolbarFeature(),
-                    HeadingFeature({ enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4'] }),
-                  ],
-                }),
-              }
-            }
-            return field
-          }),
-        ],
-      },
-      formSubmissionOverrides: {
-        access: {
-          admin: authenticated,
-          update: adminOrSuperAdmin,
-          delete: adminOrSuperAdmin,
-          create: anyone,
-          read: authenticated,
-        },
-        admin: {
-          useAsTitle: 'title',
-        },
-        labels: {
-          singular: 'Form Submission',
-          plural: 'Form Submissions',
-        },
-        // @ts-expect-error
-        fields: ({ defaultFields }) => {
-          const formField = defaultFields.find((field) => 'name' in field && field.name === 'form')
-
-          const transformedFormField = formField
-            ? {
-              ...formField,
-              admin: {
-                readOnly: false,
-              },
-              access: {
-                create: () => true,
-                update: () => adminOrSuperAdmin,
-              },
-            }
-            : undefined
-
-          return [
-            ...(formField ? [transformedFormField] : []),
-            {
-              name: 'title',
-              type: 'text',
-            },
-            {
-              name: 'submissionData',
-              type: 'json',
-              admin: {
-                components: {
-                  Field: '@/plugins/form-builder/FormData',
-                },
-              },
-            },
-            {
-              name: 'payment',
-              type: 'group',
-              admin: {
-                position: 'sidebar',
-              },
-              fields: [
-                {
-                  name: 'amount',
-                  type: 'number',
-                },
-                {
-                  name: 'status',
-                  type: 'select',
-                  defaultValue: 'pending',
-                  options: [
-                    { label: 'Pending', value: 'pending' },
-                    { label: 'Paid', value: 'paid' },
-                    { label: 'Cancelled', value: 'cancelled' },
-                    { label: 'Refunded', value: 'refunded' },
-                  ],
-                },
-              ],
-            },
-          ]
-        },
-        hooks: {
-          afterChange: [createRegistrationsOnPayment],
-        },
-      },
     }),
     redirectsPlugin({
       collections: ['pages'],

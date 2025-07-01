@@ -6,7 +6,7 @@ import { LinksBlock } from './Links/Component'
 import { EventsBlock } from './EventsBlock/Component'
 import { RichTextBlock } from './RichText/Component'
 import { EventsPageBlock } from './EventsPage/Component'
-import { FormBlock } from './Form/Component'
+import { FormBlockRouter } from './Form/Component'
 import { MediaBlock } from './MediaBlock/Component'
 import { EventCardsBlock } from './EventCards/Component'
 import { FeatureCardsBlock } from './FeatureCards/Component'
@@ -18,7 +18,7 @@ const blockComponents = {
   linksBlock: LinksBlock,
   events: EventsBlock,
   eventsPage: EventsPageBlock,
-  formBlock: FormBlock,
+  formBlock: FormBlockRouter,
   mediaBlock: MediaBlock,
   eventCards: EventCardsBlock,
   featureCards: FeatureCardsBlock,
