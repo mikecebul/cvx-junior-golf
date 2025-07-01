@@ -14,7 +14,7 @@ This website is built using PayloadCMS and Next.js 15, designed for managing and
   - Integrated Stripe checkout for secure payments
 - **Page Building Blocks**:
   - Two Column Layout block for flexible page design
-  - Mix content types across columns (text, images, forms)
+  - Mix content types across columns (text, images, forms).
 
 ## Getting Started
 
