@@ -2,6 +2,7 @@ import { FormBlock } from '@/payload-types'
 import { ContactForm } from './ContactForm'
 import { DynamicForm } from './DynamicForm'
 import Container from '@/components/Container'
+import { RegistrationForm } from './RegistrationForm'
 
 export type PostError = {
   message: string
@@ -22,11 +23,21 @@ export const FormBlockRouter = (props: FormBlock & { nested?: boolean }) => {
   }
 
   if (typeof form === 'object' && formType === 'static') {
+    if (form.form === 'contact') {
     if (nested) return <ContactForm {...props} />
     return (
       <Container>
         <ContactForm {...props} />
       </Container>
     )
+  }
+    if (form.form === 'registration') {
+      if (nested) return <RegistrationForm {...props} />
+      return (
+        <Container>
+          <RegistrationForm {...props} />
+        </Container>
+      )
+    }
   }
 }

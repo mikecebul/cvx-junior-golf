@@ -37,7 +37,7 @@ export const Forms: CollectionConfig = {
     {
       name: 'form',
       type: 'select',
-      options: [{ label: 'contact', value: 'contact' }],
+      options: [{ label: 'contact', value: 'contact' }, { label: 'registration', value: 'registration' }],
       admin: {
         condition: (_, siblingData) => siblingData.formType === 'static',
       },

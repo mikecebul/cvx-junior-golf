@@ -91,6 +91,13 @@ export const Registrations: CollectionConfig = {
         position: 'sidebar',
       },
     },
+    {
+      name: 'paid',
+      type: 'checkbox',
+      required: true,
+      defaultValue: false,
+      admin: { position: 'sidebar' },
+    },
   ],
   hooks: {
     afterRead: [

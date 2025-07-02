@@ -9,41 +9,41 @@ export async function up({ payload, req, session }: MigrateUpArgs): Promise<void
     req,
   })
 
-  for (const submission of submissions) {
-    const submissionData = submission.submissionData as any
-    const year = new Date(submission.createdAt).getFullYear()
-    const parentEmail = submissionData?.parents?.[0]?.email
-    const players = Array.isArray(submissionData?.players) ? submissionData.players : []
+  // for (const submission of submissions) {
+  //   const submissionData = submission.submissionData as any
+  //   const year = new Date(submission.createdAt).getFullYear()
+  //   const parentEmail = submissionData?.parents?.[0]?.email
+  //   const players = Array.isArray(submissionData?.players) ? submissionData.players : []
 
-    for (const player of players) {
-      if (!player) continue
-      const childFirstName = player.firstName || player.childFirstName
-      const childLastName = player.lastName || player.childLastName
-      const postalCode = player.postalCode || submissionData?.parents?.[0]?.postalCode || ''
+  //   for (const player of players) {
+  //     if (!player) continue
+  //     const childFirstName = player.firstName || player.childFirstName
+  //     const childLastName = player.lastName || player.childLastName
+  //     const postalCode = player.postalCode || submissionData?.parents?.[0]?.postalCode || ''
 
-      // Find the registration
-      const regs = await payload.find({
-        collection: 'registrations',
-        where: {
-          year: { equals: year },
-          childFirstName: { equals: childFirstName },
-          childLastName: { equals: childLastName },
-          parentEmail: { equals: parentEmail },
-        },
-        limit: 10,
-        req,
-      })
+  //     // Find the registration
+  //     const regs = await payload.find({
+  //       collection: 'registrations',
+  //       where: {
+  //         year: { equals: year },
+  //         childFirstName: { equals: childFirstName },
+  //         childLastName: { equals: childLastName },
+  //         parentEmail: { equals: parentEmail },
+  //       },
+  //       limit: 10,
+  //       req,
+  //     })
 
-      for (const reg of regs.docs) {
-        await payload.update({
-          collection: 'registrations',
-          id: reg.id,
-          data: { postalCode },
-          req,
-        })
-      }
-    }
-  }
+  //     for (const reg of regs.docs) {
+  //       await payload.update({
+  //         collection: 'registrations',
+  //         id: reg.id,
+  //         data: { postalCode },
+  //         req,
+  //       })
+  //     }
+  //   }
+  // }
 }
 
 export async function down({ payload, req, session }: MigrateDownArgs): Promise<void> {

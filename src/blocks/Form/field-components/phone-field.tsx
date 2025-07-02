@@ -5,26 +5,33 @@ import { useFieldContext } from '../hooks/form-context'
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import { cn } from '@/utilities/cn'
-import type { PhoneFormField } from '@/payload-types'
 
-export default function PhoneField({ label, name, colSpan }: PhoneFormField) {
+export interface PhoneFieldUIProps {
+  label?: string | null
+  colSpan?: '1' | '2'
+  required?: boolean | null
+}
+
+export default function PhoneField({ label, colSpan, required }: PhoneFieldUIProps) {
   const field = useFieldContext<string>()
   const errors = useStore(field.store, (state) => state.meta.errors)
 
   return (
     <div className={cn('col-span-2 w-full', { '@lg:col-span-1': colSpan === '1' })}>
-      <div className={cn('grid gap-2 w-full')}>
-        <Label htmlFor={name}>{label}</Label>
+      <div className={cn('grid w-full gap-2')}>
+        <Label htmlFor={field.name}>{label}</Label>
         <Input
-          id={name}
+          id={field.name}
           type="text"
           value={field.state.value ?? ''}
           onBlur={() => field.handleBlur()}
           onChange={(e) => field.handleChange(e.target.value)}
+          required={!!required}
+          autoComplete="tel"
         />
       </div>
       <div>
-        {errors && <em className="text-sm text-destructive first:mt-1">{errors[0]?.message}</em>}
+        {errors && <em className="text-destructive text-sm first:mt-1">{errors[0]?.message}</em>}
       </div>
     </div>
   )

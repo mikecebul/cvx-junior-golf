@@ -16,63 +16,67 @@ export const checkoutSessionCompleted: StripeWebhookHandler<{
     throw new APIError('No submissionId found in checkout session metadata')
   }
 
-  if (payment_status === 'paid') {
-    try {
-      await payload.update({
-        collection: 'form-submissions',
-        id: submissionId,
-        data: {
-          payment: {
-            status: 'paid',
-          },
-        },
-      })
-    } catch (error) {
-      throw new APIError(`Error updating submission: ${error}`)
-    }
+  // Update this after creating a Registration Form and Collection
+  //
+  // if (payment_status === 'paid') {
+  //   try {
+  //     await payload.update({
+  //       collection: 'form-submissions',
+  //       id: submissionId,
+  //       data: {
+  //         payment: {
+  //           status: 'paid',
+  //         },
+  //       },
+  //     })
+  //   } catch (error) {
+  //     throw new APIError(`Error updating submission: ${error}`)
+  //   }
 
-    try {
-      const submission = await payload.findByID({
-        collection: 'form-submissions',
-        id: submissionId,
-      })
+  //   try {
+  //     const submission = await payload.findByID({
+  //       collection: 'form-submissions',
+  //       id: submissionId,
+  //     })
 
-      const form = await payload.findByID({
-        collection: 'forms',
-        id: typeof submission.form === 'string' ? submission.form : submission.form.id,
-      })
-      const { emails } = form
+  //     const form = await payload.findByID({
+  //       collection: 'forms',
+  //       id: typeof submission.form === 'string' ? submission.form : submission.form.id,
+  //     })
+  //     const { emails } = form
 
-      emails?.map(async (email) => {
-        await payload.sendEmail({
-          to: email.emailTo,
-          cc: email.cc,
-          bcc: email.bcc,
-          replyTo: email.replyTo,
-          from: email.emailFrom,
-          subject: `Payment Confirmed from ${submission.title}`,
-          html: `
-            <h2>Payment Confirmation</h2>
-            <p>A payment has been successfully processed for submission: ${submission.title}</p>
-            <hr/>
-            <h3>Payment Details:</h3>
-            <ul>
-              <li>Amount: $${amount_total ? (amount_total / 100).toFixed(2) : '0.00'}</li>
-              <li>Status: ${payment_status}</li>
-              <li>Session ID: ${sessionId}</li>
-            </ul>
-            <hr/>
-            <p>Submission ID: ${submissionId}</p>
-            <p><small>This is an automated message.</small></p>
-          `,
-        })
-      })
-    } catch (error) {
-      throw new APIError(`Error sending email: ${error}`)
-    }
-  }
+  //     emails?.map(async (email) => {
+  //       await payload.sendEmail({
+  //         to: email.emailTo,
+  //         cc: email.cc,
+  //         bcc: email.bcc,
+  //         replyTo: email.replyTo,
+  //         from: email.emailFrom,
+  //         subject: `Payment Confirmed from ${submission.title}`,
+  //         html: `
+  //           <h2>Payment Confirmation</h2>
+  //           <p>A payment has been successfully processed for submission: ${submission.title}</p>
+  //           <hr/>
+  //           <h3>Payment Details:</h3>
+  //           <ul>
+  //             <li>Amount: $${amount_total ? (amount_total / 100).toFixed(2) : '0.00'}</li>
+  //             <li>Status: ${payment_status}</li>
+  //             <li>Session ID: ${sessionId}</li>
+  //           </ul>
+  //           <hr/>
+  //           <p>Submission ID: ${submissionId}</p>
+  //           <p><small>This is an automated message.</small></p>
+  //         `,
+  //       })
+  //     })
+  //   } catch (error) {
+  //     throw new APIError(`Error sending email: ${error}`)
+  //   }
+  // }
 }
 
+// This appears to be old code that was not used in the final implementation.
+//
 // try {
 //   const submission = await payload.findByID({
 //     collection: 'form-submissions',
