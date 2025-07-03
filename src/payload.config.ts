@@ -223,6 +223,7 @@ export default buildConfig({
   }),
   endpoints: [],
   globals: [Header, Footer, CompanyInfo],
+  graphQL: { disable: true },
   plugins: [
     importExportPlugin({
       collections: ['registrations', 'form-submissions'],
