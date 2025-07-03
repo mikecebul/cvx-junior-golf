@@ -194,7 +194,11 @@ export const RenderFields = ({
                   ),
           }}
         >
-          {(formField) => <formField.SelectField {...field} />}
+          {(formField) => (
+            <formField.SelectField
+              {...field}
+            />
+          )}
         </form.AppField>
       )
     case 'array':

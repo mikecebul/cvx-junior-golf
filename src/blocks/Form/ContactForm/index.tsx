@@ -55,10 +55,8 @@ export const ContactForm = ({ form: payloadForm, enableIntro, introContent }: Fo
                 >
                   {(formField) => (
                     <formField.TextField
-                      name="name"
                       label="Name"
                       colSpan="1"
-                      blockType="text"
                       required
                     />
                   )}
@@ -77,10 +75,8 @@ export const ContactForm = ({ form: payloadForm, enableIntro, introContent }: Fo
                 >
                   {(formField) => (
                     <formField.PhoneField
-                      name="phone"
                       label="Phone Number"
                       colSpan="1"
-                      blockType="phone"
                       required
                     />
                   )}
@@ -93,10 +89,8 @@ export const ContactForm = ({ form: payloadForm, enableIntro, introContent }: Fo
                 >
                   {(formField) => (
                     <formField.EmailField
-                      name="email"
                       label="Email"
                       colSpan="2"
-                      blockType="email"
                       required
                     />
                   )}
@@ -115,10 +109,8 @@ export const ContactForm = ({ form: payloadForm, enableIntro, introContent }: Fo
                 >
                   {(formField) => (
                     <formField.EmailField
-                      name="confirmEmail"
                       label="Confirm Email"
                       colSpan="2"
-                      blockType="email"
                       required
                     />
                   )}
@@ -135,7 +127,6 @@ export const ContactForm = ({ form: payloadForm, enableIntro, introContent }: Fo
                 >
                   {(formField) => (
                     <formField.MultiSelectField
-                      name="services"
                       label="Services of Interest"
                       colSpan="2"
                     />
@@ -149,10 +140,8 @@ export const ContactForm = ({ form: payloadForm, enableIntro, introContent }: Fo
                 >
                   {(formField) => (
                     <formField.TextareaField
-                      name="message"
                       label="Message"
                       colSpan="2"
-                      blockType="textarea"
                       required
                     />
                   )}

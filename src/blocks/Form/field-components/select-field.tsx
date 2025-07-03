@@ -17,7 +17,7 @@ export interface SelectFieldUIProps {
   label?: string | null
   colSpan?: '1' | '2'
   required?: boolean | null
-  options?: { label: string; value: string }[]
+  options?: { label: string; value: string; id?: string | null }[] | null
 }
 
 export default function SelectField({ label, colSpan, options, required }: SelectFieldUIProps) {
