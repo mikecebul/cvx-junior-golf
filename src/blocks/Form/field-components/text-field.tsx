@@ -20,14 +20,17 @@ export default function TextField({ label, colSpan, required }: TextFieldUIProps
   return (
     <div className={cn('col-span-2 w-full', { '@lg:col-span-1': colSpan === '1' })}>
       <div className={cn('grid w-full gap-2')}>
-        <Label htmlFor={field.name}>{label}</Label>
+        <Label htmlFor={field.name}>
+          {label}
+          {required ? <span className="text-destructive">*</span> : null}
+        </Label>
+
         <Input
           id={field.name}
           type="text"
           value={field.state.value ?? ''}
           onBlur={() => field.handleBlur()}
           onChange={(e) => field.handleChange(e.target.value)}
-          required={!!required}
         />
       </div>
       <div>

@@ -1,12 +1,15 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { motion, AnimatePresence } from 'motion/react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardFooter } from '@/components/ui/card'
+import { Trash2, Plus } from 'lucide-react'
 import { useRegistrationFormOpts } from './use-registration-form-opts'
 import { PostError } from '../Component'
 import { FormBlock } from '@/payload-types'
 import { useAppForm } from '../hooks/form'
+import { cn } from '@/utilities/cn'
 
 // Price calculation helper
 const getPrice = (numPlayers: number) => {
@@ -30,11 +33,11 @@ export const RegistrationForm = ({ form: payloadForm, enableIntro, introContent 
   })
   const form = useAppForm({ ...formOpts })
 
-  // Price
-  const price = form.state.values.players ? getPrice(form.state.values.players.length) : 75
+  // Add price state and update it with a listener on players array
+  const [price, setPrice] = useState(() => getPrice(form.getFieldValue('players')?.length || 1))
 
   return (
-    <Card className="mx-auto max-w-2xl">
+    <Card className="@container mx-auto max-w-2xl">
       <form
         onSubmit={(e) => {
           e.preventDefault()
@@ -51,43 +54,60 @@ export const RegistrationForm = ({ form: payloadForm, enableIntro, introContent 
             <form.AppField name="parents" mode="array">
               {(field) => (
                 <>
-                  {field.state.value.map((_, idx) => (
-                    <Card key={idx} className="relative mb-2 rounded-md border p-4">
-                      <div className="grid grid-cols-2 gap-4">
-                        <form.AppField name={`parents[${idx}].firstName`}>
-                          {(subField) => (
-                            <subField.TextField label="First Name" colSpan="2" required />
-                          )}
-                        </form.AppField>
-                        <form.AppField name={`parents[${idx}].lastName`}>
-                          {(subField) => <subField.TextField label="Last Name" required />}
-                        </form.AppField>
-                        <form.AppField name={`parents[${idx}].phone`}>
-                          {(subField) => <subField.PhoneField label="Phone" required />}
-                        </form.AppField>
-                        <form.AppField name={`parents[${idx}].postalCode`}>
-                          {(subField) => <subField.TextField label="Postal Code" required />}
-                        </form.AppField>
-                        <form.AppField name={`parents[${idx}].email`}>
-                          {(subField) => <subField.EmailField label="Email" required />}
-                        </form.AppField>
-                      </div>
-                      {field.state.value.length > 1 && (
-                        <Button
-                          type="button"
-                          variant="destructive"
-                          size="sm"
-                          className="absolute top-2 right-2"
-                          onClick={() => field.removeValue(idx)}
-                        >
-                          Remove
-                        </Button>
-                      )}
-                    </Card>
-                  ))}
+                  <AnimatePresence initial={false} mode="sync">
+                    {field.state.value.map((_, idx) => (
+                      <motion.div
+                        key={idx}
+                        initial={{ opacity: 0, height: 0, marginBottom: 0 }}
+                        animate={{ opacity: 1, height: 'auto', marginBottom: 8 }}
+                        exit={{ opacity: 0, height: 0, marginBottom: 0 }}
+                        transition={{ duration: 0.3 }}
+                        className="relative mb-2 overflow-hidden rounded-md border p-4"
+                      >
+                        <div className="grid grid-cols-2 gap-4 pt-4">
+                          <form.AppField name={`parents[${idx}].firstName`}>
+                            {(subField) => (
+                              <subField.TextField label="First Name" colSpan="2" required />
+                            )}
+                          </form.AppField>
+                          <form.AppField name={`parents[${idx}].lastName`}>
+                            {(subField) => <subField.TextField label="Last Name" required />}
+                          </form.AppField>
+                          <form.AppField name={`parents[${idx}].phone`}>
+                            {(subField) => <subField.PhoneField label="Phone" required />}
+                          </form.AppField>
+                          <form.AppField name={`parents[${idx}].postalCode`}>
+                            {(subField) => <subField.TextField label="Postal Code" required />}
+                          </form.AppField>
+                          <form.AppField name={`parents[${idx}].email`}>
+                            {(subField) => <subField.EmailField label="Email" required />}
+                          </form.AppField>
+                        </div>
+                        {field.state.value.length > 1 && (
+                          <Button
+                            type="button"
+                            variant="ghost"
+                            size="icon"
+                            className="absolute top-2 right-2 size-7 rounded-full transition-opacity hover:bg-red-100"
+                            onClick={() => field.removeValue(idx)}
+                          >
+                            <Trash2 className="size-4 text-red-700 hover:text-red-900" />
+                          </Button>
+                        )}
+                      </motion.div>
+                    ))}
+                  </AnimatePresence>
                   {field.state.value.length < 2 && (
                     <Button
                       type="button"
+                      size="icon"
+                      className={cn(
+                        'size-7 rounded-full bg-green-400 transition-opacity duration-300 hover:bg-green-500',
+                        {
+                          'pointer-events-none h-0 opacity-0': field.state.value.length >= 2,
+                          'opacity-100': field.state.value.length < 2,
+                        },
+                      )}
                       onClick={() =>
                         field.pushValue({
                           firstName: '',
@@ -97,9 +117,8 @@ export const RegistrationForm = ({ form: payloadForm, enableIntro, introContent 
                           email: '',
                         })
                       }
-                      variant="outline"
                     >
-                      Add Parent
+                      <Plus className="h-4 w-4 text-black" />
                     </Button>
                   )}
                 </>
@@ -109,44 +128,110 @@ export const RegistrationForm = ({ form: payloadForm, enableIntro, introContent 
           {/* Players */}
           <div>
             <h3 className="mb-2 font-semibold">Player(s)</h3>
-            <form.AppField name="players" mode="array">
+            <form.AppField
+              name="players"
+              mode="array"
+              listeners={{
+                onChange: ({ value }) => {
+                  console.log('Players changed:', value.length)
+                  setPrice(getPrice(value.length))
+                },
+              }}
+            >
               {(field) => (
                 <>
-                  {field.state.value.map((_, idx) => (
-                    <Card key={idx} className="relative mb-2 rounded-md border p-4">
-                      <div className="grid grid-cols-2 gap-4">
-                        <form.AppField name={`players[${idx}].firstName`}>
-                          {(subField) => <subField.TextField label="First Name" required />}
-                        </form.AppField>
-                        <form.AppField name={`players[${idx}].lastName`}>
-                          {(subField) => <subField.TextField label="Last Name" required />}
-                        </form.AppField>
-                        <form.AppField name={`players[${idx}].gender`}>
-                          {(subField) => <subField.TextField label="Gender" required />}
-                        </form.AppField>
-                        <form.AppField name={`players[${idx}].ethnicity`}>
-                          {(subField) => <subField.TextField label="Ethnicity" />}
-                        </form.AppField>
-                        <form.AppField name={`players[${idx}].dob`}>
-                          {(subField) => <subField.DobField label="Date of Birth" required />}
-                        </form.AppField>
-                      </div>
-                      {field.state.value.length > 1 && (
-                        <Button
-                          type="button"
-                          variant="destructive"
-                          size="sm"
-                          className="absolute top-2 right-2"
-                          onClick={() => field.removeValue(idx)}
-                        >
-                          Remove
-                        </Button>
-                      )}
-                    </Card>
-                  ))}
+                  <AnimatePresence initial={false} mode="sync">
+                    {field.state.value.map((_, idx) => (
+                      <motion.div
+                        key={idx}
+                        initial={{ opacity: 0, height: 0, marginBottom: 0 }}
+                        animate={{ opacity: 1, height: 'auto', marginBottom: 8 }}
+                        exit={{ opacity: 0, height: 0, marginBottom: 0 }}
+                        transition={{ duration: 0.3 }}
+                        className="relative mb-2 overflow-hidden rounded-md border p-4"
+                      >
+                        <div className="grid grid-cols-2 gap-4 pt-4">
+                          <form.AppField name={`players[${idx}].firstName`}>
+                            {(subField) => <subField.TextField label="First Name" required />}
+                          </form.AppField>
+                          <form.AppField name={`players[${idx}].lastName`}>
+                            {(subField) => <subField.TextField label="Last Name" required />}
+                          </form.AppField>
+                          <form.AppField name={`players[${idx}].gender`}>
+                            {(subField) => (
+                              <subField.SelectField
+                                label="Gender"
+                                colSpan="1"
+                                required
+                                options={[
+                                  { label: 'Male', value: 'Male' },
+                                  { label: 'Female', value: 'Female' },
+                                  { label: 'Prefer not to say', value: 'Prefer not to say' },
+                                ]}
+                              />
+                            )}
+                          </form.AppField>
+                          <form.AppField name={`players[${idx}].ethnicity`}>
+                            {(subField) => (
+                              <subField.SelectField
+                                label="Ethnicity"
+                                required
+                                colSpan="1"
+                                options={[
+                                  {
+                                    label: 'American Indian or Alaska Native',
+                                    value: 'American Indian or Alaska Native',
+                                  },
+                                  { label: 'Asian', value: 'Asian' },
+                                  {
+                                    label: 'Black or African American',
+                                    value: 'Black or African American',
+                                  },
+                                  {
+                                    label: 'Middle Eastern or North African',
+                                    value: 'Middle Eastern or North African',
+                                  },
+                                  {
+                                    label: 'Native Hawaiian or other Pacific Islander',
+                                    value: 'Native Hawaiian or other Pacific Islander',
+                                  },
+                                  { label: 'White', value: 'White' },
+                                  { label: 'Some other race', value: 'Some other race' },
+                                ]}
+                              />
+                            )}
+                          </form.AppField>
+                          <form.AppField name={`players[${idx}].dob`}>
+                            {(subField) => (
+                              <subField.DobField label="Date of Birth" required colSpan="1" />
+                            )}
+                          </form.AppField>
+                        </div>
+                        {field.state.value.length > 1 && (
+                          <Button
+                            type="button"
+                            variant="ghost"
+                            size="icon"
+                            className="absolute top-2 right-2 size-7 rounded-full transition-opacity hover:bg-red-100"
+                            onClick={() => field.removeValue(idx)}
+                          >
+                            <Trash2 className="size-4 text-red-700 hover:text-red-900" />
+                          </Button>
+                        )}
+                      </motion.div>
+                    ))}
+                  </AnimatePresence>
                   {field.state.value.length < 4 && (
                     <Button
                       type="button"
+                      size="icon"
+                      className={cn(
+                        'size-7 rounded-full bg-green-400 transition-opacity duration-300 hover:bg-green-500',
+                        {
+                          'pointer-events-none h-0 opacity-0': field.state.value.length >= 4,
+                          'opacity-100': field.state.value.length < 4,
+                        },
+                      )}
                       onClick={() =>
                         field.pushValue({
                           firstName: '',
@@ -156,9 +241,8 @@ export const RegistrationForm = ({ form: payloadForm, enableIntro, introContent 
                           dob: undefined,
                         })
                       }
-                      variant="outline"
                     >
-                      Add Player
+                      <Plus className="h-4 w-4 text-black" />
                     </Button>
                   )}
                 </>

@@ -6,6 +6,8 @@ import { useRouter } from 'next/navigation'
 import { Form } from '@/payload-types'
 import { Dispatch, SetStateAction } from 'react'
 import { PostError } from '../Component'
+import { z } from 'zod'
+import { format } from 'date-fns'
 
 export type RegistrationFormType = {
   parents: {
@@ -25,6 +27,36 @@ export type RegistrationFormType = {
   price: number
 }
 
+const parentSchema = z.object({
+  firstName: z.string().min(1, 'Parent first name is required'),
+  lastName: z.string().min(1, 'Parent last name is required'),
+  phone: z
+    .string()
+    .min(1, 'Parent phone is required')
+    .regex(
+      /^(?:\+?1[-. ]?)?\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/,
+      'Invalid phone number',
+    ),
+  postalCode: z.string().min(1, 'Postal code is required'),
+  email: z.string().min(1, 'Parent email is required').email('Invalid email'),
+})
+
+const playerSchema = z.object({
+  firstName: z.string().min(1, 'Player first name is required'),
+  lastName: z.string().min(1, 'Player last name is required'),
+  gender: z.string().min(1, 'Gender is required'),
+  ethnicity: z.string().min(1, 'Ethnicity is required'),
+  dob: z
+    .date({ required_error: 'Date of birth is required' })
+    .max(new Date(), { message: 'Date of birth cannot be in the future!' }),
+})
+
+const registrationSchema = z.object({
+  parents: z.array(parentSchema).min(1, 'At least one parent is required'),
+  players: z.array(playerSchema).min(1, 'At least one player is required'),
+  price: z.number().min(0, 'Price must be at least 0'),
+})
+
 export const useRegistrationFormOpts = ({
   payloadForm,
   setPostError,
@@ -33,61 +65,56 @@ export const useRegistrationFormOpts = ({
   setPostError: Dispatch<SetStateAction<PostError | undefined>>
 }) => {
   const router = useRouter()
+  const {
+    confirmationType,
+    id: formId,
+    redirect,
+  } = typeof payloadForm !== 'string' ? payloadForm : {}
+
   return formOptions({
     defaultValues: {
       parents: [{ firstName: '', lastName: '', phone: '', postalCode: '', email: '' }],
       players: [{ firstName: '', lastName: '', gender: '', ethnicity: '', dob: undefined }],
       price: 75,
     },
-    onSubmit: async ({ value: data }) => {
+    validators: {
+      onChange: registrationSchema,
+    },
+    onSubmit: async ({ value: data, formApi: form }) => {
       setPostError(undefined)
       try {
-        // 1. Submit to form-submissions
-        const submissionRes = await fetch(`${getClientSideURL()}/api/form-submissions`, {
-          method: 'POST',
+        // Format dob for each player before sending
+        const formattedPlayers = data.players.map((player) => ({
+          ...player,
+          dob: player.dob ? format(player.dob, 'MMMM d, yyyy') : undefined,
+        }))
+        const req = await fetch(`${getClientSideURL()}/api/form-submissions`, {
+          body: JSON.stringify({ form: formId, data: { ...data, players: formattedPlayers } }),
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            form: 'registration',
-            data: { parents: data.parents, players: data.players, price: data.price },
-            payment: { amount: data.price, status: 'pending' },
-          }),
-        })
-        const submission = await submissionRes.json()
-        if (!submission?.doc?.id) throw new Error('Submission failed')
-        // 2. Add to registrations
-        const regRes = await fetch(`${getClientSideURL()}/api/registrations`, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            ...data.players[0],
-            ...data.parents[0],
-            childBirthdate: data.players[0]?.dob,
-            postalCode: data.parents[0]?.postalCode,
-            paid: false,
-          }),
         })
-        if (!regRes.ok) throw new Error('Registration failed')
-        // 3. Stripe checkout
-        if (data.price > 0) {
-          const sessionRes = await fetch(`${getClientSideURL()}/api/stripe/checkout`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              submissionId: submission.doc.id,
-              price: data.price,
-            }),
+        const res = await req.json()
+        if (req.status >= 400) {
+          setPostError({
+            message: res.errors?.[0]?.message || 'Internal Server Error',
+            status: res.status,
           })
-          const session = await sessionRes.json()
-          if (session?.url) {
-            window.location.href = session.url
-            return
-          } else {
-            throw new Error('Stripe session failed')
+          return
+        }
+        if (confirmationType === 'redirect' && redirect) {
+          if (redirect.url) router.push(redirect.url)
+          if (
+            typeof redirect.reference !== 'string' &&
+            typeof redirect.reference?.value !== 'string' &&
+            redirect.reference?.value.slug
+          ) {
+            router.push(redirect.reference.value.slug)
           }
         }
-      } catch (err: any) {
-        setPostError(err.message || 'Unknown error')
+        form.reset()
+      } catch (err) {
+        setPostError({ message: 'Something went wrong.' })
       }
     },
-  }) as FormOptions<RegistrationFormType, any, any, any, any, any, any, any, any, any>
+  })
 }

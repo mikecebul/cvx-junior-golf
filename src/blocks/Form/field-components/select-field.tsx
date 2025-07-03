@@ -11,13 +11,23 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
+  SelectGroup,
+  SelectLabel,
 } from '@/components/ui/select'
+
+export type SelectOption = { label: string; value: string; id?: string | null }
+export type SelectGroup = { groupLabel: string; options: SelectOption[] }
+export type SelectFieldOption = SelectOption | SelectGroup
 
 export interface SelectFieldUIProps {
   label?: string | null
   colSpan?: '1' | '2'
   required?: boolean | null
-  options?: { label: string; value: string; id?: string | null }[] | null
+  options?: SelectFieldOption[] | null
+}
+
+function isGroup(option: SelectFieldOption): option is SelectGroup {
+  return (option as SelectGroup).groupLabel !== undefined
 }
 
 export default function SelectField({ label, colSpan, options, required }: SelectFieldUIProps) {
@@ -27,17 +37,31 @@ export default function SelectField({ label, colSpan, options, required }: Selec
   return (
     <div className={cn('col-span-2 w-full', { '@lg:col-span-1': colSpan === '1' })}>
       <div className={cn('grid w-full gap-2')}>
-        <Label htmlFor={field.name}>{label}</Label>
-        <Select onValueChange={(e) => field.handleChange(e)} required={!!required}>
+        <Label htmlFor={field.name}>
+          {label}
+          {required ? <span className="text-destructive">*</span> : null}
+        </Label>
+        <Select onValueChange={(e) => field.handleChange(e)}>
           <SelectTrigger id={field.name}>
-            <SelectValue placeholder={`Select a ${label || 'option'}`} className="bg-red-300" />
+            <SelectValue placeholder={`Select a ${label || 'option'}`} />
           </SelectTrigger>
           <SelectContent>
-            {options?.map(({ label, value }) => (
-              <SelectItem key={value} value={value}>
-                {label}
-              </SelectItem>
-            ))}
+            {options?.map((optionOrGroup, idx) =>
+              isGroup(optionOrGroup) ? (
+                <SelectGroup key={optionOrGroup.groupLabel}>
+                  <SelectLabel>{optionOrGroup.groupLabel}</SelectLabel>
+                  {optionOrGroup.options.map((opt) => (
+                    <SelectItem key={opt.value} value={opt.value}>
+                      {opt.label}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              ) : (
+                <SelectItem key={optionOrGroup.value} value={optionOrGroup.value}>
+                  {optionOrGroup.label}
+                </SelectItem>
+              ),
+            )}
           </SelectContent>
         </Select>
       </div>
