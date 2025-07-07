@@ -37,7 +37,7 @@ export const RegistrationForm = ({ form: payloadForm, enableIntro, introContent 
   const [price, setPrice] = useState(() => getPrice(form.getFieldValue('players')?.length || 1))
 
   return (
-    <Card className="@container mx-auto max-w-2xl">
+    <Card className="@container w-full max-w-2xl">
       <form
         onSubmit={(e) => {
           e.preventDefault()
@@ -46,8 +46,7 @@ export const RegistrationForm = ({ form: payloadForm, enableIntro, introContent 
         }}
         className="space-y-8"
       >
-        <CardContent className="space-y-8">
-          <h2 className="text-2xl font-bold">Registration Form</h2>
+        <CardContent className="space-y-8 pt-4">
           {/* Parents */}
           <div>
             <h3 className="mb-2 font-semibold">Parent(s)</h3>
@@ -133,8 +132,9 @@ export const RegistrationForm = ({ form: payloadForm, enableIntro, introContent 
               mode="array"
               listeners={{
                 onChange: ({ value }) => {
-                  console.log('Players changed:', value.length)
-                  setPrice(getPrice(value.length))
+                  const newPrice = getPrice(value.length)
+                  setPrice(newPrice)
+                  form.setFieldValue('price', newPrice)
                 },
               }}
             >
@@ -179,8 +179,8 @@ export const RegistrationForm = ({ form: payloadForm, enableIntro, introContent 
                                 colSpan="1"
                                 options={[
                                   {
-                                    label: 'American Indian or Alaska Native',
-                                    value: 'American Indian or Alaska Native',
+                                    label: 'Native American or Alaska Native',
+                                    value: 'Native American or Alaska Native',
                                   },
                                   { label: 'Asian', value: 'Asian' },
                                   {
@@ -251,6 +251,10 @@ export const RegistrationForm = ({ form: payloadForm, enableIntro, introContent 
           </div>
           {/* Price */}
           <div className="text-lg font-semibold">Total: ${price}</div>
+          {/* Hidden price field for submission, registered with form */}
+          <form.AppField name="price">
+            {() => <input type="hidden" value={price} />}
+          </form.AppField>
           {/* Error/Success */}
           {postError && <div className="text-red-600">{postError.message}</div>}
         </CardContent>

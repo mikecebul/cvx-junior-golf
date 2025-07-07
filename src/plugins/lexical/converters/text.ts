@@ -1,6 +1,6 @@
 import type { HTMLConverter } from '../types'
 
-import { replaceDoubleCurlys } from '../../replace-double-curlys'
+import { replaceDoubleCurlys } from '../replace-double-curlys'
 import { NodeFormat } from '@payloadcms/richtext-lexical'
 
 export const TextHTMLConverter: HTMLConverter<any> = {

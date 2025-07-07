@@ -1,6 +1,6 @@
 import type { HTMLConverter } from '../types'
 
-import { replaceDoubleCurlys } from '../replaceDoubleCurlys'
+import { replaceDoubleCurlys } from '../replace-double-curlys'
 import { convertLexicalNodesToHTML } from '../serializeLexical'
 
 export const LinkHTMLConverter: HTMLConverter<any> = {

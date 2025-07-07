@@ -2,12 +2,12 @@ import { MigrateDownArgs, MigrateUpArgs } from '@payloadcms/db-mongodb'
 
 export async function up({ payload, req, session }: MigrateUpArgs): Promise<void> {
   // Fetch all paid form-submissions
-  const { docs: submissions } = await payload.find({
-    collection: 'form-submissions',
-    where: { 'payment.status': { equals: 'paid' } },
-    limit: 10000,
-    req,
-  })
+  // const { docs: submissions } = await payload.find({
+  //   collection: 'form-submissions',
+  //   where: { 'payment.status': { equals: 'paid' } },
+  //   limit: 10000,
+  //   req,
+  // })
 
   // for (const submission of submissions) {
   //   const submissionData = submission.submissionData as any

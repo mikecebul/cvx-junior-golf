@@ -1,4 +1,4 @@
-import { jsonToHtmlTable } from './json-to-html-table'
+import { jsonToHtmlTable } from "./json-to-html-table" 
 
 type FormData = Record<string, any>
 

@@ -1,6 +1,6 @@
 import { CollectionAfterChangeHook } from 'payload'
-import { replaceDoubleCurlys } from './utils/replace-double-curlys'
-import { serializeLexical } from './utils/Lexical/serialize-lexical'
+import { replaceDoubleCurlys } from '@/plugins/lexical/replace-double-curlys'
+import { serializeLexical } from '@/plugins/lexical/serializeLexical'
 
 export const sendEmail: CollectionAfterChangeHook = async (args) => {
   const { operation, data, req } = args

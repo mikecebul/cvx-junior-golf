@@ -25,7 +25,7 @@ export const DynamicForm = ({ form: payloadForm, enableIntro, introContent }: Fo
     return <RichText data={confirmationMessage} />
 
   return (
-    <div className="w-full">
+    <div className="w-full max-w-2xl">
       {enableIntro && introContent && (
         <RichText className="mb-8 lg:mb-12" data={introContent} enableGutter={false} />
       )}
