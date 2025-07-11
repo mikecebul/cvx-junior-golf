@@ -46,7 +46,7 @@ export const RegistrationForm = ({ form: payloadForm, enableIntro, introContent 
         }}
         className="space-y-8"
       >
-        <CardContent className="space-y-8 pt-4 pt-4">
+        <CardContent className="space-y-8 pt-4">
           {/* Parents */}
           <div>
             <h3 className="mb-2 font-semibold">Parent(s)</h3>

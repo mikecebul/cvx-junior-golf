@@ -1,5 +1,8 @@
 import { CollectionConfig } from 'payload'
 import { fields } from './fields'
+import { BlocksFeature, lexicalEditor } from '@payloadcms/richtext-lexical'
+import { Blocks } from 'lucide-react'
+import { emailLexical } from '@/fields/default-lexical/email-lexical'
 
 export const Forms: CollectionConfig = {
   slug: 'forms',
@@ -37,7 +40,10 @@ export const Forms: CollectionConfig = {
     {
       name: 'form',
       type: 'select',
-      options: [{ label: 'contact', value: 'contact' }, { label: 'registration', value: 'registration' }],
+      options: [
+        { label: 'contact', value: 'contact' },
+        { label: 'registration', value: 'registration' },
+      ],
       admin: {
         condition: (_, siblingData) => siblingData.formType === 'static',
       },
@@ -203,7 +209,7 @@ export const Forms: CollectionConfig = {
         {
           name: 'message',
           type: 'richText',
-
+          editor: emailLexical,
           admin: {
             description: 'Enter the message that should be sent in this email.',
           },
