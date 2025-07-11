@@ -203,6 +203,7 @@ export const Forms: CollectionConfig = {
         {
           name: 'message',
           type: 'richText',
+
           admin: {
             description: 'Enter the message that should be sent in this email.',
           },

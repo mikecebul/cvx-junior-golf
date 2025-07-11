@@ -47,6 +47,7 @@ import { checkoutSessionCompleted } from './plugins/stripe/webhooks/checkoutSess
 import Registrations from './collections/Registrations'
 import { Forms } from './collections/Forms'
 import { FormSubmissions } from './collections/FormSubmissions'
+import { defaultLexical } from './fields/default-lexical'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -156,59 +157,13 @@ export default buildConfig({
       ],
     },
   },
-  // This config helps us configure global or default features that the other editors can inherit
-  editor: lexicalEditor({
-    features: () => {
-      return [
-        FixedToolbarFeature(),
-        InlineToolbarFeature(),
-        ParagraphFeature(),
-        HeadingFeature({ enabledHeadingSizes: ['h1', 'h2'] }),
-        UnderlineFeature(),
-        BoldFeature(),
-        ItalicFeature(),
-        UnorderedListFeature(),
-        OrderedListFeature(),
-        BlocksFeature({
-          blocks: [MediaBlock],
-        }),
-        LinkFeature({
-          enabledCollections: ['pages'],
-          fields: ({ defaultFields }) => {
-            const defaultFieldsWithoutUrl = defaultFields.filter((field) => {
-              if ('name' in field && field.name === 'url') return false
-              return true
-            })
-
-            return [
-              ...defaultFieldsWithoutUrl,
-              {
-                name: 'url',
-                type: 'text',
-                admin: {
-                  condition: (_data, siblingData) => siblingData?.linkType !== 'internal',
-                },
-                label: ({ t }) => t('fields:enterURL'),
-                required: true,
-                validate: ((value, options) => {
-                  if ((options?.siblingData as LinkFields)?.linkType === 'internal') {
-                    return true // no validation needed, as no url should exist for internal links
-                  }
-                  return value ? true : 'URL is required'
-                }) as TextFieldSingleValidation,
-              },
-            ]
-          },
-        }),
-      ]
-    },
-  }),
-  db: mongooseAdapter({
-    url: process.env.DATABASE_URI!,
-  }),
   collections: [Pages, Events, Forms, FormSubmissions, Media, Users, Registrations],
   cors: [baseUrl].filter(Boolean),
   csrf: [baseUrl].filter(Boolean),
+  db: mongooseAdapter({
+    url: process.env.DATABASE_URI!,
+  }),
+  editor: defaultLexical,
   email: nodemailerAdapter({
     defaultFromName: 'Charlevoix County Junior Golf Association',
     defaultFromAddress: 'website@cvxjrgolf.org',
