@@ -3,7 +3,7 @@ import { replaceDoubleCurlys } from '@/plugins/lexical/replace-double-curlys'
 import { serializeLexical } from '@/plugins/lexical/serializeLexical'
 
 export const sendEmail: CollectionAfterChangeHook = async (args) => {
-  const { operation, data, req } = args
+  const { operation, data, doc, req } = args
 
   if (operation === 'create') {
     const { form: formID, id: formSubmissionID, data: submissionData } = data || {}
@@ -80,5 +80,5 @@ export const sendEmail: CollectionAfterChangeHook = async (args) => {
     }
   }
 
-  return data
+  return doc
 }

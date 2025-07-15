@@ -43,8 +43,9 @@ import { Events } from './collections/Events'
 import { Media } from './collections/Media'
 import { MediaBlock } from './blocks/MediaBlock/config'
 import { baseUrl } from './utilities/baseUrl'
-import { checkoutSessionCompleted } from './plugins/stripe/webhooks/checkoutSessionCompleted'
-import Registrations from './collections/Registrations'
+import { checkoutSessionCompleted } from './plugins/stripe/checkoutSessionCompleted'
+import { RegistrationsV2 } from './collections/RegistrationsV2'
+import { Registrations } from './collections/Registrations'
 import { Forms } from './collections/Forms'
 import { FormSubmissions } from './collections/FormSubmissions'
 import { defaultLexical } from './fields/default-lexical'
@@ -157,7 +158,16 @@ export default buildConfig({
       ],
     },
   },
-  collections: [Pages, Events, Forms, FormSubmissions, Media, Users, Registrations],
+  collections: [
+    Pages,
+    Events,
+    Forms,
+    FormSubmissions,
+    Media,
+    Users,
+    Registrations,
+    RegistrationsV2,
+  ],
   cors: [baseUrl].filter(Boolean),
   csrf: [baseUrl].filter(Boolean),
   db: mongooseAdapter({
@@ -181,7 +191,7 @@ export default buildConfig({
   graphQL: { disable: true },
   plugins: [
     importExportPlugin({
-      collections: ['registrations', 'form-submissions'],
+      collections: ['registrations-v2', 'form-submissions'],
       overrideExportCollection: (collection) => {
         collection.admin.group = 'Admin'
         collection.upload.staticDir = path.resolve(dirname, 'uploads')

@@ -1,7 +1,5 @@
 'use server'
 
-import payloadConfig from '@payload-config'
-import { getPayload } from 'payload'
 import Stripe from 'stripe'
 import { baseUrl } from '@/utilities/baseUrl'
 
@@ -10,7 +8,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
   apiVersion: '2022-08-01',
 })
 
-export const createCheckoutSession = async (submissionId: string, price: number) => {
+export const createCheckoutSession = async (registrationIds: string[], price: number) => {
   try {
     const session = await stripe.checkout.sessions.create({
       success_url: `${baseUrl}/success`,
@@ -30,13 +28,12 @@ export const createCheckoutSession = async (submissionId: string, price: number)
       ],
       mode: 'payment',
       metadata: {
-        submissionId: submissionId,
+        registrationIds: registrationIds.join(','),
       },
     })
-    // console.log('Checkout session created:', session)
-    if (session.url) {
-      return { url: session.url }
-    }
+
+    if (session.url) return { url: session.url }
+
   } catch (error: unknown) {
     return { error: 'Failed to create checkout session' }
   }

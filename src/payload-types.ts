@@ -103,6 +103,7 @@ export interface Config {
     media: Media;
     users: User;
     registrations: Registration;
+    'registrations-v2': RegistrationsV2;
     exports: Export;
     redirects: Redirect;
     'payload-jobs': PayloadJob;
@@ -119,6 +120,7 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     registrations: RegistrationsSelect<false> | RegistrationsSelect<true>;
+    'registrations-v2': RegistrationsV2Select<false> | RegistrationsV2Select<true>;
     exports: ExportsSelect<false> | ExportsSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     'payload-jobs': PayloadJobsSelect<false> | PayloadJobsSelect<true>;
@@ -872,7 +874,36 @@ export interface Registration {
   parentEmail: string;
   notes?: string | null;
   postalCode?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "registrations-v2".
+ */
+export interface RegistrationsV2 {
+  id: string;
+  year: string;
+  firstName: string;
+  fullName?: string | null;
+  lastName: string;
+  dob: string;
+  age?: number | null;
+  ethnicity: string;
+  gender: string;
+  parents?:
+    | {
+        firstName: string;
+        lastName: string;
+        phone: string;
+        email: string;
+        postalCode: string;
+        id?: string | null;
+      }[]
+    | null;
+  notes?: string | null;
   paid: boolean;
+  relatedRegistrations?: (string | RegistrationsV2)[] | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1058,6 +1089,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'registrations';
         value: string | Registration;
+      } | null)
+    | ({
+        relationTo: 'registrations-v2';
+        value: string | RegistrationsV2;
       } | null)
     | ({
         relationTo: 'exports';
@@ -1675,7 +1710,35 @@ export interface RegistrationsSelect<T extends boolean = true> {
   parentEmail?: T;
   notes?: T;
   postalCode?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "registrations-v2_select".
+ */
+export interface RegistrationsV2Select<T extends boolean = true> {
+  year?: T;
+  firstName?: T;
+  fullName?: T;
+  lastName?: T;
+  dob?: T;
+  age?: T;
+  ethnicity?: T;
+  gender?: T;
+  parents?:
+    | T
+    | {
+        firstName?: T;
+        lastName?: T;
+        phone?: T;
+        email?: T;
+        postalCode?: T;
+        id?: T;
+      };
+  notes?: T;
   paid?: T;
+  relatedRegistrations?: T;
   updatedAt?: T;
   createdAt?: T;
 }

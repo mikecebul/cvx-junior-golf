@@ -1,7 +1,5 @@
 import { CollectionConfig } from 'payload'
 import { fields } from './fields'
-import { BlocksFeature, lexicalEditor } from '@payloadcms/richtext-lexical'
-import { Blocks } from 'lucide-react'
 import { emailLexical } from '@/fields/default-lexical/email-lexical'
 
 export const Forms: CollectionConfig = {

@@ -48,13 +48,13 @@ export async function up({ payload, req, session }: MigrateUpArgs): Promise<void
 
 export async function down({ payload, req, session }: MigrateDownArgs): Promise<void> {
   // Optionally remove ethnicity from all registrations
-  const regs = await payload.find({ collection: 'registrations', limit: 10000, req })
-  for (const reg of regs.docs) {
-    await payload.update({
-      collection: 'registrations',
-      id: reg.id,
-      data: { postalCode: 'N/A' },
-      req,
-    })
-  }
+  // const regs = await payload.find({ collection: 'registrations', limit: 10000, req })
+  // for (const reg of regs.docs) {
+  //   await payload.update({
+  //     collection: 'registrations',
+  //     id: reg.id,
+  //     data: { postalCode: 'N/A' },
+  //     req,
+  //   })
+  // }
 }

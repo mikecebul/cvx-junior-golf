@@ -45,6 +45,12 @@ A powerful page-building block that enables:
 - Nested blocks support
 - Mobile-responsive layouts
 
+### Stripe Webhooks in dev
+
+```ts
+stripe listen --forward-to localhost:3000/api/stripe/webhooks
+```
+
 ## Deployment
 
 This project is containerized using Docker and deployed on Dokploy. I'm using MongoDB which is also hosted on the same VPS via Dokploy.

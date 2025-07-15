@@ -4,7 +4,7 @@ This project is a Next.js website with a deeply integrated Payload CMS for conte
 
 ## Core Technologies & Documentation
 
-Before starting any task, I will consult the official documentation for the core technologies.
+Before starting any task consult the official documentation for the core technologies being used.
 
 - **Next.js:** `vercel/next.js`
 - **Payload CMS:** `payloadcms/payload`

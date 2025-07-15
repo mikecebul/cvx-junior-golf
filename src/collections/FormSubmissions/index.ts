@@ -6,6 +6,8 @@ export const FormSubmissions: CollectionConfig = {
   access: {
     read: () => true,
     create: () => true,
+    update: () => false,
+    delete: () => false,
   },
   admin: {
     group: 'Forms',
