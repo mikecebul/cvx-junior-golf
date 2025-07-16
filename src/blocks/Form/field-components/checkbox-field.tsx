@@ -16,6 +16,7 @@ export interface CheckboxFieldUIProps {
 export default function CheckboxField({ label, colSpan, required }: CheckboxFieldUIProps) {
   const field = useFieldContext<boolean>()
   const errors = useStore(field.store, (state) => state.meta.errors)
+  console.log('CheckboxField', { field, errors })
 
   return (
     <div
@@ -23,17 +24,25 @@ export default function CheckboxField({ label, colSpan, required }: CheckboxFiel
         '@lg:col-span-1': colSpan === '1',
       })}
     >
-      <div className={cn('flex items-center space-x-2')}>
+      <div className={cn('flex items-start space-x-2')}>
         <Checkbox
           id={field.name}
           checked={field.state.value ?? false}
           onBlur={() => field.handleBlur()}
           onCheckedChange={(checked) => field.handleChange(!!checked)}
-          required={!!required}
         />
+        <span
+          className={cn('text-destructive', {
+            'text-transparent select-none': !required,
+          })}
+        >
+          *
+        </span>
         <Label htmlFor={field.name}>{label}</Label>
       </div>
-      <div>{errors && <em className="text-destructive text-sm first:mt-1">{errors[0]}</em>}</div>
+      <div>
+        {errors && errors.length > 0 && <em className="text-destructive text-sm first:mt-1">{errors[0].message}</em>}
+      </div>
     </div>
   )
 }

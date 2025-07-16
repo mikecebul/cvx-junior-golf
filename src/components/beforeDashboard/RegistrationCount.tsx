@@ -5,9 +5,9 @@ import { Banner, Gutter } from '@payloadcms/ui'
 const RegistrationCount = async () => {
   const payload = await getPayload({ config: configPromise })
   const { totalDocs: count } = await payload.count({
-    collection: 'registrations',
+    collection: 'registrations-v2',
     where: {
-      year: { equals: 2025 },
+      year: { equals: new Date().getFullYear() },
     },
   })
   return (

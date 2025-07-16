@@ -26,6 +26,9 @@ export type RegistrationFormType = {
     ethnicity: string
     dob: Date | undefined
   }[]
+  participationWaiver: boolean
+  photoMediaRelease: boolean
+  codeOfConductAgreement: boolean
   price: number
 }
 
@@ -56,6 +59,13 @@ const playerSchema = z.object({
 const registrationSchema = z.object({
   parents: z.array(parentSchema).min(1, 'At least one parent is required'),
   players: z.array(playerSchema).min(1, 'At least one player is required'),
+  participationWaiver: z.boolean(),
+  photoMediaRelease: z.boolean().refine((val) => val, {
+    message: 'Photo/Media release is required',
+  }),
+  codeOfConductAgreement: z.boolean().refine((val) => val, {
+    message: 'Code of conduct agreement is required',
+  }),
   price: z.number().min(0, 'Price must be at least 0'),
 })
 

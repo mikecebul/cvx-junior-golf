@@ -102,7 +102,6 @@ export interface Config {
     'form-submissions': FormSubmission;
     media: Media;
     users: User;
-    registrations: Registration;
     'registrations-v2': RegistrationsV2;
     exports: Export;
     redirects: Redirect;
@@ -119,7 +118,6 @@ export interface Config {
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
-    registrations: RegistrationsSelect<false> | RegistrationsSelect<true>;
     'registrations-v2': RegistrationsV2Select<false> | RegistrationsV2Select<true>;
     exports: ExportsSelect<false> | ExportsSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
@@ -858,27 +856,6 @@ export interface User {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "registrations".
- */
-export interface Registration {
-  id: string;
-  year: number;
-  childFirstName: string;
-  childLastName: string;
-  childBirthdate: string;
-  childAge?: number | null;
-  ethnicity?: string | null;
-  gender?: string | null;
-  parentName: string;
-  parentPhone: string;
-  parentEmail: string;
-  notes?: string | null;
-  postalCode?: string | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "registrations-v2".
  */
 export interface RegistrationsV2 {
@@ -1085,10 +1062,6 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'users';
         value: string | User;
-      } | null)
-    | ({
-        relationTo: 'registrations';
-        value: string | Registration;
       } | null)
     | ({
         relationTo: 'registrations-v2';
@@ -1692,26 +1665,6 @@ export interface UsersSelect<T extends boolean = true> {
         createdAt?: T;
         expiresAt?: T;
       };
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "registrations_select".
- */
-export interface RegistrationsSelect<T extends boolean = true> {
-  year?: T;
-  childFirstName?: T;
-  childLastName?: T;
-  childBirthdate?: T;
-  childAge?: T;
-  ethnicity?: T;
-  gender?: T;
-  parentName?: T;
-  parentPhone?: T;
-  parentEmail?: T;
-  notes?: T;
-  postalCode?: T;
-  updatedAt?: T;
-  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

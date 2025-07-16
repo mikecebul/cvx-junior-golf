@@ -10,22 +10,7 @@ import { redirectsPlugin } from '@payloadcms/plugin-redirects'
 import { seoPlugin } from '@payloadcms/plugin-seo'
 import { s3Storage as s3StoragePlugin } from '@payloadcms/storage-s3'
 import { S3_PLUGIN_CONFIG } from './plugins/s3'
-import {
-  BoldFeature,
-  FixedToolbarFeature,
-  HeadingFeature,
-  InlineToolbarFeature,
-  ItalicFeature,
-  LinkFeature,
-  UnorderedListFeature,
-  OrderedListFeature,
-  lexicalEditor,
-  BlocksFeature,
-  ParagraphFeature,
-  LinkFields,
-} from '@payloadcms/richtext-lexical'
 import sharp from 'sharp' // editor-import
-import { UnderlineFeature } from '@payloadcms/richtext-lexical'
 import path from 'path'
 import { buildConfig, TextFieldSingleValidation } from 'payload'
 import { fileURLToPath } from 'url'
@@ -41,11 +26,9 @@ import { CompanyInfo } from './globals/CompanyInfo/config'
 import { superAdmin } from './access/superAdmin'
 import { Events } from './collections/Events'
 import { Media } from './collections/Media'
-import { MediaBlock } from './blocks/MediaBlock/config'
 import { baseUrl } from './utilities/baseUrl'
 import { checkoutSessionCompleted } from './plugins/stripe/checkoutSessionCompleted'
 import { RegistrationsV2 } from './collections/RegistrationsV2'
-import { Registrations } from './collections/Registrations'
 import { Forms } from './collections/Forms'
 import { FormSubmissions } from './collections/FormSubmissions'
 import { defaultLexical } from './fields/default-lexical'
@@ -69,44 +52,6 @@ const generateImage: GenerateImage<Page> = ({ doc }) => {
     return doc.meta.metadata.image.url || '/golf-hero.jpg'
   }
   return '/golf-hero.jpg'
-}
-
-// Hook to create registrations when payment status is set to 'paid'
-const createRegistrationsOnPayment = async ({ doc, previousDoc, req }) => {
-  const prevStatus = previousDoc?.payment?.status
-  const newStatus = doc?.payment?.status
-  if (prevStatus === 'paid' || newStatus !== 'paid') return
-
-  const players = Array.isArray(doc.submissionData?.players) ? doc.submissionData.players : []
-  const parent =
-    Array.isArray(doc.submissionData?.parents) && doc.submissionData.parents.length > 0
-      ? doc.submissionData.parents[0]
-      : {}
-  const parentName =
-    parent.firstName && parent.lastName ? `${parent.firstName} ${parent.lastName}` : undefined
-  const parentPhone = parent.phone
-  const parentEmail = parent.email
-  const year = new Date().getFullYear()
-
-  for (const player of players) {
-    if (!player) continue
-    const postalCode = player.postalCode || parent.postalCode || ''
-    await req.payload.create({
-      collection: 'registrations',
-      data: {
-        year,
-        childFirstName: player.firstName || player.childFirstName,
-        childLastName: player.lastName || player.childLastName,
-        childBirthdate: player.birthdate || player.dob || player.childBirthdate,
-        parentName,
-        parentPhone,
-        parentEmail,
-        ethnicity: player.ethnicity || '',
-        gender: player.gender || '',
-        postalCode,
-      },
-    })
-  }
 }
 
 export default buildConfig({
@@ -158,16 +103,7 @@ export default buildConfig({
       ],
     },
   },
-  collections: [
-    Pages,
-    Events,
-    Forms,
-    FormSubmissions,
-    Media,
-    Users,
-    Registrations,
-    RegistrationsV2,
-  ],
+  collections: [Pages, Events, Forms, FormSubmissions, Media, Users, RegistrationsV2],
   cors: [baseUrl].filter(Boolean),
   csrf: [baseUrl].filter(Boolean),
   db: mongooseAdapter({

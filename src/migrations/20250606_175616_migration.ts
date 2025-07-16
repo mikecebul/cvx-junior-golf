@@ -8,20 +8,17 @@ export async function up({ payload, req, session }: MigrateUpArgs): Promise<void
   //   limit: 10000,
   //   req,
   // })
-
   // for (const submission of submissions) {
   //   const submissionData = submission.submissionData as any
   //   const year = new Date(submission.createdAt).getFullYear()
   //   const parentEmail = submissionData?.parents?.[0]?.email
   //   const players = Array.isArray(submissionData?.players) ? submissionData.players : []
-
   //   for (const player of players) {
   //     if (!player) continue
   //     const childFirstName = player.firstName || player.childFirstName
   //     const childLastName = player.lastName || player.childLastName
   //     const gender = player.gender || 'N/A'
   //     const ethnicity = player.ethnicity || 'N/A'
-
   //     // Find the registration
   //     const regs = await payload.find({
   //       collection: 'registrations',
@@ -34,7 +31,6 @@ export async function up({ payload, req, session }: MigrateUpArgs): Promise<void
   //       limit: 10,
   //       req,
   //     })
-
   //     for (const reg of regs.docs) {
   //       await payload.update({
   //         collection: 'registrations',
@@ -49,13 +45,13 @@ export async function up({ payload, req, session }: MigrateUpArgs): Promise<void
 
 export async function down({ payload, req, session }: MigrateDownArgs): Promise<void> {
   // Optionally remove ethnicity from all registrations
-  const regs = await payload.find({ collection: 'registrations', limit: 10000, req })
-  for (const reg of regs.docs) {
-    await payload.update({
-      collection: 'registrations',
-      id: reg.id,
-      data: { ethnicity: '', gender: '' },
-      req,
-    })
-  }
+  // const regs = await payload.find({ collection: 'registrations', limit: 10000, req })
+  // for (const reg of regs.docs) {
+  //   await payload.update({
+  //     collection: 'registrations',
+  //     id: reg.id,
+  //     data: { ethnicity: '', gender: '' },
+  //     req,
+  //   })
+  // }
 }

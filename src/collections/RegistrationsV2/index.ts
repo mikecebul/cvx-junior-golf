@@ -1,12 +1,17 @@
+import { authenticatedOrPublished } from '@/access/authenticatedOrPublished'
 import { editorOrHigher } from '@/access/editorOrHigher'
 import { CollectionConfig } from 'payload'
 
 export const RegistrationsV2: CollectionConfig = {
   slug: 'registrations-v2',
+  labels: {
+    singular: 'Registration',
+    plural: 'Registrations',
+  },
   access: {
     create: () => true,
     delete: editorOrHigher,
-    read: editorOrHigher,
+    read: authenticatedOrPublished,
     update: () => true,
   },
   admin: {

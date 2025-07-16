@@ -2,7 +2,6 @@
 
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
-import { revalidatePath } from 'next/cache'
 
 export const linkRegistrations = async (registrationIds: string[]) => {
   const payload = await getPayload({config: configPromise})
@@ -18,7 +17,6 @@ export const linkRegistrations = async (registrationIds: string[]) => {
         },
       })
     }
-    revalidatePath('/admin/collections/registrations')
     return { success: true }
   } catch (error) {
     console.error('Error linking registrations:', error)

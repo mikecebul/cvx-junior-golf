@@ -21,6 +21,26 @@ const getPrice = (numPlayers: number) => {
   if (numPlayers === 4) return 175
   return 0
 }
+const agreements = {
+  participationWaiver: {
+    name: 'participationWaiver',
+    label:
+      'Participation & Liability Waiver: I, the parent/guardian of the participant, hereby give my consent for him/her/them to participate in the activities offered by the Charlevoix County Junior Golf Association. I understand that participation may involve a risk of injury, and I agree to assume full financial responsibility for any necessary treatment. I hereby release the Charlevoix County Junior Golf Association and its staff from any liability related to such injuries.',
+    required: true,
+  },
+  photoMediaRelease: {
+    name: 'photoMediaRelease',
+    label:
+      'Photo/Media Release: I, the parent/guardian of the participant, hereby give my consent for the Charlevoix County Junior Golf Association to take and use photographs of my child. These images may be used to celebrate and promote Charlevoix Junior Golf, including in local newspapers, program brochures, and on social media.',
+    required: true,
+  },
+  codeOfConductAgreement: {
+    name: 'codeOfConductAgreement',
+    label:
+      'Code of Conduct Agreement: I understand that as a participant in the Charlevoix County Junior Golf Association, I am expected to demonstrate sportsmanship, fair competition, and respect for fellow golfers and golf course property. I agree to abide by the following rules: No throwing clubs, No swearing or using vulgar language, No loud voices or disruptive noises, No damaging course property. I understand that failure to follow this code of conduct may result in the loss of my playing privileges.',
+    required: true,
+  },
+}
 
 export const RegistrationForm = ({ form: payloadForm, enableIntro, introContent }: FormBlock) => {
   const { confirmationMessage, confirmationType } =
@@ -275,6 +295,34 @@ export const RegistrationForm = ({ form: payloadForm, enableIntro, introContent 
                 <form.AppField name="price">
                   {() => <input type="hidden" value={price} />}
                 </form.AppField>
+                {/* Agreements */}
+                <div className="mt-8 space-y-4 border-t pt-8">
+                  <h3 className="mb-4 font-semibold">Agreement(s)</h3>
+                  <form.AppField name="participationWaiver">
+                    {(subField) => (
+                      <subField.CheckboxField
+                        label="Participation & Liability Waiver: I, the parent/guardian of the participant, hereby give my consent for him/her/them to participate in the activities offered by the Charlevoix County Junior Golf Association. I understand that participation may involve a risk of injury, and I agree to assume full financial responsibility for any necessary treatment. I hereby release the Charlevoix County Junior Golf Association and its staff from any liability related to such injuries."
+                        required
+                      />
+                    )}
+                  </form.AppField>
+                  <form.AppField name="photoMediaRelease">
+                    {(subField) => (
+                      <subField.CheckboxField
+                        label="Photo/Media Release: I, the parent/guardian of the participant, hereby give my consent for the Charlevoix County Junior Golf Association to take and use photographs of my child. These images may be used to celebrate and promote Charlevoix Junior Golf, including in local newspapers, program brochures, and on social media."
+                        required
+                      />
+                    )}
+                  </form.AppField>
+                  <form.AppField name="codeOfConductAgreement">
+                    {(subField) => (
+                      <subField.CheckboxField
+                        label="Code of Conduct Agreement: I understand that as a participant in the Charlevoix County Junior Golf Association, I am expected to demonstrate sportsmanship, fair competition, and respect for fellow golfers and golf course property. I agree to abide by the following rules: No throwing clubs, No swearing or using vulgar language, No loud voices or disruptive noises, No damaging course property. I understand that failure to follow this code of conduct may result in the loss of my playing privileges."
+                        required
+                      />
+                    )}
+                  </form.AppField>
+                </div>
                 {/* Error/Success */}
                 {postError && <div className="text-red-600">{postError.message}</div>}
               </CardContent>
