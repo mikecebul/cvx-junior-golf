@@ -1,6 +1,6 @@
 import { Block } from 'payload'
 import { contentFields } from '@/fields/contentFields'
-import { FormBlock } from '../Form/config'
+import { Form } from '../Form/config'
 
 export const NewTwoColumnLayout: Block = {
   slug: 'newTwoColumnLayout',
@@ -128,7 +128,7 @@ export const NewTwoColumnLayout: Block = {
         {
           name: 'form',
           type: 'blocks',
-          blocks: [FormBlock],
+          blocks: [Form],
           maxRows: 1,
           admin: {
             condition: (_, siblingData) => Boolean(siblingData.contentType === 'form'),

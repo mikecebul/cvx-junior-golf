@@ -13,6 +13,18 @@ export const GoogleMap = ({ contact }: { contact: CompanyInfo['contact'] }) => {
 
   const position = coordinates ? { lat: coordinates[1], lng: coordinates[0] } : defaultPosition
 
+  if (process.env.NODE_ENV !== 'production' || !process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY) {
+    return (
+      <div className="h-[350px] bg-gray-100 flex items-center justify-center flex-col gap-2">
+        <div className="text-sm text-gray-500">
+          <p>{name}</p>
+          <p>{street}</p>
+          <p>{cityStateZip}</p>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="h-[350px]">
       <APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!}>

@@ -25,30 +25,62 @@ FROM base AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
-ARG DATABASE_URI
-ARG DOCKERHUB_TOKEN
-ARG DOCKERHUB_USERNAME
-ARG NEXT_PUBLIC_GOOGLE_MAPS_API_KEY
-ARG NEXT_PUBLIC_IS_LIVE
-ARG NEXT_PUBLIC_S3_HOSTNAME
-ARG NEXT_PUBLIC_SENTRY_DSN
-ARG NEXT_PUBLIC_SERVER_URL
-ARG NEXT_PUBLIC_UPLOAD_PREFIX
-ARG PAYLOAD_SECRET
-ARG RESEND_API_KEY
-ARG RESEND_DEFAULT_EMAIL
-ARG S3_ACCESS_KEY_ID
-ARG S3_BUCKET
-ARG S3_ENDPOINT
-ARG S3_REGION
-ARG S3_SECRET_ACCESS_KEY
-ARG SENTRY_AUTH_TOKEN
-ARG SOURCE_API_KEY
-ARG SOURCE_API_URL
-ARG STRIPE_SECRET_KEY
-ARG STRIPE_WEBHOOKS_ENDPOINT_SECRET
-ARG UNSPLASH_ACCESS_KEY
-ARG UNSPLASH_URL
+
+# Create .env.production from Docker secrets
+RUN --mount=type=secret,id=DATABASE_URI \
+    --mount=type=secret,id=DOCKERHUB_TOKEN \
+    --mount=type=secret,id=DOCKERHUB_USERNAME \
+    --mount=type=secret,id=NEXT_PUBLIC_GOOGLE_MAPS_API_KEY \
+    --mount=type=secret,id=NEXT_PUBLIC_IS_LIVE \
+    --mount=type=secret,id=NEXT_PUBLIC_S3_HOSTNAME \
+    --mount=type=secret,id=NEXT_PUBLIC_SENTRY_DSN \
+    --mount=type=secret,id=NEXT_PUBLIC_SERVER_URL \
+    --mount=type=secret,id=NEXT_PUBLIC_UPLOAD_PREFIX \
+    --mount=type=secret,id=PAYLOAD_SECRET \
+    --mount=type=secret,id=EMAIL_HOST \
+    --mount=type=secret,id=EMAIL_PORT \
+    --mount=type=secret,id=EMAIL_USER \
+    --mount=type=secret,id=EMAIL_PASSWORD \
+    --mount=type=secret,id=S3_ACCESS_KEY_ID \
+    --mount=type=secret,id=S3_BUCKET \
+    --mount=type=secret,id=S3_ENDPOINT \
+    --mount=type=secret,id=S3_REGION \
+    --mount=type=secret,id=S3_SECRET_ACCESS_KEY \
+    --mount=type=secret,id=SENTRY_AUTH_TOKEN \
+    --mount=type=secret,id=SOURCE_API_KEY \
+    --mount=type=secret,id=SOURCE_API_URL \
+    --mount=type=secret,id=STRIPE_SECRET_KEY \
+    --mount=type=secret,id=STRIPE_WEBHOOKS_ENDPOINT_SECRET \
+    --mount=type=secret,id=UNSPLASH_ACCESS_KEY \
+    --mount=type=secret,id=UNSPLASH_URL \
+    sh -c '( \
+        echo "DATABASE_URI=$(cat /run/secrets/DATABASE_URI)" && \
+        echo "DOCKERHUB_TOKEN=$(cat /run/secrets/DOCKERHUB_TOKEN)" && \
+        echo "DOCKERHUB_USERNAME=$(cat /run/secrets/DOCKERHUB_USERNAME)" && \
+        echo "NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=$(cat /run/secrets/NEXT_PUBLIC_GOOGLE_MAPS_API_KEY)" && \
+        echo "NEXT_PUBLIC_IS_LIVE=$(cat /run/secrets/NEXT_PUBLIC_IS_LIVE)" && \
+        echo "NEXT_PUBLIC_S3_HOSTNAME=$(cat /run/secrets/NEXT_PUBLIC_S3_HOSTNAME)" && \
+        echo "NEXT_PUBLIC_SENTRY_DSN=$(cat /run/secrets/NEXT_PUBLIC_SENTRY_DSN)" && \
+        echo "NEXT_PUBLIC_SERVER_URL=$(cat /run/secrets/NEXT_PUBLIC_SERVER_URL)" && \
+        echo "NEXT_PUBLIC_UPLOAD_PREFIX=$(cat /run/secrets/NEXT_PUBLIC_UPLOAD_PREFIX)" && \
+        echo "PAYLOAD_SECRET=$(cat /run/secrets/PAYLOAD_SECRET)" && \
+        echo "EMAIL_HOST=$(cat /run/secrets/EMAIL_HOST)" && \
+        echo "EMAIL_PORT=$(cat /run/secrets/EMAIL_PORT)" && \
+        echo "EMAIL_USER=$(cat /run/secrets/EMAIL_USER)" && \
+        echo "EMAIL_PASSWORD=$(cat /run/secrets/EMAIL_PASSWORD)" && \
+        echo "S3_ACCESS_KEY_ID=$(cat /run/secrets/S3_ACCESS_KEY_ID)" && \
+        echo "S3_BUCKET=$(cat /run/secrets/S3_BUCKET)" && \
+        echo "S3_ENDPOINT=$(cat /run/secrets/S3_ENDPOINT)" && \
+        echo "S3_REGION=$(cat /run/secrets/S3_REGION)" && \
+        echo "S3_SECRET_ACCESS_KEY=$(cat /run/secrets/S3_SECRET_ACCESS_KEY)" && \
+        echo "SENTRY_AUTH_TOKEN=$(cat /run/secrets/SENTRY_AUTH_TOKEN)" && \
+        echo "SOURCE_API_KEY=$(cat /run/secrets/SOURCE_API_KEY)" && \
+        echo "SOURCE_API_URL=$(cat /run/secrets/SOURCE_API_URL)" && \
+        echo "STRIPE_SECRET_KEY=$(cat /run/secrets/STRIPE_SECRET_KEY)" && \
+        echo "STRIPE_WEBHOOKS_ENDPOINT_SECRET=$(cat /run/secrets/STRIPE_WEBHOOKS_ENDPOINT_SECRET)" && \
+        echo "UNSPLASH_ACCESS_KEY=$(cat /run/secrets/UNSPLASH_ACCESS_KEY)" && \
+        echo "UNSPLASH_URL=$(cat /run/secrets/UNSPLASH_URL)" \
+    ) > .env.production'
 
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV NEXT_OUTPUT=standalone
@@ -57,8 +89,12 @@ ENV NEXT_OUTPUT=standalone
 RUN npm install -g corepack@latest
 
 RUN \
-  if [ -f pnpm-lock.yaml ]; then corepack enable pnpm && pnpm run build; \
-  else echo "Lockfile not found." && exit 1; \
+  if [ -f pnpm-lock.yaml ]; then \
+    corepack enable pnpm && \
+    set -a && . ./.env.production && set +a && \
+    pnpm run build; \
+  else \
+    echo "Lockfile not found." && exit 1; \
   fi
 
 # Production image, copy all the files and run next

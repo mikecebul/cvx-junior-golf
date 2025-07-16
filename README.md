@@ -24,6 +24,10 @@ This website is built using PayloadCMS and Next.js 15, designed for managing and
 4. Run `pnpm run dev` to start the development server
 5. Open [http://localhost:3000](http://localhost:3000) in your browser
 
+## Staging Environment
+
+A staging environment exists for testing before production deployment. Contact the maintainer for access.
+
 ## Advanced Features
 
 ### Form Builder Plugin
@@ -40,6 +44,12 @@ A powerful page-building block that enables:
 - Flexible content arrangement in two columns
 - Nested blocks support
 - Mobile-responsive layouts
+
+### Stripe Webhooks in dev
+
+```ts
+stripe listen --forward-to localhost:3000/api/stripe/webhooks
+```
 
 ## Deployment
 
