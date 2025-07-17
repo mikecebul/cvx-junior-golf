@@ -16,7 +16,7 @@ export interface CheckboxFieldUIProps {
 export default function CheckboxField({ label, colSpan, required }: CheckboxFieldUIProps) {
   const field = useFieldContext<boolean>()
   const errors = useStore(field.store, (state) => state.meta.errors)
-  console.log('CheckboxField', { field, errors })
+  // console.log('CheckboxField', { field, errors })
 
   return (
     <div
@@ -41,7 +41,9 @@ export default function CheckboxField({ label, colSpan, required }: CheckboxFiel
         <Label htmlFor={field.name}>{label}</Label>
       </div>
       <div>
-        {errors && errors.length > 0 && <em className="text-destructive text-sm first:mt-1">{errors[0].message}</em>}
+        {errors && errors.length > 0 && (
+          <em className="text-destructive text-sm first:mt-1">{errors[0].message}</em>
+        )}
       </div>
     </div>
   )

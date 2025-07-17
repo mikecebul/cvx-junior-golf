@@ -6,6 +6,9 @@ const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  experimental: {
+    serverComponentsExternalPackages: [`require-in-the-middle`],
+  },
   output: process.env.NEXT_OUTPUT === 'standalone' ? 'standalone' : undefined,
   images: {
     remotePatterns: [
@@ -53,7 +56,9 @@ const sentryConfig = {
   automaticVercelMonitors: true,
 }
 
-export default withSentryConfig(
-  withPayload(nextConfig, { devBundleServerPackages: false }),
-  sentryConfig,
-)
+// Check if running with --turbo flag
+const isTurbopack = process.argv.includes('--turbo') || process.env.TURBOPACK
+
+const configWithPayload = withPayload(nextConfig, { devBundleServerPackages: false })
+
+export default isTurbopack ? configWithPayload : withSentryConfig(configWithPayload, sentryConfig)
