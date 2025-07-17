@@ -5,7 +5,6 @@ import { useFieldContext } from '../hooks/form-context'
 import { Label } from '@/components/ui/label'
 import { cn } from '@/utilities/cn'
 import { Checkbox } from '@/components/ui/checkbox'
-import { CheckboxFormField } from '@/payload-types'
 
 export interface CheckboxFieldUIProps {
   label?: string | null

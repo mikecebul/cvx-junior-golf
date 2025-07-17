@@ -6,9 +6,7 @@ const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: {
-    serverComponentsExternalPackages: [`require-in-the-middle`],
-  },
+  serverExternalPackages: [`require-in-the-middle`],
   output: process.env.NEXT_OUTPUT === 'standalone' ? 'standalone' : undefined,
   images: {
     remotePatterns: [
