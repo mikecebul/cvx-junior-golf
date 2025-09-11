@@ -37,6 +37,7 @@ RUN --mount=type=secret,id=DATABASE_URI \
   --mount=type=secret,id=NEXT_PUBLIC_SERVER_URL \
   --mount=type=secret,id=NEXT_PUBLIC_UPLOAD_PREFIX \
   --mount=type=secret,id=PAYLOAD_SECRET \
+  --mount=type=secret,id=PREVIEW_SECRET \
   --mount=type=secret,id=EMAIL_HOST \
   --mount=type=secret,id=EMAIL_PORT \
   --mount=type=secret,id=EMAIL_USER \
@@ -64,6 +65,7 @@ RUN --mount=type=secret,id=DATABASE_URI \
   echo "NEXT_PUBLIC_SERVER_URL=$(cat /run/secrets/NEXT_PUBLIC_SERVER_URL)" && \
   echo "NEXT_PUBLIC_UPLOAD_PREFIX=$(cat /run/secrets/NEXT_PUBLIC_UPLOAD_PREFIX)" && \
   echo "PAYLOAD_SECRET=$(cat /run/secrets/PAYLOAD_SECRET)" && \
+  echo "PREVIEW_SECRET=$(cat /run/secrets/PREVIEW_SECRET)" && \
   echo "EMAIL_HOST=$(cat /run/secrets/EMAIL_HOST)" && \
   echo "EMAIL_PORT=$(cat /run/secrets/EMAIL_PORT)" && \
   echo "EMAIL_USER=$(cat /run/secrets/EMAIL_USER)" && \
