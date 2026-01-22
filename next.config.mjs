@@ -6,7 +6,6 @@ const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  serverExternalPackages: [`require-in-the-middle`],
   output: process.env.NEXT_OUTPUT === 'standalone' ? 'standalone' : undefined,
   images: {
     remotePatterns: [
@@ -41,22 +40,14 @@ const nextConfig = {
 const sentryConfig = {
   org: 'mikecebul',
   project: 'cvx-jr-golf',
-  sentryUrl: 'https://monitor.mikecebul.dev/',
+  sentryUrl: 'https://monitor.mikecebul.com/',
   authToken: process.env.SENTRY_AUTH_TOKEN,
   silent: !process.env.CI,
   widenClientFileUpload: true,
-  reactComponentAnnotation: {
-    enabled: true,
-  },
-  tunnelRoute: '/monitoring',
   hideSourceMaps: true,
-  disableLogger: true,
-  automaticVercelMonitors: true,
 }
 
-// Check if running with --turbo flag
-const isTurbopack = process.argv.includes('--turbo') || process.env.TURBOPACK
-
-const configWithPayload = withPayload(nextConfig, { devBundleServerPackages: false })
-
-export default isTurbopack ? configWithPayload : withSentryConfig(configWithPayload, sentryConfig)
+export default withSentryConfig(
+  withPayload(nextConfig, { devBundleServerPackages: false }),
+  sentryConfig,
+)

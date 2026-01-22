@@ -128,13 +128,37 @@ export default buildConfig({
   graphQL: { disable: true },
   plugins: [
     importExportPlugin({
-      collections: ['registrations-v2', 'form-submissions'],
-      overrideExportCollection: (collection) => {
-        collection.admin.group = 'Admin'
-        collection.upload.staticDir = path.resolve(dirname, 'uploads')
-        return collection
+      overrideExportCollection: ({ collection }) => {
+        return {
+          ...collection,
+          admin: {
+            ...collection.admin,
+            group: 'Admin',
+          },
+          upload: {
+            ...(typeof collection.upload === 'object' ? collection.upload : {}),
+            staticDir: path.resolve(dirname, 'uploads'),
+          },
+        }
       },
-      disableJobsQueue: true,
+      collections: [
+        {
+          slug: 'registrations-v2',
+          export: {
+            format: 'csv',
+            disableJobsQueue: true,
+          },
+          import: false,
+        },
+        {
+          slug: 'form-submissions',
+          export: {
+            format: 'csv',
+            disableJobsQueue: true,
+          },
+          import: false,
+        },
+      ],
     }),
     sentryPlugin({
       options: {
