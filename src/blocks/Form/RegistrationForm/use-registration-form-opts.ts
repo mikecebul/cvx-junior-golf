@@ -1,6 +1,6 @@
 'use client'
 
-import { formOptions } from '@tanstack/react-form'
+import { formOptions, revalidateLogic } from '@tanstack/react-form'
 import { getClientSideURL } from '@/utilities/getURL'
 import { useRouter } from 'next/navigation'
 import { Form } from '@/payload-types'
@@ -24,49 +24,61 @@ export type RegistrationFormType = {
     lastName: string
     gender: string
     ethnicity: string
-    dob: Date | undefined
+    dob: Date | string
   }[]
+  price: number
   participationWaiver: boolean
   photoMediaRelease: boolean
   codeOfConductAgreement: boolean
-  price: number
 }
 
 const parentSchema = z.object({
-  firstName: z.string().min(1, 'Parent first name is required'),
-  lastName: z.string().min(1, 'Parent last name is required'),
+  firstName: z.string().min(1, { message: 'First name is required' }),
+  lastName: z.string().min(1, { message: 'Last name is required' }),
   phone: z
     .string()
-    .min(1, 'Parent phone is required')
-    .regex(
-      /^(?:\+?1[-. ]?)?\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/,
-      'Invalid phone number',
-    ),
-  postalCode: z.string().min(1, 'Postal code is required'),
-  email: z.string().min(1, 'Parent email is required').email('Invalid email'),
+    .min(1, { message: 'Phone is required' })
+    .regex(/^(?:\+?1[-. ]?)?\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/, {
+      message: 'Invalid phone number',
+    }),
+  postalCode: z.string().min(1, { message: 'Postal code is required' }),
+  email: z.string().min(1, { message: 'Email is required' }).email({ message: 'Invalid email' }),
 })
 
 const playerSchema = z.object({
-  firstName: z.string().min(1, 'Player first name is required'),
-  lastName: z.string().min(1, 'Player last name is required'),
-  gender: z.string().min(1, 'Gender is required'),
-  ethnicity: z.string().min(1, 'Ethnicity is required'),
+  firstName: z.string().min(1, { message: 'First name is required' }),
+  lastName: z.string().min(1, { message: 'Last name is required' }),
+  gender: z.string().min(1, { message: 'Gender is required' }),
+  ethnicity: z.string().min(1, { message: 'Ethnicity is required' }),
   dob: z
-    .date({ required_error: 'Date of birth is required' })
-    .max(new Date(), { message: 'Date of birth cannot be in the future!' }),
+    .union([
+      z.string().min(1, { message: 'Date of birth is required' }),
+      z.date({ message: 'Date of birth is required' }),
+    ])
+    .refine(
+      (val) => {
+        if (typeof val === 'string') return val !== ''
+        return val <= new Date()
+      },
+      {
+        message: 'Date of birth cannot be in the future!',
+      },
+    ),
 })
 
 const registrationSchema = z.object({
   parents: z.array(parentSchema).min(1, 'At least one parent is required'),
   players: z.array(playerSchema).min(1, 'At least one player is required'),
-  participationWaiver: z.boolean(),
+  price: z.number().min(0, 'Price must be at least 0'),
+  participationWaiver: z.boolean().refine((val) => val, {
+    message: 'Participation waiver is required',
+  }),
   photoMediaRelease: z.boolean().refine((val) => val, {
     message: 'Photo/Media release is required',
   }),
   codeOfConductAgreement: z.boolean().refine((val) => val, {
     message: 'Code of conduct agreement is required',
   }),
-  price: z.number().min(0, 'Price must be at least 0'),
 })
 
 export const useRegistrationFormOpts = ({
@@ -86,11 +98,15 @@ export const useRegistrationFormOpts = ({
   return formOptions({
     defaultValues: {
       parents: [{ firstName: '', lastName: '', phone: '', postalCode: '', email: '' }],
-      players: [{ firstName: '', lastName: '', gender: '', ethnicity: '', dob: undefined }],
+      players: [{ firstName: '', lastName: '', gender: '', ethnicity: '', dob: '' }],
       price: 75,
-    },
+      participationWaiver: false,
+      photoMediaRelease: false,
+      codeOfConductAgreement: false,
+    } as RegistrationFormType,
+    validationLogic: revalidateLogic(),
     validators: {
-      onChange: registrationSchema,
+      onDynamic: registrationSchema,
     },
     onSubmit: async ({ value: data, formApi: form }) => {
       setPostError(undefined)

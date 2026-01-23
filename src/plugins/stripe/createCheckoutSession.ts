@@ -19,7 +19,7 @@ export const createCheckoutSession = async (registrationIds: string[], price: nu
           price_data: {
             currency: 'usd',
             product_data: {
-              name: 'CVX Jr Golf Registration - 2025',
+              name: 'CVX Jr Golf Registration - 2026',
             },
             unit_amount: price * 100,
           },
@@ -33,7 +33,6 @@ export const createCheckoutSession = async (registrationIds: string[], price: nu
     })
 
     if (session.url) return { url: session.url }
-
   } catch (error: unknown) {
     return { error: 'Failed to create checkout session' }
   }
