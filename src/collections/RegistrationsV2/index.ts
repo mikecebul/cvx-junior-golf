@@ -1,6 +1,15 @@
 import { authenticatedOrPublished } from '@/access/authenticatedOrPublished'
 import { editorOrHigher } from '@/access/editorOrHigher'
-import { CollectionConfig } from 'payload'
+import { CollectionConfig, FieldHook } from 'payload'
+import { getCurrentRegistrationYear } from '@/utilities/registrationYear'
+
+const ensureRegistrationYear: FieldHook = ({ value }) => {
+  if (typeof value === 'string' && value.trim() !== '') {
+    return value
+  }
+
+  return getCurrentRegistrationYear()
+}
 
 export const RegistrationsV2: CollectionConfig = {
   slug: 'registrations-v2',
@@ -23,6 +32,9 @@ export const RegistrationsV2: CollectionConfig = {
       name: 'year',
       type: 'text',
       required: true,
+      hooks: {
+        beforeValidate: [ensureRegistrationYear],
+      },
       admin: {
         position: 'sidebar',
       },

@@ -2,6 +2,7 @@
 
 import Stripe from 'stripe'
 import { baseUrl } from '@/utilities/baseUrl'
+import { getCurrentRegistrationYear } from '@/utilities/registrationYear'
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
   //@ts-ignore
@@ -10,6 +11,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
 
 export const createCheckoutSession = async (registrationIds: string[], price: number) => {
   try {
+    const registrationYear = getCurrentRegistrationYear()
     const session = await stripe.checkout.sessions.create({
       success_url: `${baseUrl}/success`,
       cancel_url: `${baseUrl}/cancel`,
@@ -19,7 +21,7 @@ export const createCheckoutSession = async (registrationIds: string[], price: nu
           price_data: {
             currency: 'usd',
             product_data: {
-              name: 'CVX Jr Golf Registration - 2026',
+              name: `CVX Jr Golf Registration - ${registrationYear}`,
             },
             unit_amount: price * 100,
           },

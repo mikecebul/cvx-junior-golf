@@ -10,6 +10,7 @@ import { z } from 'zod'
 import { format } from 'date-fns'
 import { createCheckoutSession } from '@/plugins/stripe/createCheckoutSession'
 import { linkRegistrations } from './linkRegistrations'
+import { getCurrentRegistrationYear } from '@/utilities/registrationYear'
 
 export type RegistrationFormType = {
   parents: {
@@ -150,6 +151,7 @@ export const useRegistrationFormOpts = ({
         // Prepare request to create a Registration
 
         const registrationIds: string[] = []
+        const registrationYear = getCurrentRegistrationYear()
         try {
           // Option 1: Sequential processing (safer for rate limits)
           for (const player of data.players) {
@@ -158,7 +160,7 @@ export const useRegistrationFormOpts = ({
               credentials: 'include',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({
-                year: '2025',
+                year: registrationYear,
                 firstName: player.firstName,
                 lastName: player.lastName,
                 dob: player.dob,

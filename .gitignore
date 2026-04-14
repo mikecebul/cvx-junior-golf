@@ -25,3 +25,4 @@ dump.sql
 
 # exports
 src/uploads
+public/sitemap.xml
