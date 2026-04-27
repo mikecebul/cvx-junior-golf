@@ -11,7 +11,7 @@ export const revalidatePage: CollectionAfterChangeHook<Page> = ({ doc, previousD
     if (req.headers['X-Payload-Migration'] !== 'true') {
       req.payload.logger.info(`Revalidating page at path: ${path}`)
       revalidatePath(path)
-      revalidateTag('sitemap')
+      revalidateTag('sitemap', 'max')
     }
   }
 
@@ -22,7 +22,7 @@ export const revalidatePage: CollectionAfterChangeHook<Page> = ({ doc, previousD
     if (req.headers['X-Payload-Migration'] !== 'true') {
       req.payload.logger.info(`Revalidating old page at path: ${oldPath}`)
       revalidatePath(oldPath)
-      revalidateTag('sitemap')
+      revalidateTag('sitemap', 'max')
     }
   }
 

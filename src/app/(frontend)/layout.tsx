@@ -6,7 +6,6 @@ import { Footer } from '@/globals/Footer/Component'
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
 import './globals.css'
 import { Header } from '@/globals/Header/Component'
-import { ThemeProvider } from 'next-themes'
 import { baseUrl } from '@/utilities/baseUrl'
 import Script from 'next/script'
 
@@ -23,11 +22,9 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
         />
       </head>
       <body className="flex min-h-dvh flex-col">
-        <ThemeProvider forcedTheme="light">
-          <Header />
-          <div className="flex grow flex-col">{children}</div>
-          <Footer />
-        </ThemeProvider>
+        <Header />
+        <div className="flex grow flex-col">{children}</div>
+        <Footer />
       </body>
     </html>
   )

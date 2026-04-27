@@ -15,7 +15,6 @@ export interface CheckboxFieldUIProps {
 export default function CheckboxField({ label, colSpan, required }: CheckboxFieldUIProps) {
   const field = useFieldContext<boolean>()
   const errors = useStore(field.store, (state) => state.meta.errors)
-  // console.log('CheckboxField', { field, errors })
 
   return (
     <div

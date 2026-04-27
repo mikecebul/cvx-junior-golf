@@ -8,6 +8,7 @@ const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL
 const nextConfig = {
   output: process.env.NEXT_OUTPUT === 'standalone' ? 'standalone' : undefined,
   images: {
+    qualities: [75, 90],
     remotePatterns: [
       ...[
         baseUrl,

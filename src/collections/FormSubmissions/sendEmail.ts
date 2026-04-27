@@ -1,6 +1,7 @@
 import { CollectionAfterChangeHook } from 'payload'
 import { replaceDoubleCurlys } from '@/plugins/lexical/replace-double-curlys'
 import { serializeLexical } from '@/plugins/lexical/serializeLexical'
+import { sendEmailSequentially } from '@/utilities/sendEmailSequentially'
 
 export const sendEmail: CollectionAfterChangeHook = async (args) => {
   const { operation, data, doc, req } = args
@@ -57,20 +58,17 @@ export const sendEmail: CollectionAfterChangeHook = async (args) => {
           }),
         )
 
-        await Promise.all(
-          formattedEmails.map(async (email) => {
-            const { to } = email
-            try {
-              const emailPromise = await payload.sendEmail(email)
-              return emailPromise
-            } catch (err: unknown) {
-              payload.logger.error({
-                err,
-                msg: `Error while sending email to address: ${to}. Email not sent.`,
-              })
-            }
-          }),
-        )
+        for (const email of formattedEmails) {
+          const { to } = email
+          try {
+            await sendEmailSequentially({ email, payload })
+          } catch (err: unknown) {
+            payload.logger.error({
+              err,
+              msg: `Error while sending email to address: ${to}. Email not sent.`,
+            })
+          }
+        }
       } else {
         payload.logger.info({ msg: 'No emails to send.' })
       }

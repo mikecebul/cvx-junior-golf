@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
     "esModuleInterop": true,
     "target": "es6",
     "lib": [
@@ -13,9 +12,11 @@
     "strict": false,
     "strictNullChecks": true,
     "forceConsistentCasingInFileNames": true,
+    "ignoreDeprecations": "6.0",
     "noEmit": true,
+    "noUncheckedSideEffectImports": false,
     "incremental": true,
-    "jsx": "preserve",
+    "jsx": "react-jsx",
     "module": "esnext",
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
@@ -36,6 +37,9 @@
       "@/*": [
         "./src/*"
       ],
+      "src/*": [
+        "./src/*"
+      ]
     }
   },
   "include": [
@@ -43,7 +47,8 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "redirects.js",
-    "next.config.mjs"
+    "next.config.mjs",
+    ".next/dev/types/**/*.ts"
   ],
   "exclude": [
     "node_modules"

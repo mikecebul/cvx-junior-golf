@@ -17,7 +17,6 @@ import {
   SprayCan,
   Brain,
   CircleOff,
-  Facebook,
   CheckCircle,
   UserPlus,
   User,
@@ -33,9 +32,29 @@ import {
   Trophy,
   LandPlot,
   Handshake,
+  LucideProps,
 } from 'lucide-react'
-import { ReactNode } from 'react'
+import { forwardRef, ReactNode } from 'react'
 import { cn } from '@/utilities/cn'
+
+export const Facebook = forwardRef<SVGSVGElement, LucideProps>(
+  ({ color = 'currentColor', size = 24, strokeWidth: _strokeWidth, ...props }, ref) => (
+    <svg
+      ref={ref}
+      xmlns="http://www.w3.org/2000/svg"
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill={color}
+      aria-hidden="true"
+      {...props}
+    >
+      <path d="M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06c0 5.02 3.66 9.19 8.44 9.94v-7.03H7.9v-2.91h2.54V9.84c0-2.52 1.49-3.91 3.78-3.91 1.1 0 2.24.2 2.24.2V8.6H15.2c-1.24 0-1.63.78-1.63 1.57v1.89h2.77l-.44 2.91h-2.33V22C18.34 21.25 22 17.08 22 12.06Z" />
+    </svg>
+  ),
+) as LucideIcon
+
+Facebook.displayName = 'Facebook'
 
 export const Icons = {
   logo: ({ className }: { className: string }) => (

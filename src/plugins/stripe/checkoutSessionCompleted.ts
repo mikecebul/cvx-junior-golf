@@ -1,6 +1,7 @@
 import type { StripeWebhookHandler } from '@payloadcms/plugin-stripe/types'
 import type Stripe from 'stripe'
 import { APIError } from 'payload'
+import { sendEmailSequentially } from '@/utilities/sendEmailSequentially'
 
 export const checkoutSessionCompleted: StripeWebhookHandler<{
   data: {
@@ -83,14 +84,16 @@ export const checkoutSessionCompleted: StripeWebhookHandler<{
       }
 
       for (const email of emails) {
-        await payload.sendEmail({
-          to: email.emailTo,
-          cc: email.cc,
-          bcc: email.bcc,
-          replyTo: email.replyTo,
-          from: email.emailFrom,
-          subject: `Payment Confirmed for ${playerNames}`,
-          html: `
+        await sendEmailSequentially({
+          payload,
+          email: {
+            to: email.emailTo,
+            cc: email.cc,
+            bcc: email.bcc,
+            replyTo: email.replyTo,
+            from: email.emailFrom,
+            subject: `Payment Confirmed for ${playerNames}`,
+            html: `
             <h2>Payment Confirmation</h2>
             <p>A payment has been successfully processed for the following players: ${playerNames}</p>
             <hr/>
@@ -103,6 +106,7 @@ export const checkoutSessionCompleted: StripeWebhookHandler<{
             <hr/>
             <p><small>This is an automated message.</small></p>
           `,
+          },
         })
       }
     } catch (error) {

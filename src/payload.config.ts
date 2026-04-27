@@ -1,5 +1,6 @@
 import { mongooseAdapter } from '@payloadcms/db-mongodb'
 import { nodemailerAdapter } from '@payloadcms/email-nodemailer'
+import { resendAdapter } from '@payloadcms/email-resend'
 
 import { sentryPlugin } from '@payloadcms/plugin-sentry'
 import * as Sentry from '@sentry/nextjs'
@@ -35,6 +36,9 @@ import { defaultLexical } from './fields/default-lexical'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
+const defaultFromName = 'Charlevoix County Junior Golf Association'
+const defaultFromAddress = process.env.RESEND_DEFAULT_EMAIL || 'website@cvxjrgolf.org'
+const isProduction = process.env.NODE_ENV === 'production'
 
 const generateTitle: GenerateTitle<Page> = ({ doc }) => {
   if ('name' in doc) {
@@ -111,18 +115,22 @@ export default buildConfig({
     url: process.env.DATABASE_URI!,
   }),
   editor: defaultLexical,
-  email: nodemailerAdapter({
-    defaultFromName: 'Charlevoix County Junior Golf Association',
-    defaultFromAddress: 'website@cvxjrgolf.org',
-    transportOptions: {
-      host: process.env.EMAIL_HOST || 'localhost',
-      port: process.env.EMAIL_PORT ? parseInt(process.env.EMAIL_PORT, 10) : 1025,
-      auth: {
-        user: process.env.EMAIL_USER || '',
-        pass: process.env.EMAIL_PASSWORD || '',
-      },
-    },
-  }),
+  email: isProduction
+    ? resendAdapter({
+        defaultFromName,
+        defaultFromAddress,
+        apiKey: process.env.RESEND_API_KEY || '',
+      })
+    : nodemailerAdapter({
+        defaultFromName,
+        defaultFromAddress,
+        skipVerify: true,
+        transportOptions: {
+          host: process.env.EMAIL_HOST || process.env.SMTP_HOST || 'localhost',
+          port: Number(process.env.EMAIL_PORT || process.env.SMTP_PORT || 1025),
+          secure: false,
+        },
+      }),
   endpoints: [],
   globals: [Header, Footer, CompanyInfo],
   graphQL: { disable: true },

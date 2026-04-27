@@ -25,6 +25,8 @@ import { ExportListMenuItem as ExportListMenuItem_cdf7e044479f899a31f804427d568b
 import { default as default_f4047b1a8a90d344d3f09d570ca929c0 } from '@/collections/Users/RoleCell'
 import { RoleSelectClient as RoleSelectClient_1e331338c38abbd719becfa9518165eb } from '@/collections/Users/RoleSelect.client'
 import { default as default_ec2a57080efaa3e14b877e54d9e1b913 } from 'src/fields/StripeCheckoutLink/Component'
+import { FormatField as FormatField_cdf7e044479f899a31f804427d568b36 } from '@payloadcms/plugin-import-export/rsc'
+import { LimitField as LimitField_cdf7e044479f899a31f804427d568b36 } from '@payloadcms/plugin-import-export/rsc'
 import { Page as Page_cdf7e044479f899a31f804427d568b36 } from '@payloadcms/plugin-import-export/rsc'
 import { SortBy as SortBy_cdf7e044479f899a31f804427d568b36 } from '@payloadcms/plugin-import-export/rsc'
 import { SortOrder as SortOrder_cdf7e044479f899a31f804427d568b36 } from '@payloadcms/plugin-import-export/rsc'
@@ -33,7 +35,6 @@ import { FieldsToExport as FieldsToExport_cdf7e044479f899a31f804427d568b36 } fro
 import { CollectionField as CollectionField_cdf7e044479f899a31f804427d568b36 } from '@payloadcms/plugin-import-export/rsc'
 import { ExportPreview as ExportPreview_cdf7e044479f899a31f804427d568b36 } from '@payloadcms/plugin-import-export/rsc'
 import { ExportSaveButton as ExportSaveButton_cdf7e044479f899a31f804427d568b36 } from '@payloadcms/plugin-import-export/rsc'
-import { ImportCollectionField as ImportCollectionField_cdf7e044479f899a31f804427d568b36 } from '@payloadcms/plugin-import-export/rsc'
 import { ImportPreview as ImportPreview_cdf7e044479f899a31f804427d568b36 } from '@payloadcms/plugin-import-export/rsc'
 import { ImportSaveButton as ImportSaveButton_cdf7e044479f899a31f804427d568b36 } from '@payloadcms/plugin-import-export/rsc'
 import { default as default_9734ea5d74b781c5b6e952c2aa41414f } from '@/globals/CompanyInfo/SocialRowLabel'
@@ -47,8 +48,9 @@ import { ImportExportProvider as ImportExportProvider_cdf7e044479f899a31f804427d
 import { AdminErrorBoundary as AdminErrorBoundary_e5a9e14bdbe97e70ba60697217fe7688 } from '@payloadcms/plugin-sentry/client'
 import { S3ClientUploadHandler as S3ClientUploadHandler_f97aa6c64367fa259c5bc0567239ef24 } from '@payloadcms/storage-s3/client'
 import { default as default_562672c6d49401890858663241518d7e } from '@/components/views/Analytics'
-import { CollectionCards as CollectionCards_ab83ff7e88da8d3530831f296ec4756a } from '@payloadcms/ui/rsc'
+import { CollectionCards as CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1 } from '@payloadcms/next/rsc'
 
+/** @type import('payload').ImportMap */
 export const importMap = {
   "@/fields/link/LinkRowLabel#default": default_88a731f1ba0e751fb9249907ce942610,
   "@payloadcms/richtext-lexical/rsc#RscEntryLexicalCell": RscEntryLexicalCell_44fe37237e0ebf4470c9990d8cb7b07e,
@@ -77,6 +79,8 @@ export const importMap = {
   "@/collections/Users/RoleCell#default": default_f4047b1a8a90d344d3f09d570ca929c0,
   "@/collections/Users/RoleSelect.client#RoleSelectClient": RoleSelectClient_1e331338c38abbd719becfa9518165eb,
   "src/fields/StripeCheckoutLink/Component#default": default_ec2a57080efaa3e14b877e54d9e1b913,
+  "@payloadcms/plugin-import-export/rsc#FormatField": FormatField_cdf7e044479f899a31f804427d568b36,
+  "@payloadcms/plugin-import-export/rsc#LimitField": LimitField_cdf7e044479f899a31f804427d568b36,
   "@payloadcms/plugin-import-export/rsc#Page": Page_cdf7e044479f899a31f804427d568b36,
   "@payloadcms/plugin-import-export/rsc#SortBy": SortBy_cdf7e044479f899a31f804427d568b36,
   "@payloadcms/plugin-import-export/rsc#SortOrder": SortOrder_cdf7e044479f899a31f804427d568b36,
@@ -85,7 +89,6 @@ export const importMap = {
   "@payloadcms/plugin-import-export/rsc#CollectionField": CollectionField_cdf7e044479f899a31f804427d568b36,
   "@payloadcms/plugin-import-export/rsc#ExportPreview": ExportPreview_cdf7e044479f899a31f804427d568b36,
   "@payloadcms/plugin-import-export/rsc#ExportSaveButton": ExportSaveButton_cdf7e044479f899a31f804427d568b36,
-  "@payloadcms/plugin-import-export/rsc#ImportCollectionField": ImportCollectionField_cdf7e044479f899a31f804427d568b36,
   "@payloadcms/plugin-import-export/rsc#ImportPreview": ImportPreview_cdf7e044479f899a31f804427d568b36,
   "@payloadcms/plugin-import-export/rsc#ImportSaveButton": ImportSaveButton_cdf7e044479f899a31f804427d568b36,
   "@/globals/CompanyInfo/SocialRowLabel#default": default_9734ea5d74b781c5b6e952c2aa41414f,
@@ -99,5 +102,5 @@ export const importMap = {
   "@payloadcms/plugin-sentry/client#AdminErrorBoundary": AdminErrorBoundary_e5a9e14bdbe97e70ba60697217fe7688,
   "@payloadcms/storage-s3/client#S3ClientUploadHandler": S3ClientUploadHandler_f97aa6c64367fa259c5bc0567239ef24,
   "@/components/views/Analytics#default": default_562672c6d49401890858663241518d7e,
-  "@payloadcms/ui/rsc#CollectionCards": CollectionCards_ab83ff7e88da8d3530831f296ec4756a
+  "@payloadcms/next/rsc#CollectionCards": CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1
 }

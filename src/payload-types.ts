@@ -145,9 +145,10 @@ export interface Config {
     'company-info': CompanyInfoSelect<false> | CompanyInfoSelect<true>;
   };
   locale: null;
-  user: User & {
-    collection: 'users';
+  widgets: {
+    collections: CollectionsWidget;
   };
+  user: User;
   jobs: {
     tasks: {
       createCollectionExport: TaskCreateCollectionExport;
@@ -859,6 +860,7 @@ export interface User {
       }[]
     | null;
   password?: string | null;
+  collection: 'users';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -897,7 +899,7 @@ export interface RegistrationsV2 {
 export interface Export {
   id: string;
   name?: string | null;
-  format?: ('csv' | 'json') | null;
+  format: 'csv' | 'json';
   limit?: number | null;
   page?: number | null;
   sort?: string | null;
@@ -933,7 +935,7 @@ export interface Export {
  */
 export interface Import {
   id: string;
-  collectionSlug: 'registrations-v2' | 'form-submissions';
+  collectionSlug: string;
   importMode?: ('create' | 'update' | 'upsert') | null;
   matchField?: string | null;
   status?: ('pending' | 'completed' | 'partial' | 'failed') | null;
@@ -2052,41 +2054,23 @@ export interface CompanyInfoSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "collections_widget".
+ */
+export interface CollectionsWidget {
+  data?: {
+    [k: string]: unknown;
+  };
+  width: 'full';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "TaskCreateCollectionExport".
  */
 export interface TaskCreateCollectionExport {
   input: {
-    name?: string | null;
-    format?: ('csv' | 'json') | null;
-    limit?: number | null;
-    page?: number | null;
-    sort?: string | null;
-    sortOrder?: ('asc' | 'desc') | null;
-    drafts?: ('yes' | 'no') | null;
-    selectionToUse?: ('currentSelection' | 'currentFilters' | 'all') | null;
-    fields?: string[] | null;
-    collectionSlug: string;
-    where?:
-      | {
-          [k: string]: unknown;
-        }
-      | unknown[]
-      | string
-      | number
-      | boolean
-      | null;
-    userID?: string | null;
-    userCollection?: string | null;
-    exportsCollection?: string | null;
-  };
-  output?: unknown;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "TaskCreateCollectionImport".
- */
-export interface TaskCreateCollectionImport {
-  input: {
+    id: string;
+    name: string;
+    batchSize?: number | null;
     collectionSlug:
       | 'pages'
       | 'events'
@@ -2097,34 +2081,43 @@ export interface TaskCreateCollectionImport {
       | 'registrations-v2'
       | 'exports'
       | 'imports';
-    importMode?: ('create' | 'update' | 'upsert') | null;
-    matchField?: string | null;
-    status?: ('pending' | 'completed' | 'partial' | 'failed') | null;
-    summary?: {
-      imported?: number | null;
-      updated?: number | null;
-      total?: number | null;
-      issues?: number | null;
-      issueDetails?:
-        | {
-            [k: string]: unknown;
-          }
-        | unknown[]
-        | string
-        | number
-        | boolean
-        | null;
-    };
-    user?: string | null;
+    drafts?: ('yes' | 'no') | null;
+    exportCollection: string;
+    fields?: string[] | null;
+    format: 'csv' | 'json';
+    limit?: number | null;
+    locale?: string | null;
+    maxLimit?: number | null;
+    page?: number | null;
+    sort?: string | null;
     userCollection?: string | null;
-    importsCollection?: string | null;
-    file?: {
-      data?: string | null;
-      mimetype?: string | null;
-      name?: string | null;
-    };
-    format?: ('csv' | 'json') | null;
+    userID?: string | null;
+    where?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+  };
+  output?: unknown;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskCreateCollectionImport".
+ */
+export interface TaskCreateCollectionImport {
+  input: {
+    importId: string;
+    importCollection: string;
+    userID?: string | null;
+    userCollection?: string | null;
+    batchSize?: number | null;
     debug?: boolean | null;
+    defaultVersionStatus?: ('draft' | 'published') | null;
+    maxLimit?: number | null;
   };
   output?: unknown;
 }

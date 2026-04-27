@@ -232,10 +232,6 @@ export const useRegistrationFormOpts = ({
 
         // Create Stripe checkout session
         try {
-          console.log('Creating checkout session with:', {
-            submissionId,
-            price: Number(data.price),
-          })
           const session = await createCheckoutSession(registrationIds, Number(data.price))
 
           if (!session) {

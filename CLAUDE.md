@@ -58,8 +58,6 @@ const payload = await getPayload({ config: configPromise })
 const result = await payload.find({ collection: 'pages', where: { ... } })
 ```
 
-Client components use SWR for data fetching.
-
 ### Forms
 - **Dynamic forms**: TanStack Form + Zod validation in `/src/blocks/Form/`
 - **Static forms**: Pre-built forms in `/src/blocks/TanstackForm/`
