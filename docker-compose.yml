@@ -3,8 +3,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-      args:
-        - ENV_FILE=.env.docker
     restart: always
     ports:
       - '3000:3000'
