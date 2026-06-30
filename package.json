@@ -94,10 +94,5 @@
   "engines": {
     "node": ">=24.0.0",
     "pnpm": "^9 || ^10 || ^11"
-  },
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "sharp"
-    ]
   }
 }

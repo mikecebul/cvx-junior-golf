@@ -12,7 +12,7 @@ WORKDIR /app
 RUN npm install -g corepack@latest
 
 # Install dependencies based on the preferred package manager
-COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
+COPY package.json pnpm-workspace.yaml yarn.lock* package-lock.json* pnpm-lock.yaml* ./
 RUN \
   if [ -f pnpm-lock.yaml ]; then corepack enable pnpm && pnpm i --frozen-lockfile; \
   else echo "Lockfile not found." && exit 1; \
@@ -46,8 +46,6 @@ RUN \
   --mount=type=secret,id=NEXT_PUBLIC_UPLOAD_PREFIX,env=NEXT_PUBLIC_UPLOAD_PREFIX \
   --mount=type=secret,id=PAYLOAD_SECRET,env=PAYLOAD_SECRET \
   --mount=type=secret,id=PREVIEW_SECRET,env=PREVIEW_SECRET \
-  --mount=type=secret,id=RESEND_API_KEY,env=RESEND_API_KEY \
-  --mount=type=secret,id=RESEND_DEFAULT_EMAIL,env=RESEND_DEFAULT_EMAIL \
   --mount=type=secret,id=S3_ACCESS_KEY_ID,env=S3_ACCESS_KEY_ID \
   --mount=type=secret,id=S3_BUCKET,env=S3_BUCKET \
   --mount=type=secret,id=S3_ENDPOINT,env=S3_ENDPOINT \
@@ -56,8 +54,6 @@ RUN \
   --mount=type=secret,id=SENTRY_AUTH_TOKEN,env=SENTRY_AUTH_TOKEN \
   --mount=type=secret,id=SOURCE_API_KEY,env=SOURCE_API_KEY \
   --mount=type=secret,id=SOURCE_API_URL,env=SOURCE_API_URL \
-  --mount=type=secret,id=SMTP_HOST,env=SMTP_HOST \
-  --mount=type=secret,id=SMTP_PORT,env=SMTP_PORT \
   --mount=type=secret,id=STRIPE_SECRET_KEY,env=STRIPE_SECRET_KEY \
   --mount=type=secret,id=STRIPE_WEBHOOKS_ENDPOINT_SECRET,env=STRIPE_WEBHOOKS_ENDPOINT_SECRET \
   --mount=type=secret,id=UNSPLASH_ACCESS_KEY,env=UNSPLASH_ACCESS_KEY \
