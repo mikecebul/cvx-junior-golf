@@ -16,20 +16,20 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set Docker image tag
         id: vars
         run: echo "tag=latest" >> $GITHUB_OUTPUT
 
       - name: Log in to Docker Hub
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build and push Docker image
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v6
         with:
           context: .
           file: ./Dockerfile
@@ -38,8 +38,10 @@ jobs:
           platforms: linux/amd64
           secrets: |
             DATABASE_URI=${{ secrets.DATABASE_URI }}
-            DOCKERHUB_TOKEN=${{ secrets.DOCKERHUB_TOKEN }}
-            DOCKERHUB_USERNAME=${{ secrets.DOCKERHUB_USERNAME }}
+            EMAIL_HOST=${{ secrets.EMAIL_HOST }}
+            EMAIL_PASSWORD=${{ secrets.EMAIL_PASSWORD }}
+            EMAIL_PORT=${{ secrets.EMAIL_PORT }}
+            EMAIL_USER=${{ secrets.EMAIL_USER }}
             NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=${{ secrets.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY }}
             NEXT_PUBLIC_IS_LIVE=${{ secrets.NEXT_PUBLIC_IS_LIVE }}
             NEXT_PUBLIC_S3_HOSTNAME=${{ secrets.NEXT_PUBLIC_S3_HOSTNAME }}
@@ -47,11 +49,9 @@ jobs:
             NEXT_PUBLIC_SERVER_URL=${{ secrets.NEXT_PUBLIC_SERVER_URL }}
             NEXT_PUBLIC_UPLOAD_PREFIX=${{ secrets.NEXT_PUBLIC_UPLOAD_PREFIX }}
             PAYLOAD_SECRET=${{ secrets.PAYLOAD_SECRET }}
-            EMAIL_HOST=${{ secrets.EMAIL_HOST }}
-            EMAIL_PORT=${{ secrets.EMAIL_PORT }}
-            EMAIL_USER=${{ secrets.EMAIL_USER }}
-            EMAIL_PASSWORD=${{ secrets.EMAIL_PASSWORD }}
             PREVIEW_SECRET=${{ secrets.PREVIEW_SECRET }}
+            RESEND_API_KEY=${{ secrets.RESEND_API_KEY }}
+            RESEND_DEFAULT_EMAIL=${{ secrets.RESEND_DEFAULT_EMAIL }}
             S3_ACCESS_KEY_ID=${{ secrets.S3_ACCESS_KEY_ID }}
             S3_BUCKET=${{ secrets.S3_BUCKET }}
             S3_ENDPOINT=${{ secrets.S3_ENDPOINT }}
@@ -60,6 +60,8 @@ jobs:
             SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }}
             SOURCE_API_KEY=${{ secrets.SOURCE_API_KEY }}
             SOURCE_API_URL=${{ secrets.SOURCE_API_URL }}
+            SMTP_HOST=${{ secrets.SMTP_HOST }}
+            SMTP_PORT=${{ secrets.SMTP_PORT }}
             STRIPE_SECRET_KEY=${{ secrets.STRIPE_SECRET_KEY }}
             STRIPE_WEBHOOKS_ENDPOINT_SECRET=${{ secrets.STRIPE_WEBHOOKS_ENDPOINT_SECRET }}
             UNSPLASH_ACCESS_KEY=${{ secrets.UNSPLASH_ACCESS_KEY }}
@@ -72,20 +74,20 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set Docker image tag
         id: vars
         run: echo "tag=staging" >> $GITHUB_OUTPUT
 
       - name: Log in to Docker Hub
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build and push Docker image
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v6
         with:
           context: .
           file: ./Dockerfile
@@ -94,8 +96,10 @@ jobs:
           platforms: linux/amd64
           secrets: |
             DATABASE_URI=${{ secrets.DATABASE_URI }}
-            DOCKERHUB_TOKEN=${{ secrets.DOCKERHUB_TOKEN }}
-            DOCKERHUB_USERNAME=${{ secrets.DOCKERHUB_USERNAME }}
+            EMAIL_HOST=${{ secrets.EMAIL_HOST }}
+            EMAIL_PASSWORD=${{ secrets.EMAIL_PASSWORD }}
+            EMAIL_PORT=${{ secrets.EMAIL_PORT }}
+            EMAIL_USER=${{ secrets.EMAIL_USER }}
             NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=${{ secrets.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY }}
             NEXT_PUBLIC_IS_LIVE=${{ secrets.NEXT_PUBLIC_IS_LIVE }}
             NEXT_PUBLIC_S3_HOSTNAME=${{ secrets.NEXT_PUBLIC_S3_HOSTNAME }}
@@ -103,10 +107,9 @@ jobs:
             NEXT_PUBLIC_SERVER_URL=${{ secrets.NEXT_PUBLIC_SERVER_URL }}
             NEXT_PUBLIC_UPLOAD_PREFIX=${{ secrets.NEXT_PUBLIC_UPLOAD_PREFIX }}
             PAYLOAD_SECRET=${{ secrets.PAYLOAD_SECRET }}
-            EMAIL_HOST=${{ secrets.EMAIL_HOST }}
-            EMAIL_PORT=${{ secrets.EMAIL_PORT }}
-            EMAIL_USER=${{ secrets.EMAIL_USER }}
-            EMAIL_PASSWORD=${{ secrets.EMAIL_PASSWORD }}
+            PREVIEW_SECRET=${{ secrets.PREVIEW_SECRET }}
+            RESEND_API_KEY=${{ secrets.RESEND_API_KEY }}
+            RESEND_DEFAULT_EMAIL=${{ secrets.RESEND_DEFAULT_EMAIL }}
             S3_ACCESS_KEY_ID=${{ secrets.S3_ACCESS_KEY_ID }}
             S3_BUCKET=${{ secrets.S3_BUCKET }}
             S3_ENDPOINT=${{ secrets.S3_ENDPOINT }}
@@ -115,6 +118,8 @@ jobs:
             SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }}
             SOURCE_API_KEY=${{ secrets.SOURCE_API_KEY }}
             SOURCE_API_URL=${{ secrets.SOURCE_API_URL }}
+            SMTP_HOST=${{ secrets.SMTP_HOST }}
+            SMTP_PORT=${{ secrets.SMTP_PORT }}
             STRIPE_SECRET_KEY=${{ secrets.STRIPE_SECRET_KEY }}
             STRIPE_WEBHOOKS_ENDPOINT_SECRET=${{ secrets.STRIPE_WEBHOOKS_ENDPOINT_SECRET }}
             UNSPLASH_ACCESS_KEY=${{ secrets.UNSPLASH_ACCESS_KEY }}

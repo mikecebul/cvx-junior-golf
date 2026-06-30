@@ -4,6 +4,7 @@
   "description": "Website for the Charlevoix Junior Golf League.",
   "license": "MIT",
   "type": "module",
+  "packageManager": "pnpm@11.9.0",
   "scripts": {
     "build": "payload migrate && cross-env NODE_OPTIONS=\"--no-deprecation --max-old-space-size=6144\" next build",
     "postbuild": "next-sitemap --config next-sitemap.config.cjs",
@@ -91,8 +92,8 @@
     "typescript": "6.0.3"
   },
   "engines": {
-    "node": "^18.20.2 || >=20.9.0",
-    "pnpm": "^9 || ^10"
+    "node": ">=24.0.0",
+    "pnpm": "^9 || ^10 || ^11"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
